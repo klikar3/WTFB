@@ -24,10 +24,10 @@ use kartik\tabs\TabsX;
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
-$this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Mitglieder',
+$this->title = Yii::t('app', 'Neues {modelClass} erstellen', [
+    'modelClass' => 'Mitglied',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieders'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mitglieder-view">
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							'id' => 'create-form',
 							'enableAjaxValidation' => false,
 							'enableClientValidation' => true,
- 							'formConfig' => ['labelSpan' => 4, 'spanSize' => ActiveForm::SIZE_SMALL],
+ 							'formConfig' => ['labelSpan' => 4, 'spanSize' => ActiveForm::SIZE_SMALL, 'showErrors' => true],
 							'fieldConfig' => [
 								'autoPlaceholder'=>false
 							]

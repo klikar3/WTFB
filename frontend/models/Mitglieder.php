@@ -3,6 +3,14 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
+use yii\db\ActiveQuery;
+use jschaedl\iban\library\IBAN\Validation\IBANValidator;
+use IBAN\Generation\IBANGenerator;
+use IBAN\Rule\RuleFactory;
+
+use frontend\models\Schulen;
+
 
 /**
  * This is the model class for table "mitglieder".
@@ -161,11 +169,13 @@ use Yii;
  * @property string $EsckrimaGraduierung
  * @property string $BeginnEsckrima
  * @property string $EndeEsckrima
+ * @property integer $PruefungZum
  *
  * @property Mitgliederdisziplinen[] $mitgliederdisziplinens
  * @property Mitgliedergrade[] $mitgliedergrades
  * @property Mitgliederschulen[] $mitgliederschulens 
 */
+
 
 class Mitglieder extends \yii\db\ActiveRecord
 {
@@ -175,34 +185,70 @@ class Mitglieder extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'mitglieder';
+        
     }
 
+    public static function find()
+    { 
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+		    	
+					// VarDumper::dump($schulleiter);
+					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+					// VarDumper::dump($schulleiterschulen);
+					$schule = Schulen::find()->where(['schulId' => $schulleiterschulen->SchulId])->one();
+					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
+		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
+		  }
+		  return parent::find();
+    }
+
+
+		public function validateIban($attribute, $params) 
+		{
+				if (empty($this->$attribute)) return;
+			
+				// validation 
+//				$ibanValidator = new IBANValidators();
+//				if ($ibanValidator->validate($this->$attribute)) {
+//						return;
+//				}
+				$this->addError($attribute, 'IBAN is not valid!');
+			}    
+			
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['MitgliederId', 'Vorname', 'Name', 'Sifu', 'BeitrittDatum','GeburtsDatum','PLZ','Wohnort','Strasse','Schulort','Funktion',], 'required'],
-            [['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe'], 'integer'],
-           	[['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe'], 'safe'],
-           	[['Vorname', 'Geschlecht', 'GeburtsDatum', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 'Status', 'Schulort', 'Disziplin', 'Funktion', 'Graduierung', 'BeitrittDatum', 'KuendigungDatum', 'AustrittDatum'], 'string', 'max' => 20],
+            [['MitgliederId', 'Vorname', 'Name', 'Sifu', 'BeitrittDatum','GeburtsDatum','PLZ','Wohnort','Strasse','Schulort',
+							'Funktion','BLZ',], 'required'],
+		        [['IBAN'], 'validateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
+            [['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
+            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum'],'date', 'format' => 'dd.mm.yyyy'],
+           	[['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'safe'],
+           	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 'Status', 'Schulort', 
+						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
             [['Name', 'Betreff'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu'], 'string', 'max' => 50],
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['BLZ', 'Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 45],
-            [['KontoNr', 'AktivPassiv', 'Monatsbeitrag', 'BeitragAussetztenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'KontaktAm', 'EinladungIAzum', 'VertragAbgeschlossen', 'Abschlussgespraech', 'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag', 'datumwt5pg', 'datumWtPraktikum', 'datumWtAusbilder3', 'datumWtSchulleiter', 'datumwt8sgk', 'datumwt9sgk', 'datumwt10sgk', 'datumwt11sgk', 'datumwt12sgk', 'datume12tg', 'datume21tg', 'datume22tg', 'datume31tg', 'datume32tg', 'datume41tg', 'datume42tg'], 'string', 'max' => 10],
+            [['KontoNr', 'AktivPassiv', 'Monatsbeitrag', 'BeitragAussetztenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
+							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'KontaktAm', 'EinladungIAzum', 'VertragAbgeschlossen', 'Abschlussgespraech', 
+							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],
             [['Kontoinhaber'], 'string', 'max' => 31],
             [['Woher', 'Bemerkung1'], 'string', 'max' => 27],
             [['Geburtsort','IBAN'], 'string', 'max' => 26],
-            [['GruppenArt', 'BeitragOffenAb', 'EPruefungAm', 'datumwt4tg', 'datumWtAusbilder1', 'datumWtAusbilder2', 'datumwt3sgk', 'datumwt7sgk', 'datume9sg', 'datume11tg', 'BeginnEsckrima', 'EndeEsckrima'], 'string', 'max' => 18], 
+            [['GruppenArt', 'BeitragOffenAb', 'EPruefungAm', 'BeginnEsckrima', 'EndeEsckrima'], 'string', 'max' => 18], 
 	          [['Zahlungsart', 'KPruefungZum', 'EPruefungZum'], 'string', 'max' => 12],
             [['Zahlungsweise'], 'string', 'max' => 16], 
 		        [['EinzugZum'], 'string', 'max' => 15],
             [['BeitragAussetzenGrund'], 'string', 'max' => 37],
             [['AufnahmegebuehrBezahlt', 'WTPruefungZum'], 'string', 'max' => 14], 
-		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'ProbetrainingAm', 'WTPruefungAm', 'KPruefungAm', 'Name2Schule', 'BezahltAm', 'datumwt1sg', 'datumwt2sg', 'datumwt3sg', 'datumwt4sg', 'datumwt5sg', 'datumwt6sg', 'datumwt7sg', 'datumwt8sg', 'datumwt9sg', 'datumwt10sg', 'datumwt11sg', 'datumwt12sg', 'datumwt1tg', 'datumwt2tg', 'datumwt3tg', 'AufnahmegebuehrBezahltAm', 'datumwt1sgk', 'datumwt2sgk', 'datumwt4sgk', 'datumwt5sgk', 'datumwt6sgk', 'datume1sg', 'datume2sg', 'datume3sg', 'datume4sg', 'datume5sg', 'datume6sg', 'datume7sg', 'datume8sg', 'datume10sg', 'datume11sg', 'datume12sg', 'DVDgesendetAm'], 'string', 'max' => 19],            
+		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'ProbetrainingAm', 'WTPruefungAm', 'KPruefungAm', 
+							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm', 'DVDgesendetAm'], 'string', 'max' => 19],            
 						[['Bemerkungen'], 'string', 'max' => 294],
             [['Text'], 'string', 'max' => 426],
             [['KontaktArt', 'DM2Schule'], 'string', 'max' => 5],
@@ -249,7 +295,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Sifu' => Yii::t('app', 'Sifu'),
             'Woher' => Yii::t('app', 'Woher'),
             'Graduierung' => Yii::t('app', 'Graduierung'),
-            'VDauer' => Yii::t('app', 'Vdauer'),
+            'VDauer' => Yii::t('app', 'Vertragsdauer'),
             'Monatsbeitrag' => Yii::t('app', 'Monatsbeitrag'),
             'BeitrittDatum' => Yii::t('app', 'Beitritt Datum'),
             'KuendigungDatum' => Yii::t('app', 'Kuendigung Datum'),
@@ -372,9 +418,10 @@ class Mitglieder extends \yii\db\ActiveRecord
             'EsckrimaGraduierung' => Yii::t('app', 'Esckrima Graduierung'),
             'BeginnEsckrima' => Yii::t('app', 'Beginn Esckrima'),
             'EndeEsckrima' => Yii::t('app', 'Ende Esckrima'),
+            'PruefungZum' => Yii::t('app', 'Pruefung zum'),
         ];
     }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */

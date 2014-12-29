@@ -7,6 +7,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 use yii\widgets\Menu;
+use \dektrium\user\Module;
+
  
 
 /* @var $this \yii\web\View */
@@ -44,7 +46,7 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
                 $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
             } else {
-            		if (Yii::$app->user->IsAdmin ) {
+            		if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
                 $menuItems[] = ['label' => 'Stammdaten', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'Anreden', 'url' => ['/anrede/index']],
 																  	['label' => 'Funktionen', 'url' => ['/funktion/index']],
@@ -56,6 +58,7 @@ AppAsset::register($this);
 																  	['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']],
 																  	['label' => 'Sifus', 'url' => ['/sifu/index']],
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
+																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
 								}								
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [

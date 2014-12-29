@@ -34,6 +34,7 @@ class Grade extends \yii\db\ActiveRecord
         return [
             [['GradName', 'DispName', 'gKurz'], 'required'],
             [['sort'], 'integer'],
+            [['Gebuehr'],'number'],
             [['GradName', 'DispName'], 'string', 'max' => 30],
             [['gKurz'], 'string', 'max' => 10],
             [['GradName', 'DispName'], 'unique', 'targetAttribute' => ['GradName', 'DispName'], 'message' => 'The combination of Grad Name and Disp Name has already been taken.']
@@ -51,6 +52,7 @@ class Grade extends \yii\db\ActiveRecord
             'DispName' => Yii::t('app', 'Disp Name'),
             'sort' => Yii::t('app', 'Sort'),
             'gKurz' => Yii::t('app', 'G Kurz'),
+            'Gebuehr' => Yii::t('app', 'Gebühr'),
         ];
     }
 

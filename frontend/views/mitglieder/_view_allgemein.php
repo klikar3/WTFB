@@ -30,6 +30,7 @@ use frontend\models\Pruefer;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+        		'PruefungZum',
             'MitgliederId',
             'MitgliedsNr',
             'Vorname',

@@ -12,6 +12,7 @@ use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
+use frontend\models\MitgliedergradePrint;
 use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
@@ -30,7 +31,7 @@ use frontend\models\Pruefer;
 					<div class="col-sm-5">
 						<div style="margin-top: 20px">
 							<?php
-								$mg = new Mitgliedergrade();
+								$mg = new MitgliedergradePrint();
 								$datum = date('d.m.Y');
         				$mg->Datum = $datum;
                 $mg->MitgliedId = $model->MitgliederId;
@@ -62,6 +63,11 @@ use frontend\models\Pruefer;
 								<div class="col-sm-10">
     <?= $form->field($mg, 'GradId')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
 [ 'prompt' => 'Grad' ]
+) ?>
+								</div>
+								<div class="col-sm-10">
+    <?= $form->field($mg, 'print')->checkBox(
+[ 'prompt' => 'GPrint' ]
 ) ?>
 								</div>
 							</div>

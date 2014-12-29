@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7a8f7b77ba92c89746ee5a1dfa1865de",
+    "hash": "1011d40c5b2d2bf5c61138af77285fd7",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1182,6 +1182,53 @@
                 "time"
             ],
             "time": "2014-11-08 13:38:47"
+        },
+        {
+            "name": "kartik-v/yii2-context-menu",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-context-menu.git",
+                "reference": "fdd192dc3724c08ba3d7d0d2f4ffeb85be64bfda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-context-menu/zipball/fdd192dc3724c08ba3d7d0d2f4ffeb85be64bfda",
+                "reference": "fdd192dc3724c08ba3d7d0d2f4ffeb85be64bfda",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\cmenu\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A context menu extension for Yii framework 2.0",
+            "homepage": "https://github.com/kartik-v/yii2-context-menu",
+            "keywords": [
+                "Context",
+                "click",
+                "extension",
+                "menu",
+                "mouse",
+                "widget",
+                "yii2"
+            ],
+            "time": "2014-11-25 09:06:15"
         },
         {
             "name": "kartik-v/yii2-datecontrol",

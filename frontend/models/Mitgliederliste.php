@@ -3,8 +3,13 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use dektrium\user\models\User;
+
+use frontend\models\Grade;
+
 
 /**
  * This is the model class for table "mitgliederliste".
@@ -36,13 +41,24 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 		    // return array('pk1', 'pk2');
 		}
 		
+    public static function find()
+    { 
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+    			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+    	
+					// VarDumper::dump($schulleiter);
+		    	return parent::find()->where( ['LeiterName' => $schulleiter->LeiterName]);
+		  }
+		  return parent::find();
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['MitgliederId'], 'integer'],
+            [['MitgliederId', 'PruefungZum'], 'integer'],
             [['MitgliederId', 'MitgliedsNr', 'Schulname', 'LeiterName', 'DispName'], 'required'],
             [['MitgliedsNr'], 'string', 'max' => 6],
             [['Vorname'], 'string', 'max' => 18],
@@ -72,6 +88,9 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'LeiterName' => Yii::t('app', 'Schulleiter'),
             'DispName' => Yii::t('app', 'Disziplin'),
             'Vertrag' => Yii::t('app', 'Verträge'),
+            'PruefungZum' => Yii::t('app', 'P. zum'),
+            'Grad' => Yii::t('app', 'Grade'),
+            'Funktion' => Yii::t('app', 'Funktion'),
         ];
     }
     
@@ -112,5 +131,32 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 		    $options = []; // any HTML attributes for your link
 		    return Html::a($this->Name, $url, $options); // assuming you have a relation called profile
 		}
+
+	   public function getPGeb() {
+	   		if (empty($this->PruefungZum)) return '0';
+        $grade = Grade::findOne($this->PruefungZum);//->andWhere('gradId', $this->PruefungZum );
+//        ->andWhere('Gebuehr > :PruefungZum', ['PruefungZum' => 0])
+//				->orderBy('gradId')->one();
+//						;//->limit(1)->one();
+//        foreach ($grade as $grad) {
+//				VarDumper::dump($grad);
+//				  };
+        if (empty($grade->Gebuehr)) return '0';
+		    return $grade->Gebuehr; 
+		}
+
+	   public function getPZum() {
+	   		if (empty($this->PruefungZum)) return ' ';
+        $grade = Grade::findOne($this->PruefungZum);//->andWhere('gradId', $this->PruefungZum );
+//        ->andWhere('Gebuehr > :PruefungZum', ['PruefungZum' => 0])
+//				->orderBy('gradId')->one();
+//						;//->limit(1)->one();
+//        foreach ($grade as $grad) {
+//				VarDumper::dump($grad);
+//				  };
+        if (empty($grade->gKurz)) return ' ';
+		    return $grade->gKurz; 
+		}
+
 }
 

@@ -22,7 +22,7 @@ class MitgliederlisteSearch extends Mitgliederliste
     {
         return [
             [['MitgliederId', 'MitgliedsNr'], 'integer'],
-            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag'], 'safe'],
+            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion'], 'safe'],
         ];
     }
 
@@ -82,6 +82,9 @@ class MitgliederlisteSearch extends Mitgliederliste
             ->andFilterWhere(['like', 'LeiterName', $this->LeiterName])
             ->andFilterWhere(['like', 'DispName', $this->DispName])
             ->andFilterWhere(['like', 'Vertrag', $this->Vertrag])
+            ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum])
+            ->andFilterWhere(['like', 'Grad', $this->Grad])
+            ->andFilterWhere(['like', 'Funktion', $this->Funktion])
 ;
     		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' 
 		    );

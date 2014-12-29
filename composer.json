@@ -25,6 +25,7 @@
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*",
+    		"kartik-v/yii2-context-menu": "*",
 				"kartik-v/yii2-mpdf": "*",
 				"kartik-v/yii2-grid": "*",
 				"kartik-v/yii2-widgets": "*",
@@ -42,5 +43,9 @@
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         }
-    }
+    },
+    "proxyConfig": {
+				"proxy_ip": "proxy.vsa.de",
+				"proxy_port": "8080"
+		}
 }

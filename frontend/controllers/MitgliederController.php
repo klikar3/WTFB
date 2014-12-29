@@ -3,9 +3,11 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\VarDumper;
 use frontend\models\Mitglieder;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
+use frontend\models\Grade;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,7 +26,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','update','delete','mark'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -138,6 +140,46 @@ class MitgliederController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * Markiert ein Mitglied für die nächste Prüfung.
+     * @return mixed
+     */
+    public function actionMark($id)
+    {
+				$query = Mitgliedergrade::find();
+				$query->where(['=', 'MitgliedId', $id]);
+
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+				]);
+				
+        $model = $this->findModel($id);
+        $lastGrad = '';
+        $dat = date('r');
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId]);
+        } else {
+						$errors = $model->errors;
+						VarDumper::dump($errors);
+						$mgrad = Mitgliedergrade::find()->andWhere(['MitgliedId' => $model->MitgliederId])->orderBy('datum desc')->one();//->max('Datum');
+//						VarDumper::dump($mgrad);
+						if (!empty($mgrad)) {
+							$dat = $mgrad->Datum;
+							$grad = Grade::find()->andWhere(['gradId' => $mgrad->GradId])->one();
+							if (!empty($mgrad)) {
+								$lastGrad = $grad->gKurz . ' ' . $grad->DispName;
+		        		Yii::trace($lastGrad);
+	        		}
+        		}
+            return $this->render('mark', [
+                'model' => $model, 'errors' => $errors, 'lastGrad' => $lastGrad, 'dat' => $dat, 'grade' => $mgdataProvider,
+            ]);
+        }                                                                        
+    }
+
 
     /**
      * Finds the Mitglieder model based on its primary key value.

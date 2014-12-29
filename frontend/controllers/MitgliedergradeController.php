@@ -208,7 +208,17 @@ class MitgliedergradeController extends Controller
 				// enhanced bootstrap css built by Krajee for mPDF formatting
 				'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
 				// any css to be embedded if required
-				'cssInline' => '.kv-heading-1{font-size:18px}',
+				'cssInline' => '.kv-heading-1{font-size:18px}'.
+											'.kv-wrap{padding:20px;}' .
+											'.kv-align-center{text-align:center;}' .
+											'.kv-align-left{text-align:left;}' .
+											'.kv-align-right{text-align:right;}' .
+											'.kv-align-top{vertical-align:top!important;}' .
+											'.kv-align-bottom{vertical-align:bottom!important;}' .
+											'.kv-align-middle{vertical-align:middle!important;}' .
+											'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
+											'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+											'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
 				// set mPDF properties on the fly
 				'options' => ['title' => 'Prüfung'],
 				// call mPDF methods on the fly

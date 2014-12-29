@@ -33,6 +33,11 @@ use frontend\models\Sifu;
      <div id="content" >
       <div class="row">
      	      <div class="col-sm-6">
+    <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
+[ 'prompt' => 'Grad' ]
+) ?>
+						</div>
+     	      <div class="col-sm-6">
      <?= $form->field($model, 'MitgliedsNr')->staticInput() ?>
 		<?= Html::activeHiddenInput($model, 'MitgliedsNr')?>
 		<?= Html::activeHiddenInput($model, 'MitgliederId')?>

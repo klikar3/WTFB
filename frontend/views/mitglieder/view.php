@@ -88,7 +88,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		        <?= Html::a(Yii::t('app', 'Back'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
 		        ]) ?>
-				</div>
+		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
+		        ]) ?>				</div>
 			</div>
 			<?php    // Ajax Tabs Left
 			    echo TabsX::widget([

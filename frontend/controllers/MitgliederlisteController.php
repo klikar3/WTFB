@@ -3,12 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\Mitglieder;
 use frontend\models\Mitgliederliste;
 use frontend\models\MitgliederlisteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
+use kartik\mpdf\Pdf;
+		 
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
@@ -23,7 +28,7 @@ class MitgliederlisteController extends Controller
 //                'only' => ['logout', 'signup', 'mitgliederliste'],
                 'rules' => [
                     [
-                        'actions' => ['index','view',],
+                        'actions' => ['index','view','pruefungsliste','resetpliste'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -133,5 +138,69 @@ class MitgliederlisteController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    /**
+		* THE CONTROLLER ACTION
+		*/
+		// Privacy statement output demo
+		public function actionPruefungsliste() {
+        $searchModel = new MitgliederlisteSearch();
+        $query = Mitgliederliste::find();//->where('PruefungZum like :pz',[ 'pz' => '9. SG'])->all();
+        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+//        $query->union('SELECT TOP 100 MitgliederNr FROM mitglieder') ;
+
+//    		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+				$dataProvider = new ActiveDataProvider([
+				     'query' => $query,
+				     'sort'=> ['defaultOrder' => ['PruefungZum'=>SORT_ASC]]
+				]);  
+//				Vardumper::dump(Yii::$app->request->queryParams);     
+
+				$pdf = new Pdf([
+						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+						// set to use core fonts only
+						'mode' => Pdf::MODE_BLANK,
+						// A4 paper format
+						'format' => Pdf::FORMAT_A4,
+						// portrait orientation
+						'orientation' => Pdf::ORIENT_PORTRAIT,
+						// stream to browser inline
+						'destination' => Pdf::DEST_BROWSER,
+						// format content from your own css file if needed or use the
+						// enhanced bootstrap css built by Krajee for mPDF formatting
+						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+						// any css to be embedded if required
+						'cssInline' => '.kv-heading-1{font-size:18px}'.
+													'.kv-wrap{padding:20px;}' .
+													'.kv-align-center{text-align:center;}' .
+													'.kv-align-left{text-align:left;}' .
+													'.kv-align-right{text-align:right;}' .
+													'.kv-align-top{vertical-align:top!important;}' .
+													'.kv-align-bottom{vertical-align:bottom!important;}' .
+													'.kv-align-middle{vertical-align:middle!important;}' .
+													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+						'content' => $this->renderPartial('pruefungsliste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+		        ]),
+						'options' => [
+								'title' => 'Prüfungsliste',
+								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+						],
+						'methods' => [
+							'SetHeader' => ['Erstellt am: ' . date("r")],
+							'SetFooter' => ['|Seite {PAGENO}|'],
+						]
+			]);
+			return $pdf->render();
+		}
+		
+    public function actionResetpliste()
+    {
+        Mitglieder::updateAll(['PruefungZum' => '']);
+        return $this->redirect(['index']);
     }
 }

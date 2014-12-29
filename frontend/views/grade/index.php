@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'DispName',
             'sort',
             'gKurz',
+            'Gebuehr',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
