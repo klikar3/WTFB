@@ -33,17 +33,16 @@ use frontend\models\Sifu;
      <div id="content" >
       <div class="row">
      	      <div class="col-sm-6">
-    <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
-[ 'prompt' => 'Grad' ]
-) ?>
-						</div>
-     	      <div class="col-sm-6">
-     <?= $form->field($model, 'MitgliedsNr')->staticInput() ?>
+     <?= $form->field($model, 'MitgliedsNr'
+//	 		,['labelOptions' => ['class' => 'col-sm-5'], 'inputOptions' => ['class' => 'col-sm-8 ']]
+		 )->textInput(['disabled' => true]) ?>
 		<?= Html::activeHiddenInput($model, 'MitgliedsNr')?>
 		<?= Html::activeHiddenInput($model, 'MitgliederId')?>
 						</div>
 						<div class="col-sm-6">
- 		 <?= $form->field($model, 'Geschlecht')->widget(Select2::classname(), [
+ 		 <?= $form->field($model, 'Geschlecht'
+//	 		,['labelOptions' => ['class' => 'col-sm-5'], 'inputOptions' => ['class' => 'col-sm-8 ']]
+			)->widget(Select2::classname(), [
 			'data' => array_merge(["" => ""], ['männlich'=>'männlich','weiblich'=>'weiblich']),
 			'options' => ['placeholder' => 'Geschlecht auswählen ...'],
 			'pluginOptions' => ['allowClear' => true ], ]);   ?>
@@ -75,44 +74,54 @@ use frontend\models\Sifu;
 						</div> 
 			</div>
 			<div class="row">
+     	      <div class="col-sm-12 col-md-12">
    <?= $form->field($model, 'Vorname'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-14 col-md-8']]
 			 )->textInput(['maxlength' => 18]) ?>
+						</div>
       </div>
 			<div class="row">
+     	      <div class="col-sm-12 col-md-12">
     <?= $form->field($model, 'Name'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			 )->textInput(['maxlength' => 29]) ?>
+						</div>
       </div>
 
 			<div class="row">
+     	      <div class="col-sm-12 col-md-12">
     <?= $form->field($model, 'Strasse'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			 )->textInput(['maxlength' => 35]) ?>
+						</div>
       </div>
     
 			<div class="row">
-	      <div class="col-sm-4">
+	      <div class="col-sm-6">
 	    <?= $form->field($model, 'PLZ'
-	 		,['labelOptions' => ['class' => 'col-sm-4']]
+//	 		,['labelOptions' => ['class' => 'col-sm-4']]
 			)->textInput(['maxlength' => 13]) ?>
 				</div> 
-	      <div class="col-sm-7">
+	      <div class="col-sm-6">
 	    <?= $form->field($model, 'Wohnort'
 	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 25])	?>
 				</div>
 			</div> <!-- row -->
 			<div class="row">
+     	      <div class="col-sm-12 col-md-12">
     <?= $form->field($model, 'Nationalitaet'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 22]) ?>
+						</div>
 			</div> <!-- row -->
 
 			<div class="row">
+     	      <div class="col-sm-12 col-md-12">
     <?= $form->field($model, 'Beruf'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 35]) ?>
+						</div>
 			</div> <!-- row -->
     </div><!-- content -->
   </div> <!-- col -->
@@ -129,23 +138,12 @@ use frontend\models\Sifu;
 				$form->field($model, 'Schulort'
 	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->widget(Select2::classname(), [
-					'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->orderBy('SchulId')->all(), 
-				'SchulDisp', 'SchulDisp', 'disziplinen.DispName' )),
+					'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+				'Schulname', 'Schulname' )),
 					'options' => ['placeholder' => 'Schulort auswählen ...'],
 					'pluginOptions' => ['allowClear' => true ], ]);   
 		?>
 			</div> <!-- row -->
-
-<!--			<div class="row">   -->
-		<?= /*	$form->field($model, 'Disziplin'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
-			)->widget(Select2::classname(), [
-					'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('DispId')->all(), 
-						'DispId', 'DispName' )),
-					'options' => ['placeholder' => 'Disziplin auswählen ...'],
-					'pluginOptions' => ['allowClear' => true ], ]);   */  ''
-		?> 
-<!--			</div> --> <!-- row -->
 
 			<div class="row">
 		<?= $form->field($model, 'Funktion'
@@ -210,6 +208,11 @@ use frontend\models\Sifu;
 			'pluginOptions' => ['allowClear' => true ], ]);   ?>
 			</div> <!-- row -->
 
+     	      <div class="col-sm-6">
+    <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
+[ 'prompt' => 'Grad' ]
+) ?>
+						</div>
     </div><!-- content -->
 	</div> <!-- col -->
 </div> <!-- row -->

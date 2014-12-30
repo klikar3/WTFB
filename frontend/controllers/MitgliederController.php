@@ -117,13 +117,20 @@ class MitgliederController extends Controller
      */
     public function actionUpdate($id)
     {
+				$query = Mitgliedergrade::find();
+				$query->where(['=', 'MitgliedId', $id]);
+
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+				]);
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->MitgliederId]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model, 'grade' => $mgdataProvider,
             ]);
         }
     }

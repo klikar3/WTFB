@@ -35,6 +35,22 @@ class MitgliedergradePrint extends Mitgliedergrade
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'mgID' => Yii::t('app', 'mgID'),
+            'MitgliedId' => Yii::t('app', 'MitgliedId'),
+            'GradId' => Yii::t('app', 'GradId'),
+            'PrueferId' => Yii::t('app', 'PrueferId'),
+            'print' => Yii::t('app', 'Urkunde sofort drucken'),
+            'Datum' => Yii::t('app', 'Datum')
+            
+        ];
+    }
+    
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params

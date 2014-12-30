@@ -45,7 +45,7 @@ use kartik\tabs\TabsX;
 		                        ) ),
 						//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=3'])]
 				],
-			    [
+/*			    [
 				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Dropdown',
 				    'items'=>[
 						    [
@@ -61,7 +61,7 @@ use kartik\tabs\TabsX;
 //								    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=4'])]
 						    ],
 				    ],
-		    ],
+		    ],  */
     ];
  
 /* @var $this yii\web\View */

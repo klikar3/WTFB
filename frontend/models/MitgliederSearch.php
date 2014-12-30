@@ -85,7 +85,7 @@ class MitgliederSearch extends Mitglieder
             ->andFilterWhere(['like', 'Disziplin', $this->Disziplin])
             ->andFilterWhere(['like', 'Funktion', $this->Funktion])
             ->andFilterWhere(['like', 'Sifu', $this->Sifu])
-            ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum]);
+            ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum])
             ->andFilterWhere(['like', 'Woher', $this->Woher])
             ->andFilterWhere(['like', 'Graduierung', $this->Graduierung])
             ->andFilterWhere(['like', 'VDauer', $this->VDauer])

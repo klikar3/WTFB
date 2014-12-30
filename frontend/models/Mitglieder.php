@@ -264,15 +264,15 @@ class Mitglieder extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'MitgliedsNr' => Yii::t('app', 'Mitglieds Nr'),
+            'MitgliederId' => Yii::t('app', 'Mitgl. ID'),
+            'MitgliedsNr' => Yii::t('app', 'Mitgl.Nr'),
             'Vorname' => Yii::t('app', 'Vorname'),
             'Name' => Yii::t('app', 'Name'),
-            'Geschlecht' => Yii::t('app', 'Geschlecht'),
+            'Geschlecht' => Yii::t('app', 'Geschl.'),
             'Anrede' => Yii::t('app', 'Anrede'),
             'GeburtsDatum' => Yii::t('app', 'Geburts Datum'),
             'PLZ' => Yii::t('app', 'Plz'),
-            'Wohnort' => Yii::t('app', 'Wohnort'),
+            'Wohnort' => Yii::t('app', 'Ort'),
             'Strasse' => Yii::t('app', 'Strasse'),
             'Telefon1' => Yii::t('app', 'Telefon1'),
             'Telefon2' => Yii::t('app', 'Telefon2'),

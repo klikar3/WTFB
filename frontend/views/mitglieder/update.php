@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 										    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
 												'content'=>$this->render('_form_grade', array(
 								                                'form' => $form, 
-								                                'model'=>$model, //'grade' => $grade, 
+								                                'model'=>$model, 'grade' => $grade, 
 								                        ) ),
 												//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=3'])]
 										],

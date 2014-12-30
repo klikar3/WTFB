@@ -50,7 +50,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{view} &nbsp;&nbsp; {update} &nbsp;&nbsp; {markieren} &nbsp;&nbsp; {graduieren}',
+            	'template' => '{email} &nbsp;&nbsp; {update}',
+							'controller' => 'mitglieder',
+							'buttons' => [ 
+								'email' => function ($url, $model) {
+									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['mitglieder/email', 'id' => $model->MitgliederId] ), [
+          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Email an Mitglied senden'),
+							        ]);
+							    },
+							],
+							'width' => '60px',
+/*							'dropdown' => true,     */
+						],
+// 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
+//						],             
+						['format' => 'raw',
+             'attribute' => 'NameLink',
+            ],
+//            'MitgliederId',
+//            'MitgliedsNr',
+//						'Name',
+//            'Vorname',
+            'Schulname',
+            'LeiterName',
+            'DispName',
+						'Funktion', 
+            'Vertrag',
+            ['attribute' => 'Grad', 'width' => '100px' ],
+            ['class' => '\kartik\grid\ActionColumn',
+            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
 							'controller' => 'mitglieder',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
@@ -68,32 +97,24 @@ $this->params['breadcrumbs'][] = $this->title;
 							    
 							],
 							
-							'width' => '120px',
+							'width' => '60px',
 /*							'dropdown' => true,     */
 						],
-// 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
-//						],             
-						['format' => 'raw',
-             'attribute' => 'NameLink',
-            ],
-//            'MitgliederId',
-//            'MitgliedsNr',
-//						'Name',
-//            'Vorname',
-            'Schulname',
-            'LeiterName',
-            'DispName',
-						'Funktion', 
-            'Vertrag',
-            'Grad',
-            'PruefungZum',
-        ],
+//            'PruefungZum',
+/*						[
+						    'attribute' => 'PruefungZum',
+						    'format' => 'raw',
+						    'value' => function ($model, $index, $widget) {
+						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
+						    },
+						],
+*/        ],
         'responsive' => true,    
 //        'export' => true,    
-//				'toolbar' => [
-//						'{export}',
-//						'{toggleData}',
-//				],
+				'toolbar' => [
+						'{export}',
+						'{toggleData}',
+				],
 		    'panel' => [
 		        'heading' => '<b>Mitgliederliste</b>',
 		        'before' => '', //IMPORTANT

@@ -22,7 +22,10 @@ use frontend\models\Grade;
  * @property string $Schulname
  * @property string $LeiterName
  * @property string $DispName
- */
+ * @property integer $PruefungZum
+ * @property string $Grad
+ * @property string $Funktion
+*/
 class Mitgliederliste extends \yii\db\ActiveRecord
 {
     /**
@@ -67,7 +70,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             [['NameLink'], 'string', 'max' => 49],
             [['Schulname'], 'string', 'max' => 50],
             [['LeiterName'], 'string', 'max' => 80],
-            [['DispName'], 'string', 'max' => 30],
+            [['DispName','Grad','Funktion'], 'string', 'max' => 30],
             [['Vertrag'], 'string', 'max' => 50],
         ];
     }

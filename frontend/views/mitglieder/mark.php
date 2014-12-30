@@ -30,17 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div id="content" class="col-sm-12">
       <div class="row">
 		 		<div class="col-sm-4">
-		       <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->MitgliederId], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->MitgliederId], [
-		            'class' => 'btn btn-danger',
-		            'data' => [
-		                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-		                'method' => 'post',
-		            ],
-		        ]) ?> 
-		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
-		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
-		        ]) ?>
 				</div>
 			</div>
                 <p>
@@ -54,18 +43,18 @@ $this->params['breadcrumbs'][] = $this->title;
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
+							[ 'attribute' => 'Datum', 'value' => 'grad.Datum' ],
 				],
 	    ]); ?>
                 </p>
-			<?php    
-					echo $model->MitgliederId;
-			?>
     						<?php $form = ActiveForm::begin(['action' => ['mitglieder/mark', 'id' => $model->MitgliederId],
-    																							'fieldConfig'=>['showLabels'=>false]]); ?>
+    																							'fieldConfig'=>['showLabels'=>true],
+																									'type' => ActiveForm::TYPE_HORIZONTAL,							
+																									]); ?>
 							
 							<div class="row" style="margin-bottom: 8px">
 								<div class="col-sm-10">
-							<?=  $form->field($model, 'MitgliederId'); ?>
+							<?= $form->field($model, 'MitgliederId')->textInput(['disabled' => true]) ?>
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ),
@@ -73,8 +62,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ) ?>
 								</div>
 							</div>
-							<?= Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary']) ?>
+      <div class="row">
+		 		<div class="col-sm-4">
+							<?= Html::submitButton('Submit', ['class'=>'btn btn-success']) ?>
 							<?php $form = ActiveForm::end(); ?>
+		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
+		        ]) ?>
+				</div>
+			</div>
     </div><!-- content -->
 
   </div>

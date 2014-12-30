@@ -37,7 +37,9 @@ use frontend\models\Pruefer;
                 $mg->MitgliedId = $model->MitgliederId;
               ?>
     						<?php $form = ActiveForm::begin(['action' => ['mitgliedergrade/createfast'],
-    																							'fieldConfig'=>['showLabels'=>false]]); ?>
+    																							'fieldConfig'=>['showLabels'=>true],
+																									'type' => ActiveForm::TYPE_HORIZONTAL,							
+																								]); ?>
 								<?php Modal::begin([ 
 									'header' => '<h2>Neue Graduierung zuweisen</h2>',
 									'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-primary'],
@@ -47,7 +49,7 @@ use frontend\models\Pruefer;
 							?>
 							<div class="row" style="margin-bottom: 8px">
 								<div class="col-sm-10">
-							<?=  $form->field($mg, 'MitgliedId'); ?>
+							<?=  $form->field($mg, 'MitgliedId')->textInput(['disabled' => true]); ?>
 								</div>
 								<div class="col-sm-10">
 									<?= $form->field($mg, 'Datum')->widget(DatePicker::classname(),

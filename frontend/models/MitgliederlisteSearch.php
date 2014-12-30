@@ -14,6 +14,8 @@ class MitgliederlisteSearch extends Mitgliederliste
 {
 		/* your calculated attribute */
 		public $NameLink;
+		public $PGeb;
+		public $PZum;
  
     /**
      * @inheritdoc
@@ -21,7 +23,7 @@ class MitgliederlisteSearch extends Mitgliederliste
     public function rules()
     {
         return [
-            [['MitgliederId', 'MitgliedsNr'], 'integer'],
+            [['MitgliederId', 'MitgliedsNr', 'PruefungZum'], 'integer'],
             [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion'], 'safe'],
         ];
     }
@@ -67,6 +69,9 @@ class MitgliederlisteSearch extends Mitgliederliste
 		            'LeiterName',
 		            'DispName',
 		            'Vertrag',
+		            'PruefungZum',
+		            'Grad',
+		            'Funktion',
 		        ]
 		    ]); 
 		    
@@ -83,11 +88,11 @@ class MitgliederlisteSearch extends Mitgliederliste
             ->andFilterWhere(['like', 'DispName', $this->DispName])
             ->andFilterWhere(['like', 'Vertrag', $this->Vertrag])
             ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum])
-            ->andFilterWhere(['like', 'Grad', $this->Grad])
+//            ->andFilterWhere(['like', 'Grad', $this->Grad])
             ->andFilterWhere(['like', 'Funktion', $this->Funktion])
 ;
-    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' 
-		    );
+    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' );
+    		$query->andWhere('Grad LIKE "%' . $this->Grad . '%" ' );
 		    
         return $dataProvider;
     }
