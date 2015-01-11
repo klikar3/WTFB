@@ -222,9 +222,8 @@ class Mitglieder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['MitgliederId', 'Vorname', 'Name', 'Sifu', 'BeitrittDatum','GeburtsDatum','PLZ','Wohnort','Strasse','Schulort',
-							'Funktion','BLZ',], 'required'],
-		        [['IBAN'], 'validateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
+            [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
+		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
             [['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
             [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum'],'date', 'format' => 'dd.mm.yyyy'],
            	[['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'safe'],
@@ -254,7 +253,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['KontaktArt', 'DM2Schule'], 'string', 'max' => 5],
             [['warZumIAda', 'zumIAnichtDa', 'PTwarDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 		        [['RechnungsNr'], 'string', 'max' => 1],
-		        [['MitgliedsNr'], 'unique']
+//		        [['MitgliedsNr'], 'unique']
 		        ];
     }
 
@@ -264,15 +263,15 @@ class Mitglieder extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'MitgliederId' => Yii::t('app', 'Mitgl. ID'),
-            'MitgliedsNr' => Yii::t('app', 'Mitgl.Nr'),
+            'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
+            'MitgliedsNr' => Yii::t('app', 'Mitglieds Nr'),
             'Vorname' => Yii::t('app', 'Vorname'),
             'Name' => Yii::t('app', 'Name'),
-            'Geschlecht' => Yii::t('app', 'Geschl.'),
+            'Geschlecht' => Yii::t('app', 'Geschlecht'),
             'Anrede' => Yii::t('app', 'Anrede'),
             'GeburtsDatum' => Yii::t('app', 'Geburts Datum'),
             'PLZ' => Yii::t('app', 'Plz'),
-            'Wohnort' => Yii::t('app', 'Ort'),
+            'Wohnort' => Yii::t('app', 'Wohnort'),
             'Strasse' => Yii::t('app', 'Strasse'),
             'Telefon1' => Yii::t('app', 'Telefon1'),
             'Telefon2' => Yii::t('app', 'Telefon2'),

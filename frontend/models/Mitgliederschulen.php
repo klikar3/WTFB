@@ -34,8 +34,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['MitgliederId', 'SchulId', 'Von', 'Bis'], 'required'],
-            [['MitgliederId', 'SchulId', 'VertragId'], 'integer'],
+            [['MitgliederId', 'SchulId', 'Von'], 'required'],
+            [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
             [['Von', 'Bis'], 'safe']
         ];
     }
@@ -51,7 +51,15 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'SchulId' => Yii::t('app', 'Schul ID'),
             'Von' => Yii::t('app', 'Von'),
             'Bis' => Yii::t('app', 'Bis'),
-            'VertragId' => Yii::t('app', 'Vertrag ID'),
+            'VertragId' => Yii::t('app', 'Vertrag'),
+						'KuendigungAm' => Yii::t('app', 'Kündigung'),
+						'VDauerMonate' => Yii::t('app', 'V.Dauer'),
+						'MonatsBeitrag' => Yii::t('app', 'M-Beitrag'),
+						'ZahlungsArt' => Yii::t('app', 'Zahlg.Art'), 
+						'ZahlungsWeise' => Yii::t('app', 'Zahlungsw.'),
+						'BeitragAussetzenVon' => Yii::t('app', 'Beitrag auss. Von'), 
+						'BeitragAussetzenBis' => Yii::t('app', 'Beitrag auss. Bis'), 
+						'BeitragAussetzenGrund' => Yii::t('app', 'Beitrag auss. Grund'),
         ];
     }
 

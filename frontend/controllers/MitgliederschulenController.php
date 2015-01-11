@@ -82,6 +82,19 @@ class MitgliederschulenController extends Controller
         }
     }
 
+    public function actionCreatefast()
+    {
+        $model = new Mitgliederschulen();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->msID]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Updates an existing Mitgliederschulen model.
      * If update is successful, the browser will be redirected to the 'view' page.

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\helpers\VarDumper;
 use frontend\models\Mitglieder;
+use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Grade;
@@ -63,19 +64,37 @@ class MitgliederController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+				// Graduierungen
 				$query = Mitgliedergrade::find();
 				$query->where(['=', 'MitgliedId', $id]);
-
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
 				]);
-//s				$mgdataProvider->sort->defaultOrder = ['grad.GradTyp' => SORT_ASC];
   	
-        return $this->render('view', [
+  	    // Verträge
+				$vquery = Mitgliederschulen::find();
+				$vquery->where(['=', 'MitgliederId', $id]);
+				$vdataProvider = new ActiveDataProvider([
+			    'query' => $vquery,
+     			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
+				]);
+  	
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->MitgliederId]);
+        } else {
+            return $this->render('view', [
+                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider
+            ]);
+        }
+
+/*        return $this->render('view', [
             'model' => $this->findModel($id),
             'grade' => $mgdataProvider,
         ]);
+*/        
     }
 
     /**
@@ -87,8 +106,27 @@ class MitgliederController extends Controller
     {
 		    $model = new Mitglieder();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId]);
+				// Graduierungen
+				$query = Mitgliedergrade::find();
+				$query->where(['=', 'mgID', '-1']);
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+				]);
+  	
+  	    // Verträge
+				$vquery = Mitgliederschulen::find();
+				$vquery->where(['=', 'msID', '-1']);
+				$vdataProvider = new ActiveDataProvider([
+			    'query' => $vquery,
+     			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
+				]);
+				
+        if ($model->load(Yii::$app->request->post()) ) {
+        		Yii::info("---------------- model: ".Vardumper::dumpAsString($model));       
+        		if ($model->save()){
+            		return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId]);
+            }
         } else {
 						$errors = $model->errors;
         		Yii::trace($errors);
@@ -96,7 +134,7 @@ class MitgliederController extends Controller
 		        $model->Geschlecht = 'männlich';
 		        $model->Anrede = 'Lieber';
 		//        $model->Disziplin = 1;
-		        $model->Funktion = 'Schüler';
+		        $model->Funktion = 'Schüler/in';
 		        $model->AktivPassiv = "Aktiv";
 		        $model->BeitrittDatum = $datum;
 		        $model->MitgliedsNr = Mitglieder::find()->max('MitgliedsNr') + 1;
@@ -104,7 +142,7 @@ class MitgliederController extends Controller
 		//        $grade = new Grade();
         		Yii::info($model);
             return $this->render('create', [
-                'model' => $model, 'errors' => $errors,
+                'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider
             ]);
         }
     }
@@ -167,10 +205,10 @@ class MitgliederController extends Controller
         $dat = date('r');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId]);
+            return $this->redirect(['mitgliederliste/index', 'id' => $model->MitgliederId]);
         } else {
 						$errors = $model->errors;
-						VarDumper::dump($errors);
+//						VarDumper::dump($errors);
 						$mgrad = Mitgliedergrade::find()->andWhere(['MitgliedId' => $model->MitgliederId])->orderBy('datum desc')->one();//->max('Datum');
 //						VarDumper::dump($mgrad);
 						if (!empty($mgrad)) {

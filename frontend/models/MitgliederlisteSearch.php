@@ -14,8 +14,6 @@ class MitgliederlisteSearch extends Mitgliederliste
 {
 		/* your calculated attribute */
 		public $NameLink;
-		public $PGeb;
-		public $PZum;
  
     /**
      * @inheritdoc
@@ -23,7 +21,7 @@ class MitgliederlisteSearch extends Mitgliederliste
     public function rules()
     {
         return [
-            [['MitgliederId', 'MitgliedsNr', 'PruefungZum'], 'integer'],
+            [['MitgliederId', 'MitgliedsNr'], 'integer'],
             [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion'], 'safe'],
         ];
     }
@@ -56,6 +54,13 @@ class MitgliederlisteSearch extends Mitgliederliste
             return $dataProvider;
         }
 
+				 // The following condition is important and must be changed. The $_GET validation
+				// is important (or you can use $_POST if you have configured post method).
+				// Without this validation saved filters cannot be applied.
+				if (isset($_GET['MitgliederlisteSearch']) && !($this->load($params) && $this->validate())) {
+						return $dataProvider;
+				}
+				
 		    $dataProvider->setSort([
 		        'attributes' => [
 		            'MitgliederId',
@@ -69,9 +74,6 @@ class MitgliederlisteSearch extends Mitgliederliste
 		            'LeiterName',
 		            'DispName',
 		            'Vertrag',
-		            'PruefungZum',
-		            'Grad',
-		            'Funktion',
 		        ]
 		    ]); 
 		    
@@ -87,12 +89,15 @@ class MitgliederlisteSearch extends Mitgliederliste
             ->andFilterWhere(['like', 'LeiterName', $this->LeiterName])
             ->andFilterWhere(['like', 'DispName', $this->DispName])
             ->andFilterWhere(['like', 'Vertrag', $this->Vertrag])
-            ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum])
-//            ->andFilterWhere(['like', 'Grad', $this->Grad])
+//            ->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum])
+            ->andFilterWhere(['like', 'Grad', $this->Grad])
             ->andFilterWhere(['like', 'Funktion', $this->Funktion])
 ;
-    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' );
-    		$query->andWhere('Grad LIKE "%' . $this->Grad . '%" ' );
+				if ($this->PruefungZum) {
+						$query->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum]);
+				};
+    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' 
+		    );
 		    
         return $dataProvider;
     }

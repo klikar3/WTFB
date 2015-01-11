@@ -3,13 +3,14 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
 use yii\helpers\Url;
+use kartik\detail\DetailView;
 use kartik\grid\GridView;
-use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
+use kartik\widgets\ActiveForm;
 use kartik\datecontrol\DateControl;
-use kartik\widgets\DatePicker;
+//use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
 use frontend\models\MitgliedergradePrint;
@@ -23,20 +24,23 @@ use frontend\models\Pruefer;
 /* @var $model app\models\Mitglieder */
 
 ?>
-				<div class="row">
- 
-            <div id="content" class="col-sm-6">
     <p>
 				<div class="row">
 					<div class="col-sm-5">
 						<div style="margin-top: 20px">
 							<?php
 								$mg = new MitgliedergradePrint();
-								$datum = date('d.m.Y');
+								$datum = date('Y-m-d');
         				$mg->Datum = $datum;
                 $mg->MitgliedId = $model->MitgliederId;
+                $mg->GradId = '';
+                
               ?>
-    						<?php $form = ActiveForm::begin(['action' => ['mitgliedergrade/createfast'],
+    						<?php $form = ActiveForm::begin([ 'id' => 'mg-cr-vg',
+//    																							'enableClientValidation' => true,
+																									'action' => ['mitgliedergrade/createfast',
+																															'mId' => $mg->MitgliedId,
+																															'grad' => ''],
     																							'fieldConfig'=>['showLabels'=>true],
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
 																								]); ?>
@@ -52,10 +56,16 @@ use frontend\models\Pruefer;
 							<?=  $form->field($mg, 'MitgliedId')->textInput(['disabled' => true]); ?>
 								</div>
 								<div class="col-sm-10">
-									<?= $form->field($mg, 'Datum')->widget(DatePicker::classname(),
-									[ 'value' => date('d.m.Y'), 'options'=>['placeholder'=>'Graduierungsdatum'], 'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy',
-'todayHighlight' => true, 'todayBtn' => true,
-]]); ?>
+									<?= $form->field($mg, 'Datum')->widget(DateControl::classname(),
+									[ //'value' => date('d.m.Y'), 
+										'type'=>DateControl::FORMAT_DATE,
+										'ajaxConversion'=>true,
+			 							'displayFormat' => 'php:d.m.Y',
+			 							'saveFormat' => 'php:Y-m-d',
+//										'options'=>['placeholder'=>'Graduierungsdatum'], 
+										'pluginOptions'=>['autoclose'=>true, 
+																			'todayHighlight' => true, 'todayBtn' => true,]
+									]); ?>
 								</div>
 								<div class="col-sm-10">
 	    <?= $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
@@ -69,7 +79,7 @@ use frontend\models\Pruefer;
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($mg, 'print')->checkBox(
-[ 'prompt' => 'GPrint' ]
+[ 'prompt' => 'Print' ]
 ) ?>
 								</div>
 							</div>
@@ -79,7 +89,6 @@ use frontend\models\Pruefer;
 					</div>
 				</div>		
 	</p>
-                <p>
 
 	<?= GridView::widget([
 	        'dataProvider' => $grade,
@@ -89,7 +98,7 @@ use frontend\models\Pruefer;
 //							'MitgliedId', 
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
-//							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
+							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
 //							 'PrueferId',	        
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
             	[ 'class' => 'yii\grid\ActionColumn',
@@ -107,9 +116,5 @@ use frontend\models\Pruefer;
 							],
 				],
 	    ]); ?>
-                </p>
-            </div>
-            </div><!-- content -->
-</div><!-- row -->
 
 

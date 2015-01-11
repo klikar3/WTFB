@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 //use yii\widgets\ActiveForm;
+use frontend\models\Mitglieder;
 use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
@@ -23,7 +24,7 @@ use kartik\datecontrol\DateControl;
     
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'MitgliedId')->textInput() ?>
+    <?= $form->field($model, 'MitgliedId')->textInput(['disabled' => true]) ?>
 
     <?= $form->field($model, 'GradId')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
 [ 'prompt' => '',
@@ -47,6 +48,9 @@ use kartik\datecontrol\DateControl;
 [ 'prompt' => '' ]
 ) ?>
 
+	<?= $form->field($model, 'print')->checkBox(
+	[ 'prompt' => 'Print' ]
+	) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

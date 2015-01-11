@@ -7,12 +7,17 @@ use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
+use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
+use frontend\models\MitgliedergradePrint;
 use frontend\models\MitgliedergradeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\helpers\VarDumper;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use kartik\datecontrol\DateControl;
+use kartik\widgets\DatePicker;
 use kartik\mpdf\Pdf;
 use yii\filters\AccessControl;
 
@@ -28,7 +33,7 @@ class MitgliedergradeController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','update','delete','createfast','print'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -75,10 +80,9 @@ class MitgliedergradeController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    //public function actionCreate($mId)
-    public function actionCreate()
+    public function actionCreate($mId)
     {
-/*    		$query = Disziplinen::find();
+    		$query = Disziplinen::find();
 				$ddataProvider = new ActiveDataProvider([
 			    'query' => $query,
      			'sort' => ['defaultOrder' => ['gradId' => SORT_ASC]]
@@ -98,7 +102,7 @@ class MitgliedergradeController extends Controller
 			    'query' => $query,
      			'sort' => ['defaultOrder' => ['Datum' => SORT_DESC]]
 				]);
-*/				
+				
 //				$datum = date('Y-m-d H:i:s');
         $model = new Mitgliedergrade();
 //        $model->MitgliedId = $mId;
@@ -107,7 +111,7 @@ class MitgliedergradeController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->mgID]);
         } else {
-            return $this->redirect(['mitgliedergrade/view', 'id' => $model->MitgliedId]);
+            return $this->redirect(['mitgliedergrade/view', 'id' => $mId]);
 /*            return $this->render('create', [
                 'model' => $model ,
 //                'ddataProvider' => $ddataProvider,
@@ -116,20 +120,69 @@ class MitgliedergradeController extends Controller
 */        }
     }
 
-    public function actionCreatefast()
+    public function actionCreatefast($mId, $grad)
     {
-        $model = new Mitgliedergrade();
+    		$query = Disziplinen::find();
+				$ddataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort' => ['defaultOrder' => ['gradId' => SORT_ASC]]
+				]);
+				
+    		$query = Grade::find();
+				//$query->where(['=', 'MitgliedId', $mId]);
+				$gdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort' => ['defaultOrder' => ['id' => SORT_ASC]]
+				]);
+				
+    		$query = Mitgliedergrade::find();
+				$query->where(['=', 'MitgliedId', $mId]);
+
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort' => ['defaultOrder' => ['Datum' => SORT_DESC]]
+				]);
+				
+        $modelp = new MitgliedergradePrint();
+        $modelp->MitgliedId = $mId;
+        $modelp->GradId = $grad;
+        $modelp->Datum = date('Y-m-d');
+        $modelp->PrueferId = Yii::$app->user->identity->PrueferId;
+        $modelp->print = true;
 				Yii::Error( 'test');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliedId]);
-        } else {
-            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliedId]);
-/*            return $this->render('create', [
-                'model' => $model ,
-//                'ddataProvider' => $ddataProvider,
-//                'gdataProvider' => $gdataProvider,                
+        if ($modelp->load(Yii::$app->request->post())) {
+        		$model = new Mitgliedergrade();
+        		$model->MitgliedId =$modelp->MitgliedId;
+        		$model->GradId = $modelp->GradId;
+        		$model->Datum = $modelp->Datum;
+        		$model->PrueferId = $modelp->PrueferId;
+//        		Yii::info("-----model: ".Vardumper::dumpAsString($model));
+//        		Yii::info("-----modelp: ".Vardumper::dumpAsString($modelp));
+        		if (!$model->save()){
+            return $this->render('create', [
+                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider,  
             ]);
-*/        }
+        			return $this->redirect(['/mitgliedergrade/createfast', 'id' => $mgID]);
+						}
+        		$mgID = Yii::$app->db->getLastInsertID();
+        		
+        		$modelm = Mitglieder::find($mId)->one();
+        		if ($modelm) {
+//  Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
+		        		$modelm->PruefungZum = 0;
+		        		$modelm->save();
+        		}
+        		if ($modelp->print) {
+								return $this->redirect(['/mitgliedergrade/print', 'id' => $mgID]);
+						}
+            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliedId, ]);
+        } else {
+            return $this->render('create', [
+                'model' => $modelp ,
+                'ddataProvider' => $ddataProvider,
+                'gdataProvider' => $gdataProvider,                
+            ]);
+        }
     }
 
     /**
@@ -218,6 +271,9 @@ class MitgliedergradeController extends Controller
 											'.kv-align-middle{vertical-align:middle!important;}' .
 											'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 											'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+											'.wtfb-name{font-size:30px; font-weight: bold;}' .
+											'.wtfb-grad{font-size:18px; font-weight: bold;}' .
+											'.wtfb-datum{font-size:14px; font-weight: bold;}' .
 											'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
 				// set mPDF properties on the fly
 				'options' => ['title' => 'Prüfung'],

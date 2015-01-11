@@ -21,7 +21,7 @@ use kartik\tabs\TabsX;
      
     $items = [
 		    [
-				    'label'=>'<i class="glyphicon glyphicon-user"></i> Allgemein',
+				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
 				                                'model'=>$model,
@@ -30,20 +30,36 @@ use kartik\tabs\TabsX;
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
 		    ],
 		    [
-				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Verträge',
-				    'content'=>$this->render('_view_vertrag', array(
-				//                                'form' => $form, 
+				    'label'=>'<i class="glyphicon glyphicon-tower"></i> Schule',
+				    'content'=>$this->render('_view_schule', array(
 				                                'model'=>$model, 
 				                        ) ),
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=2'])]
 		    ],
+		    [
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
+				    'content'=>$this->render('_view_vertrag', array(
+				                                'model'=>$model, 'contracts' => $contracts
+				                        ) ),
+				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=2'])]
+		    ],
+				[
+				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Zahlung',
+						'content'=>$this->render('_view_zahlung', array(
+		                                'model'=>$model, 
+		                        ) ),
+				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
 						'content'=>$this->render('_view_grade', array(
-		//                                'form' => $form, 
 		                                'model'=>$model, 'grade' => $grade, 
 		                        ) ),
-						//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=3'])]
+				],
+				[
+				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
+						'content'=>$this->render('_view_interessent', array(
+		                                'model'=>$model,  
+		                        ) ),
 				],
 /*			    [
 				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Dropdown',
@@ -74,23 +90,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mitglieder-view">
   <div class="row">
-    <div id="content" class="col-sm-12">
+    <div id="content" class="col-sm-8">
       <div class="row">
 		 		<div class="col-sm-4">
-		       <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->MitgliederId], ['class' => 'btn btn-primary']) ?>
-		        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->MitgliederId], [
-		            'class' => 'btn btn-danger',
-		            'data' => [
-		                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-		                'method' => 'post',
-		            ],
-		        ]) ?> 
-		        <?= Html::a(Yii::t('app', 'Back'), Yii::$app->request->getReferrer(), [
+		        <?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
 		        ]) ?>
-		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
-		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
-		        ]) ?>				</div>
+		        <?php // Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
+		        //]) 
+						?>				</div>
 			</div>
 			<?php    // Ajax Tabs Left
 			    echo TabsX::widget([

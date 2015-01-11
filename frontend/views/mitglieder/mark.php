@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
-							[ 'attribute' => 'Datum', 'value' => 'grad.Datum' ],
+							[ 'attribute' => 'Datum', 'value' => 'Datum' ],
 				],
 	    ]); ?>
                 </p>

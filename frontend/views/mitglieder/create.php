@@ -30,9 +30,10 @@ $this->title = Yii::t('app', 'Neues {modelClass} erstellen', [
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+			
 <div class="mitglieder-view">
   <div class="row">
-    <div id="content" class="col-sm-12">
+    <div id="content" class="col-sm-8">
 			    <?php $form = ActiveForm::begin([
 							'type' => ActiveForm::TYPE_HORIZONTAL,							
 							'id' => 'create-form',
@@ -52,52 +53,72 @@ $this->params['breadcrumbs'][] = $this->title;
 				</div>
 			</div>
       <div class="row">
-
-    		<div class="col-sm-12">
-			
-						<?php     $items = [
-								    [
-										    'label'=>'<i class="glyphicon glyphicon-user"></i> Allgemein',
-										    'content'=>$this->render('_form_allgemein', array(
-										                                'form' => $form, 
-										                                'model'=>$model,
-										                        ) ),
-										//    'active'=>true,
-										//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
-								    ],
-								    [
-										    'label'=>'<i class="glyphicon glyphicon-euro"></i> Verträge',
-										    'content'=>$this->render('_form_vertrag', array(
-										                                'form' => $form, 
-										                                'model'=>$model, 
-										                        ) ),
-										//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=2'])]
-								    ],
-										[
-										    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
-												'content'=>$this->render('_form_grade', array(
-								                                'form' => $form, 
-								                                'model'=>$model, //'grade' => $grade, 
-								                        ) ),
-												//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=3'])]
-										],
-						    ];
-						   // Ajax Tabs Left
-						    echo TabsX::widget([
-						    'items'=>$items,
-						    'position'=>TabsX::POS_ABOVE,
- 								'bordered'=>true,
-						    'encodeLabels'=>false
-						    ]);
-						?>
-
+		 		<div class="col-sm-4">
+		        <?= Html::a(Yii::t('app', 'Back'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
+		        ]) ?>
+		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
+		        ]) ?>				</div>
+			</div>
+						<?php     
+    $items = [
+		    [
+				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
+				    'content'=>$this->render('_form_allgemein', array(
+				                                'form' => $form, 
+				                                'model'=>$model,
+				                        ) ),
+				//    'active'=>true,
+				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
+		    ],
+		    [
+				    'label'=>'<i class="glyphicon glyphicon-tower"></i> Schule',
+				    'content'=>$this->render('_view_schule', array(
+				                                'model'=>$model, 
+				                        ) ),
+				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=2'])]
+		    ],
+		    [
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
+				    'content'=>$this->render('_form_vertrag', array(
+				                                'form' => $form, 
+				                                'model'=>$model, 'contracts' => $contracts
+				                        ) ),
+				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=2'])]
+		    ],
+				[
+				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Zahlung',
+						'content'=>$this->render('_view_zahlung', array(
+		                                'model'=>$model, 
+		                        ) ),
+				],
+				[
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
+						'content'=>$this->render('_form_grade', array(
+				                                'form' => $form, 
+		                                'model'=>$model, 'grade' => $grade, 
+		                        ) ),
+				],
+				[
+				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
+						'content'=>$this->render('_view_interessent', array(
+		                                'model'=>$model,  
+		                        ) ),
+				],
+    ];
+?> 
+			<?php    // Ajax Tabs Left
+			    echo TabsX::widget([
+			    'items'=>$items,
+			    'position'=>TabsX::POS_ABOVE,
+ 					'bordered'=>true,
+			    'encodeLabels'=>false
+			    ]);
+			?>
+    </div><!-- content -->
 			    <?php ActiveForm::end(); ?>
-			
-			</div>
-			</div>
 
-    </div><!-- row -->
-		</div><!-- content -->
   </div>
 
 </div>

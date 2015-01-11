@@ -9,7 +9,18 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Mitgliedergrades');
 $this->params['breadcrumbs'][] = $this->title;
-?>
+// Set LinkPager defaults
+\Yii::$container->set('yii\widgets\LinkPager', [
+        'options' => ['class' => 'pagination'],
+        'firstPageCssClass' => 'prev',
+        'lastPageCssClass' => 'next',
+        'prevPageCssClass' => 'prev',
+        'nextPageCssClass' => 'next',
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+        'firstPageLabel' => 'First',
+        'lastPageLabel' => 'Last'
+]);  ?>
 <div class="mitgliedergrade-index">
 
     <h1><?= Html::encode($this->title) ?></h1>

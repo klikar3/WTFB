@@ -31,15 +31,17 @@ use frontend\models\Sifu;
 <div class="row">
 	<div class="col-sm-6">
      <div id="content" >
-      <div class="row">
-     	      <div class="col-sm-6">
+			<div class="row">
+     	      <div class="col-sm-8">
      <?= $form->field($model, 'MitgliedsNr'
 //	 		,['labelOptions' => ['class' => 'col-sm-5'], 'inputOptions' => ['class' => 'col-sm-8 ']]
 		 )->textInput(['disabled' => true]) ?>
 		<?= Html::activeHiddenInput($model, 'MitgliedsNr')?>
 		<?= Html::activeHiddenInput($model, 'MitgliederId')?>
 						</div>
-						<div class="col-sm-6">
+      </div>
+			<div class="row">
+						<div class="col-sm-8">
  		 <?= $form->field($model, 'Geschlecht'
 //	 		,['labelOptions' => ['class' => 'col-sm-5'], 'inputOptions' => ['class' => 'col-sm-8 ']]
 			)->widget(Select2::classname(), [
@@ -47,17 +49,18 @@ use frontend\models\Sifu;
 			'options' => ['placeholder' => 'Geschlecht auswählen ...'],
 			'pluginOptions' => ['allowClear' => true ], ]);   ?>
 							</div> 
-			</div>
-      <div class="row">
-     	      <div class="col-sm-6">
+      </div>
+			<div class="row">
+     	      <div class="col-sm-8">
 		<?= $form->field($model, 'Anrede')->widget(Select2::classname(), [
 					'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
 					'options' => ['placeholder' => 'Anrede auswählen ...'],
 					'pluginOptions' => ['allowClear' => true ], ]);   ?>
 					</div>
-						<div class="col-sm-6">
-    <?= //$form->field($model, 'GeburtsDatum')->textInput(['maxlength' => 19]); 
-    		 $form->field($model, 'GeburtsDatum')->widget(DateControl::classname(), [
+      </div>
+			<div class="row">
+						<div class="col-sm-8">
+    <?= $form->field($model, 'GeburtsDatum')->widget(DateControl::classname(), [
 							'type'=>DateControl::FORMAT_DATE,
 							'ajaxConversion'=>true,
  							'displayFormat' => 'php:d.m.Y',
@@ -72,54 +75,56 @@ use frontend\models\Sifu;
 						]) 
 		?>
 						</div> 
-			</div>
+      </div>
 			<div class="row">
-     	      <div class="col-sm-12 col-md-12">
+     	      <div class="col-sm-8">
    <?= $form->field($model, 'Vorname'
-	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-14 col-md-8']]
+//	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-14 col-md-8']]
 			 )->textInput(['maxlength' => 18]) ?>
 						</div>
       </div>
 			<div class="row">
-     	      <div class="col-sm-12 col-md-12">
+     	      <div class="col-sm-8">
     <?= $form->field($model, 'Name'
-	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+//	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			 )->textInput(['maxlength' => 29]) ?>
 						</div>
       </div>
 
 			<div class="row">
-     	      <div class="col-sm-12 col-md-12">
+     	      <div class="col-sm-8">
     <?= $form->field($model, 'Strasse'
-	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+//	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			 )->textInput(['maxlength' => 35]) ?>
 						</div>
       </div>
     
 			<div class="row">
-	      <div class="col-sm-6">
+	      <div class="col-sm-8">
 	    <?= $form->field($model, 'PLZ'
 //	 		,['labelOptions' => ['class' => 'col-sm-4']]
 			)->textInput(['maxlength' => 13]) ?>
 				</div> 
-	      <div class="col-sm-6">
+      </div>
+			<div class="row">
+	      <div class="col-sm-8">
 	    <?= $form->field($model, 'Wohnort'
-	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+//	 		,['labelOptions' => ['class' => 'col-sm-3'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 25])	?>
 				</div>
 			</div> <!-- row -->
 			<div class="row">
-     	      <div class="col-sm-12 col-md-12">
+     	      <div class="col-sm-8">
     <?= $form->field($model, 'Nationalitaet'
-	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+//	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 22]) ?>
 						</div>
 			</div> <!-- row -->
 
 			<div class="row">
-     	      <div class="col-sm-12 col-md-12">
+     	      <div class="col-sm-8">
     <?= $form->field($model, 'Beruf'
-	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
+//	 		,['labelOptions' => ['class' => 'col-sm-2'], 'inputOptions' => ['class' => 'col-sm-10 col-md-10']]
 			)->textInput(['maxlength' => 35]) ?>
 						</div>
 			</div> <!-- row -->

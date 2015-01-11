@@ -20,6 +20,7 @@ class MitgliedergradePrint extends Mitgliedergrade
     {
         return [
             [['mgID', 'MitgliedId', 'GradId', 'PrueferId'], 'integer'],
+            [['Datum'],'date'],
             [['print'],'boolean'],
             [['Datum', 'print'], 'safe'],
         ];

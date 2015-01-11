@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MitgliederschulenSearch */
@@ -9,6 +10,19 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Mitgliederschulens');
 $this->params['breadcrumbs'][] = $this->title;
+
+// Set LinkPager defaults
+\Yii::$container->set('yii\widgets\LinkPager', [
+        'options' => ['class' => 'pagination'],
+        'firstPageCssClass' => 'prev',
+        'lastPageCssClass' => 'next',
+        'prevPageCssClass' => 'prev',
+        'nextPageCssClass' => 'next',
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+        'firstPageLabel' => 'First',
+        'lastPageLabel' => 'Last'
+]);  
 ?>
 <div class="mitgliederschulen-index">
 
@@ -25,9 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'msID',
+            ['attribute' => 'msID', 'width' => '60px'],
             'mitglieder.Vorname',
             'mitglieder.Name',
             'schul.Schulname',
@@ -35,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'Bis',
             'VertragId',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],
         ],
     ]); ?>
 

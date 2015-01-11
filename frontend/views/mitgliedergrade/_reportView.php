@@ -1,12 +1,26 @@
 <?php
 
 use yii\helpers\Html;
+use frontend\models\Grade;
+use frontend\models\GradeSearch;
+use frontend\models\Mitglieder;
+use frontend\models\Mitgliedergrade;
+use frontend\models\MitgliedergradePrint;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MitgliedergradeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $mitglied = $model->mitglied;
+$mgrad = Mitgliedergrade::find()->andWhere(['MitgliedId' => $mitglied->MitgliederId])->orderBy('datum desc')->one();//->max('Datum');
+if (!empty($mgrad)) {
+$grad = Grade::find()->andWhere(['gradId' => $mgrad->GradId])->one();
+if (!empty($grad)) {
+		$lastGrad = $grad->sort . '.'; // . ' ' . $grad->DispName;
+//		Yii::trace($lastGrad);
+	}
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -19,13 +33,17 @@ $mitglied = $model->mitglied;
 </head>
 
 
-		<div style="position: absolute; top: 86mm; left: 5mm; width: 200mm; text-align: center;  font-family: "Lucida Grande", "Arial", sans-serif;
-   font-size: 22px; font-weight: bold;">
-			<font size="22px" ><b><?= $mitglied->Vorname . ' ' . $mitglied->Name ?></b></font> 
+		<div class="wtfb-name" style="position: absolute; top: 80mm; left: 5mm; width: 200mm; text-align: center; font-family: "Lucida Grande", "Arial", sans-serif;
+   font-size: 32px; font-weight: bold;">
+			<?= $mitglied->Vorname . ' ' . $mitglied->Name ?> 
 		</div>
-		<div style="position: absolute; top: 102mm; left: 70mm; width: 45mm;  font-family: "Lucida Grande", "Arial", sans-serif;
+		<div class="wtfb-grad" style="position: absolute; top: 98mm; left: 55mm; width: 45mm; text-align: center; font-family: "Lucida Grande", "Arial", sans-serif;
    font-size: 16px; font-weight: bold;">
-			1. (erste)
+			<?= $lastGrad ?>
+		</div>
+		<div class="wtfb-datum" style="position: absolute; top: 240mm; left: 35mm; width: 45mm; text-align: center; font-family: "Lucida Grande", "Arial", sans-serif;
+   font-size: 16px; font-weight: bold;">
+			<?= Yii::$app->formatter->asDatetime($model->Datum, "php:d.m.Y"); ?>
 		</div>
 
 </html>

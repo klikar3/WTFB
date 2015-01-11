@@ -3,17 +3,20 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Mitglieder;
-use frontend\models\Mitgliederliste;
-use frontend\models\MitgliederlisteSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use kartik\mpdf\Pdf;
 		 
+use frontend\models\Grade;
+use frontend\models\Mitglieder;
+use frontend\models\Mitgliederliste;
+use frontend\models\MitgliederlisteSearch;
+use frontend\models\PruefungslisteForm;
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
@@ -145,17 +148,31 @@ class MitgliederlisteController extends Controller
 		*/
 		// Privacy statement output demo
 		public function actionPruefungsliste() {
-        $searchModel = new MitgliederlisteSearch();
-        $query = Mitgliederliste::find();//->where('PruefungZum like :pz',[ 'pz' => '9. SG'])->all();
-        $query->andFilterWhere(['>', 'PruefungZum', 0]);
-//        $query->union('SELECT TOP 100 MitgliederNr FROM mitglieder') ;
+//        Yii::info(Vardumper::dumpAsString($plf));
+    		$plf = new PruefungslisteForm();
+				$gt = Yii::$app->request->get();
+        Yii::info("-----gt: ".Vardumper::dumpAsString($gt));
+				$plf->datum = $gt['PruefungslisteForm']['datum'];
+				$plf->pgeb = $gt['PruefungslisteForm']['pgeb'];
+				$plf->disp = $gt['PruefungslisteForm']['disp'];
 
-//    		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//				$plf->load(Yii::$app->request->get(0));
+//				Yii::info(Vardumper::dumpAsString(Yii::$app->request->get(0)));
+        Yii::info("-----test");
+        Yii::info("-----plf: ".Vardumper::dumpAsString($plf));
+
+				$grads = ArrayHelper::map( Grade::find()->where(['DispName' => $plf->disp])->all(), 'gradId', 'gradId') ; 
+        Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
+
+        $searchModel = new MitgliederlisteSearch();
+        $query = Mitgliederliste::find()
+                 ->where(['PruefungZum' => $grads] );
+        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+
 				$dataProvider = new ActiveDataProvider([
 				     'query' => $query,
 				     'sort'=> ['defaultOrder' => ['PruefungZum'=>SORT_ASC]]
 				]);  
-//				Vardumper::dump(Yii::$app->request->queryParams);     
 
 				$pdf = new Pdf([
 						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
@@ -185,6 +202,7 @@ class MitgliederlisteController extends Controller
 						'content' => $this->renderPartial('pruefungsliste', [
 		            'searchModel' => $searchModel,
 		            'dataProvider' => $dataProvider,
+		            'plf' => $plf,
 		        ]),
 						'options' => [
 								'title' => 'Prüfungsliste',
