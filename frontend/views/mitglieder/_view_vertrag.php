@@ -28,19 +28,28 @@ use frontend\models\Schulen;
     <p>
 				<div class="row">
 					<div class="col-sm-5">
+            Mitglied: <?php echo $model->Name . ', ' . $model->Vorname ?>
+
 						<div style="margin-top: 20px">
 							<?php
 								$ms = new MitgliederSchulen();
-								$datum = date('d.m.Y');
+								$datum = date('php:Y-m-d');
         				$ms->Von = $datum;
                 $ms->MitgliederId = $model->MitgliederId;
+                $ms->VDauerMonate = 12;
+                $ms->MonatsBeitrag = 48.00;
+                $ms->ZahlungsArt = 'Bankeinzug';
+                $ms->Zahlungsweise = 'monatlich';
+                $header = '<center><h3>Neuen Schulvertrag zuweisen an<br>'.$model->Name.', '.$model->Vorname.'</h3></center>';
               ?>
     						<?php $form = ActiveForm::begin(['action' => ['mitgliederschulen/createfast'],
     																							'fieldConfig'=>['showLabels'=>true],
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
+																									 'id' => 'login-form-horizontal',
+																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
 																								]); ?>
 								<?php Modal::begin([ 
-									'header' => '<h2>Neuen Schulvertrag zuweisen</h2>',
+									'header' => $header,
 									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-primary'],
 	 								'footer'=>Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary']) .
 														Html::resetButton('Reset', ['class'=>'btn btn-sm btn-default'])
@@ -48,23 +57,50 @@ use frontend\models\Schulen;
 							?>
 							<div class="row" style="margin-bottom: 8px">
 								<div class="col-sm-10">
-							<?=  $form->field($ms, 'MitgliederId')->textInput(['disabled' => true]); ?>
+									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(''); ?> 
+									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
+											[ //'value' => date('d.m.Y'), 
+												'type' => DateControl::FORMAT_DATE,
+ 												'ajaxConversion'=>true,
+ 												'displayTimezone' => 'Europe/Berlin',
+										    'displayFormat' => 'php:d.m.Y',
+										    'saveFormat' => 'php:Y-m-d',
+												'options'=>['pluginOptions'=>['autoclose'=>true, //'format' => 'dd.mm.yyyy',
+																					'todayHighlight' => true, 'todayBtn' => true,
+																					],
+																		'options' => ['placeholder' => 'Beginn'],
+											]]); ?>
 								</div>
 								<div class="col-sm-10">
-									<?= $form->field($ms, 'Von')->widget(DatePicker::classname(),
-									[ 'value' => date('d.m.Y'), 'options'=>['placeholder'=>'Graduierungsdatum'], 'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy',
+	    <?= $form->field($ms, 'Bis')->widget(DatePicker::classname(),
+									[ 'value' => date('d.m.Y'), 'options'=>['placeholder'=>'Ende'], 'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy',
 'todayHighlight' => true, 'todayBtn' => true,
-]]); ?>
-								</div>
-								<div class="col-sm-10">
-	    <?= $form->field($ms, 'Bis')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
-[ 'prompt' => 'Pruefer' ]
-) ?>
+]]) ?>
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'Schulname', 'Disziplin' ),
-[ 'prompt' => 'Grad' ]
+[ 'prompt' => 'Schule' ]
 ) ?>
+								</div>
+								<div class="col-sm-10">
+    								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
+																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
+																		) ?>
+								</div>
+								<div class="col-sm-10">
+    								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
+																			[ 'prompt' => 'MonatsBeitrag' ]
+																		) ?>
+								</div>
+								<div class="col-sm-10">
+    								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar']) ,
+																			[ 'prompt' => 'Zahlungsart' ]
+																		) ?>
+								</div>
+								<div class="col-sm-10">
+    								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich']) ,
+																			[ 'prompt' => 'Zahlungsweise' ]
+																		) ?>
 								</div>
 							</div>
 							<?php Modal::end();?>
@@ -78,6 +114,11 @@ use frontend\models\Schulen;
 	        'columns' => [
 //	            'msID',
 //							'MitgliederId', 
+            	[ 'class' => 'yii\grid\ActionColumn',
+            						'template' => '{view}',
+												'controller' => 'mitgliederschulen',
+//												'width' => '60px',
+							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disz.' ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
@@ -92,11 +133,6 @@ use frontend\models\Schulen;
 							[ 'attribute' => 'BeitragAussetzenGrund', 'value' => 'BeitragAussetzenGrund' ],
 							[ 'attribute' => 'VertragId', 'value' => 'VertragId' ],
 							
-            	[ 'class' => 'yii\grid\ActionColumn',
-            						'template' => '{view}',
-												'controller' => 'mitgliederschulen',
-//												'width' => '60px',
-							],
 				],
 	    ]); ?>
 

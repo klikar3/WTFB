@@ -22,7 +22,7 @@ class MitgliederschulenController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','update','delete','createfast'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,7 +87,7 @@ class MitgliederschulenController extends Controller
         $model = new Mitgliederschulen();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->msID]);
+            return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId]);
         } else {
             return $this->render('create', [
                 'model' => $model,

@@ -27,6 +27,8 @@ use frontend\models\Pruefer;
     <p>
 				<div class="row">
 					<div class="col-sm-5">
+						Mitglied: <?php echo $model->Name . ', ' . $model->Vorname ?>
+
 						<div style="margin-top: 20px">
 							<?php
 								$mg = new MitgliedergradePrint();

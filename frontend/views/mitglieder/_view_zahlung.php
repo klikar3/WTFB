@@ -33,7 +33,7 @@ use frontend\models\Pruefer;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Mitglied # ' . $model->MitgliedsNr,
+					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
         'attributes' => [

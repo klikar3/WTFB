@@ -90,11 +90,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mitglieder-view">
   <div class="row">
-    <div id="content" class="col-sm-8">
+    <div id="content" class="col-sm-10">
       <div class="row">
 		 		<div class="col-sm-4">
 		        <?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
+		        ]) ?>
+		        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->MitgliederId], [
+		            'class' => 'btn btn-danger',
+		            'data' => [
+		                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+		                'method' => 'post',
+		            ],
 		        ]) ?>
 		        <?php // Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
 		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',

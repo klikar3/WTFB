@@ -70,16 +70,13 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
     <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
-				'theme'=>'panel-danger',
+				'theme'=>'simple-condensed',
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'filterModel'=>$searchModel,
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
-							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}' . Html::a(Yii::t('app', '<i class="fa glyphicon glyphicon-plus"></i>', [
-						    						'modelClass' => 'Mitglieder',
-														]), ['/mitglieder/create'], [ 'class' => 'btn btn-success',
-													'title'=>'Neues Mitglied anlegen']) . $content_mcf 				    
+							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
         		'tableOptions'=>['class'=>'table table-condensed'],
         		'responsive' => true,    

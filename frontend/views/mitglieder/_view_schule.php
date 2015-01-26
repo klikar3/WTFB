@@ -34,7 +34,7 @@ use frontend\models\Sifu;
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
 				'panel'=>[
-					'heading'=>'Mitglied # ' . $model->MitgliedsNr,
+					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
         'attributes' => [

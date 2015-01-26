@@ -39,7 +39,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Mitglied # ' . $model->MitgliedsNr,
+					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
         'attributes' => [

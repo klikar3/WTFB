@@ -94,7 +94,7 @@ class MitgliederlisteSearch extends Mitgliederliste
             ->andFilterWhere(['like', 'Funktion', $this->Funktion])
 ;
 				if ($this->PruefungZum) {
-						$query->andFilterWhere(['like', 'PruefungZum', $this->PruefungZum]);
+						$query->andFilterWhere(['>', 'PruefungZum', 0 /*$this->PruefungZum*/]);
 				};
     		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' 
 		    );
