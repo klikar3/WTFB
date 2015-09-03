@@ -49,6 +49,26 @@ class MitgliederlisteSearch extends Mitgliederliste
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+				
+		    $dataProvider->setSort([
+		    		'defaultOrder' => ['NameLink'=>SORT_ASC],
+		        'attributes' => [
+		            'MitgliederId',
+		            'NameLink' => [
+		                'asc' => ['Name' => SORT_ASC],
+		                'desc' => ['Name' => SORT_DESC],
+		                'label' => 'Name',
+		                'default' => SORT_ASC,
+		            ],  
+		            'Schulname',
+		            'LeiterName',
+		            'DispName',
+		            'Vertrag',
+		            'Funktion',
+		            'Vertreg',
+		            'Grad',
+		        ]
+		    ]); 
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -60,22 +80,6 @@ class MitgliederlisteSearch extends Mitgliederliste
 				if (isset($_GET['MitgliederlisteSearch']) && !($this->load($params) && $this->validate())) {
 						return $dataProvider;
 				}
-				
-		    $dataProvider->setSort([
-		        'attributes' => [
-		            'MitgliederId',
-		            'NameLink' => [
-		                'asc' => ['Name' => SORT_ASC],
-		                'desc' => ['Name' => SORT_DESC],
-		                'label' => 'Name',
-		                'default' => SORT_ASC
-		            ],  
-		            'Schulname',
-		            'LeiterName',
-		            'DispName',
-		            'Vertrag',
-		        ]
-		    ]); 
 		    
 		    $query->andFilterWhere([
             'MitgliederId' => $this->MitgliederId,
@@ -96,8 +100,7 @@ class MitgliederlisteSearch extends Mitgliederliste
 				if ($this->PruefungZum) {
 						$query->andFilterWhere(['>', 'PruefungZum', 0 /*$this->PruefungZum*/]);
 				};
-    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" ' 
-		    );
+    		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" '  );
 		    
         return $dataProvider;
     }

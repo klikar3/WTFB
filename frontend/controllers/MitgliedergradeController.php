@@ -70,10 +70,21 @@ class MitgliedergradeController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        return $this->redirect(['/mitgliedergrade/view', 
+            'id' => $id,
         ]);
-    }
+        } else {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        }
+
+/*        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->mgID]);
+        return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliedId]);
+*/    }
 
     /**
      * Creates a new Mitgliedergrade model.
@@ -287,5 +298,25 @@ class MitgliedergradeController extends Controller
 			// return the pdf output as per the destination setting
 			return $pdf->render();
      }
+
+    public function actionViewfrommitglied($id)
+    {
+        $model = $this->findModel($id);
+//        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
+//              throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->MitgliederId, 'tabnum' => 4
+        ]);
+        } else {
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->MitgliederId, 'tabnum' => 4
+//            return $this->render('/mitglieder/view', [
+//                'model' => $mgModel,
+            ]);
+        }
+    }    
 
 }

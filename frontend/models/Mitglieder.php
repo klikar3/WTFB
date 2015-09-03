@@ -224,9 +224,10 @@ class Mitglieder extends \yii\db\ActiveRecord
         return [
             [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
 		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
-            [['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
-            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum'],'date', 'format' => 'dd.mm.yyyy'],
-           	[['MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'safe'],
+            [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
+            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm'],'date', 'format' => 'php:Y-m-d'],
+//            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum', 'ProbetrainingAm', 'KontaktAm'], 'default', 'allowEmpty'=>true, 'value' => null],
+           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum'], 'safe'],
            	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 'Status', 'Schulort', 
 						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
             [['Name', 'Betreff'], 'string', 'max' => 30],
@@ -234,25 +235,26 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['BLZ', 'Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 45],
-            [['KontoNr', 'AktivPassiv', 'Monatsbeitrag', 'BeitragAussetztenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
-							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'KontaktAm', 'EinladungIAzum', 'VertragAbgeschlossen', 'Abschlussgespraech', 
+            [['KontoNr', 'AktivPassiv', 'Monatsbeitrag', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
+							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'EinladungIAzum', 'Abschlussgespraech', 
 							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],
             [['Kontoinhaber'], 'string', 'max' => 31],
             [['Woher', 'Bemerkung1'], 'string', 'max' => 27],
             [['Geburtsort','IBAN'], 'string', 'max' => 26],
             [['GruppenArt', 'BeitragOffenAb', 'EPruefungAm', 'BeginnEsckrima', 'EndeEsckrima'], 'string', 'max' => 18], 
 	          [['Zahlungsart', 'KPruefungZum', 'EPruefungZum'], 'string', 'max' => 12],
-            [['Zahlungsweise'], 'string', 'max' => 16], 
+	          [['BIC'], 'string', 'max' => 11],            
+						[['Zahlungsweise'], 'string', 'max' => 16], 
 		        [['EinzugZum'], 'string', 'max' => 15],
             [['BeitragAussetzenGrund'], 'string', 'max' => 37],
             [['AufnahmegebuehrBezahlt', 'WTPruefungZum'], 'string', 'max' => 14], 
-		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'ProbetrainingAm', 'WTPruefungAm', 'KPruefungAm', 
+		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'WTPruefungAm', 'KPruefungAm', 
 							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm', 'DVDgesendetAm'], 'string', 'max' => 19],            
 						[['Bemerkungen'], 'string', 'max' => 294],
             [['Text'], 'string', 'max' => 426],
-            [['KontaktArt', 'DM2Schule'], 'string', 'max' => 5],
-            [['warZumIAda', 'zumIAnichtDa', 'PTwarDa', 'zumPTnichtDa'], 'string', 'max' => 6],
-		        [['RechnungsNr'], 'string', 'max' => 1],
+            [['DM2Schule'], 'string', 'max' => 5],
+            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
+		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],
 //		        [['MitgliedsNr'], 'unique']
 		        ];
     }
@@ -264,29 +266,29 @@ class Mitglieder extends \yii\db\ActiveRecord
     {
         return [
             'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'MitgliedsNr' => Yii::t('app', 'Mitglieds Nr'),
+            'MitgliedsNr' => Yii::t('app', 'Mitglieds-Nr'),
             'Vorname' => Yii::t('app', 'Vorname'),
             'Name' => Yii::t('app', 'Name'),
             'Geschlecht' => Yii::t('app', 'Geschlecht'),
             'Anrede' => Yii::t('app', 'Anrede'),
-            'GeburtsDatum' => Yii::t('app', 'Geburts Datum'),
+            'GeburtsDatum' => Yii::t('app', 'Geburtsdatum'),
             'PLZ' => Yii::t('app', 'Plz'),
             'Wohnort' => Yii::t('app', 'Wohnort'),
             'Strasse' => Yii::t('app', 'Strasse'),
-            'Telefon1' => Yii::t('app', 'Telefon1'),
+            'Telefon1' => Yii::t('app', 'Telefon'),
             'Telefon2' => Yii::t('app', 'Telefon2'),
-            'HandyNr' => Yii::t('app', 'Handy Nr'),
+            'HandyNr' => Yii::t('app', 'Handy-Nr'),
             'Fax' => Yii::t('app', 'Fax'),
             'LetzteAenderung' => Yii::t('app', 'Letzte Aenderung'),
             'Email' => Yii::t('app', 'Email'),
             'Beruf' => Yii::t('app', 'Beruf'),
             'Nationalitaet' => Yii::t('app', 'Nationalität'),
-            'BLZ' => Yii::t('app', 'Blz'),
+            'BLZ' => Yii::t('app', 'BLZ'),
             'Bank' => Yii::t('app', 'Bank'),
             'IBAN' => Yii::t('app', 'IBAN'),
-            'KontoNr' => Yii::t('app', 'Konto Nr'),
+            'KontoNr' => Yii::t('app', 'Konto-Nr'),
             'Status' => Yii::t('app', 'Status'),
-            'AktivPassiv' => Yii::t('app', 'Aktiv/Passiv'),
+            'AktivPassiv' => Yii::t('app', 'Passiv'),
             'Kontoinhaber' => Yii::t('app', 'Kontoinhaber'),
             'Schulort' => Yii::t('app', 'Schulort'),
             'Disziplin' => Yii::t('app', 'Disziplin'),
@@ -296,15 +298,15 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Graduierung' => Yii::t('app', 'Graduierung'),
             'VDauer' => Yii::t('app', 'Vertragsdauer'),
             'Monatsbeitrag' => Yii::t('app', 'Monatsbeitrag'),
-            'BeitrittDatum' => Yii::t('app', 'Beitritt Datum'),
-            'KuendigungDatum' => Yii::t('app', 'Kuendigung Datum'),
-            'AustrittDatum' => Yii::t('app', 'Austritt Datum'),
+            'BeitrittDatum' => Yii::t('app', 'Beitrittsdatum'),
+            'KuendigungDatum' => Yii::t('app', 'Kündigungsdatum'),
+            'AustrittDatum' => Yii::t('app', 'Austrittsdatum'),
             'Geburtsort' => Yii::t('app', 'Geburtsort'),
-            'GruppenArt' => Yii::t('app', 'Gruppen Art'),
+            'GruppenArt' => Yii::t('app', 'Gruppen-Art'),
             'Zahlungsart' => Yii::t('app', 'Zahlungsart'),
             'Zahlungsweise' => Yii::t('app', 'Zahlungsweise'),
             'EinzugZum' => Yii::t('app', 'Einzug Zum'),
-            'BeitragAussetztenVon' => Yii::t('app', 'Beitrag Aussetzten Von'),
+            'BeitragAussetzenVon' => Yii::t('app', 'Beitrag Aussetzen Von'),
             'BeitragAussetzenBis' => Yii::t('app', 'Beitrag Aussetzen Bis'),
             'BeitragAussetzenGrund' => Yii::t('app', 'Beitrag Aussetzen Grund'),
             'AufnahmegebuehrBezahlt' => Yii::t('app', 'Aufnahmegebuehr Bezahlt'),
@@ -324,18 +326,18 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Bemerkungen' => Yii::t('app', 'Bemerkungen'),
             'Betreff' => Yii::t('app', 'Betreff'),
             'Text' => Yii::t('app', 'Text'),
-            'KontaktAm' => Yii::t('app', 'Kontakt Am'),
-            'KontaktArt' => Yii::t('app', 'Kontakt Art'),
+            'KontaktAm' => Yii::t('app', 'Kontakt am'),
+            'KontaktArt' => Yii::t('app', 'Kontakt-Art'),
             'Bemerkung1' => Yii::t('app', 'Bemerkung1'),
-            'EinladungIAzum' => Yii::t('app', 'Einladung Iazum'),
-            'warZumIAda' => Yii::t('app', 'War Zum Iada'),
+            'EinladungIAzum' => Yii::t('app', 'Einladung IA zum'),
+            'warZumIAda' => Yii::t('app', 'War zum IA da'),
             'zumIAnichtDa' => Yii::t('app', 'Zum Ianicht Da'),
-            'ProbetrainingAm' => Yii::t('app', 'Probetraining Am'),
-            'PTwarDa' => Yii::t('app', 'Ptwar Da'),
+            'ProbetrainingAm' => Yii::t('app', 'Probetraining am'),
+            'PTwarDa' => Yii::t('app', 'War zum PT da'),
             'zumPTnichtDa' => Yii::t('app', 'Zum Ptnicht Da'),
-            'VertragAbgeschlossen' => Yii::t('app', 'Vertrag Abgeschlossen'),
-            'VertragMit' => Yii::t('app', 'Vertrag Mit'),
-            'Abschlussgespraech' => Yii::t('app', 'Abschlussgespraech'),
+            'VertragAbgeschlossen' => Yii::t('app', 'Vertrag gemacht'),
+            'VertragMit' => Yii::t('app', 'Vertrag mit'),
+            'Abschlussgespraech' => Yii::t('app', 'Abschlussgespräch'),
             'Bemerkung2' => Yii::t('app', 'Bemerkung2'),
             'WTPruefungZum' => Yii::t('app', 'Wtpruefung Zum'),
             'WTPruefungAm' => Yii::t('app', 'Wtpruefung Am'),
@@ -343,7 +345,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'KPruefungAm' => Yii::t('app', 'Kpruefung Am'),
             'EPruefungZum' => Yii::t('app', 'Epruefung Zum'),
             'EPruefungAm' => Yii::t('app', 'Epruefung Am'),
-            'GutscheinVon' => Yii::t('app', 'Gutschein Von'),
+            'GutscheinVon' => Yii::t('app', 'Gutschein von'),
             'Name2Schule' => Yii::t('app', 'Name2 Schule'),
             'DM2Schule' => Yii::t('app', 'Dm2 Schule'),
             'NeuerBeitrag' => Yii::t('app', 'Neuer Beitrag'),
@@ -418,6 +420,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'BeginnEsckrima' => Yii::t('app', 'Beginn Esckrima'),
             'EndeEsckrima' => Yii::t('app', 'Ende Esckrima'),
             'PruefungZum' => Yii::t('app', 'Pruefung zum'),
+            'BIC' => Yii::t('app', 'BIC'),
         ];
     }
     
@@ -440,8 +443,15 @@ class Mitglieder extends \yii\db\ActiveRecord
 		   /** 
 		    * @return \yii\db\ActiveQuery 
 		    */ 
-		   public function getMitgliederschulens() 
-		   { 
-		       return $this->hasMany(Mitgliederschulen::className(), ['MitgliederId' => 'MitgliederId']); 
+	   public function getMitgliederschulens() 
+	   { 
+	       return $this->hasMany(Mitgliederschulen::className(), ['MitgliederId' => 'MitgliederId']); 
+			}
+			
+		public function showTriState($data) {
+														if ($data == null) return 'Nein'; //'Unbekannt';
+														if ($data == 0) return 'Nein';
+														if ($data == 1) return 'Ja';
+		}
+			
 }
-			  }

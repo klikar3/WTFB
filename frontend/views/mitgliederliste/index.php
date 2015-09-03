@@ -81,6 +81,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
         		'tableOptions'=>['class'=>'table table-condensed'],
         		'responsive' => true,    
 						'toolbar' => [
+										 	['content'=>$content_mcf  
+											],
 										 	['content'=>
 													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
 													'class'=>'btn btn-default',
@@ -92,8 +94,6 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 											],
 										 	['content'=>$content_plf  
 											],
-										 	['content'=>$content_mcf  
-											],
 											'{export}',
 											'{toggleData}',
 									],
@@ -101,7 +101,9 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
         'columns' => [
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{email} &nbsp;&nbsp; {update}',
+            	'template' => '{email}',
+							'mergeHeader' => false,
+//							'label' => 'Aktion',
 							'controller' => 'mitglieder',
 							'buttons' => [ 
 								'email' => function ($url, $model) {
@@ -117,6 +119,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //						],             
 						['format' => 'raw',
              'attribute' => 'NameLink',
+							'label' => 'Name',
             ],
 //            'MitgliederId',
 //            'MitgliedsNr',
@@ -131,6 +134,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
 							'controller' => 'mitglieder',
+							'mergeHeader' => false,
+//							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
 									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
@@ -158,6 +163,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						    },
 							'width' => '60px',
 							'filterType' => 'checkbox',
+							'label' => 'P. zum',
+//							'mergeHeader' => true,
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]]
 						],
         ], // -- columns

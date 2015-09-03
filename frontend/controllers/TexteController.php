@@ -3,40 +3,24 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use kartik\mpdf\Pdf;
-		 
-use frontend\models\Grade;
+
 use frontend\models\Mitglieder;
-use frontend\models\Mitgliederliste;
-use frontend\models\MitgliederlisteSearch;
-use frontend\models\PruefungslisteForm;
+use frontend\models\Texte;
+use frontend\models\TexteSearch;
 
 /**
- * MitgliederController implements the CRUD actions for Mitglieder model.
+ * TexteController implements the CRUD actions for Texte model.
  */
-class MitgliederlisteController extends Controller
+class TexteController extends Controller
 {
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-//                'only' => ['logout', 'signup', 'mitgliederliste'],
-                'rules' => [
-                    [
-                        'actions' => ['index','view','pruefungsliste','resetpliste'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -47,12 +31,12 @@ class MitgliederlisteController extends Controller
     }
 
     /**
-     * Lists all Mitglieder models.
+     * Lists all Texte models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MitgliederlisteSearch();
+        $searchModel = new TexteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,34 +46,28 @@ class MitgliederlisteController extends Controller
     }
 
     /**
-     * Displays a single Mitglieder model.
-     * @param integer $id
+     * Displays a single Texte model.
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
     {
-//        $searchModel = new MitgliederGradeSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-				$model = $this->findModel($id);
-				$errors = $model->errors;
-				VarDumper::dump($errors);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'grade' => $mgdataProvider,
         ]);
     }
 
     /**
-     * Creates a new Mitglieder model.
+     * Creates a new Texte model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Mitgliederliste();
+        $model = new Texte();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/mitgliederliste/view', 'id' => $model->MitgliederId]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -98,9 +76,9 @@ class MitgliederlisteController extends Controller
     }
 
     /**
-     * Updates an existing Mitglieder model.
+     * Updates an existing Texte model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -108,10 +86,8 @@ class MitgliederlisteController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-						$errors = $model->errors;
-						VarDumper::dump($errors);
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -119,9 +95,9 @@ class MitgliederlisteController extends Controller
     }
 
     /**
-     * Deletes an existing Mitglieder model.
+     * Deletes an existing Texte model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -132,52 +108,41 @@ class MitgliederlisteController extends Controller
     }
 
     /**
-     * Finds the Mitglieder model based on its primary key value.
+     * Finds the Texte model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Mitglieder the loaded model
+     * @param string $id
+     * @return Texte the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Mitgliederliste::findOne($id)) !== null) {
+        if (($model = Texte::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
     
-    /**
-		* THE CONTROLLER ACTION
-		*/
-		// Privacy statement output demo
-		public function actionPruefungsliste() {
-//        Yii::info(Vardumper::dumpAsString($plf));
-    		$plf = new PruefungslisteForm();
-				$gt = Yii::$app->request->get();
-        Yii::info("-----gt: ".Vardumper::dumpAsString($gt));
-				$plf->datum = $gt['PruefungslisteForm']['datum'];
-				$plf->pgeb = $gt['PruefungslisteForm']['pgeb'];
-				$plf->disp = $gt['PruefungslisteForm']['disp'];
-
-//				$plf->load(Yii::$app->request->get(0));
-//				Yii::info(Vardumper::dumpAsString(Yii::$app->request->get(0)));
-        Yii::info("-----test");
-        Yii::info("-----plf: ".Vardumper::dumpAsString($plf));
-
-				$grads = ArrayHelper::map( Grade::find()->where(['DispName' => $plf->disp])->all(), 'gradId', 'gradId') ; 
-        Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
-
-        $searchModel = new MitgliederlisteSearch();
-        $query = Mitgliederliste::find()
-                 ->where(['PruefungZum' => $grads] );
-        $query->andFilterWhere(['>', 'PruefungZum', 0]);
-
-				$dataProvider = new ActiveDataProvider([
-				     'query' => $query,
-				     'sort'=> ['defaultOrder' => ['PruefungZum'=>SORT_ASC]]
-				]);  
-
+    public function actionPrint($datamodel, $dataid, $txtid)
+    {
+        if ($datamodel = 'mitglieder') {
+					 $model = Mitglieder::findOne($dataid);
+				}
+				
+				$textmodel = Texte::findOne($txtid);
+				$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+				$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
+				$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+				$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+				$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+				$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
+				$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
+				$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
+				$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
+				$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+				$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+				
+							
 				$pdf = new Pdf([
 						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
@@ -203,26 +168,28 @@ class MitgliederlisteController extends Controller
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
-						'content' => $this->renderPartial('pruefungsliste', [
-		            'searchModel' => $searchModel,
-		            'dataProvider' => $dataProvider,
-		            'plf' => $plf,
+						'content' => $this->renderPartial('print', [
+		            'model' => $textmodel,
 		        ]),
 						'options' => [
 								'title' => 'Prüfungsliste',
 								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
 						],
 						'methods' => [
-							'SetHeader' => ['Erstellt am: ' . date("r")],
-							'SetFooter' => ['|Seite {PAGENO}|'],
+							'SetHeader' => [''],
+							'SetFooter' => [''],
 						]
 			]);
 			return $pdf->render();
-		}
-		
-    public function actionResetpliste()
-    {
-        Mitglieder::updateAll(['PruefungZum' => '']);
-        return $this->redirect(['index']);
     }
+
+		protected function textReplace($datamodel, $dataid, $txtid)
+    {
+        if (($model = Texte::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
 }

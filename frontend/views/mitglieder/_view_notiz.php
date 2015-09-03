@@ -38,9 +38,20 @@ use frontend\models\Sifu;
 					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 6, ],
+				],
         'attributes' => [
-            'Funktion',
-            'Sifu',
+            [ 'attribute' => 'Bemerkung1',
+            	'label' => 'Bemerkung',
+	            'format' => 'raw',
+	            'type' => DetailView::INPUT_TEXTAREA,
+//	            'widgetOptions' => [
+//									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+//									'Schulname', 'Schulname' )),
+//							]
+	          ],
+//            'Sifu',
 //            'LetzteAenderung',
       ],
     ]) ?>

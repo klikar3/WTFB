@@ -1,162 +1,189 @@
 <?php
 
-use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\bootstrap\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+use kartik\detail\DetailView;
+use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
+use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
-use kartik\detail\DetailView;
 
-//use frontend\models\Anrede;
-//use frontend\models\Funktion;
+use frontend\models\Mitgliedergrade;
+use frontend\models\Mitgliederschulen;
 use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
-//use frontend\models\Mitgliedergrade;
-//use frontend\models\Pruefer;
+use frontend\models\Pruefer;
 use frontend\models\Schulen;
-use frontend\models\Mitgliederschulen;
-//use frontend\models\Sifu;
-
+ 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Mitgliederschulen */
+/* @var $model app\models\Mitglieder */
 
-$this->title = $model->msID;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitgliedervertrag'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="mitgliederschulen-view">
-
-    <h1><?php /* echo Html::encode($this->title)*/ ?></h1>
-
-    <p>
-          <?= Html::a(Yii::t('app', 'Zurück'), ['mitglieder/view', 'id' => $model->MitgliederId,'tabnum' => 3],['class'=>'btn btn-primary',
-		        ]) ?>
-    </p>
-
     <?= DetailView::widget([
-    		'id' => 'dv_vmg',
+    		'id' => 'dv_vv_'.$model->msID,
         'model' => $model,
 				'condensed'=>true,
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
 				'mainTemplate' => '{detail}',
-				'buttons1' => '{update}{delete}',
+				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Mitglied: ' . $model->mitglieder->Name . ', ' . $model->mitglieder->Vorname,
+					'heading'=>'Vertrag # ' . $model->msID,
 					'type'=>DetailView::TYPE_INFO,
 				],
+				'formOptions' => [
+							'action' => ['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3 ],
+				],
         'attributes' => [
-//            [ 'attribute' => 'msID',
-//            	'format' => 'raw',
-//            	'type' => DetailView::INPUT_TEXT,
-//            	'displayOnly' => true,
-//            ],
-//            'msID',
-//            'MitgliederId',
-            [ 'attribute' => 'SchulId',
-            	'value' => $model->schul->SchulDisp,
-            	'format' => 'raw',
-            	'type' => DetailView::INPUT_SELECT2,
-            	'widgetOptions' => [
-									'data' => array_merge(["0" => ""], ArrayHelper::map( Schulen::find()->all(), 
-									'SchulId', 'SchulDisp' )),
-							 ]             
+            [ 'attribute' => 'VDauerMonate',
+            	'id' => 'dv_vv_a_'.$model->msID,
             ],
-//            'SchulId',
+            [ 'attribute' => 'MonatsBeitrag',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
             [ 'attribute' => 'Von',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
             	'widgetOptions' => [
+//            	'id' => 'dv_vv_v_'.$model->msID,
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+				            	'id' => 'dv_vv_v_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
 									],
 							]
             ],
+//             'Bis',
             [ 'attribute' => 'Bis',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
+				            	'id' => 'dv_vv_b_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
             ],
-						[ 'attribute' => 'KuendigungAm', 
-							'format' => ['date', 'php:d.m.Y'], 
+//             'KuendigungAm',
+            [ 'attribute' => 'KuendigungAm',
+            	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
+				            	'id' => 'dv_vv_ka_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
-							],
-						],
-						[ 'attribute' => 'VDauerMonate',  
-//            	'value' => $model->schul->VDauerMonate,
+							]
+            ],
+//             'SchulId',
+            [ 'attribute' => 'SchulId',
+							'id' => 'schulid_'.$model->msID,
+            	'value' => $model->schul->SchulDisp,
             	'format' => 'raw',
+            	'ajaxConversion' => true,
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
-									'data' => range( 0, 36, 1 ),
+									'name' => 'schulid_w_'.$model->msID,
+									'data' => array_merge(["0" => ""], ArrayHelper::map( Schulen::find()->all(), 
+									'SchulId', 'SchulDisp' )),
+							    'options' => [ 
+				            	'id' => 'dv_vv_si_o_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
 							 ]             
-						],
-						[ 'attribute' => 'MonatsBeitrag',  ],
+            ],    
+//             'ZahlungsArt',
+//             'Zahlungsweise',
 						[ 'attribute' => 'ZahlungsArt',  
+				      'id' => 'dv_vv_za_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
+				          'id' => 'dv_vv_za_w_'.$model->msID,											
 									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar'],
-							 ]             
+							    'options' => [
+				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
+							],             
 						],
 						[ 'attribute' => 'Zahlungsweise',  
+				      'id' => 'dv_vv_zw_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
+				          'id' => 'dv_vv_zw_w_'.$model->msID,											
 									'data' => ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich'],
+							    'options' => [
+				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
 							 ]             
 						],
-						[ 'attribute' => 'BeitragAussetzenVon', 'format' => ['date', 'php:d.m.Y'], 
+//             'EinzugZum',
+            [ 'attribute' => 'BeitragAussetzenVon',
+            	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
+				            	'id' => 'dv_vv_bav_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
-						],
-						[ 'attribute' => 'BeitragAussetzenBis', 'format' => ['date', 'php:d.m.Y'], 
+            ],
+//             'BeitragAussetzenVon',
+//             'BeitragAussetzenBis',
+            [ 'attribute' => 'BeitragAussetzenBis',
+            	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
+				            	'id' => 'dv_vv_bab_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
-						],
-						[ 'attribute' => 'BeitragAussetzenGrund',  ],
-						[ 'attribute' => 'VertragId',  ],
-        ],
-    ]) ?>
+            ],
+            [ 'attribute' =>  'BeitragAussetzenGrund',
+            	'id' => 'dv_vv_bag_'.$model->msID,
+            ],
+            
+//             'AufnahmegebuehrBezahlt',
 
-</div>
+        ],
+    ]);  ?>

@@ -35,8 +35,11 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return [
             [['MitgliederId', 'SchulId', 'Von'], 'required'],
-            [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
-            [['Von', 'Bis'], 'safe']
+            [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate','MitgliederId',], 'integer'],
+            [['Von', 'Bis', 'VertragId', 'VDauerMonate','ZahlungsArt','Zahlungsweise','BeitragAussetzenGrund'], 'safe'],
+            [['MonatsBeitrag'],'number'],
+            [['Von', 'Bis','KuendigungAm','BeitragAussetzenVon','BeitragAussetzenBis'],'date' , 'format' => 'php:Y-m-d'
+						],
         ];
     }
 
@@ -48,18 +51,18 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return [
             'msID' => Yii::t('app', 'a'),
             'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'SchulId' => Yii::t('app', 'Schul ID'),
+            'SchulId' => Yii::t('app', 'Schule'),
             'Von' => Yii::t('app', 'Von'),
             'Bis' => Yii::t('app', 'Bis'),
-            'VertragId' => Yii::t('app', 'Vertrag'),
+            'VertragId' => Yii::t('app', 'Vertrag (.pdf)'),
 						'KuendigungAm' => Yii::t('app', 'Kündigung'),
-						'VDauerMonate' => Yii::t('app', 'V.Dauer'),
-						'MonatsBeitrag' => Yii::t('app', 'M-Beitrag'),
-						'ZahlungsArt' => Yii::t('app', 'Zahlg.Art'), 
-						'ZahlungsWeise' => Yii::t('app', 'Zahlungsw.'),
-						'BeitragAussetzenVon' => Yii::t('app', 'Beitrag auss. Von'), 
-						'BeitragAussetzenBis' => Yii::t('app', 'Beitrag auss. Bis'), 
-						'BeitragAussetzenGrund' => Yii::t('app', 'Beitrag auss. Grund'),
+						'VDauerMonate' => Yii::t('app', 'V-Dauer'),
+						'MonatsBeitrag' => Yii::t('app', 'Beitrag'),
+						'ZahlungsArt' => Yii::t('app', 'Z-Art'), 
+						'Zahlungsweise' => Yii::t('app', 'Z-Weise'),
+						'BeitragAussetzenVon' => Yii::t('app', 'Aussetzen ab'), 
+						'BeitragAussetzenBis' => Yii::t('app', 'Aussetzen bis'), 
+						'BeitragAussetzenGrund' => Yii::t('app', 'Aussetzen Grund'),
         ];
     }
 

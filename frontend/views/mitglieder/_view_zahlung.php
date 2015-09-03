@@ -36,14 +36,18 @@ use frontend\models\Pruefer;
 					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 4, ],
+				],
         'attributes' => [
-        		 'IBAN',
+             'KontoNr',
              'BLZ',
              'Bank',
-             'KontoNr',
-             'Status',
-             'AktivPassiv',
+        		 'IBAN',
+        		 'BIC',
              'Kontoinhaber',
+//             'Status',
+             'AktivPassiv',
         ],
     ]); ?>
 

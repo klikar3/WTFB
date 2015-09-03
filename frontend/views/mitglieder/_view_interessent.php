@@ -40,20 +40,28 @@ use frontend\models\Sifu;
 					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 7, ],
+				],
         'attributes' => [
             // 'Bemerkungen',
             // 'Betreff',
             // 'Text',
             // 'KontaktAm',
             [ 'attribute' => 'KontaktAm',
-            	'format' => ['date', 'php:Y-m-d'],
+            	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+//        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
             	'widgetOptions' => [
 //            			'value' => 'KontaktAm',
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'd.m.Y',
-							    'saveFormat' => 'Y-m-d',
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
 							]
             ],
 //             'KontaktArt',
@@ -61,7 +69,7 @@ use frontend\models\Sifu;
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "KontaktArt"])->orderBy('sort')->all(), 'id', 'wert' )),
+									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "KontaktArt"])->orderBy('sort')->all(), 'wert', 'wert' )),
 							 ]             
             ],
 //             'Woher',
@@ -69,21 +77,101 @@ use frontend\models\Sifu;
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'id', 'wert' )),
+									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'wert', 'wert' )),
+							 ]             
+            ],
+            [ 'attribute' => 'Schulort',
+	            'format' => 'raw',
+	            'type' => DetailView::INPUT_SELECT2,
+	            'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+									'Schulname', 'Schulname' )),
+							]
+	          ],
+	          [ 'attribute' => 'Disziplin',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' )),
 							 ]             
             ],
             // 'Bemerkung1',
-             'EinladungIAzum',
+            [ 'attribute' => 'EinladungIAzum',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+//        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
+            	'widgetOptions' => [
+//            			'value' => 'KontaktAm',
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
 //             'warZumIAda'
-             ['attribute'=>'warZumIAda', 'type'=>DetailView::INPUT_CHECKBOX],
+            [ 'attribute'=>'WarZumIAda', 
+						  'type'=>DetailView::INPUT_CHECKBOX_X,    
+							'value' => $model->showTriState($model->WarZumIAda),
+    					'autoLabel' => true,
+    					'label' => 'War zum IA da',
+							'widgetOptions' => [				
+										'pluginOptions'=>[  
+											'threeState' => false, 
+										],
+							],
+						],
+//							    'inline'=>true, 
+//										    'iconChecked'=>'<i class="glyphicon glyphicon-minus"></i>',
+//										    'iconUnchecked'=>'<i class="glyphicon glyphicon-minus"></i>',
+//										    'iconNull'=>'<i class="glyphicon glyphicon-remove"></i>',
+//												'threeState' => false, 
 //             'zumIAnichtDa',
-             'ProbetrainingAm',
-             'PTwarDa',
+            [ 'attribute' => 'ProbetrainingAm',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+             ['attribute'=>'PTwarDa','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+							'value' => $model->showTriState($model->PTwarDa),
+							'widgetOptions' => [				
+										'pluginOptions'=>[  
+											'threeState' => false, 
+										],
+							],
+						 ],                         
+
 //             'zumPTnichtDa',
-             'VertragAbgeschlossen',
-             'VertragMit',
-             'Abschlussgespraech',
-            // 'Bemerkung2',
+             ['attribute'=>'VertragAbgeschlossen','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+							'value' => $model->showTriState($model->VertragAbgeschlossen),
+							'widgetOptions' => [				
+										'pluginOptions'=>[  
+											'threeState' => false, 
+										],
+							],
+						 ],
+             ['attribute'=>'VertragMit','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+							'value' => $model->showTriState($model->VertragMit),
+							'widgetOptions' => [				
+										'pluginOptions'=>[  
+											'threeState' => false, 
+										],
+							],
+						 ],
+            // 'Abschlussgespraech',
+             'Bemerkung2',
              'GutscheinVon',
             // 'Name2Schule',
             // 'DM2Schule',

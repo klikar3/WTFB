@@ -47,9 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 	    ]); ?>
                 </p>
-    						<?php $form = ActiveForm::begin(['action' => ['mitglieder/mark', 'id' => $model->MitgliederId],
-    																							'fieldConfig'=>['showLabels'=>true],
-																									'type' => ActiveForm::TYPE_HORIZONTAL,							
+    						<?php $form = ActiveForm::begin(['method' => 'post',
+																'action' => ['mitglieder/mark', 
+																'id' => $model->MitgliederId],
+    														'fieldConfig'=>['showLabels'=>true],
+																'type' => ActiveForm::TYPE_HORIZONTAL,							
 																									]); ?>
 							
 							<div class="row" style="margin-bottom: 8px">
@@ -66,9 +68,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		 		<div class="col-sm-4">
 							<?= Html::submitButton('Submit', ['class'=>'btn btn-success']) ?>
 							<?php $form = ActiveForm::end(); ?>
-		        <?= Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
-		            'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
-		        ]) ?>
+		        <?php // echo Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		           // 'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary', ]) 
+						?>
 				</div>
 			</div>
     </div><!-- content -->

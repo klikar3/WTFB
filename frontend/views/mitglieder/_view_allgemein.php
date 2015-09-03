@@ -1,16 +1,16 @@
 <?php
 
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
-use kartik\grid\GridView;
+//use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
+use kartik\popover\PopoverX;
 
 use frontend\models\Anrede;
 use frontend\models\Funktion;
@@ -42,13 +42,16 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1, ],
+				],
         'attributes' => [
             [ 'attribute' => 'MitgliedsNr',
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
-//            	'value' => $model->MitgliedsNr,
+            	'value' => $model->MitgliedsNr,
             	'widgetOptions' => [
-									'data' => [  $model->MitgliedsNr, 0, $newnr ],//array_merge(["" => ""]), 
+									'data' => [$model->MitgliedsNr=>$model->MitgliedsNr, 0=>0, $newnr => $newnr ], 
 							 ]             
             ],
             [ 'attribute' => 'Anrede',
@@ -73,8 +76,11 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'd.m.Y',
-							    'saveFormat' => 'Y-m-d'
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
 							]
             ],
             'Strasse',
@@ -83,10 +89,12 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'Nationalitaet',
             'Beruf',
             'Telefon1',
-            'Telefon2',
+//            'Telefon2',
             'HandyNr',
-            'Fax',
+//            'Fax',
             'Email:email',
+            'Funktion',
+            'Sifu',
         		'PruefungZum',
         ],
     ]) ?>

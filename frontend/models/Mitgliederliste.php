@@ -65,6 +65,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             [['Nachname'], 'string', 'max' => 29],
             [['Name'], 'string', 'max' => 49],
             [['NameLink'], 'string', 'max' => 49],
+            [['NameLink'], 'safe'],
             [['Schulname'], 'string', 'max' => 50],
             [['LeiterName'], 'string', 'max' => 80],
             [['DispName'], 'string', 'max' => 30],
@@ -88,7 +89,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'LeiterName' => Yii::t('app', 'Schulleiter'),
             'DispName' => Yii::t('app', 'Disziplin'),
             'Vertrag' => Yii::t('app', 'Verträge'),
-            'PruefungZum' => Yii::t('app', 'P. zum'),
+            'PruefungZum' => Yii::t('app', ' '),
             'Grad' => Yii::t('app', 'Grade'),
             'Funktion' => Yii::t('app', 'Funktion'),
         ];
@@ -127,7 +128,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 	   } 
 	   
 	   public function getNameLink() {
-		    $url = Url::to(['/mitglieder/view', 'id'=>$this->MitgliederId]); // your url code to retrieve the profile view
+		    $url = Url::to(['/mitglieder/view', 'id'=>$this->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
 		    $options = []; // any HTML attributes for your link
 		    return Html::a($this->Name, $url, $options); // assuming you have a relation called profile
 		}

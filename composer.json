@@ -36,7 +36,8 @@
 				"kartik-v/yii2-tabs-x": "dev-master",
 				"kartik-v/yii2-money": "*",
 				"dektrium/yii2-user": "dev-master",
-				"jschaedl/iban": "dev-master"
+				"jschaedl/iban": "dev-master",
+				"2amigos/yii2-ckeditor-widget": "*"
     },
     "config": {
         "process-timeout": 1800

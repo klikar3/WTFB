@@ -25,7 +25,7 @@ use frontend\models\Schulen;
 																			]); ?>
 			<?php Modal::begin([ 
 				'header' => '<h2>Mitglied anlegen</h2>',
-				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-default', 
+				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-success', 
 													'title'=>'Mitglied anlegen'],
 				'footer'=>Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary']) .
 									Html::resetButton('Reset', ['class'=>'btn btn-sm btn-default'])

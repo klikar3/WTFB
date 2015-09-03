@@ -5,11 +5,12 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use frontend\widgets\Alert;
+//use frontend\widgets\Alert;
 use yii\widgets\Menu;
 use \dektrium\user\Module;
 
- 
+use kartik\widgets\Alert; 
+use kartik\widgets\AlertBlock;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -31,7 +32,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'WTFB',
+                'brandLabel' => 'WTFB-Datenbank',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -41,9 +42,9 @@ AppAsset::register($this);
 								['label' => 'Home', 'url' => ['/site/index']],
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
-                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
-                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+//                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
+//                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
+//                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
                 $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
             } else {
             		if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
@@ -58,6 +59,7 @@ AppAsset::register($this);
 																  	['label' => 'Schulleiter', 'url' => ['/schulleiter/index']],
 																  	['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']],
 																  	['label' => 'Sifus', 'url' => ['/sifu/index']],
+																  	['label' => 'Texte', 'url' => ['/texte/index']],
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
 																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
@@ -68,8 +70,8 @@ AppAsset::register($this);
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																]];
-                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
-                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
+//                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
+//                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[
 																	['label' => 'Logout', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
@@ -94,7 +96,19 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
+        <?php /*echo Alert::widget()*/ 
+foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYPE_DANGER,
+													    'icon' => 'glyphicon glyphicon-exclamation-sign', 'body' => $message ]);
+//echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+}			
+				?>
+        <?php echo AlertBlock::widget([
+    'useSessionFlash' => true,
+    'type' => AlertBlock::TYPE_ALERT
+]);/*echo Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYPE_DANGER,
+													    'icon' => 'glyphicon glyphicon-exclamation-sign', ]); // will display `error` flash messages
+*/        ?>
         <?= $content ?>   
 
         </div>

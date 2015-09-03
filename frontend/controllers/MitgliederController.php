@@ -54,6 +54,7 @@ class MitgliederController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'tabnum' => 1,
         ]);
     }
 
@@ -62,9 +63,11 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id,$tabnum)
     {
         $model = $this->findModel($id);
+        
+        if (empty($tabnum)) $tabnum = 1;
 
 				// Graduierungen
 				$query = Mitgliedergrade::find();
@@ -83,10 +86,15 @@ class MitgliederController extends Controller
 				]);
   	
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId]);
+            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
+						$errors = $model->errors;
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
             return $this->render('view', [
-                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider
+                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'tabnum' => $tabnum
             ]);
         }
 
@@ -125,7 +133,7 @@ class MitgliederController extends Controller
         if ($model->load(Yii::$app->request->post()) ) {
         		Yii::info("---------------- model: ".Vardumper::dumpAsString($model));       
         		if ($model->save()){
-            		return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId]);
+            		return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } else {
 						$errors = $model->errors;
@@ -153,7 +161,7 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $tabnum)  
     {
 				$query = Mitgliedergrade::find();
 				$query->where(['=', 'MitgliedId', $id]);
@@ -163,12 +171,16 @@ class MitgliederController extends Controller
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
 				]);
         $model = $this->findModel($id);
+        
+        if (empty($tabnum)) $tabnum = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId]);
+            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
+						$errors = $model->errors;
+						VarDumper::dump($errors);
             return $this->render('update', [
-                'model' => $model, 'grade' => $mgdataProvider,
+                'model' => $model, 'grade' => $mgdataProvider, 'tabnum' => $tabnum,
             ]);
         }
     }
@@ -208,7 +220,11 @@ class MitgliederController extends Controller
             return $this->redirect(['mitgliederliste/index', 'id' => $model->MitgliederId]);
         } else {
 						$errors = $model->errors;
-//						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						VarDumper::dump($errors);
+						
 						$mgrad = Mitgliedergrade::find()->andWhere(['MitgliedId' => $model->MitgliederId])->orderBy('datum desc')->one();//->max('Datum');
 //						VarDumper::dump($mgrad);
 						if (!empty($mgrad)) {
@@ -219,6 +235,7 @@ class MitgliederController extends Controller
 		        		Yii::trace($lastGrad);
 	        		}
         		}
+//        		VarDumper::dump($model);
             return $this->render('mark', [
                 'model' => $model, 'errors' => $errors, 'lastGrad' => $lastGrad, 'dat' => $dat, 'grade' => $mgdataProvider,
             ]);

@@ -25,12 +25,9 @@ use frontend\models\Schulen;
 /* @var $model app\models\Mitglieder */
 
 ?>
-    <p>
-				<div class="row">
-					<div class="col-sm-5">
-            Mitglied: <?php echo $model->Name . ', ' . $model->Vorname ?>
-
-						<div style="margin-top: 20px">
+			<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-info"><div class="panel-heading">
 							<?php
 								$ms = new MitgliederSchulen();
 								$datum = date('php:Y-m-d');
@@ -46,13 +43,16 @@ use frontend\models\Schulen;
     																							'fieldConfig'=>['showLabels'=>true],
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
 																									 'id' => 'login-form-horizontal',
-																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL,
+																									'showErrors' => true,
+																									]
 																								]); ?>
-								<?php Modal::begin([ 
+								 <?= 'Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+								 <?php Modal::begin([ 
 									'header' => $header,
-									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-primary'],
-	 								'footer'=>Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary']) .
-														Html::resetButton('Reset', ['class'=>'btn btn-sm btn-default'])
+									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
+	 								'footer'=>Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']) .
+														Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default'])
 							]);
 							?>
 							<div class="row" style="margin-bottom: 8px">
@@ -62,14 +62,15 @@ use frontend\models\Schulen;
 											[ //'value' => date('d.m.Y'), 
 												'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
- 												'displayTimezone' => 'Europe/Berlin',
-										    'displayFormat' => 'php:d.m.Y',
-										    'saveFormat' => 'php:Y-m-d',
-												'options'=>['pluginOptions'=>['autoclose'=>true, //'format' => 'dd.mm.yyyy',
-																					'todayHighlight' => true, 'todayBtn' => true,
-																					],
-																		'options' => ['placeholder' => 'Beginn'],
-											]]); ?>
+// 												'displayTimezone' => 'Europe/Berlin',
+//									    'displayFormat' => 'php:d.m.Y',
+//										    'saveFormat' => 'php:Y-m-d',
+												'options'=>[
+//														'placeholder' => 'Beginn',
+														'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+														
+												],
+											]); ?>
 								</div>
 								<div class="col-sm-10">
 	    <?= $form->field($ms, 'Bis')->widget(DatePicker::classname(),
@@ -78,7 +79,7 @@ use frontend\models\Schulen;
 ]]) ?>
 								</div>
 								<div class="col-sm-10">
-    <?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'Schulname', 'Disziplin' ),
+    <?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
 [ 'prompt' => 'Schule' ]
 ) ?>
 								</div>
@@ -106,9 +107,10 @@ use frontend\models\Schulen;
 							<?php Modal::end();?>
 							<?php $form = ActiveForm::end(); ?>
 						</div>
-					</div>
-				</div>		
-	</p>
+			</div>		
+	</div>
+</div>
+
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'columns' => [
@@ -119,11 +121,20 @@ use frontend\models\Schulen;
 												'controller' => 'mitgliederschulen',
 //												'width' => '60px',
 							],
+							[ 'class' => '\kartik\grid\ExpandRowColumn', 
+                'value' => function ($data, $model, $key, $index) { 
+                        return GridView::ROW_COLLAPSED;
+                    },
+								'detail' => function ($data, $id) {
+								$cont = Mitgliederschulen::findOne($id);
+                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$cont]);
+            		},
+							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disz.' ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Bis', 'value' => 'Bis', 'format' => ['date', 'php:d.m.Y'] ],
-							[ 'attribute' => 'KuendigungAm', 'value' => 'KuendigungAm', 'format' => ['date', 'php:d.m.Y'] ],
+/*							[ 'attribute' => 'KuendigungAm', 'value' => 'KuendigungAm', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'VDauerMonate', 'value' => 'VDauerMonate' ],
 							[ 'attribute' => 'MonatsBeitrag', 'value' => 'MonatsBeitrag' ],
 							[ 'attribute' => 'ZahlungsArt', 'value' => 'ZahlungsArt' ],
@@ -132,7 +143,11 @@ use frontend\models\Schulen;
 							[ 'attribute' => 'BeitragAussetzenBis', 'value' => 'BeitragAussetzenBis', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'BeitragAussetzenGrund', 'value' => 'BeitragAussetzenGrund' ],
 							[ 'attribute' => 'VertragId', 'value' => 'VertragId' ],
-							
+*/            	[ 'class' => 'yii\grid\ActionColumn',
+            						'template' => '{delete}',
+												'controller' => 'mitgliederschulen',
+							],
+
 				],
 	    ]); ?>
 
@@ -164,61 +179,6 @@ use frontend\models\Schulen;
              'BeitragAussetzenBis',
              'BeitragAussetzenGrund',
              'AufnahmegebuehrBezahlt',
-            // 'EWTONr',
-            // 'EWTOAustritt',
-            // 'BeitragOffenAb',
-            // 'BeitragOffenEuro',
-            // 'BeitragOffenBis',
-            // 'Mahngebuehren',
-            // 'GesamtOffen',
-            // 'Mahnung1Am',
-            // 'Mahnung2Am',
-            // 'Mahnung3Am',
-            // 'BarZahlungAm',
-            // 'InkassoAm',
-            // 'Zahlungsfrist',
-            // 'Bemerkungen',
-            // 'Betreff',
-            // 'Text',
-            // 'KontaktAm',
-            // 'KontaktArt',
-            // 'Bemerkung1',
-            // 'EinladungIAzum',
-            // 'warZumIAda',
-            // 'zumIAnichtDa',
-            // 'ProbetrainingAm',
-            // 'PTwarDa',
-            // 'zumPTnichtDa',
-            // 'VertragAbgeschlossen',
-            // 'VertragMit',
-            // 'Abschlussgespraech',
-            // 'Bemerkung2',
-            // 'WTPruefungZum',
-            // 'WTPruefungAm',
-            // 'KPruefungZum',
-            // 'KPruefungAm',
-            // 'EPruefungZum',
-            // 'EPruefungAm',
-            // 'GutscheinVon',
-            // 'Name2Schule',
-            // 'DM2Schule',
-            // 'NeuerBeitrag',
-            // 'Vereinbarung',
-            // 'RechnungsNr',
-            // 'VErgaenzungAb',
-            // 'Land',
-            // 'AussetzenDauer',
-            // 'Betrag',
-            // 'BezahltAm',
-            // 'ZahlungsweiseBetrag',
-          // 'AufnahmegebuehrBezahltAm',
-            // 'AufnGebuehrBetrag',
-            // 'SFirm',
-          // 'BListe',
-            // 'DVDgesendetAm',
-            // 'EsckrimaGraduierung',
-            // 'BeginnEsckrima',
-            // 'EndeEsckrima',
 
         ],
     ]); */ ?>
