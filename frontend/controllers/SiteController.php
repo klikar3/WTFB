@@ -12,6 +12,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 
 /**
  * Site controller
@@ -119,6 +120,25 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionMitgliederzahlen()
+    {
+        $datasets = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
+            ->from('mitgliederzahlen mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('jahr>:jahr and jahr<:bis', array(':jahr'=>2009,'bis'=>2016))
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahlen mz')
+            ->where('jahr>:jahr and jahr<:bis', array(':jahr'=>2009,'bis'=>2016))
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+            
+        return $this->render('mitgliederzahlen',['datasets' => $datasets, 'labels' => $labels]);
     }
 
     public function actionSignup()

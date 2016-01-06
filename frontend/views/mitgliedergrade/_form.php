@@ -24,12 +24,12 @@ use kartik\datecontrol\DateControl;
     
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'MitgliedId')->textInput(['disabled' => true]) ?>
+    <?= $form->field($model, 'MitgliedId')->hiddenInput()->label('') ?>
 
     <?= $form->field($model, 'GradId')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
 [ 'prompt' => '',
 	'value' => 'GradId']
-) ?>
+)->label('Graduierung') ?>
 
     <?= $form->field($model, 'Datum')->widget(DateControl::classname(), [
 							'type'=>DateControl::FORMAT_DATE,
@@ -46,14 +46,14 @@ use kartik\datecontrol\DateControl;
 
     <?= $form->field($model, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
 [ 'prompt' => '' ]
-) ?>
+)->label('Prüfer') ?>
 
 	<?= $form->field($model, 'print')->checkBox(
 	[ 'prompt' => 'Print' ]
 	) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Zuweisen') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\db\Query;
 use yii\helpers\VarDumper;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
@@ -131,7 +132,7 @@ class MitgliederController extends Controller
 				]);
 				
         if ($model->load(Yii::$app->request->post()) ) {
-        		Yii::info("---------------- model: ".Vardumper::dumpAsString($model));       
+        		Yii::info("----------------if model: ".Vardumper::dumpAsString($model));       
         		if ($model->save()){
             		return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
@@ -145,10 +146,10 @@ class MitgliederController extends Controller
 		        $model->Funktion = 'Schüler/in';
 		        $model->AktivPassiv = "Aktiv";
 		        $model->BeitrittDatum = $datum;
-		        $model->MitgliedsNr = Mitglieder::find()->max('MitgliedsNr') + 1;
-		        $model->MitgliederId = Mitglieder::find()->max('MitgliederId') + 1;
+		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
+		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
 		//        $grade = new Grade();
-        		Yii::info($model);
+        		Yii::info("----------------else model: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
                 'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider
             ]);

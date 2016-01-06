@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "schulen".
@@ -23,6 +24,19 @@ class Schulen extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'schulen';
+    }
+
+    public static function find()
+    { 
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+    			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+    	    $schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => $schulleiter->LeiterId])->all();
+					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
+					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
+		    	return parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )]);
+		  }
+		  return parent::find();
     }
 
     /**

@@ -10,6 +10,7 @@ use yii\helpers\VarDumper;
 use kartik\mpdf\Pdf;
 
 use frontend\models\Mitglieder;
+use frontend\models\Numbers;
 use frontend\models\Texte;
 use frontend\models\TexteSearch;
 
@@ -86,7 +87,7 @@ class TexteController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -125,28 +126,53 @@ class TexteController extends Controller
     
     public function actionPrint($datamodel, $dataid, $txtid)
     {
-        if ($datamodel = 'mitglieder') {
-					 $model = Mitglieder::findOne($dataid);
+//  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
+    		
+    		if ($txtid == '0') {
+    			$numbers = new Numbers();
+    			$numbers = Yii::$app->request->post('Numbers');
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers));
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
+
+ 					$textmodel = Texte::findOne($numbers['id']);
+				} else {
+					$textmodel = Texte::findOne($txtid);
+				}
+        if ($datamodel == 'mitglieder') {
+					$model = Mitglieder::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 				}
 				
-				$textmodel = Texte::findOne($txtid);
-				$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
-				$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
-				$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
-				$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-				$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-				$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
-				$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
-				$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
-				$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
-				$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
-				$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 				
+        if ($datamodel == 'vertrag') {
+/*					$model = Mitgliederschulen::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+*/				}
 							
 				$pdf = new Pdf([
-						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
-						'mode' => Pdf::MODE_BLANK,
+						'mode' => Pdf::MODE_UTF8,
 						// A4 paper format
 						'format' => Pdf::FORMAT_A4,
 						// portrait orientation
@@ -168,12 +194,12 @@ class TexteController extends Controller
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
-						'content' => $this->renderPartial('print', [
+						'content' => $this->renderPartial('_print', [
 		            'model' => $textmodel,
 		        ]),
 						'options' => [
-								'title' => 'Prüfungsliste',
-								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+								'title' => 'Ausdruck',
+								'subject' => ''
 						],
 						'methods' => [
 							'SetHeader' => [''],

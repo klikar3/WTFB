@@ -19,6 +19,7 @@ class MitgliedergradePrint extends Mitgliedergrade
     public function rules()
     {
         return [
+            [['mgID', 'MitgliedId', 'GradId', 'PrueferId','Datum'], 'required'],
             [['mgID', 'MitgliedId', 'GradId', 'PrueferId'], 'integer'],
             [['Datum'],'date'],
             [['print'],'boolean'],

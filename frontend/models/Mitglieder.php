@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\helpers\VarDumper;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use jschaedl\iban\library\IBAN\Validation\IBANValidator;
 use IBAN\Generation\IBANGenerator;
 use IBAN\Rule\RuleFactory;
@@ -194,11 +195,12 @@ class Mitglieder extends \yii\db\ActiveRecord
 		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
 		    	
 					// VarDumper::dump($schulleiter);
-					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 					// VarDumper::dump($schulleiterschulen);
-					$schule = Schulen::find()->where(['schulId' => $schulleiterschulen->SchulId])->one();
-					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
-		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
+					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+//					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
+//		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
+		    	return parent::find()->where( ['Schulort' => array_map(function ($v) { return $v->Schulname; }, $schule)]);
 		  }
 		  return parent::find();
     }
@@ -223,12 +225,14 @@ class Mitglieder extends \yii\db\ActiveRecord
     {
         return [
             [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
+            [['MitgliederId'], 'unique'],
 		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
             [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
             [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm'],'date', 'format' => 'php:Y-m-d'],
+            [['LetzteAenderung'],'date', 'format' => 'Y-m-d H:m:s'],
 //            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum', 'ProbetrainingAm', 'KontaktAm'], 'default', 'allowEmpty'=>true, 'value' => null],
-           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum'], 'safe'],
-           	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 'Status', 'Schulort', 
+           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung'], 'safe'],
+           	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'Status', 'Schulort', 
 						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
             [['Name', 'Betreff'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu'], 'string', 'max' => 50],
@@ -454,4 +458,12 @@ class Mitglieder extends \yii\db\ActiveRecord
 														if ($data == 1) return 'Ja';
 		}
 			
+		public function beforeValidate() {
+		    if (parent::beforeValidate()) {
+//		    		$jetzt = new \yii\db\Expression('NOW();');
+						$this->LetzteAenderung = date('Y-m-d H:i:s');
+		        return true;
+		    }
+		    return false;
+		}
 }

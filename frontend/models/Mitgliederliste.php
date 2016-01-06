@@ -70,6 +70,8 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             [['LeiterName'], 'string', 'max' => 80],
             [['DispName'], 'string', 'max' => 30],
             [['Vertrag'], 'string', 'max' => 50],
+            [['LetzteAenderung'], 'date', 'format' => 'php:Y-m-d'],
+            [['LetzteAenderung'], 'safe'],
         ];
     }
 
@@ -92,6 +94,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'PruefungZum' => Yii::t('app', ' '),
             'Grad' => Yii::t('app', 'Grade'),
             'Funktion' => Yii::t('app', 'Funktion'),
+            'LetzteAenderung' => Yii::t('app', 'LAe'),
         ];
     }
     

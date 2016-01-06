@@ -62,6 +62,9 @@ class MitgliederschulenController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
         return $this->redirect(['/mitgliederschulen/view', 
             'id' => $id,
         ]);
@@ -80,6 +83,9 @@ class MitgliederschulenController extends Controller
 //        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
             'id' => $model->MitgliederId, 'tabnum' => 3
         ]);
@@ -102,6 +108,9 @@ class MitgliederschulenController extends Controller
         $model = new Mitgliederschulen();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);
         } else {
             return $this->render('create', [
@@ -115,7 +124,10 @@ class MitgliederschulenController extends Controller
         $model = new Mitgliederschulen();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId]);
+	        $mitglied = $model->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
+            return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -134,6 +146,9 @@ class MitgliederschulenController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);
         } else {
             return $this->render('update', [
@@ -150,6 +165,9 @@ class MitgliederschulenController extends Controller
      */
     public function actionDelete($id)
     {
+	        $mitglied = $this->findModel($id)->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -157,10 +175,13 @@ class MitgliederschulenController extends Controller
 
     public function actionDeletefast($id)
     {
+	        $mitglied = $this->findModel($id)->mitglieder;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
     		$mid = $this->findModel($id)->MitgliederId;
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/mitglieder/view', 'id' => $mid]);
+        return $this->redirect(['/mitglieder/view', 'id' => $mid, 'tabnum' => 3]);
     }
     
     /**

@@ -52,7 +52,22 @@ use frontend\models\Sifu;
 //							]
 	          ],
 //            'Sifu',
-//            'LetzteAenderung',
+            [ 'attribute' => 'LetzteAenderung',
+            	'format' => ['date', 'php:d.m.Y H:i:s'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATETIME,
+ 									'ajaxConversion'=>true,
+//									'autoWidget' => true,
+//									'language' => 'de',
+							    'displayFormat' => 'php:d.m.Y H:i:s',
+							    'saveFormat' => 'php:Y-m-d H:i:s',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ]
       ],
     ]) ?>
 

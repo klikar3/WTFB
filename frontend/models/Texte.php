@@ -28,10 +28,11 @@ class Texte extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'fuer', 'txt'], 'required'],
+            [['code', 'fuer', 'txt', 'SchulId'], 'required'],
             [['txt'], 'string'],
             [['code'], 'string', 'max' => 50],
-            [['fuer'], 'string', 'max' => 99]
+            [['fuer'], 'string', 'max' => 99],
+            [[ 'SchulId'], 'number']
         ];
     }
 

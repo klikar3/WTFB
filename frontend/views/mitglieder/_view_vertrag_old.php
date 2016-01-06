@@ -40,8 +40,8 @@ use frontend\models\Schulen;
                 $header = '<center><h3>Neuen Schulvertrag zuweisen an<br>'.$model->Name.', '.$model->Vorname.'</h3></center>';
               ?>
     						<?php $form = ActiveForm::begin(['action' => ['mitgliederschulen/createfast'],
-																									'enableClientValidation' => true,
-																									'enableAjaxValidation' => false,
+    																							'enableAjaxValidation' => false,
+    																							'enableClientValidation' => true,
     																							'fieldConfig'=>['showLabels'=>true],
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
 																									'id' => 'login-form-horizontal',
@@ -49,8 +49,8 @@ use frontend\models\Schulen;
 																									'showErrors' => true,
 																									]
 																								]); ?>
-					<?= '<a font style="font-size:12pt;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
-								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
+								 <?= '<a font style="font-size:12pt;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+								 <?php Modal::begin([ 'id' => 'id_modal',
 									'header' => $header,
 									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
 	 								'footer'=>Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']) .
@@ -58,10 +58,12 @@ use frontend\models\Schulen;
 							]);
 							?>
 							<div class="row" style="margin-bottom: 8px">
+								<?= $form->errorSummary($model); ?>
 								<div class="col-sm-10">
-									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(''); ?> 
+									<?=  $form->field($ms, 'MitgliederId')->hiddenInput(['id' => 'id_mi'])->label(''); ?> 
 									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
 											[ 'type' => DateControl::FORMAT_DATE,
+//											  'autoWidget' => true,
  												'ajaxConversion'=>true,
 // 												'displayTimezone' => 'Europe/Berlin',
 //									    'displayFormat' => 'php:d.m.Y',
@@ -77,6 +79,8 @@ use frontend\models\Schulen;
 	    						<?= $form->field($ms, 'Bis')->widget(DateControl::classname(),
 											[	'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
+ 												'autoWidget' => true,
+
 												'options'=>[
 														'id' => 'bis-feld',
 														'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
@@ -87,27 +91,27 @@ use frontend\models\Schulen;
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
-[ 'prompt' => 'Schule' ]
+[ 'prompt' => 'Schule', 'id' => 'mgf_schul', ]
 ) ?>
 								</div>
 								<div class="col-sm-10">
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
-																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
+																			[ 'prompt' => 'Vertragsdauer in Monaten','id' => 'mgf_vdm', ]
 																		) ?>
 								</div>
 								<div class="col-sm-10">
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
-																			[ 'prompt' => 'MonatsBeitrag' ]
+																			[ 'prompt' => 'MonatsBeitrag','id' => 'mgf_mb', ]
 																		) ?>
 								</div>
 								<div class="col-sm-10">
     								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar']) ,
-																			[ 'prompt' => 'Zahlungsart' ]
+																			[ 'prompt' => 'Zahlungsart','id' => 'mgf_za', ]
 																		) ?>
 								</div>
 								<div class="col-sm-10">
     								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich']) ,
-																			[ 'prompt' => 'Zahlungsweise' ]
+																			[ 'prompt' => 'Zahlungsweise','id' => 'mgf_zi', ]
 																		) ?>
 								</div>
 							</div>

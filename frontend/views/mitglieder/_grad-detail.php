@@ -65,7 +65,7 @@ use frontend\models\Schulen;
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
             	'widgetOptions' => [
-//            	'id' => 'dv_vv_v_'.$model->msID,
+            	'id' => 'dv_vv_v_'.$model->mgID,
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',

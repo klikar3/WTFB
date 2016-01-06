@@ -33,7 +33,7 @@ class MitgliedergradeController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','createfast','print'],
+                        'actions' => ['index','view','create','update','delete','createfast','print','viewfrommitglied'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -72,9 +72,14 @@ class MitgliedergradeController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        return $this->redirect(['/mitgliedergrade/view', 
-            'id' => $id,
-        ]);
+//	        	$model = $this->findModel($id);
+	        $mitglied = $model->Mitglied;
+	        Vardumper::dump($mitglied) ;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
+	        return $this->redirect(['/mitgliedergrade/view', 
+	            'id' => $id,
+	        ]);
         } else {
             return $this->render('view', [
                 'model' => $model,
@@ -120,6 +125,9 @@ class MitgliedergradeController extends Controller
 //        $model->Datum = $datum;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglied;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->mgID]);
         } else {
             return $this->redirect(['mitgliedergrade/view', 'id' => $mId]);
@@ -159,8 +167,8 @@ class MitgliedergradeController extends Controller
         $modelp->GradId = $grad;
         $modelp->Datum = date('Y-m-d');
         $modelp->PrueferId = Yii::$app->user->identity->PrueferId;
-        $modelp->print = true;
-				Yii::Error( 'test');
+        $modelp->print = false;
+//				Yii::Error( 'test');
         if ($modelp->load(Yii::$app->request->post())) {
         		$model = new Mitgliedergrade();
         		$model->MitgliedId =$modelp->MitgliedId;
@@ -170,23 +178,26 @@ class MitgliedergradeController extends Controller
 //        		Yii::info("-----model: ".Vardumper::dumpAsString($model));
 //        		Yii::info("-----modelp: ".Vardumper::dumpAsString($modelp));
         		if (!$model->save()){
-            return $this->render('create', [
-                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider,  
-            ]);
-        			return $this->redirect(['/mitgliedergrade/createfast', 'id' => $mgID]);
+		        			return $this->redirect(['/mitgliedergrade/createfast', 'mId' => $mId, 'grad' => $grad]);
+		            return $this->render('create', [
+		                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider,  
+		            ]);
 						}
+		        $mitglied = $model->mitglied;
+		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+		        $mitglied->save();
         		$mgID = Yii::$app->db->getLastInsertID();
         		
         		$modelm = Mitglieder::find($mId)->one();
         		if ($modelm) {
-//  Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
+//  				Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
 		        		$modelm->PruefungZum = 0;
 		        		$modelm->save();
         		}
         		if ($modelp->print) {
 								return $this->redirect(['/mitgliedergrade/print', 'id' => $mgID]);
 						}
-            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliedId, ]);
+            return $this->redirect(['mitglieder/view', 'id' => $model->MitgliedId, 'tabnum' => 5, ]);
         } else {
             return $this->render('create', [
                 'model' => $modelp ,
@@ -208,7 +219,10 @@ class MitgliedergradeController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 //            return $this->redirect(['view', 'id' => $model->mgID]);
-        return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliedId]);
+	        $mitglied = $model->mitglied;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
+        return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliedId, 'tabnum' => 5]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -228,7 +242,7 @@ class MitgliedergradeController extends Controller
         $this->findModel($id)->delete();
 
 //        return $this->redirect(['index']);
-        return $this->redirect(['/mitglieder/view', 'id' => $mgid]);
+        return $this->redirect(['/mitglieder/view', 'id' => $mgid, 'tabnum' => 5]);
     }
 
     /**
@@ -307,12 +321,15 @@ class MitgliedergradeController extends Controller
 //        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglied;
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 4
+            'id' => $model->MitgliedId, 'tabnum' => 5
         ]);
         } else {
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 4
+            'id' => $model->MitgliedId, 'tabnum' => 5
 //            return $this->render('/mitglieder/view', [
 //                'model' => $mgModel,
             ]);

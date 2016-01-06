@@ -35,7 +35,8 @@ class Mitgliedergrade extends \yii\db\ActiveRecord
         return [
             [['MitgliedId', 'GradId', 'Datum', 'PrueferId'], 'required'],
             [['MitgliedId', 'GradId', 'PrueferId'], 'integer'],
-            [['Datum'], 'safe'],
+            [['Datum'], 'date', 'format' => 'php:Y-m-d'],
+//            [['Datum'], 'safe'],
             [['MitgliedId', 'GradId'], 'unique', 'targetAttribute' => ['MitgliedId', 'GradId'], 'message' => 'The combination of Mitglied ID and Grad ID has already been taken.']
         ];
     }

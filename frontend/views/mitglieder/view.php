@@ -19,10 +19,11 @@ use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
+use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Texte;
-
-
+?>
+<?php
     $items = [
 		    [
 				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
@@ -49,7 +50,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 3?true:false,
 		    ],
 				[
-				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Zahlung',
+				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Konto',
 						'content'=>$this->render('_view_zahlung', array(
 		                                'model'=>$model, 
 		                        ) ),
@@ -113,13 +114,6 @@ if($model->hasErrors()){
 		        <?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
 		        ]) ?>
-		        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->MitgliederId], [
-		            'class' => 'btn btn-danger',
-		            'data' => [
-		                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-		                'method' => 'post',
-		            ],
-		        ]) ?>
 		        <?php // Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
 		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
 		        //]) 
@@ -136,69 +130,50 @@ if($model->hasErrors()){
     </div><!-- content -->
     <div id="right" class="col-sm-2">
       <div class="row">
-      	<p>&nbsp;<br>&nbsp;<br>&nbsp;<br> </p>
-      </div>
-      <div class="row">
-        <p>
-		        <?= Html::a(Yii::t('app', 'Ausweis drucken'), ['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 'txtid' => 1 ], [
-		            'class' => 'btn btn-success',
+      	<p>&nbsp;<br>&nbsp;<br> </p>
+		        <?= Html::a(Yii::t('app', 'Löschen'), ['delete', 'id' => $model->MitgliederId], [
+		            'class' => 'btn btn-sm btn-danger',
 		            'data' => [
-//		                'confirm' => Yii::t('app', 'Wirklich Ausweis drucken?'),
+		                'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
 		                'method' => 'post',
 		            ],
 		        ]) ?>
-		    </p>
       </div>
       <div class="row">
-        <p>
-		        <?= Html::a(Yii::t('app', 'Beitrittsschreiben'), ['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 'txtid' => 2 ], [
-		            'class' => 'btn btn-success',
-		            'data' => [
-		                'confirm' => Yii::t('app', 'Wirklich Beitrittsschreiben drucken?'),
-		                'method' => 'post',
-		            ],
-		        ]) ?>
-		    </p>
+      	<a font size="5px">&nbsp;</a>
       </div>
       <div class="row">
-        <p>
 					<?php
-/*						$mg = new MitgliedergradePrint();
-						$datum = date('Y-m-d');
-    				$mg->Datum = $datum;
-            $mg->MitgliedId = $model->MitgliederId;
-            $mg->GradId = '';
-*/            
-						$txtid = '';
-          ?>
-					<?php Html::beginForm( $id = 'mg-pr-txt',
-																	$method = 'post',
-																	$action = ['texte/print',
-																									'datamodel' => 'mitglieder',
-																									'dataId' => $model->MitgliederId,
-																									'txtid' => $txtid ]
-	//																						'fieldConfig'=>['showLabels'=>true],
-	//																					'type' => ActiveForm::TYPE_HORIZONTAL,							
-																		); 
-					?>
-					<?php Modal::begin([ 
-						'header' => '<h2>Texte</h2>',
-						'toggleButton' => ['label' => 'Weitere Texte... ', 'class' => 'btn btn-sm btn-primary'],
-						'footer' => Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary','formtarget'=>'_blank']) .
-											Html::resetButton('Reset', ['class'=>'btn btn-sm btn-default'])
+					 $txtid = new Numbers();
+					 $txtid->id = 0;
+           if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
+					 $form = ActiveForm::begin( ['action' => Url::to(['texte/print',
+																										'datamodel' => 'mitglieder',
+																										'dataid' => $model->MitgliederId,
+																										'txtid' => $txtid->id,				
+																										'target' => '_blank', ]),
+																			'method' => 'post',
+																			'options' => [ 'target' => '_blank']
+//															[	$id = 'mg-pr-txt'
+													]	); 
+					Modal::begin([ 
+					'header' => '<center><h3>Texte</h3></center>',
+					'toggleButton' => ['label' => 'Auswahl Texte ', 'class' => 'btn btn-sm btn-primary'],
+					'footer' => Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']) .
+										Html::resetButton('Rücksetzen', ['class'=>'btn btn-sm btn-default'])
 					]);
 					?>
 					<div class="row" style="margin-bottom: 8px">
 						<div class="col-sm-10">
-  						<?= Html::dropDownList('txtid', $txtid, array_merge(["" => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code' )),
-									[ 'prompt' => 'Text' ]
+  						<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code' ))
+//									[ 'prompt' => 'Text' ]
 									); 
 							?>
 						</div>
 					</div>
 					<?php Modal::end();?>
-					<?php Html::endForm(); ?>
-		    </p>
+					<?php $form = ActiveForm::end();
+					}  ?>
       </div>
     </div><!-- right -->
 

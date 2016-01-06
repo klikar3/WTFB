@@ -26,6 +26,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -38,9 +39,6 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            $menuItems = [
-								['label' => 'Home', 'url' => ['/site/index']],
-            ];
             if (Yii::$app->user->isGuest) {
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
@@ -63,13 +61,19 @@ AppAsset::register($this);
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
 																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
-								}								
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']],
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																]];
+                $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
+																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
+																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
+																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
+																]];
+								}								
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],

@@ -18,6 +18,7 @@ use kartik\money\MaskMoney;
 use frontend\models\Mitglieder;
 use frontend\models\PruefungslisteForm;
 use frontend\models\Disziplinen;
+use frontend\models\Texte;
  
 
 
@@ -39,7 +40,8 @@ $mcf = new Mitglieder();
 //$mcf->BeitrittDatum = $datum;
 $mcf->Geschlecht = 'männlich';
 $mcf->Funktion = 'Schüler/in';
-$mcf->MitgliederId = Mitglieder::find()->max('MitgliederId') + 1;
+//$mcf->MitgliederId = Mitglieder::find()->max('MitgliederId') + 1;
+$mcf->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
 $mcf->MitgliedsNr = 0;
 
 $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
@@ -74,11 +76,12 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'filterModel'=>$searchModel,
+//						'emptyCell'=>'-',
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
 							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
-        		'tableOptions'=>['class'=>'table table-condensed'],
+        		'tableOptions'=>['class'=>'table table-striped table-condensed'],
         		'responsive' => true,    
 						'toolbar' => [
 										 	['content'=>$content_mcf  
@@ -101,36 +104,55 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
         'columns' => [
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{email}',
+            	'template' => '{email}{standard}',
 							'mergeHeader' => false,
-//							'label' => 'Aktion',
+//							'header' => 'Aktion',
 							'controller' => 'mitglieder',
 							'buttons' => [ 
 								'email' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['mitglieder/email', 'id' => $model->MitgliederId] ), [
+//									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+//													 				'txtid' => 5 ] ), [
+									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email),[
           					'target'=>'_blank',
 										'title' => Yii::t('app', 'Email an Mitglied senden'),
 							        ]);
 							    },
 							],
-							'width' => '60px',
+							'width' => '40px',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
 						],
 // 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
 //						],             
 						['format' => 'raw',
              'attribute' => 'NameLink',
 							'label' => 'Name',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
             ],
 //            'MitgliederId',
 //            'MitgliedsNr',
 //						'Name',
 //            'Vorname',
-            'Schulname',
-            'LeiterName',
-            ['attribute' => 'DispName', 'width' => '100px'],
-						'Funktion', 
-            'Vertrag',
-            ['attribute' => 'Grad', 'width' => '100px' ],
+            ['attribute' => 'Schulname',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						],
+            ['attribute' => 'LeiterName',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						],
+            ['attribute' => 'DispName', 'width' => '70px',
+													'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						],
+						['attribute' => 'Funktion', 'width' => '70px',							
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						], 
+            ['attribute' => 'Vertrag',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						],
+            ['attribute' => 'Grad', 'width' => '100px',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						 ],
+            ['attribute' => 'LetzteAenderung', 'width' => '100px', 'format' => ['date', 'php:d.m.Y H:i'], 
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:11px;'],                
+						],
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
 							'controller' => 'mitglieder',
@@ -152,6 +174,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							    
 							],
 							
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
 							'width' => '60px',
 						],
 //            'PruefungZum',
@@ -162,6 +185,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
 						    },
 							'width' => '60px',
+							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
 							'filterType' => 'checkbox',
 							'label' => 'P. zum',
 //							'mergeHeader' => true,

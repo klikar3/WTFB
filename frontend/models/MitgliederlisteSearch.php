@@ -22,7 +22,8 @@ class MitgliederlisteSearch extends Mitgliederliste
     {
         return [
             [['MitgliederId', 'MitgliedsNr'], 'integer'],
-            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion'], 'safe'],
+            [['LetzteAenderung'],'date', 'format' => 'd.m.Y'],
+            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung'], 'safe'],
         ];
     }
 
@@ -67,6 +68,7 @@ class MitgliederlisteSearch extends Mitgliederliste
 		            'Funktion',
 		            'Vertreg',
 		            'Grad',
+		            'LetzteAenderung'
 		        ]
 		    ]); 
 
@@ -101,6 +103,10 @@ class MitgliederlisteSearch extends Mitgliederliste
 						$query->andFilterWhere(['>', 'PruefungZum', 0 /*$this->PruefungZum*/]);
 				};
     		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" '  );
+        $query->andWhere('LetzteAenderung >= STR_TO_DATE("' . $this->LetzteAenderung . '" , "%e.%c.%Y %H:%i:%s")' );
+//				if ($this->LetzteAenderung) {
+//						$query->andFilterWhere(['>=', 'LetzteAenderung', $this->LetzteAenderung]);
+//				};
 		    
         return $dataProvider;
     }

@@ -104,8 +104,8 @@ use frontend\models\Schulen;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
-									'data' => array_merge(["0" => ""], ArrayHelper::map( Schulen::find()->all(), 
-									'SchulId', 'SchulDisp' )),
+									'data' => ArrayHelper::map( Schulen::find()->all(), 
+									'SchulId', 'SchulDisp' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
 									    'pluginOptions' => [

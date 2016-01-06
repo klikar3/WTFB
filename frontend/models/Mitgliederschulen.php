@@ -28,13 +28,30 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return 'mitgliederschulen';
     }
 
+    public static function find()
+    { 
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+		    	
+					// VarDumper::dump($schulleiter);
+					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
+					// VarDumper::dump($schulleiterschulen);
+					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+//					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
+//		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
+		    	return parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; }, $schule)]);
+		  }
+		  return parent::find();
+    }
+
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['MitgliederId', 'SchulId', 'Von'], 'required'],
+            [['MitgliederId', 'SchulId', 'Von','VDauerMonate','ZahlungsArt','Zahlungsweise','MonatsBeitrag'], 'required'],
             [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate','MitgliederId',], 'integer'],
             [['Von', 'Bis', 'VertragId', 'VDauerMonate','ZahlungsArt','Zahlungsweise','BeitragAussetzenGrund'], 'safe'],
             [['MonatsBeitrag'],'number'],
