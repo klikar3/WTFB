@@ -13,6 +13,8 @@ use yii\helpers\VarDumper;
  * @property integer $sort
  * @property string $Disziplin
  *
+ * @property Disziplinen $disziplin 
+ * @property Texte[] $textes 
  * @property Mitgliederschulen[] $mitgliederschulens
  * @property Schulleiterschulen[] $schulleiterschulens
  */
@@ -31,9 +33,9 @@ class Schulen extends \yii\db\ActiveRecord
 			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
     	    $schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => $schulleiter->LeiterId])->all();
-					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
-					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
-					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
 		    	return parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )]);
 		  }
 		  return parent::find();
@@ -46,11 +48,11 @@ class Schulen extends \yii\db\ActiveRecord
     {
         return [
             [['Schulname', 'sort', 'Disziplin'], 'required'],
-            [['sort'], 'integer'],
+            [['sort', 'Disziplin'], 'integer'],
             [['Schulname'], 'string', 'max' => 50],
             [['Disziplin'], 'string', 'max' => 30],
-            [['Schulname', 'Disziplin'], 'unique', 'targetAttribute' => ['Schulname', 'Disziplin'], 'message' => 'The combination of Schulname and Disziplin has already been taken.'],
-            [['Schulname', 'Disziplin'], 'unique', 'targetAttribute' => ['Schulname', 'Disziplin'], 'message' => 'The combination of Schulname and Disziplin has already been taken.']
+            [['Disziplin', 'Schulname'], 'unique', 'targetAttribute' => ['Disziplin', 'Schulname'], 'message' => 'The combination of Schulname and Disziplin has already been taken.'],
+		        [['Disziplin'], 'exist', 'skipOnError' => true, 'targetClass' => Disziplinen::className(), 'targetAttribute' => ['Disziplin' => 'DispId']],
         ];
     }
 
@@ -95,4 +97,13 @@ class Schulen extends \yii\db\ActiveRecord
 		    return $this->Schulname . ' ' . $this->disziplinen->DispKurz; // assuming you have a relation called profile
 		}
 
+		public function getDisziplin() 
+		   { 
+		       return $this->hasOne(Disziplinen::className(), ['DispId' => 'Disziplin']); 
+		   } 
+		 
+		public function getTextes()
+		   {
+      		 return $this->hasMany(Texte::className(), ['SchulId' => 'SchulId']);
+		   }
 }

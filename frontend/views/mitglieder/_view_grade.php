@@ -53,8 +53,9 @@ use frontend\models\Pruefer;
 					<?php Modal::begin([ 'id' => 'mg-modal',
 						'header' => $header,
 						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary'],
-						'footer'=>Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']) .
-											Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default'])
+						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . 
+											Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
+											
 					]);
 					?>
 				<div class="row" style="margin-bottom: 8px">
@@ -144,9 +145,10 @@ use frontend\models\Pruefer;
                         return GridView::ROW_COLLAPSED;
                     },
 								'detail' => function ($data, $id) {
-								$cont = Mitgliedergrade::findOne($id);
-                return Yii::$app->controller->renderPartial('_grad-detail', ['model'=>$cont]);
+									$cont = Mitgliedergrade::findOne($id);
+	                return Yii::$app->controller->renderPartial('_grad-detail', ['model'=>$cont]);
             		},
+            		'enableRowClick' => true,
 							],
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],

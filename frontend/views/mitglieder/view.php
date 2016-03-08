@@ -77,104 +77,58 @@ use frontend\models\Texte;
 		                        ) ),
 						'active' => $tabnum == 7?true:false,
 				],
-/*			    [
-				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Dropdown',
-				    'items'=>[
-						    [
-						    'label'=>'<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
-								    'encode'=>false,
-								    'content'=>'',
-								//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=3'])]
-						    ],
-						    [
-						    'label'=>'<i class="glyphicon glyphicon-chevron-right"></i> Option 2',
-								    'encode'=>false,
-								    'content'=>'',//$content4,
-//								    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=4'])]
-						    ],
-				    ],
-		    ],  */
+			    [
+				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Texte',
+						'content'=>$this->render('_view_texte', array(
+		                                'model'=>$model,  
+		                        ) ),
+						'active' => $tabnum == 8?true:false,
+						'headerOptions' => Yii::$app->user->identity->isAdmin ? ['class'=>'enabled'] : ['class'=>'disabled'],
+						
+		    ],  
     ];
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
-$this->title = $model->Vorname . ' ' . $model->Name;
-$this->title = '';
+//$this->title = $model->Vorname . ' ' . $model->Name;
+$this->title = $model->MitgliedsNr;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['/mitgliederliste/index']];
 $this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'zurück', 'url' => Yii::$app->request->getReferrer()];
+
 if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
 <div class="mitglieder-view">
   <div class="row">
     <div id="content" class="col-sm-10">
-      <div class="row">
-		 		<div class="col-sm-4">
-		        <?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
-		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-primary',
-		        ]) ?>
+		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
+		        ])*/ ?>
 		        <?php // Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
 		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
 		        //]) 
-						?>				</div>
-			</div>
-			<?php    // Ajax Tabs Left
-			    echo TabsX::widget([
-			    'items'=>$items,
-			    'position'=>TabsX::POS_ABOVE,
- 					'bordered'=>true,
-			    'encodeLabels'=>false
-			    ]);
-			?>
-    </div><!-- content -->
+						?>				
+				<?php    // Ajax Tabs Left
+				    echo TabsX::widget([
+				    'items'=>$items,
+				    'position'=>TabsX::POS_ABOVE,
+	 					'bordered'=>true,
+				    'encodeLabels'=>false
+				    ]);
+				?>
+	    </div><!-- content -->
     <div id="right" class="col-sm-2">
-      <div class="row">
-      	<p>&nbsp;<br>&nbsp;<br> </p>
-		        <?= Html::a(Yii::t('app', 'Löschen'), ['delete', 'id' => $model->MitgliederId], [
-		            'class' => 'btn btn-sm btn-danger',
-		            'data' => [
-		                'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
-		                'method' => 'post',
-		            ],
-		        ]) ?>
-      </div>
-      <div class="row">
-      	<a font size="5px">&nbsp;</a>
-      </div>
-      <div class="row">
-					<?php
-					 $txtid = new Numbers();
-					 $txtid->id = 0;
-           if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
-					 $form = ActiveForm::begin( ['action' => Url::to(['texte/print',
-																										'datamodel' => 'mitglieder',
-																										'dataid' => $model->MitgliederId,
-																										'txtid' => $txtid->id,				
-																										'target' => '_blank', ]),
-																			'method' => 'post',
-																			'options' => [ 'target' => '_blank']
-//															[	$id = 'mg-pr-txt'
-													]	); 
-					Modal::begin([ 
-					'header' => '<center><h3>Texte</h3></center>',
-					'toggleButton' => ['label' => 'Auswahl Texte ', 'class' => 'btn btn-sm btn-primary'],
-					'footer' => Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']) .
-										Html::resetButton('Rücksetzen', ['class'=>'btn btn-sm btn-default'])
-					]);
-					?>
-					<div class="row" style="margin-bottom: 8px">
-						<div class="col-sm-10">
-  						<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code' ))
-//									[ 'prompt' => 'Text' ]
-									); 
-							?>
-						</div>
-					</div>
-					<?php Modal::end();?>
-					<?php $form = ActiveForm::end();
-					}  ?>
-      </div>
+	      <?= Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i>&nbsp;Löschen'), ['delete', 'id' => $model->MitgliederId], [
+	          'class' => 'btn btn-sm btn-danger',
+	          'data' => [
+	              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
+	              'method' => 'post',
+	          ],
+	          'style' => 'width: 80px; text-align: left;',
+	
+	      ]); ?>
     </div><!-- right -->
 
   </div>

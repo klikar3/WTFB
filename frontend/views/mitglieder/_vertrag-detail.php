@@ -25,6 +25,7 @@ use frontend\models\Schulen;
 /* @var $model app\models\Mitglieder */
 
 ?>
+<div class="col-sm-9 col-md-9" >
     <?= DetailView::widget([
     		'id' => 'dv_vv_'.$model->msID,
         'model' => $model,
@@ -40,6 +41,7 @@ use frontend\models\Schulen;
 				'formOptions' => [
 							'action' => ['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3 ],
 				],
+				'labelColOptions' => [ 'style' => 'width:120px;'],
         'attributes' => [
             [ 'attribute' => 'VDauerMonate',
             	'id' => 'dv_vv_a_'.$model->msID,
@@ -187,3 +189,61 @@ use frontend\models\Schulen;
 
         ],
     ]);  ?>
+</div>
+<div class="col-sm-3 col-md-3" >
+<?php if (Yii::$app->user->identity->isAdmin) { ?>
+ <div class="row"style="margin-bottom: 8px;height:32px;">
+ </div>
+ <div class="row"style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'txtid' => 1 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Ausweis drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+ </div>												        
+ <div class="row"style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'txtid' => 2 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Begrüßung drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+ </div>												        
+ <div class="row"style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'txtid' => 3 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Aussetzen drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+ </div>												        
+ <div class="row"style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'txtid' => 4 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Kündigung drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+ </div>												        
+ <div class="row"style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Standard-Email',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'txtid' => 5 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Standard-Email drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]);
+ ?>
+	</div>
+<?php } ?>	
+</div>

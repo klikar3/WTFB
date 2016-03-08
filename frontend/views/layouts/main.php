@@ -67,15 +67,18 @@ AppAsset::register($this);
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																]];
-                $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
+/*                $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																]];
-								}								
+*/								}								
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
+                $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
+																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[
 																	['label' => 'Logout', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
@@ -98,7 +101,7 @@ AppAsset::register($this);
 
         <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 
         ]) ?>
         <?php /*echo Alert::widget()*/ 
 foreach (Yii::$app->session->getAllFlashes() as $key => $message) {

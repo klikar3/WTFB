@@ -1,14 +1,23 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+
+use kartik\widgets\ActiveForm;
+use kartik\popover\PopoverX;
+use kartik\datecontrol\DateControl;
+use kartik\widgets\DatePicker;
 
 use dosamigos\chartjs\ChartJs;
 //use robregonm\rgraph\RGraphAsset;
 //use robregonm\rgraph\RGraphBarAsset;
 //use robregonm\rgraph\RGraphWidget;
 //use robregonm\rgraph\RGraphBar;
-use klikar3\rgraph\RGraphBar;
+//use klikar3\rgraph\RGraphBar;
 use klikar3\rgraph\RGraphLine;
+
+use frontend\models\AuswertungenForm;
+use frontend\models\Schulen;
 
 
 /* @var $this yii\web\View */
@@ -18,6 +27,49 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
+  <div class="row">    
+			<?php
+//					$schule = 10;
+//					$von = '01.01.2016';
+		 			$form = ActiveForm::begin( ['method' => 'post',
+					 														'action' => Url::to(['site/mitgliederzahlen',]),
+																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
+																		 ]	); 
+			?>
+			<?= $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'Schulname', 'Disziplin' ),
+							['style'=>'width:200px']
+							)										
+//									->label('Textauswahl'); 
+			?>
+			<?= $form->field($model, 'von')->widget(DatePicker::classname(), [
+							'value' => $model->von, 
+							'options'=>['placeholder'=>'Von'], 
+							'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy', 'convertFormat' => true,
+									'todayHighlight' => true, 'todayBtn' => true,
+							]									
+					]);
+			?>		
+			<?= $form->field($model, 'bis')->widget(DatePicker::classname(), [
+							'value' => $model->bis, 
+							'options'=>['placeholder'=>'Bis'], 
+							'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy', 'convertFormat' => true,
+									'todayHighlight' => true, 'todayBtn' => true, 
+							]
+					]);
+			?>
+
+					<div style="text-align: right;">
+					<?= Html::resetButton('Rücksetzen', ['class'=>'btn btn-sm btn-default']) . '  ' . 
+								Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']);
+					?>
+					</div>
+			<?php 
+				$form = ActiveForm::end();
+		 	?>
+
+  </div>  
+<?php if (!empty($datasets)) {
+?>    
     <table>
     	<tr> <td>
 <p><a font style="color:#bcbcbc;background-color:#bcbcbc;font-size:7pt">nbsp;</a><a font style="color:#bcbcbc;font-size:7pt"> WT-Eintritte </a><br>
@@ -139,38 +191,25 @@ $this->params['breadcrumbs'][] = $this->title;
 			</td>
 		</tr>
 		</table>
-				<?= 
-				   RGraphBar::widget([
-					    'data' => ArrayHelper::getColumn($datasets,'WT-Eintritt'),
-					    'options' => [
-        'height' => 400,
-        'width' => 800,
-					        'chart' => [
-					            'gutter' => [
-					                'left' => 35,
-					            ],
-					            'colors' => ['red'],
-					            'title' => 'A basic chart',
-					            'labels' => ArrayHelper::getColumn($labels,'l'),
-					        ]
-					    ]
-					]);
-				?>
-				<?= 
-				   RGraphLine::widget([
-					    'data' => ArrayHelper::getColumn($datasets,'WT-Eintritt'),
-					    'options' => [
-        'height' => 400,
-        'width' => 800,
-					        'chart' => [
-					            'gutter' => [
-					                'left' => 35,
-					            ],
-					            'colors' => ['red'],
-					            'title' => 'A basic chart',
-					            'labels' => ArrayHelper::getColumn($labels,'l'),
-					        ]
-					    ]
-					]);
-				?>
+			<?php  
+			   RGraphLine::widget([
+        		'allowDynamic' => true,
+				    'data' => !empty($datasets) ? array_map('intval', ArrayHelper::getColumn($datasets,'WT-Eintritt')) : [ 0 ],
+				    'options' => [
+				        'height' => 400,
+				        'width' => 800,
+		            'colors' => ['red'],
+           			'filled' => true,
+		            'title' => 'WT-Eintritte',
+		            'labels' => !empty($labels) ? array_map(function($val){return substr($val,0,15);},
+                                  array_column(array_chunk(ArrayHelper::getColumn($labels,'l'),count($labels)/10),0)
+                        ) : [ 'No Data' ],
+                'numxticks' => 10,
+	              'textAngle' => 45,
+	              'textSize' => 8,
+	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
+	              'titleSize' => 12,
+				    ]
+				 ]);
+}			?>
 </div>

@@ -27,7 +27,7 @@ use frontend\models\Schulen;
 ?>
 			<div class="row">
 			<div class="col-sm-12">
-				<div class="panel panel-info"><div class="panel-heading">
+				<div class="panel panel-info"><div class="panel-heading panel-sm" style="margin-bottom: 8px">
 							<?php
 								$ms = new MitgliederSchulen();
 								$datum = date('php:Y-m-d');
@@ -46,15 +46,15 @@ use frontend\models\Schulen;
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
 																									'id' => 'login-form-horizontal',
 																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL,
-																									'showErrors' => true,
+																										'showErrors' => true,
 																									]
 																								]); ?>
 					<?= '<a font style="font-size:12pt;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
 									'header' => $header,
 									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
-	 								'footer'=>Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']) .
-														Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default'])
+	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']),
+									'size'=>'modal-sm',					
 							]);
 							?>
 							<div class="row" style="margin-bottom: 8px">
@@ -117,13 +117,12 @@ use frontend\models\Schulen;
 			</div>		
 	</div>
 </div>
-
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'columns' => [
 //	            'msID',
 //							'MitgliederId', 
-            	[ 'class' => '\kartik\grid\ActionColumn',
+/*            	[ 'class' => '\kartik\grid\ActionColumn',
       						'template' => '{Ausweis}{Begruessung}{Aussetzen}{Kuendigung}{standard}',
 									'controller' => 'mitgliederschulen',
 									'dropdown' => true,
@@ -172,14 +171,16 @@ use frontend\models\Schulen;
 			            ],
 //								'width' => '60px',
 							],
+*/							
 							[ 'class' => '\kartik\grid\ExpandRowColumn', 
                 'value' => function ($data, $model, $key, $index) { 
                         return GridView::ROW_COLLAPSED;
                     },
 								'detail' => function ($data, $id) {
-								$cont = Mitgliederschulen::findOne($id);
-                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$cont]);
+									$cont = Mitgliederschulen::findOne($id);
+	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$cont]);
             		},
+            		'enableRowClick' => true,
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disz.' ],
@@ -210,8 +211,11 @@ use frontend\models\Schulen;
 							],
 
 				],
+    			'options' => ['htmlOptions' => [
+      											'style' => 'overflow-y:scroll;height:800px;',
+  											],
+					],				
 	    ]); ?>
-
 
 
     <?php /*echo DetailView::widget([
