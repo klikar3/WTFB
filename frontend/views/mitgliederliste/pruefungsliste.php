@@ -27,22 +27,23 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
 ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel, 
+//        'filterModel' => $searchModel, 
 //        'layout'=>"{summary}\n{items}\n{pager}",
         'layout'=>"{items}",
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'font-size: 36px;']],
+            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'font-size: 18px;']],
 						['format' => 'raw',
              'attribute' => 'NameLink',
-        		 'contentOptions' => ['style' => 'font-size: 36px;'],
+        		 'contentOptions' => ['style' => 'font-size: 18px;width:600px'],
             ],
-						['format' => 'raw',
+/*						['format' => 'raw',
              'attribute' => 'MitgliederId',
         		 'contentOptions' => ['style' => 'font-size: 36px;'],
             ],
+*/            
 						['format' => 'raw',
              'attribute' => 'PZum',
-        		 'contentOptions' => ['style' => 'font-size: 36px; width: 180px;'],
+        		 'contentOptions' => ['style' => 'font-size: 18px; width: 180px;'],
             ],
              [
              'label'=>'Lg.-Gebühr',
@@ -50,26 +51,28 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
              'value'=>function ($data) use($plf) {
                         return Yii::t('app', $plf->pgeb);
                       },
-        		 'contentOptions' => ['style' => 'font-size: 36px; width: 150px;'],
+        		 'contentOptions' => ['style' => 'font-size: 18px; width: 150px;'],
              ],
              [
              'label'=>'P.-Gebühr',
+//				     'format'=>['decimal',2],
              'format' => 'raw',
-             'value'=>'PGeb',
-        		 'contentOptions' => ['style' => 'font-size: 36px;'],
+             'value'=>function ($data) {
+                        return ($data->PGeb=='0') ? '' : $data->PGeb;
+                      },
+        		 'contentOptions' => ['style' => 'font-size: 18px;'],
              ],
              [
              'label'=>'Gesamt',
-//             'format' => 'raw',
-				     'format'=>['decimal',2],
+             'format' => 'raw',
+//				     'format'=>['decimal',2],
              'value'=>function ($data) use($plf) {
-                        if (empty($data)) return 0;
-                        return $data->PGeb + $plf->pgeb;
+                        return ($data->PGeb=='0') ?  '': ($data->PGeb + $plf->pgeb );
                       },
-        		 'contentOptions' => ['style' => 'font-size: 36px;'],
+        		 'contentOptions' => ['style' => 'font-size: 18px;'],
              ],
         ],
-        'showFooter' => true,
+        'showFooter' => false,
 //        'beforeFooter' => [ [
   //      		'columns' => ['','','']
 //        	]

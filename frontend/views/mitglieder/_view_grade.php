@@ -24,9 +24,10 @@ use frontend\models\Pruefer;
 /* @var $model app\models\Mitglieder */
 
 ?>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="panel panel-info"><div class="panel-heading">
+	<div class="row">
+	  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info" style="font-size:0.9em;">
+					<div class="panel-heading panel-xs" style="margin-bottom: 0px;">
 					<?php
 						$mg = new MitgliedergradePrint();
 						$datum = date('Y-m-d');
@@ -34,8 +35,16 @@ use frontend\models\Pruefer;
             $mg->MitgliedId = $model->MitgliederId;
             $mg->GradId = null;
             $mg->PrueferId = null; 
-						$header = '<center><h3>Neue Graduierung zuweisen an<br>'.$model->Name.', '.$model->Vorname.'</h3></center>';         
+						$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
           ?>
+					<?= 'Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+					<?php Modal::begin([ 'id' => 'mg-modal',
+						'header' => $header,
+						'size'=>'modal-md',					
+						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary'],
+//						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
+					]);
+					?>
 					<?php $form = ActiveForm::begin([ 'action' => ['mitgliedergrade/createfast',
 																													'mId' => $mg->MitgliedId,
 																													'grad' => ''
@@ -49,17 +58,10 @@ use frontend\models\Pruefer;
 																							'showErrors' => true,
 																						]
 																						]); ?>
-					<?= '<a font style="font-size:12pt;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
-					<?php Modal::begin([ 'id' => 'mg-modal',
-						'header' => $header,
-						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary'],
-						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . 
-											Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
-											
-					]);
-					?>
-				<div class="row" style="margin-bottom: 8px">
-					<div class="col-sm-10">
+							<div class="row">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label('') ; ?>
 							<?php  echo $form->field($mg, 'Datum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
@@ -75,57 +77,30 @@ use frontend\models\Pruefer;
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
 								]); ?>
-					</div>
-					<div class="col-sm-10">
 				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
 													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
-					</div>
-					<div class="col-sm-10">
     				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
 														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
-					</div>
-					<div class="col-sm-10">
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
+						<div style="text-align:right;">
+						<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "    " . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
+						?>
+						</div>
 					</div>
-				</div>
-					<?php Modal::end();?>
+					</div>									
 					<?php $form = ActiveForm::end(); ?>
+					<?php Modal::end();?>
 				</div>
 			</div>		
-	</div>
-</div>
-
-	<?php /* echo GridView::widget([
-	        'dataProvider' => $grade,
-//	        'filterModel' => $searchModel,
-	        'columns' => [
-//	            ['class' => 'yii\grid\SerialColumn'],
-//							'MitgliedId', 
-							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
-							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
-							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
-//							 'PrueferId',	        
-							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
-            	[ 'class' => 'yii\grid\ActionColumn',
-            						'template' => '{view} &nbsp;&nbsp; {delete} &nbsp;&nbsp; {print}',
-												'controller' => 'mitgliedergrade',
-												'buttons' => [ 
-													'print' => function ($url, $model) {
-        										return Html::a('<span class="glyphicon glyphicon-print"></span>', Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Urkunde drucken'),
-												        ]);
-												    }
-												],
-//												'width' => '30px',
-							],
-				],
-	    ]);*/ ?>
 
 
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
+					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
+					],
+					'rowOptions' => [ 'style' => 'font-size:0.85em',
+					],
 	        'columns' => [
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{print}',
@@ -166,4 +141,6 @@ use frontend\models\Pruefer;
 				],
 	    ]); ?>
 
+	</div>
+</div>
 

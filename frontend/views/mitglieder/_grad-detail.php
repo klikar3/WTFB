@@ -34,11 +34,13 @@ use frontend\models\Schulen;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Grad # ' . $model->mgID,
+					'heading'=>'&nbsp;', // Grad # ' . $model->mgID,
 					'type'=>DetailView::TYPE_INFO,
 				],
 				'formOptions' => [
 							'action' => ['mitgliedergrade/viewfrommitglied', 'id' => $model->mgID, 'tabnum' => 3 ],
+				],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
         'attributes' => [
 /*             [ 'attribute' => 'MitgliedId',

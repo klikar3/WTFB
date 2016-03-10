@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
@@ -20,6 +21,8 @@ use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
+use frontend\models\Vertrag;
+use frontend\models\SearchVertrag;
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
@@ -35,19 +38,36 @@ use frontend\models\Schulen;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Vertrag # ' . $model->msID,
+					'heading'=>'&nbsp;', // Vertrag # ' . $model->msID,
 					'type'=>DetailView::TYPE_INFO,
 				],
 				'formOptions' => [
 							'action' => ['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3 ],
 				],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
+				],
 				'labelColOptions' => [ 'style' => 'width:120px;'],
         'attributes' => [
+            [ 'attribute' => 'SchulId',
+							'id' => 'schulid_'.$model->msID,
+            	'value' => $model->schul->SchulDisp,
+            	'format' => 'raw',
+            	'ajaxConversion' => true,
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'name' => 'schulid_w_'.$model->msID,
+									'data' => ArrayHelper::map( Schulen::find()->all(), 
+									'SchulId', 'SchulDisp' ),
+							    'options' => [ 
+				            	'id' => 'dv_vv_si_o_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
+							 ]             
+            ],    
             [ 'attribute' => 'VDauerMonate',
             	'id' => 'dv_vv_a_'.$model->msID,
-            ],
-            [ 'attribute' => 'MonatsBeitrag',
-            	'id' => 'dv_vv_mb_'.$model->msID,
             ],
             [ 'attribute' => 'Von',
             	'format' => ['date', 'php:d.m.Y'],
@@ -62,22 +82,6 @@ use frontend\models\Schulen;
 							    'options' => [
 				            	'id' => 'dv_vv_v_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
-									],
-							]
-            ],
-//             'Bis',
-            [ 'attribute' => 'Bis',
-            	'format' => ['date', 'php:d.m.Y'],
-            	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
-            	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
-							    'options' => [
-				            	'id' => 'dv_vv_b_'.$model->msID,											
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
             ],
@@ -97,25 +101,25 @@ use frontend\models\Schulen;
 									],
 							]
             ],
-//             'SchulId',
-            [ 'attribute' => 'SchulId',
-							'id' => 'schulid_'.$model->msID,
-            	'value' => $model->schul->SchulDisp,
-            	'format' => 'raw',
+//             'Bis',
+            [ 'attribute' => 'Bis',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
-            	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
-									'name' => 'schulid_w_'.$model->msID,
-									'data' => ArrayHelper::map( Schulen::find()->all(), 
-									'SchulId', 'SchulDisp' ),
-							    'options' => [ 
-				            	'id' => 'dv_vv_si_o_'.$model->msID,											
-									    'pluginOptions' => [
-									        'allowClear' => true,
-									    ],
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_b_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
-							 ]             
-            ],    
+							]
+            ],
+            [ 'attribute' => 'MonatsBeitrag',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
 //             'ZahlungsArt',
 //             'Zahlungsweise',
 						[ 'attribute' => 'ZahlungsArt',  
@@ -124,7 +128,7 @@ use frontend\models\Schulen;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_za_w_'.$model->msID,											
-									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar'],
+									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung'],
 							    'options' => [
 				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -245,5 +249,65 @@ use frontend\models\Schulen;
 												        ]);
  ?>
 	</div>
-<?php } ?>	
+<?php } ?>
+	<div class="row"style="margin-bottom: 8px">
+		<?php	if (!empty($model->vertrag)) {
+				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
+															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
+													 				'tabnum' => 3 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Vertrag ansehen'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]);
+		}										        
+ ?>
+	</div>
+ <div class="row"style="margin-bottom: 8px">
+		<?php	
+			Modal::begin([
+			    'header'=>'<center>Vertrag hochladen</center>',
+					'size'=>'modal-md',					
+			    'toggleButton' => [
+			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hochladen</span>', 'class'=>'btn btn-default'
+			    ],
+			]);
+			$form1 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data'] // important
+			]);
+		?>
+		<p>	
+		<?php	
+			// A block file picker button with custom icon and label
+			echo FileInput::widget([
+			    'name' => 'attachment_53',
+			    'pluginOptions' => [
+			        'showCaption' => false,
+			        'showRemove' => false,
+			        'showUpload' => true,
+			        'uploadLabel' => "Hochladen",
+			        'msgSizeTooLarge' => "Die Datei '{name}'' ({size} KB) ist größer als die Maximalgröße von {maxSize} KB!",
+			        'previewClass' => '',
+			        'mainClass' => '',
+			        'browseClass' => 'btn btn-default btn-sm',
+			        'browseIcon' => '<i class="glyphicon glyphicon-list-alt"></i> ',
+			        'browseLabel' =>  'Pdf auswählen',
+			        'maxFileSize' => 1024,
+			        'maxFileCount' => 1,
+			        'allowedFileExtensions' => ['jpg','gif','png','pdf'],
+			        'uploadUrl' => Url::toRoute(['mitgliederschulen/upload', 'id' => $model->msID, 
+													 				'tabnum' => 3 ] )
+			    ],
+			    'options' => ['accept' => 'image/* text/*',
+			    		'multiple' => false,
+					]
+			]);
+		?>
+		</p>	
+		<?php	
+			ActiveForm::end();
+			Modal::end();		
+		?>	
+	</div>
+			        	
 </div>

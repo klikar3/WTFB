@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $plf = new PruefungslisteForm();
 $datum = date('d.m.Y');
 $plf->datum = $datum;
-$plf->pgeb = 35.01;
+$plf->pgeb = 40.00;
 $plf->disp = 'Wing Tzun';
 $content_plf = $this->render('pliste_preform',['plf' => $plf]);
 
@@ -66,7 +66,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
           <div class="row">
-            <div id="content" class="col-sm-12">
+            <div id="content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 
     <?php echo DynaGrid::widget([
@@ -118,40 +118,40 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							        ]);
 							    },
 							],
-							'width' => '40px',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'width' => '3em',
+							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.9em;'*/],
 						],
 // 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
 //						],             
 						['format' => 'raw',
              'attribute' => 'NameLink',
 							'label' => 'Name',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.9em;'*/],
             ],
 //            'MitgliederId',
 //            'MitgliedsNr',
 //						'Name',
 //            'Vorname',
             ['attribute' => 'Schulname',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'table_class'],
 						],
             ['attribute' => 'LeiterName',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'table_class'],
 						],
-            ['attribute' => 'DispName', 'width' => '70px',
-													'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+            ['attribute' => 'DispName', 'width' => '5em',
+													'contentOptions' =>['class' => 'table_class'],
 						],
-						['attribute' => 'Funktion', 'width' => '70px',							
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+						['attribute' => 'Funktion', 'width' => '5em',							
+							'contentOptions' =>['class' => 'table_class'],
 						], 
             ['attribute' => 'Vertrag',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'table_class'],
 						],
-            ['attribute' => 'Grad', 'width' => '100px',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+            ['attribute' => 'Grad', 'width' => '7em',
+							'contentOptions' =>['class' => 'table_class'],
 						 ],
-            ['attribute' => 'LetzteAenderung', 'width' => '100px', 'format' => ['date', 'php:d.m.Y H:i'], 
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:11px;'],                
+            ['attribute' => 'LetzteAenderung', 'width' => '9em', 'format' => ['date', 'php:d.m.Y H:i'], 
+							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.8em;'*/],                
 						],
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
@@ -174,7 +174,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							    
 							],
 							
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+//							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
 							'width' => '60px',
 						],
 //            'PruefungZum',
@@ -184,7 +184,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						    'value' => function ($model, $index, $widget) {
 						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
 						    },
-							'width' => '60px',
+							'width' => '4em',
 							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
 							'filterType' => 'checkbox',
 							'label' => 'P. zum',
@@ -195,103 +195,6 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        'export' => true,    
 		]); ?>
 
-    <?php /* echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'tableOptions'=>['class'=>'table table-condensed'],
-        'columns' => [
-            ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{email} &nbsp;&nbsp; {update}',
-							'controller' => 'mitglieder',
-							'buttons' => [ 
-								'email' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['mitglieder/email', 'id' => $model->MitgliederId] ), [
-          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Email an Mitglied senden'),
-							        ]);
-							    },
-							],
-							'width' => '60px',
-//							'dropdown' => true,     
-						],
-// 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
-//						],             
-						['format' => 'raw',
-             'attribute' => 'NameLink',
-            ],
-//            'MitgliederId',
-//            'MitgliedsNr',
-//						'Name',
-//            'Vorname',
-            'Schulname',
-            'LeiterName',
-            ['attribute' => 'DispName', 'width' => '100px'],
-						'Funktion', 
-            'Vertrag',
-            ['attribute' => 'Grad', 'width' => '100px' ],
-            ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
-							'controller' => 'mitglieder',
-							'buttons' => [ 
-								'markieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Für Prüfung vormerken'),
-							        ]);
-							    },
-								'graduieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-plus"></span>', Url::toRoute(['mitgliedergrade/create', 'model' => $model] ), [
-          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Graduierung'),
-							        ]);
-							    }
-							    
-							],
-							
-							'width' => '60px',
-//							'dropdown' => true,     
-						],
-//            'PruefungZum',
-						[
-						    'attribute' => 'PruefungZum',
-						    'format' => 'raw',
-						    'value' => function ($model, $index, $widget) {
-						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
-						    },
-							'width' => '60px',
-							'filterType' => 'checkbox',
-							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]]
-
-						],
-        ], // -- columns
-        'responsive' => true,    
-//        'export' => true,    
-				'toolbar' => [
-            ['content'=>
-								Html::a(Yii::t('app', '<i class="fa glyphicon glyphicon-plus"></i>', [
-	    						'modelClass' => 'Mitglieder',
-									]), ['/mitglieder/create'], [ 'class' => 'btn btn-success',
-								'title'=>'Neues Mitglied anlegen']) 
-						],
-					 	['content'=>
-								Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
-								'class'=>'btn btn-default',
-								'target'=>'_blank',
-								'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
-								'data-toggle'=>'tooltip',
-								'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
-								])  
-						],
-					 	['content'=>$content  
-						],
-						'{export}',
-						'{toggleData}',
-				],
-		    'panel' => [
-		        'heading' => '<b>Mitgliederliste</b>',
-		        'before' => '', //IMPORTANT
-		    ],
-		]); */?>
             </div><!-- content -->
 
          </div>

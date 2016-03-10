@@ -13,7 +13,16 @@ use Yii;
  * @property string $Von
  * @property string $Bis
  * @property string $VertragId
+ * @property string $VDauerMonate 
+ * @property string $MonatsBeitrag 
+ * @property string $ZahlungsArt 
+ * @property string $Zahlungsweise 
+ * @property string $BeitragAussetzenVon 
+ * @property string $BeitragAussetzenBis 
+ * @property string $BeitragAussetzenGrund 
+ * @property string $KuendigungAm 
  *
+ * @property Mitglieder $mitglieder 
  * @property Schulen $schul
  * @property Mitglieder $mitglieder
  * @property Vertrag $vertrag
@@ -51,12 +60,15 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['MitgliederId', 'SchulId', 'Von','VDauerMonate','ZahlungsArt','Zahlungsweise','MonatsBeitrag'], 'required'],
-            [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate','MitgliederId',], 'integer'],
-            [['Von', 'Bis', 'VertragId', 'VDauerMonate','ZahlungsArt','Zahlungsweise','BeitragAussetzenGrund'], 'safe'],
-            [['MonatsBeitrag'],'number'],
-            [['Von', 'Bis','KuendigungAm','BeitragAussetzenVon','BeitragAussetzenBis'],'date' , 'format' => 'php:Y-m-d'
-						],
+           [['MitgliederId', 'SchulId', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
+	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'VertragId'], 'safe'],
+	         [['MonatsBeitrag'], 'number'],
+	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
+	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
+	         [['MitgliederId'], 'exist', 'skipOnError' => true, 'targetClass' => Mitglieder::className(), 'targetAttribute' => ['MitgliederId' => 'MitgliederId']],
+	         [['SchulId'], 'exist', 'skipOnError' => true, 'targetClass' => Schulen::className(), 'targetAttribute' => ['SchulId' => 'SchulId']],
+	         [['VertragId'], 'exist', 'skipOnError' => true, 'targetClass' => Vertrag::className(), 'targetAttribute' => ['VertragId' => 'VertragId']],
         ];
     }
 
@@ -69,8 +81,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'msID' => Yii::t('app', 'a'),
             'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
             'SchulId' => Yii::t('app', 'Schule'),
-            'Von' => Yii::t('app', 'Von'),
-            'Bis' => Yii::t('app', 'Bis'),
+            'Von' => Yii::t('app', 'Eintritt'),
+            'Bis' => Yii::t('app', 'Austritt'),
             'VertragId' => Yii::t('app', 'Vertrag (.pdf)'),
 						'KuendigungAm' => Yii::t('app', 'Kündigung'),
 						'VDauerMonate' => Yii::t('app', 'V-Dauer'),

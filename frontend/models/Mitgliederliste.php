@@ -94,7 +94,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'PruefungZum' => Yii::t('app', ' '),
             'Grad' => Yii::t('app', 'Grade'),
             'Funktion' => Yii::t('app', 'Funktion'),
-            'LetzteAenderung' => Yii::t('app', 'LAe'),
+            'LetzteAenderung' => Yii::t('app', 'Letzte Änderung'),
         ];
     }
     

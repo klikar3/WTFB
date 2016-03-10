@@ -102,7 +102,7 @@ if($model->hasErrors()){
 }?>
 <div class="mitglieder-view">
   <div class="row">
-    <div id="content" class="col-sm-10">
+    <div id="content" class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -114,12 +114,13 @@ if($model->hasErrors()){
 				    echo TabsX::widget([
 				    'items'=>$items,
 				    'position'=>TabsX::POS_ABOVE,
+//				    'height' => TabsX::SIZE_LARGE,
 	 					'bordered'=>true,
 				    'encodeLabels'=>false
 				    ]);
 				?>
 	    </div><!-- content -->
-    <div id="right" class="col-sm-2">
+    <div id="right" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 	      <?= Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i>&nbsp;Löschen'), ['delete', 'id' => $model->MitgliederId], [
 	          'class' => 'btn btn-sm btn-danger',
 	          'data' => [

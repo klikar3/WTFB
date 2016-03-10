@@ -5,8 +5,11 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederschulenSearch;
+use frontend\models\Vertrag;
+use frontend\models\VertragSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -22,7 +25,7 @@ class MitgliederschulenController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','createfast','deletefast','viewfrommitglied'],
+                        'actions' => ['index','view','create','update','delete','createfast','deletefast','viewfrommitglied','upload','vertrag'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -205,10 +208,67 @@ class MitgliederschulenController extends Controller
     public function actionSchulDetail() {
         if (isset($_POST['expandRowKey'])) {
             $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
-            return $this->renderPartial('_vertrag-details', ['model'=>$model]);
+            return $this->renderPartial('_vertrag-detail', ['model'=>$model]);
         } else {
             return '<div class="alert alert-danger">No data found</div>';
         }
     }    
     
+    public function actionUpload($id,$tabnum)
+    {
+        $model = $this->findModel($id);
+//        $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
+        
+				$fileData = $_FILES['attachment_53'];
+				$image = UploadedFile::getInstanceByName($fileData['tmp_name']);
+				$file_blob = file_get_contents($fileData['tmp_name']);;
+				if (!empty($file_blob)) {
+	        if (!empty($model->VertragId)) {
+	        	$vertrag = $model->vertrag;
+					} else {
+						$vertrag = new Vertrag();
+				 	}
+				  $vertrag->pdf = $file_blob;
+				  $vertrag->name = $fileData['name'];
+				  $vertrag->typ = $fileData['type'];
+				  if ($vertrag->save()) {
+						$model->VertragId = $vertrag->VertragId;
+						if (!$model->save()) return '<div class="alert alert-danger">Konnte MitgliederSchulen nicht speichern</div>';;
+					}	
+				}
+				return json_encode($image);
+//				return $this->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$model]);
+/*        if (isset($_POST['expandRowKey'])) {
+            $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
+            return $this->renderPartial('_vertrag-details', ['model'=>$model]);
+        } else {
+            return '<div class="alert alert-danger">No data found</div>';
+        }
+*/        
+    }
+
+    public function actionVertrag($id,$tabnum)
+    {
+        $model = $this->findModel($id);
+//        $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
+        
+				$image =  $model->vertrag->pdf;
+				$typ = $model->vertrag->typ;
+/*				
+				Yii::$app->response->format = yii\web\Response::FORMAT_RAW;	
+				$headers = Yii::$app->response->headers;
+				$headers->add('Content-Type',$typ);
+				
+       return $this->renderPartial('/mitglieder/image', [
+            'image' => $image,
+            'typ' => $typ
+        ]);
+*/
+				$response = Yii::$app->getResponse();
+//				$response = yii\web\Response::make($image, 200);
+				$response->format = yii\web\Response::FORMAT_RAW;
+				$response->headers->set('Content-Type', $typ);
+				return $image;
+    }
+
 }

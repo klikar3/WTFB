@@ -38,7 +38,10 @@ use frontend\models\Sifu;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
+					'headingOptions' => ['style' => 'font-size:1em'],
 					'type'=>DetailView::TYPE_INFO,
+				],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
 				'formOptions' => [
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 7, ],

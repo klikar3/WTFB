@@ -24,10 +24,11 @@ use frontend\models\Schulen;
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
-?>
-			<div class="row">
-			<div class="col-sm-12">
-				<div class="panel panel-info"><div class="panel-heading panel-sm" style="margin-bottom: 8px">
+?>      
+	<div class="row">
+	  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info" style="font-size:0.9em;">
+					<div class="panel-heading panel-xs" style="margin-bottom: 0px;">
 							<?php
 								$ms = new MitgliederSchulen();
 								$datum = date('php:Y-m-d');
@@ -37,28 +38,31 @@ use frontend\models\Schulen;
                 $ms->MonatsBeitrag = null;
                 $ms->ZahlungsArt = null;
                 $ms->Zahlungsweise = null;
-                $header = '<center><h3>Neuen Schulvertrag zuweisen an<br>'.$model->Name.', '.$model->Vorname.'</h3></center>';
+                $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
+					<?= 'Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
+									'header' => $header,
+//									'headerOptions' => ['style' => 'height:1.5em'],
+									'toggleButton' => ['label' => 'Vertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
+//	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
+									'size'=>'modal-md',					
+							]);
+							?> 
     						<?php $form = ActiveForm::begin(['action' => ['mitgliederschulen/createfast'],
 																									'enableClientValidation' => true,
 																									'enableAjaxValidation' => false,
     																							'fieldConfig'=>['showLabels'=>true],
 																									'type' => ActiveForm::TYPE_HORIZONTAL,							
 																									'id' => 'login-form-horizontal',
-																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL,
+																									'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM,
 																										'showErrors' => true,
 																									]
 																								]); ?>
-					<?= '<a font style="font-size:12pt;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
-								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
-									'header' => $header,
-									'toggleButton' => ['label' => 'Schulvertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
-	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']),
-									'size'=>'modal-sm',					
-							]);
-							?>
-							<div class="row" style="margin-bottom: 8px">
-								<div class="col-sm-10">
+							<div class="row">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(''); ?> 
 									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
 											[ 'type' => DateControl::FORMAT_DATE,
@@ -72,8 +76,6 @@ use frontend\models\Schulen;
 														
 												],
 											]); ?>
-								</div>
-								<div class="col-sm-10">
 	    						<?= $form->field($ms, 'Bis')->widget(DateControl::classname(),
 											[	'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
@@ -84,41 +86,37 @@ use frontend\models\Schulen;
 												],
 											]); ?>
 
-								</div>
-								<div class="col-sm-10">
-    <?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
-[ 'prompt' => 'Schule' ]
-) ?>
-								</div>
-								<div class="col-sm-10">
+    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
+																			[ 'prompt' => 'Schule' ]
+																		) ?>
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
 																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
 																		) ?>
-								</div>
-								<div class="col-sm-10">
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
 																			[ 'prompt' => 'MonatsBeitrag' ]
 																		) ?>
-								</div>
-								<div class="col-sm-10">
-    								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar']) ,
+    								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung']) ,
 																			[ 'prompt' => 'Zahlungsart' ]
 																		) ?>
-								</div>
-								<div class="col-sm-10">
     								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich']) ,
 																			[ 'prompt' => 'Zahlungsweise' ]
 																		) ?>
-								</div>
-							</div>
-							<?php Modal::end();?>
+										<div style="text-align:right;">
+										<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "   " .Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
+										?>
+										</div>
+								</div>										
+								</div>										
 							<?php $form = ActiveForm::end(); ?>
-						</div>
-			</div>		
-	</div>
-</div>
+							<?php Modal::end();?>
+			</div>				
+		</div>		
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
+					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
+					],
+					'rowOptions' => [ 'style' => 'font-size:0.85em',
+					],
 	        'columns' => [
 //	            'msID',
 //							'MitgliederId', 
@@ -212,38 +210,12 @@ use frontend\models\Schulen;
 
 				],
     			'options' => ['htmlOptions' => [
-      											'style' => 'overflow-y:scroll;height:800px;',
+      											'style' => 'overflow-y:scroll;height:800px;text-size:0.8em;',
   											],
 					],				
 	    ]); ?>
 
 
-    <?php /*echo DetailView::widget([
-    		'id' => 'dv_vv',
-        'model' => $model,
-				'condensed'=>true,
-				'hover'=>true,
-				'mode'=>DetailView::MODE_VIEW,
-				'mainTemplate' => '{detail}',
-				'buttons1' => '{update}',
-				'panel'=>[
-					'heading'=>'Mitglied # ' . $model->MitgliedsNr,
-					'type'=>DetailView::TYPE_INFO,
-				],
-        'attributes' => [
-             'VDauer',
-             'Monatsbeitrag',
-             'BeitrittDatum',
-             'KuendigungDatum',
-             'AustrittDatum',
-             'GruppenArt',
-             'Zahlungsart',
-             'Zahlungsweise',
-             'EinzugZum',
-             'BeitragAussetztenVon',
-             'BeitragAussetzenBis',
-             'BeitragAussetzenGrund',
-             'AufnahmegebuehrBezahlt',
 
-        ],
-    ]); */ ?>
+    </div>
+ </div>

@@ -22,11 +22,14 @@ use frontend\models\Disziplinen;
 																				'type' => ActiveForm::TYPE_VERTICAL,							
 																			]); ?>
 			<?php Modal::begin([ 
-				'header' => '<h2>Prüfungsliste erstellen</h2>',
+				'header' => '<center><h5>Prüfungsliste erstellen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-print"></i>', 'class' => 'btn btn-default', 
-													'title'=>'Prüfungsliste erstellen'],
-				'footer'=>Html::submitButton('Submit', ['class'=>'btn btn-sm btn-primary']) .
-									Html::resetButton('Reset', ['class'=>'btn btn-sm btn-default'])
+													'title'=>'Prüfungsliste erstellen','id' => 'mymodal'],
+				'footer'=> '<div class="col-sm-offset-4">'.Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) .
+											Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary', 
+															'onclick'=>"this.form.target='_blank';$('mymodal').modal('hide');return true;"]) . "</div>",
+				'size' => 'modal-sm'
+									
 		]);
 		?>
 		<?=  $form->field($plf, 'pgeb'	 	
@@ -49,5 +52,6 @@ use frontend\models\Disziplinen;
 																								]); ?>
 				<?= $form->field($plf, 'disp')->dropdownList(ArrayHelper::map( Disziplinen::find()->all(), 'DispName', 'DispName' )
 			); ?>
+
 		<?php Modal::end();?>
 		<?php $form = ActiveForm::end(); ?>

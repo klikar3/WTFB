@@ -172,6 +172,19 @@ class MitgliederlisteController extends Controller
         $query = Mitgliederliste::find()
                  ->where(['PruefungZum' => $grads] );
         $query->andFilterWhere(['>', 'PruefungZum', 0]);
+        
+        $d = new ActiveDataProvider([
+				     'query' => $query,
+				]);
+				$r = 36-($d->count % 36);
+				
+        $query2 = (new \yii\db\Query())
+        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
+    		->from('mitgliederliste')
+    		->join('RIGHT JOIN', 'tally','mitgliederliste.MitgliederId = null')
+    		->limit($r);
+				
+				$query->union($query2, true);//false is UNION, true is UNION ALL
 
 				$dataProvider = new ActiveDataProvider([
 				     'query' => $query,
