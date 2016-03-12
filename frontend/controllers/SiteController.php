@@ -140,9 +140,35 @@ class SiteController extends Controller
             ]);
         }
         
-        VarDumper::dump($model);
+//        VarDumper::dump($model);
         
         $datasets = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
+            ->from('mitgliederzahl1 mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('((jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)) and SchulId=:schule', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule))
+						->orderBy('jahr,monat')
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahl1 mz')
+            ->where('((jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)) and SchulId=:schule', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule))
+						->orderBy('jahr,monat')
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+           Vardumper::dumpAsString($datasets); 
+/*        $datasets = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
             ->from('mitgliederzahlen mz')
 //            ->join('tbl_profile p', 'u.id=p.user_id')
@@ -163,7 +189,7 @@ class SiteController extends Controller
 														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
 						->all();
 //        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
-            
+*/            
         return $this->render('mitgliederzahlen',['model' => $model, 'datasets' => $datasets, 'labels' => $labels]);
     }
 

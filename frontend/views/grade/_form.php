@@ -1,7 +1,11 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
+use frontend\models\Disziplinen;
+
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Grade */
@@ -14,8 +18,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'GradName')->textInput(['maxlength' => 30]) ?>
 
-    <?= $form->field($model, 'DispName')->textInput(['maxlength' => 30]) ?>
-
+    <?= $form->field($model, 'DispName')// ->textInput(['maxlength' => 30]) 
+    				->dropdownList(ArrayHelper::map( Disziplinen::find()->all(), 'DispName', 'DispName' )
+																			 									,['style'=>'']
+			);
+    ?>
     <?= $form->field($model, 'sort')->textInput(['maxlength' => 11]) ?>
 
     <?= $form->field($model, 'gKurz')->textInput(['maxlength' => 10]) ?>

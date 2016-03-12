@@ -60,6 +60,14 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 							 ],
 //							 'inputContainer' => ['class'=>'col-sm-6 table_class'],            
             ],
+            [ 'attribute' => 'Schulort',
+	            'format' => 'raw',
+	            'type' => DetailView::INPUT_SELECT2,
+	            'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+									'Schulname', 'Schulname' )),
+							]
+	          ],
             [ 'attribute' => 'Anrede',
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
@@ -99,8 +107,21 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'HandyNr',
 //            'Fax',
             'Email:email',
-            'Funktion',
-            'Sifu',
+            [ 'attribute' => 'Funktion',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+									'inhalt', 'inhalt' )),['style'=>'']),
+							 ]             
+            ],
+            [ 'attribute' => 'Sifu',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' )),
+							 ]             
+            ],
         		'PruefungZum',
         ],
     ]) ?>

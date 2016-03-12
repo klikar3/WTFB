@@ -76,15 +76,6 @@ use frontend\models\Schulen;
 														
 												],
 											]); ?>
-	    						<?= $form->field($ms, 'Bis')->widget(DateControl::classname(),
-											[	'type' => DateControl::FORMAT_DATE,
- 												'ajaxConversion'=>true,
-												'options'=>[
-														'id' => 'bis-feld',
-														'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-														
-												],
-											]); ?>
 
     								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
 																			[ 'prompt' => 'Schule' ]
@@ -181,7 +172,7 @@ use frontend\models\Schulen;
             		'enableRowClick' => true,
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
-							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disz.' ],
+							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disziplin' ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Bis', 'value' => 'Bis', 'format' => ['date', 'php:d.m.Y'] ],
 /*							[ 'attribute' => 'KuendigungAm', 'value' => 'KuendigungAm', 'format' => ['date', 'php:d.m.Y'] ],
@@ -196,14 +187,15 @@ use frontend\models\Schulen;
 */            	[ 'class' => 'yii\grid\ActionColumn',
             						'template' => '{delete}',
 												'controller' => 'mitgliederschulen',
+												'header' => '<center>Aktion</center>',
 												'buttons' => [ 
 													'delete' => function ($url, $model) {
-														return Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+														return '<center>'.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
 																					Url::toRoute(['mitgliederschulen/deletefast', 'id' => $model->msID] ), [
 				//	          					'target'=>'_blank',
 															'data-confirm' => 'Soll der Vertrag wirklich gelöscht werden?',
 															'title' => Yii::t('app', 'Vertrag löschen'),
-												        ]);
+												        ]) . '</center>';
 												    },
 												],
 							],

@@ -51,7 +51,7 @@ class Mitgliedergrade extends \yii\db\ActiveRecord
             'MitgliedId' => Yii::t('app', 'Mitglied ID'),
             'GradId' => Yii::t('app', 'Grad'),
             'Datum' => Yii::t('app', 'Datum'),
-            'PrueferId' => Yii::t('app', 'Pruefer'),
+            'PrueferId' => Yii::t('app', 'Prüfer'),
         ];
     }
 

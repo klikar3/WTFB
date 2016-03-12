@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $plf = new PruefungslisteForm();
 $datum = date('d.m.Y');
 $plf->datum = $datum;
-$plf->pgeb = 40.00;
+//$plf->pgeb = 40.00;
 $plf->disp = 'Wing Tzun';
 $content_plf = $this->render('pliste_preform',['plf' => $plf]);
 

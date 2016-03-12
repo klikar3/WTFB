@@ -10,7 +10,7 @@ use frontend\models\Grade;
 /* @var $searchModel frontend\models\MitgliedergradeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
+$this->title = Yii::t('app', 'Seminarliste für ' . $plf->datum);
 
 ?>
 <div class="mitgliedergrade-index">
@@ -31,10 +31,10 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
 //        'layout'=>"{summary}\n{items}\n{pager}",
         'layout'=>"{items}",
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'font-size: 18px;']],
+            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'font-size: 12pt;width: 50px;text-align:right;']],
 						['format' => 'raw',
              'attribute' => 'NameLink',
-        		 'contentOptions' => ['style' => 'font-size: 18px;width:600px'],
+        		 'contentOptions' => ['style' => 'font-size: 12pt;width: 500px;'],
             ],
 /*						['format' => 'raw',
              'attribute' => 'MitgliederId',
@@ -43,7 +43,7 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
 */            
 						['format' => 'raw',
              'attribute' => 'PZum',
-        		 'contentOptions' => ['style' => 'font-size: 18px; width: 180px;'],
+        		 'contentOptions' => ['style' => 'font-size: 12pt; width: 100px;text-align:right;'],
             ],
              [
              'label'=>'Lg.-Gebühr',
@@ -51,16 +51,16 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
              'value'=>function ($data) use($plf) {
                         return Yii::t('app', $plf->pgeb);
                       },
-        		 'contentOptions' => ['style' => 'font-size: 18px; width: 150px;'],
+        		 'contentOptions' => ['style' => 'font-size: 12pt; width: 100px;text-align:right;'],
              ],
              [
              'label'=>'P.-Gebühr',
 //				     'format'=>['decimal',2],
              'format' => 'raw',
              'value'=>function ($data) {
-                        return ($data->PGeb=='0') ? '' : $data->PGeb;
+                        return ($data->PGeb=='0') ? '' : Yii::$app->formatter->asDecimal($data->PGeb);
                       },
-        		 'contentOptions' => ['style' => 'font-size: 18px;'],
+        		 'contentOptions' => ['style' => 'font-size: 12pt;width: 100px;text-align:right;'],
              ],
              [
              'label'=>'Gesamt',
@@ -69,7 +69,7 @@ $this->title = Yii::t('app', 'Prüfungsliste für ' . $plf->datum);
              'value'=>function ($data) use($plf) {
                         return ($data->PGeb=='0') ?  '': ($data->PGeb + $plf->pgeb );
                       },
-        		 'contentOptions' => ['style' => 'font-size: 18px;'],
+        		 'contentOptions' => ['style' => 'font-size: 12pt;width: 100px;text-align:right;'],
              ],
         ],
         'showFooter' => false,

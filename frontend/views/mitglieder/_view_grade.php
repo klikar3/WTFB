@@ -104,6 +104,7 @@ use frontend\models\Pruefer;
 	        'columns' => [
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{print}',
+												'header' => '<span style:"text-align-left;">Aktion</span>',
 												'controller' => 'mitgliedergrade',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
@@ -129,9 +130,10 @@ use frontend\models\Pruefer;
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
 							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
 //							 'PrueferId',	        
-							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
+							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => 'Prüfer' ],
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{delete}',
+												'header' => '<span style:"text-align-left;">Aktion</span>',
 												'controller' => 'mitgliedergrade',
 												'deleteOptions' => [
 														'data-confirm' => 'Soll der Grad wirklich gelöscht werden?',

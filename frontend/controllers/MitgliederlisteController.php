@@ -176,7 +176,8 @@ class MitgliederlisteController extends Controller
         $d = new ActiveDataProvider([
 				     'query' => $query,
 				]);
-				$r = 36-($d->count % 36);
+				$zz = 32;
+				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
         ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
@@ -222,11 +223,11 @@ class MitgliederlisteController extends Controller
 		            'plf' => $plf,
 		        ]),
 						'options' => [
-								'title' => 'Prüfungsliste',
+								'title' => 'Seminarliste',
 								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
 						],
 						'methods' => [
-							'SetHeader' => ['Erstellt am: ' . date("r")],
+							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
 							'SetFooter' => ['|Seite {PAGENO}|'],
 						]
 			]);

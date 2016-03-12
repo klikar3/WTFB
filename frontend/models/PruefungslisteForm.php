@@ -22,7 +22,7 @@ class PruefungslisteForm extends Model
     {
         return [
             ['pgeb', 'required'],
-            ['pgeb', 'number', 'min' => 20, 'max' => 255],
+            ['pgeb', 'number', 'min' => 20, 'max' => 255, 'message' => 'Die Lehrgangsgebühr muss eine Zahl zwischen 20 und 255 sein.'],
 
             ['datum', 'required'],
             ['datum', 'date'],
@@ -35,7 +35,7 @@ class PruefungslisteForm extends Model
     public function attributeLabels()
     {
         return [
-            'pgeb' => Yii::t('app', 'Prüfungsgebühr'),
+            'pgeb' => Yii::t('app', 'Lehrgangsgebühr'),
             'datum' => Yii::t('app', 'Tag der Prüfung'),
             'disp' => Yii::t('app', 'Disziplin'),
         ];

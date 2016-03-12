@@ -8,6 +8,7 @@ use dosamigos\ckeditor\CKEditor;
 use moonland\tinymce\TinyMCE;
 
 use frontend\models\Schulen;
+use frontend\models\Texte;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Texte */
@@ -20,9 +21,10 @@ use frontend\models\Schulen;
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => 50])->label('Beschreibung') ?>
 
-    <?= $form->field($model, 'fuer')->textInput(['maxlength' => 99])->label('Für Tabelle') ?>
+    <?= $form->field($model, 'fuer')->dropdownList(array_merge([""=>"","vertrag"=>"vertrag"],ArrayHelper::map( Texte::find()->all(), 'fuer', 'fuer' ) )
+												)->label('Für Tabelle') ?>
 
-    <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'Schulname' ),
+    <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
 													[ 'prompt' => 'Schule', 'id' => 'field-pid' ])->label('Schule'); ?>
 
 		<?= 

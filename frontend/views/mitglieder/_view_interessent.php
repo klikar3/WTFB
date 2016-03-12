@@ -83,14 +83,6 @@ use frontend\models\Sifu;
 									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'wert', 'wert' )),
 							 ]             
             ],
-            [ 'attribute' => 'Schulort',
-	            'format' => 'raw',
-	            'type' => DetailView::INPUT_SELECT2,
-	            'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
-									'Schulname', 'Schulname' )),
-							]
-	          ],
 	          [ 'attribute' => 'Disziplin',
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,

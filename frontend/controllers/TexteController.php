@@ -124,11 +124,11 @@ class TexteController extends Controller
         }
     }
     
-    public function actionPrint($datamodel, $dataid, $txtid)
+    public function actionPrint($datamodel, $dataid, $txtcode, $SchulId)
     {
 //  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
     		
-    		if ($txtid == '0') {
+    		if ($txtcode == '') {
     			$numbers = new Numbers();
     			$numbers = Yii::$app->request->post('Numbers');
 //    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers));
@@ -136,8 +136,12 @@ class TexteController extends Controller
 
  					$textmodel = Texte::findOne($numbers['id']);
 				} else {
-					$textmodel = Texte::findOne($txtid);
+					$textmodel = Texte::find()
+												->where(['code' => $txtcode, 'SchulId' => $SchulId])
+												->one();
 				}
+				if (empty($textmodel)) return "Zugehörigen Text nicht gefunden!" ;
+				
         if ($datamodel == 'mitglieder') {
 					$model = Mitglieder::findOne($dataid);
 					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
@@ -145,7 +149,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $model->Sifu) , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
@@ -193,7 +197,8 @@ class TexteController extends Controller
 													'.kv-align-middle{vertical-align:middle!important;}' .
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
+													'.kkl-addr{font-family:arial;font-size:16pt;text-align:right;}',
 						'content' => $this->renderPartial('_print', [
 		            'model' => $textmodel,
 		        ]),

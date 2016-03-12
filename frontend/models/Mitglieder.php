@@ -283,7 +283,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Telefon2' => Yii::t('app', 'Telefon2'),
             'HandyNr' => Yii::t('app', 'Handy-Nr'),
             'Fax' => Yii::t('app', 'Fax'),
-            'LetzteAenderung' => Yii::t('app', 'Letzte Aenderung'),
+            'LetzteAenderung' => Yii::t('app', 'Letzte Änderung'),
             'Email' => Yii::t('app', 'Email'),
             'Beruf' => Yii::t('app', 'Beruf'),
             'Nationalitaet' => Yii::t('app', 'Nationalität'),
@@ -423,7 +423,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'EsckrimaGraduierung' => Yii::t('app', 'Esckrima Graduierung'),
             'BeginnEsckrima' => Yii::t('app', 'Beginn Esckrima'),
             'EndeEsckrima' => Yii::t('app', 'Ende Esckrima'),
-            'PruefungZum' => Yii::t('app', 'Pruefung zum'),
+            'PruefungZum' => Yii::t('app', 'Prüfung zum'),
             'BIC' => Yii::t('app', 'BIC'),
         ];
     }

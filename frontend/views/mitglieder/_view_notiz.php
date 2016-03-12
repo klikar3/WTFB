@@ -55,6 +55,13 @@ use frontend\models\Sifu;
 //							]
 	          ],
 //            'Sifu',
+            [ 'attribute' => 'AktivPassiv',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ['Aktiv'=>'Aktiv','Passiv'=>'Passiv']),
+							],
+						],	
             [ 'attribute' => 'LetzteAenderung',
             	'label' => 'Letzte Änderung',
             	'format' => ['date', 'php:d.m.Y H:i:s'],
@@ -71,7 +78,7 @@ use frontend\models\Sifu;
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
-            ]
+            ],
       ],
     ]) ?>
 

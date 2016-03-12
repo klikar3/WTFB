@@ -50,7 +50,6 @@ use frontend\models\Pruefer;
         		 'BIC',
              'Kontoinhaber',
 //             'Status',
-             'AktivPassiv',
         ],
     ]); ?>
 
