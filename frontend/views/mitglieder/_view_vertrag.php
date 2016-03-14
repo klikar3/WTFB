@@ -92,7 +92,7 @@ use frontend\models\Schulen;
     								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich']) ,
 																			[ 'prompt' => 'Zahlungsweise' ]
 																		) ?>
-										<div style="text-align:right;">
+										<div style="text-align:right;"> <br>
 										<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "   " .Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
 										?>
 										</div>
@@ -165,9 +165,9 @@ use frontend\models\Schulen;
                 'value' => function ($data, $model, $key, $index) { 
                         return GridView::ROW_COLLAPSED;
                     },
-								'detail' => function ($data, $id) {
-									$cont = Mitgliederschulen::findOne($id);
-	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$cont]);
+								'detail' => function ($data, $model, $key, $index) {//function ($data, $id) {
+									//$cont = Mitgliederschulen::findOne($id);
+	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$data]);
             		},
             		'enableRowClick' => true,
 							],

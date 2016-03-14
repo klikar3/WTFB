@@ -13,6 +13,7 @@ use frontend\models\MitgliedergradePrint;
 use frontend\models\MitgliedergradeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
@@ -263,6 +264,17 @@ class MitgliedergradeController extends Controller
     
     public function actionPrint($id)
     {
+        $model = $this->findModel($id);
+        $txtcode = $model->grad->textcode;
+        $url = Url::toRoute(['texte/print', 
+																					'datamodel' => 'grad', 
+																					'dataid' => $id, 
+													 								'SchulId' => 0, 
+																					 'txtcode' => $txtcode, 
+																					 'txtid' => 0
+																					 ]);
+        return $this->redirect($url);
+    /*  
 //    	$this->layout = 'print';
     	
 			 // get your HTML raw content without any layouts or scripts
@@ -311,6 +323,7 @@ class MitgliedergradeController extends Controller
 			
 			// return the pdf output as per the destination setting
 			return $pdf->render();
+*/			
      }
 
     public function actionViewfrommitglied($id)

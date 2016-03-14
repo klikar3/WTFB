@@ -12,7 +12,9 @@ use Yii;
  * @property string $DispName
  * @property string $sort
  * @property string $gKurz
- *
+ * @property string $textcode
+ * @property string $print
+*
  * @property Disziplinen $dispName
  * @property Mitgliedergrade[] $mitgliedergrades
  */
@@ -32,10 +34,11 @@ class Grade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['GradName', 'DispName', 'gKurz'], 'required'],
+            [['GradName', 'DispName', 'gKurz', 'textcode','print'], 'required'],
             [['sort'], 'integer'],
             [['Gebuehr'],'number'],
             [['GradName', 'DispName'], 'string', 'max' => 30],
+            [['textcode','print'], 'string', 'max' => 50],
             [['gKurz'], 'string', 'max' => 10],
             [['GradName', 'DispName'], 'unique', 'targetAttribute' => ['GradName', 'DispName'], 'message' => 'The combination of Grad Name and Disp Name has already been taken.']
         ];
@@ -53,6 +56,8 @@ class Grade extends \yii\db\ActiveRecord
             'sort' => Yii::t('app', 'Sort'),
             'gKurz' => Yii::t('app', 'G Kurz'),
             'Gebuehr' => Yii::t('app', 'Gebühr'),
+            'textcode' => Yii::t('app', 'TextCode'),
+            'print' => Yii::t('app', 'Ausdruck'),
         ];
     }
 

@@ -33,7 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'sort',
             'gKurz',
             'Gebuehr',
-
+            'textcode',
+						'print',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

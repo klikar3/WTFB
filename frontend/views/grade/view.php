@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'sort',
             'gKurz',
             'Gebuehr',
+            'textcode',
+            'print',
         ],
     ]) ?>
 

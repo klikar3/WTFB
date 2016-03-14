@@ -21,8 +21,8 @@ use frontend\models\Disziplinen;
 											[ 'prompt' => 'Schulleiter' ]
 				) ?>
 				
-    <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'Schulname' ),
-											[ 'prompt' => 'Schule' ]
+    <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
+											[ 'prompt' => 'Schule' ]        
 				) ?>
 				
     <?= $form->field($model, 'DispId')->dropdownList(ArrayHelper::map( Disziplinen::find()->all(), 'DispId', 'DispName' ),

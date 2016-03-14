@@ -83,7 +83,7 @@ use frontend\models\Pruefer;
 														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
-						<div style="text-align:right;">
+						<div style="text-align:right;">  <br>
 						<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "    " . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
 						?>
 						</div>
@@ -108,7 +108,8 @@ use frontend\models\Pruefer;
 												'controller' => 'mitgliedergrade',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
-        										return Html::a('<span class="glyphicon glyphicon-print"></span>', Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
+        										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
+																			Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Urkunde drucken'),
 												        ]);

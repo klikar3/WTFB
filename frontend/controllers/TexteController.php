@@ -10,6 +10,7 @@ use yii\helpers\VarDumper;
 use kartik\mpdf\Pdf;
 
 use frontend\models\Mitglieder;
+use frontend\models\Mitgliedergrade;
 use frontend\models\Numbers;
 use frontend\models\Texte;
 use frontend\models\TexteSearch;
@@ -124,7 +125,7 @@ class TexteController extends Controller
         }
     }
     
-    public function actionPrint($datamodel, $dataid, $txtcode, $SchulId)
+    public function actionPrint($datamodel, $dataid, $txtcode, $SchulId, $txtid)
     {
 //  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
     		
@@ -135,8 +136,14 @@ class TexteController extends Controller
 //    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
 
  					$textmodel = Texte::findOne($numbers['id']);
-				} else {
-					$textmodel = Texte::find()
+				} else if ($txtid != 0) {
+ 						$textmodel = Texte::findOne($txtid);
+				} else if ($SchulId == 0) {
+						$textmodel = Texte::find()
+												->where(['code' => $txtcode])
+												->one();
+				}else { 
+						$textmodel = Texte::find()
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
@@ -172,6 +179,16 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 */				}
+        if ($datamodel == 'grad') {
+					$model = Mitgliedergrade::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#nachname#' , $model->mitglied->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#grad#' , $model->grad->gKurz , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+				}
 							
 				$pdf = new Pdf([
 //						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts

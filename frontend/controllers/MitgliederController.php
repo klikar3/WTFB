@@ -72,7 +72,7 @@ class MitgliederController extends Controller
 
 				// Graduierungen
 				$query = Mitgliedergrade::find();
-				$query->where(['=', 'MitgliedId', $id]);
+				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
@@ -80,11 +80,13 @@ class MitgliederController extends Controller
   	
   	    // Verträge
 				$vquery = Mitgliederschulen::find();
-				$vquery->where(['=', 'MitgliederId', $id]);
+				$vquery->andWhere(['=', 'MitgliederId', $id]);
+				Yii::info('-----$vquery: '.VarDumper::dumpAsString($vquery));
 				$vdataProvider = new ActiveDataProvider([
 			    'query' => $vquery,
      			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
 				]);
+				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
   	
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);

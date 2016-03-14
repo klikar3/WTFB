@@ -29,6 +29,10 @@ use frontend\models\Disziplinen;
 
     <?= $form->field($model, 'Gebuehr')->textInput(['maxlength' => 10]) ?>
 
+    <?= $form->field($model, 'textcode')->textInput(['maxlength' => 50]) ?>
+ 
+    <?= $form->field($model, 'print')->textInput(['maxlength' => 50]) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

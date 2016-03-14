@@ -21,7 +21,7 @@ use frontend\models\Texte;
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => 50])->label('Beschreibung') ?>
 
-    <?= $form->field($model, 'fuer')->dropdownList(array_merge([""=>"","vertrag"=>"vertrag"],ArrayHelper::map( Texte::find()->all(), 'fuer', 'fuer' ) )
+    <?= $form->field($model, 'fuer')->dropdownList(array_merge([""=>"","vertrag"=>"vertrag","grad"=>"grad"],ArrayHelper::map( Texte::find()->all(), 'fuer', 'fuer' ) )
 												)->label('Für Tabelle') ?>
 
     <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),

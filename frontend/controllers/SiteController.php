@@ -46,7 +46,17 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
+						        [
+						            'actions' => ['create'],
+						            'allow' => true,
+						            'roles' => ['admin'],
+						        ],
+						        [
+						            'actions' => ['view', 'search'],
+						            'allow' => true,
+						            'roles' => ['?', '*', 'admin'],
+						        ],
+						    ],    
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

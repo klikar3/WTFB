@@ -59,7 +59,7 @@ AppAsset::register($this);
 																  	['label' => 'Sifus', 'url' => ['/sifu/index']],
 																  	['label' => 'Texte', 'url' => ['/texte/index']],
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
-																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
+//																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']],

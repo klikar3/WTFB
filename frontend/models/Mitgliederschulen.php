@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "mitgliederschulen".
@@ -44,11 +45,21 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 		    	
 					// VarDumper::dump($schulleiter);
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
-					// VarDumper::dump($schulleiterschulen);
-					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+					// Yii::info('-----$schulleiterschulen: '.VarDumper::dumpAsString($schulleiterschulen),'application');
+					$si = array_map(function ($v) { return $v->SchulId; },$schulleiterschulen );
+					// Yii::info('-----$s: '.VarDumper::dumpAsString($si));
+					
+//					if (empty($schulleiterschulen)) return [];
+//					$schulen = Schulen::findAll(['SchulId' => $si]);
+//					Yii::info('-----$schulen: '.VarDumper::dump($schulen));
+//					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
-		    	return parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; }, $schule)]);
+//					return parent::find()->where( ['SchulId' => $si]);
+					$r = parent::find()->where( ['SchulId' => $si]);
+					// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
+					
+		    	return (!empty($r)) ? $r : [] ;
 		  }
 		  return parent::find();
     }

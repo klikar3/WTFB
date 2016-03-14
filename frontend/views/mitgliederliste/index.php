@@ -198,7 +198,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
             </div><!-- content -->
 
          </div>
-
+ <?php //echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
+ ?>
 </div>
 <?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}   ?>
 

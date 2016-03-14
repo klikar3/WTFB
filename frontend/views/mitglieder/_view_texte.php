@@ -40,7 +40,9 @@ use frontend\models\Texte;
 					 $form = ActiveForm::begin( ['action' => Url::to(['texte/print',
 																										'datamodel' => 'mitglieder',
 																										'dataid' => $model->MitgliederId,
-																										'txtid' => $txtid->id,				
+																										'txtid' => $txtid->id,
+																										'txtcode' => '',
+																										'SchulId' => 0,				
 																										'target' => '_blank', ]),
 																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
 																			'method' => 'post',
@@ -55,7 +57,7 @@ use frontend\models\Texte;
 											)										
 									->label('Textauswahl'); 
 							?>
-							<div style="text-align: right;">
+							<div style="text-align: right;">  <br>
 							<?= Html::resetButton('Rücksetzen', ['class'=>'btn btn-sm btn-default']) . '  ' . 
 										Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']);
 							?>

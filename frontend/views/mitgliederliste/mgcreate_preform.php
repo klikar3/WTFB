@@ -96,7 +96,7 @@ use frontend\models\Schulen;
 //																			 ->label('',['style'=>'width:0em;height:0em;padding:0em;']);
 //																			 ->label('none');
 				?>
-			<div style="float: right;">
+			<div style="float: right;"> <br>
 				<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']);
 				?>
 			</div> 

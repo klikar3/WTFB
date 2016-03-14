@@ -201,7 +201,7 @@ use frontend\models\SearchVertrag;
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Ausweis" ] ), [
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Ausweis drucken'),
 															'class'=>'btn btn-sm btn-default',
@@ -211,7 +211,7 @@ use frontend\models\SearchVertrag;
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Begruessung" ] ), [
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Begrüßung drucken'),
 															'class'=>'btn btn-sm btn-default',
@@ -221,7 +221,7 @@ use frontend\models\SearchVertrag;
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Aussetzen" ] ), [
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Aussetzen drucken'),
 															'class'=>'btn btn-sm btn-default',
@@ -231,7 +231,7 @@ use frontend\models\SearchVertrag;
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Kuendigung" ] ), [
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Kündigung drucken'),
 															'class'=>'btn btn-sm btn-default',
@@ -241,7 +241,7 @@ use frontend\models\SearchVertrag;
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Standard-Email',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Email" ] ), [
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Email", 'txtid' => 0] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Standard-Email drucken'),
 															'class'=>'btn btn-sm btn-default',
