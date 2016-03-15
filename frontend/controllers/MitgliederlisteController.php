@@ -155,18 +155,18 @@ class MitgliederlisteController extends Controller
 //        Yii::info(Vardumper::dumpAsString($plf));
     		$plf = new PruefungslisteForm();
 				$gt = Yii::$app->request->get();
-        Yii::info("-----gt: ".Vardumper::dumpAsString($gt));
+        //Yii::info("-----gt: ".Vardumper::dumpAsString($gt));
 				$plf->datum = $gt['PruefungslisteForm']['datum'];
 				$plf->pgeb = $gt['PruefungslisteForm']['pgeb'];
 				$plf->disp = $gt['PruefungslisteForm']['disp'];
 
 //				$plf->load(Yii::$app->request->get(0));
 //				Yii::info(Vardumper::dumpAsString(Yii::$app->request->get(0)));
-        Yii::info("-----test");
-        Yii::info("-----plf: ".Vardumper::dumpAsString($plf));
+        //Yii::info("-----test");
+        //Yii::info("-----plf: ".Vardumper::dumpAsString($plf));
 
 				$grads = ArrayHelper::map( Grade::find()->where(['DispName' => $plf->disp])->all(), 'gradId', 'gradId') ; 
-        Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
+        //Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
 
         $searchModel = new MitgliederlisteSearch();
         $query = Mitgliederliste::find()

@@ -6,9 +6,10 @@ use Yii;
 use yii\helpers\VarDumper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use dektrium\user\models\User;
+//use dektrium\user\models\User;
 
 use frontend\models\Grade;
+use frontend\models\User;
 
 
 /**
