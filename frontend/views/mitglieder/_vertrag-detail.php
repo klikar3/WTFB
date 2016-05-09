@@ -218,7 +218,7 @@ use frontend\models\SearchVertrag;
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "Begruessung", $model->SchulId, 0);
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailBegruessung", $model->SchulId, 0);
 											 
 		?>
 		

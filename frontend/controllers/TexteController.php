@@ -310,7 +310,7 @@ class TexteController extends Controller
 				// Linefeed für Outlook ersetzen
 				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );
 				
-				$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
+				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
 				$pdf = Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
 									"?subject=Begrüßung&body=".$textmodel->txt,[
