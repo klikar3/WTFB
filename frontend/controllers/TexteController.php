@@ -313,7 +313,7 @@ class TexteController extends Controller
 				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
 				$pdf = Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
-									"?subject=Begrüßung&body=".$textmodel->txt,[
+									"?subject=".$textmodel->betreff."&body=".$textmodel->txt,[
 											'title' => Yii::t('app', 'Email an Mitglied senden'),
 							  	]);							
 			return $pdf;
