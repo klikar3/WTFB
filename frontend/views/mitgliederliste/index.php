@@ -112,8 +112,9 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'email' => function ($url, $model) {
 //									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 //													 				'txtid' => 5 ] ), [
-									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email),[
-          					'target'=>'_blank',
+									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
+//          					'target'=>'_blank',
 										'title' => Yii::t('app', 'Email an Mitglied senden'),
 							        ]);
 							    },

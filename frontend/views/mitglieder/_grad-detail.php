@@ -87,8 +87,9 @@ use frontend\models\Schulen;
             	'label' => 'Prüfer',
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->mgID,
-									'data' => array_merge(["0" => ""], ArrayHelper::map( Pruefer::find()->all(), 
-									'prueferId', 'pName' )),
+//									'data' => array_merge(["0" => ""], ArrayHelper::map( Pruefer::find()->all(), 
+									'data' => ArrayHelper::map( Pruefer::find()->all(), 
+									'prueferId', 'pName' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->mgID,											
 //									    'pluginOptions' => [

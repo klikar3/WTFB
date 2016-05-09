@@ -74,7 +74,6 @@ AppAsset::register($this);
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																]];
 */								}								
-//                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
                 $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
@@ -84,6 +83,7 @@ AppAsset::register($this);
 																	['label' => 'Logout', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
 																	['label' => 'Account', 'url' =>[ '/user/settings/account', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
 																	];
+                $menuItems[] = ['label' => '?', 'url' => ['/site/about']];
 /*                $menuItems[] = [
 	                ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 
 									 'url' => ['/site/index'], 'items' => [

@@ -130,6 +130,11 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 	   { 
 	       return $this->hasMany(Disziplinen::className(), ['DispName' => 'DispName']); 
 	   } 
+
+	   public function getMitglieder() 
+	   { 
+	       return $this->hasOne(Mitglieder::className(), ['MitgliederId' => 'MitgliederId']); 
+	   } 
 	   
 	   public function getNameLink() {
 		    $url = Url::to(['/mitglieder/view', 'id'=>$this->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view

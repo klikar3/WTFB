@@ -21,6 +21,7 @@ use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
+use frontend\models\Texte;
 use frontend\models\Vertrag;
 use frontend\models\SearchVertrag;
  
@@ -217,6 +218,10 @@ use frontend\models\SearchVertrag;
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "Begruessung", $model->SchulId, 0);
+											 
+		?>
+		
  </div>												        
  <div class="row"style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  

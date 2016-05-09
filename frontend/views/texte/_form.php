@@ -92,7 +92,12 @@ use frontend\models\Texte;
 				]
     ])
 */
- ?>
+ ?> 
+ 				<?= $form->field($model, 'betreff')->textInput(['maxlength' => true]) ?>
+		
+		   	<?= $form->field($model, 'quer')->dropdownList(array("0"=>"Hoch","1"=>"Quer" )
+												)->label('Orientierung')  ?>
+		   	
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Erstellen') : Yii::t('app', 'Sichern'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

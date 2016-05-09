@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
   	         'SchulId',
     	       'fuer',
       	     'txt:ntext',
-        ],
+             'betreff', 
+		        'quer',         
+				],
     ]); ?>
 
 </div>

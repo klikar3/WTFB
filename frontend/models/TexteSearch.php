@@ -18,8 +18,8 @@ class TexteSearch extends Texte
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['code', 'fuer', 'txt'], 'safe'],
+            [['id', 'SchulId', 'quer'], 'integer'],
+            [['code', 'fuer', 'txt', 'betreff'], 'safe'],
         ];
     }
 
@@ -43,6 +43,8 @@ class TexteSearch extends Texte
     {
         $query = Texte::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -50,18 +52,22 @@ class TexteSearch extends Texte
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
+            // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'SchulId' => $this->SchulId,
+            'quer' => $this->quer,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'fuer', $this->fuer])
-            ->andFilterWhere(['like', 'txt', $this->txt]);
+            ->andFilterWhere(['like', 'txt', $this->txt])
+            ->andFilterWhere(['like', 'betreff', $this->betreff]);
 
         return $dataProvider;
     }

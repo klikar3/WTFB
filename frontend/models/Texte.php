@@ -12,7 +12,9 @@ use Yii;
  * @property string $code
  * @property string $fuer
  * @property string $txt
- *
+ * @property string $betreff 
+ * @property integer $quer 
+ * *
  * @property Schulen $schul
  */
 class Texte extends \yii\db\ActiveRecord
@@ -44,11 +46,11 @@ class Texte extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['SchulId'], 'integer'],
+            [['SchulId', 'quer'], 'integer'],
             [['code', 'fuer', 'txt'], 'required'],
             [['txt'], 'string'],
             [['code'], 'string', 'max' => 50],
-            [['fuer'], 'string', 'max' => 99],
+            [['fuer', 'betreff'], 'string', 'max' => 99],
             [['SchulId'], 'exist', 'skipOnError' => true, 'targetClass' => Schulen::className(), 'targetAttribute' => ['SchulId' => 'SchulId']],
         ];
     }

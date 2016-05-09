@@ -3,10 +3,12 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\helpers\VarDumper;
 use kartik\mpdf\Pdf;
 
 use frontend\models\Mitglieder;
@@ -195,9 +197,9 @@ class TexteController extends Controller
 						// set to use core fonts only
 						'mode' => Pdf::MODE_UTF8,
 						// A4 paper format
-						'format' => Pdf::FORMAT_A4,
+						'format' => ($textmodel->quer == 0) ? "A4" : "A4-L", //Pdf::FORMAT_A4,
 						// portrait orientation
-						'orientation' => Pdf::ORIENT_PORTRAIT,
+						'orientation' => ($textmodel->quer == 0) ? Pdf::ORIENT_PORTRAIT : Pdf::ORIENT_LANDSCAPE,
 						// stream to browser inline
 						'destination' => Pdf::DEST_BROWSER,
 						// format content from your own css file if needed or use the
@@ -239,5 +241,83 @@ class TexteController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public static function createoutlooklink($datamodel, $dataid, $txtcode, $SchulId, $txtid)
+    {
+//  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
+    		
+    		if ($txtcode == '') {
+    			$numbers = new Numbers();
+    			$numbers = Yii::$app->request->post('Numbers');
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers));
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
+
+ 					$textmodel = Texte::findOne($numbers['id']);
+				} else if ($txtid != 0) {
+ 						$textmodel = Texte::findOne($txtid);
+				} else if ($SchulId == 0) {
+						$textmodel = Texte::find()
+												->where(['code' => $txtcode])
+												->one();
+				}else { 
+						$textmodel = Texte::find()
+												->where(['code' => $txtcode, 'SchulId' => $SchulId])
+												->one();
+				}
+				if (empty($textmodel)) return "Zugehörigen Text nicht gefunden!" ;
+				
+        if ($datamodel == 'mitglieder') {
+					$model = Mitglieder::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $model->Sifu) , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+				}
+				
+				
+        if ($datamodel == 'vertrag') {
+/*					$model = Mitgliederschulen::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+*/				}
+        if ($datamodel == 'grad') {
+					$model = Mitgliedergrade::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#nachname#' , $model->mitglied->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#grad#' , $model->grad->gKurz , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+				}
+				
+				// Linefeed für Outlook ersetzen
+				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );
+				
+				$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
+
+				$pdf = Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+									"?subject=Begrüßung&body=".$textmodel->txt,[
+											'title' => Yii::t('app', 'Email an Mitglied senden'),
+							  	]);							
+			return $pdf;
+    }
+
 
 }
