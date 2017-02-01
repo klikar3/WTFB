@@ -66,7 +66,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
           <div class="row">
-            <div id="content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="content" class="col-12">
 
 
     <?php echo DynaGrid::widget([
@@ -82,7 +82,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
         		'tableOptions'=>['class'=>'table table-striped table-condensed'],
-        		'responsive' => true,    
+        		'responsive' => true,
 						'toolbar' => [
 										 	['content'=>$content_mcf  
 											],
@@ -120,39 +120,99 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							    },
 							],
 							'width' => '3em',
-							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.9em;'*/],
+							'contentOptions' =>['class' => 'hidden-xs table_class'/*,'style'=>'font-size:0.9em;'*/],
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+							],															
 						],
 // 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
 //						],             
 						['format' => 'raw',
-             'attribute' => 'NameLink',
+              'attribute' => 'NameLink',
+              'width' => '10em',
 							'label' => 'Name',
-							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.9em;'*/],
+							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:10em;',
+							],
             ],
 //            'MitgliederId',
 //            'MitgliedsNr',
 //						'Name',
 //            'Vorname',
             ['attribute' => 'Schulname',
-							'contentOptions' =>['class' => 'table_class'],
+//            	'visible' => false,
+//							'format' => 'raw',
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:5em;',
+							],
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],															
 						],
             ['attribute' => 'LeiterName',
-							'contentOptions' =>['class' => 'table_class'],
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:5em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						],
-            ['attribute' => 'DispName', 'width' => '5em',
-													'contentOptions' =>['class' => 'table_class'],
+            ['attribute' => 'DispName', //'width' => '5em',
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:3em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						],
 						['attribute' => 'Funktion', 'width' => '5em',							
-							'contentOptions' =>['class' => 'table_class'],
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:5em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						], 
             ['attribute' => 'Vertrag',
-							'contentOptions' =>['class' => 'table_class'],
+            	'width' => '7em',
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:7em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						],
-            ['attribute' => 'Grad', 'width' => '7em',
-							'contentOptions' =>['class' => 'table_class'],
+            ['attribute' => 'Grad', 'width' => '5em',
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:5em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						 ],
-            ['attribute' => 'LetzteAenderung', 'width' => '9em', 'format' => ['date', 'php:d.m.Y H:i'], 
-							'contentOptions' =>['class' => 'table_class'/*,'style'=>'font-size:0.8em;'*/],                
+            ['attribute' => 'LetzteAenderung', 'width' => '5em', 'format' => ['date', 'php:d.m.Y H:i'], 
+							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'filterInputOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'style' => 'width:5em;',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+							],								
 						],
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
@@ -173,10 +233,15 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							        ]);
 							    }
 							    
-							],
-							
-//							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							],							
+							'contentOptions' =>['class' => 'hidden-xs col-1 table_class','style'=>'font-size:12px;'],
+							'headerOptions' => [
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+							],															
 							'width' => '60px',
+//							'filterInputOptions' => [
+//								'class' => 'hidden-xs table_class',
+//							]								
 						],
 //            'PruefungZum',
 						[
@@ -186,11 +251,17 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
 						    },
 							'width' => '4em',
-							'contentOptions' =>['class' => 'table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'hidden-xs table_class','style'=>'font-size:12px;'],
 							'filterType' => 'checkbox',
 							'label' => 'P. zum',
 //							'mergeHeader' => true,
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]]
+							'filterInputOptions' => [
+								'class' => 'hidden-xs table_class',
+							],								
+							'headerOptions' => [
+								'class' => 'hidden-xs',
+							],																
 						],
         ], // -- columns
 //        'export' => true,    
