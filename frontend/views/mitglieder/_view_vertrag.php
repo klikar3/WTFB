@@ -25,10 +25,9 @@ use frontend\models\Schulen;
 /* @var $model app\models\Mitglieder */
 
 ?>      
-	<div class="row">
-	  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div class="panel panel-info" style="font-size:0.9em;">
-					<div class="panel-heading panel-xs" style="margin-bottom: 0px;">
+
+				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
+					<div class="panel-heading panel-xs" style="margin-bottom: 0px;height:3em;">
 							<?php
 								$ms = new MitgliederSchulen();
 								$datum = date('php:Y-m-d');
@@ -40,11 +39,11 @@ use frontend\models\Schulen;
                 $ms->Zahlungsweise = null;
                 $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
-					<?= 'Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+					<?= '<h5 style="padding-top:0em;margin-top:0em;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
 									'header' => $header,
 //									'headerOptions' => ['style' => 'height:1.5em'],
-									'toggleButton' => ['label' => 'Vertrag zuweisen', 'class' => 'btn btn-sm btn-primary'],
+									'toggleButton' => ['label' => 'Vertrag zuweisen', 'class' => 'btn btn-sm btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
 //	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
 									'size'=>'modal-md',					
 							]);
@@ -100,10 +99,11 @@ use frontend\models\Schulen;
 								</div>										
 							<?php $form = ActiveForm::end(); ?>
 							<?php Modal::end();?>
-			</div>				
+			</div></h5>				
 		</div>		
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
+	        'responsiveWrap' => false,
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 					'rowOptions' => [ 'style' => 'font-size:0.85em',
@@ -209,5 +209,3 @@ use frontend\models\Schulen;
 
 
 
-    </div>
- </div>

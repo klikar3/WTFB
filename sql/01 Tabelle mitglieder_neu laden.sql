@@ -162,12 +162,12 @@ CREATE TABLE `mitglieder_neu` (
   PRIMARY KEY (`MitgliederId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOAD DATA INFILE '../Mitglieder_08_04_15.csv'
+LOAD DATA INFILE '/kunden/homepages/22/d13466979/htdocs/admin/SicherungData/Mitglieder.txt'
 INTO TABLE mitglieder_neu
 CHARACTER SET cp1250
 FIELDS TERMINATED BY ';' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
-IGNORE 1 ROWS
+/*IGNORE 1 ROWS*/
 (MitgliederId,MitgliedsNr,Vorname,`Name`,Geschlecht,Anrede,@GeburtsDatum,PLZ,Wohnort,Strasse,Telefon1,
 Telefon2,HandyNr,Fax,@LetzteAenderung,Email,Beruf,Nationalitaet,BLZ,Bank,KontoNr,`Status`,AktivPassiv,
 Kontoinhaber,Schulort,Disziplin,Funktion,Sifu,Woher,Graduierung,VDauer,Monatsbeitrag,@BeitrittDatum,

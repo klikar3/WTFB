@@ -53,7 +53,7 @@ CREATE TABLE `mitgliederschulen_neu` (
   CONSTRAINT `VertragId` FOREIGN KEY (`VertragId`) REFERENCES `vertrag` (`VertragId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=999 DEFAULT CHARSET=utf8;
 
-/* Disziplinen */
+/* Disziplinen */ /* Disziplinen werden nicht mehr benötigt - Schulverträge haben Diziplinen
 INSERT INTO `mitgliederdisziplinen`(`MitgliedId`, `DisziplinId`) 
 SELECT `MitgliederId`, (SELECT `DispId` FROM `disziplinen` WHERE `DispName` = 'Wing Tzun') 
 FROM `mitglieder` m WHERE `Disziplin` LIKE '%Wing Tzun%' AND (GruppenArt = 'Erwachsenen-Gruppe' OR
@@ -85,7 +85,7 @@ SELECT `MitgliederId`, (SELECT `DispId` FROM `disziplinen` WHERE `DispName` = 'W
 FROM `mitglieder` m WHERE `Disziplin` LIKE '%Wing Tzun%' AND GruppenArt = 'Intensiv-Gruppe'
 AND NOT EXISTS ( SELECT 1 FROM `mitgliederdisziplinen` WHERE m.`MitgliederId`= `MitgliederId` 
 AND `DisziplinId` =  (SELECT `DispId` FROM `disziplinen` WHERE `DispName` = 'WT-Intensiv'));
-
+*/
 
 /* Schulverträge   */
 INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
@@ -269,6 +269,8 @@ WHERE `datumwt5pg` not in ( '' , '0000-00-00') AND `Schulort` = 'Stuttgart';
 INSERT INTO `mitgliedergrade_neu`(`MitgliedId`, `GradId`, `Datum`, `PrueferId`) 
 SELECT `MitgliederId`,21, `datumwt5pg` ,2 FROM `mitglieder` 
 WHERE `datumwt5pg` not in ( '' , '0000-00-00') AND `Schulort` <> 'Stuttgart';
+
+
 
 /* --- esckrima   */
 INSERT INTO `mitgliedergrade_neu`(`MitgliedId`, `GradId`, `Datum`, `PrueferId`) 

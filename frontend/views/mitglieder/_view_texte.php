@@ -29,10 +29,11 @@ use frontend\models\Texte;
 /* @var $model app\models\Mitglieder */
 
 ?>
-		<div class="panel panel-info" style="font-size:0.9em;">
-			<div class="panel-heading panel-xs" style="margin-bottom: 8px;">
-				<center><h5>Texte für <?= $model->Name ?>, <?= $model->Vorname ?></h5></center>
-			</div>		
+	<div class="panel panel-info panel-xs" style="font-size:0.9em;height:3em;margin-top:0em;">
+			<div class="panel-heading panel-xs" style="height:3em;margin-top:0em;vertical-align:top;">
+				<h5 style="padding-top:0em;margin-top:0em;">Mitglied: <?= $model->Name ?>, <?= $model->Vorname ?></h5>
+			</div>
+	</div>
 			<?php
 			 $txtid = new Numbers();
 			 $txtid->id = 0;
@@ -50,7 +51,7 @@ use frontend\models\Texte;
 		//															[	$id = 'mg-pr-txt'
 													]	); 
 					?>
-						<div class="col-sm-offset-3 col-md-offset-4 col-lg-offset-5">
+						<div class="col-xs-offset-3">
 							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
 //												, ['style'=>'width:200px']											
 		//									[ 'prompt' => 'Text' ]
@@ -65,7 +66,6 @@ use frontend\models\Texte;
 						</div>	
 					<?php $form = ActiveForm::end();
 			}  ?>
-		</div>
 
 
 

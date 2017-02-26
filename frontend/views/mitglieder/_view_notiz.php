@@ -42,7 +42,7 @@ use frontend\models\Sifu;
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
 				'formOptions' => [
-							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 6, ],
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 6 ],
 				],
         'attributes' => [
             [ 'attribute' => 'Bemerkung1',

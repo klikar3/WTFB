@@ -61,7 +61,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 ]);    
 ?>
 
-<div class="mitglieder-index">
+<div class="mitglieder-index hidden-xs">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -75,6 +75,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 				'theme'=>'simple-condensed',
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
+						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
 //						'emptyCell'=>'-',
 						'panel' => [
@@ -120,7 +121,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							    },
 							],
 							'width' => '3em',
-							'contentOptions' =>['class' => 'hidden-xs table_class'/*,'style'=>'font-size:0.9em;'*/],
+							'contentOptions' =>['class' => 'hidden-xs table_class'],
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
@@ -173,7 +174,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
-						['attribute' => 'Funktion', 'width' => '5em',							
+						['attribute' => 'Funktion', 
+							'width' => '5em',							
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -204,7 +206,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						 ],
-            ['attribute' => 'LetzteAenderung', 'width' => '5em', 'format' => ['date', 'php:d.m.Y H:i'], 
+            ['attribute' => 'LetzteAenderung', 'width' => '5em', 
+							'format' => ['date', 'php:d.m.Y H:i'], 
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -234,7 +237,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							    }
 							    
 							],							
-							'contentOptions' =>['class' => 'hidden-xs col-1 table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'hidden-xs col-1 table_class','style' => 'font-size:12px;'],
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
@@ -257,10 +260,10 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //							'mergeHeader' => true,
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]]
 							'filterInputOptions' => [
-								'class' => 'hidden-xs table_class',
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs',
+								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],																
 						],
         ], // -- columns
@@ -270,6 +273,154 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
             </div><!-- content -->
 
          </div>
+ <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
+ ?>
+</div>
+
+
+<div class="col-xs-12 visible-xs">
+
+    <h1><?php /* echo Html::encode($this->title) */ ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+
+    <?php echo DynaGrid::widget([
+//				'storage'=>DynaGrid::TYPE_COOKIE,
+				'storage'=>DynaGrid::TYPE_DB,
+				'theme'=>'simple-condensed',
+				'gridOptions'=>[
+						'dataProvider'=>$dataProvider,
+						'filterModel'=>$searchModel,
+						'options'=>['id'=>'grid-1',], // a unique identifier is important
+//						'containerOptions' => ['style' => 'min-width: 300px;'],
+//						'emptyCell'=>'-',
+						'panel' => [
+				        'heading' => '<b>Mitgliederliste</b>',
+							 	'before'=>'',
+//								 'class' => 'col-12',
+//								 'theme'=>'panel-condensed',     
+						],
+        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
+//        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
+//        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+        		'responsive' => true,
+						'responsiveWrap' => false,
+						'toolbar' => false/*[
+										 	['content'=>$content_mcf  
+											],
+										 	['content'=> 
+													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
+													'class'=>'btn btn-default',
+													'target'=>'_blank',
+													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
+													'data-toggle'=>'tooltip',
+													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
+													])  
+											],
+										 	['content'=>$content_plf  
+											],
+											'{export}',
+											'{toggleData}',
+									]*/,
+				],				
+				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
+        'columns' => [
+/*            ['class' => '\kartik\grid\ActionColumn',
+            	'template' => '{email}',
+							'mergeHeader' => true,
+							'controller' => 'mitglieder',
+							'options' => [
+								'id' => 'test_id',
+							],
+							'buttons' => [ 
+								'email' => function ($url, $model) {
+									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
+//          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Email an Mitglied senden'),
+							        ]);
+							    },
+							],
+							'width' => '3em',
+							'contentOptions' =>['class' => 'col-xs-1'],
+							'headerOptions' => [
+								'class' => 'col-xs-1'
+							],															
+						],
+*/						['format' => 'raw',
+              'attribute' => 'NameLink',
+              'width' => '40%',
+							'label' => 'Name',
+							'contentOptions' =>['style' => 'font-size:0.8em;'],
+							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
+							'headerOptions' => ['style' => 'font-size:0.8em;'],															
+            ],
+/*            ['attribute' => 'Schulname',
+							'contentOptions' =>['class' => 'col-xs-2', 'style' => 'font-size:1em;'],
+							'filterInputOptions' => [
+								'class' => 'col-xs-2', 'style' => 'font-size:1em;'
+//								'style' => 'width:5em;',
+							],
+							'headerOptions' => [
+								'class' => 'col-xs-2', 'style' => 'font-size:1em;',
+							],															
+						],
+*/ //           ['attribute' => 'LeiterName',
+//							'contentOptions' =>['class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
+//							'filterInputOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
+//							'headerOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;', ],								
+//						],
+            ['attribute' => 'Vertrag',
+              'width' => '30%',
+							'contentOptions' =>['style' => 'font-size:0.8em;'],
+							'filterInputOptions' => [ 'style' => 'font-size:0.8em;',],								
+							'headerOptions' => ['style' => 'font-size:0.8em;', ],								
+						],
+           ['attribute' => 'LetzteAenderung', 
+              'width' => '30%',
+							'format' => ['date', 'php:d.m.Y H:i'], 
+							'contentOptions' =>['style' => 'font-size:0.8em;'],
+							'filterInputOptions' => ['style' => 'font-size:0.8em;',],								
+							'headerOptions' => ['style' => 'font-size:0.8em;',],								
+						],
+/*            ['class' => '\kartik\grid\ActionColumn',
+            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
+							'controller' => 'mitglieder',
+							'mergeHeader' => false,
+							'buttons' => [ 
+								'markieren' => function ($url, $model) {
+									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
+//          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Für Prüfung vormerken'),
+							        ]);
+							    },
+								'graduieren' => function ($url, $model) {
+									return Html::a('<span class="glyphicon glyphicon-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
+          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Graduierung'),
+							        ]);
+							    }
+							    
+							],							
+							'options' => [
+								'id' => 'test_id2',
+							],
+							'contentOptions' =>['class' => 'col-1','style' => 'font-size:12px;'],
+							'headerOptions' => [
+								'class' => 'col-1',
+							],															
+							'width' => '3em',
+//							'filterInputOptions' => [
+//								'class' => 'col1',
+//							]								
+						],
+*/        ], // -- columns
+//        'export' => true,    
+		]); ?>
+
+
+        
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
 </div>

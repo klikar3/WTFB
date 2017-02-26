@@ -71,13 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if (!empty($datasets)) {  echo Schulen::findOne($model->schule)->SchulDisp;
 ?>    
     <table>
-    	<tr> <td>
+    	<tr> <td>  <!---
 <p><a font style="color:#bcbcbc;background-color:#bcbcbc;font-size:7pt">nbsp;</a><a font style="color:#bcbcbc;font-size:7pt"> Eintritte </a><br>
 <a font style="color:#97BBCD;background-color:#97BBCD;font-size:7pt">nbsp;</a><a font style="color:#97BBCD;font-size:7pt"> Austritte </a><br>
 <a font style="color:#656BCD;background-color:#656BCD;font-size:7pt">nbsp;</a><a font style="color:#656BCD;font-size:7pt"> Kündigungen </a>
-</p>
+</p>   -->
 			</td>  <td>
-<?= ChartJs::widget([
+<?php /* echo ChartJs::widget([
     'type' => 'Line',
     'options' => [
         'height' => 400,
@@ -99,57 +99,119 @@ $this->params['breadcrumbs'][] = $this->title;
         'labels' => ArrayHelper::getColumn($labels,'l'),
         'datasets' => [
             [
-                'label1' => "Eintritte",
-								'fillColor' => "rgba(220,220,220,0.5)",
-                'strokeColor' => "rgba(220,220,220,1)",
-                'pointColor' => "rgba(220,220,220,1)",
-                'pointStrokeColor' => "#fff",
-                'data' => ArrayHelper::getColumn($datasets,'Eintritt'),
+                'label' => 'Eintritte',
+								'fillColor' => 'rgba(220,220,220,0.5)',
+                'strokeColor' => 'rgba(220,220,220,1)',
+                'pointColor' => 'rgba(220,220,220,1)',
+                'pointStrokeColor' => '#fff',
+                'data' => ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Eintritt']);}
+																									),
             ],
             [
-                'label1' => "Austritte",
-                'fillColor' => "rgba(151,187,205,0.5)",
-                'strokeColor' => "rgba(151,187,205,1)",
-                'pointColor' => "rgba(151,187,205,1)",
-                'pointStrokeColor' => "#fff",
-                'data' => ArrayHelper::getColumn($datasets,'Austritt')
+                'label' => 'Austritte',
+                'fillColor' => 'rgba(151,187,205,0.5)',
+                'strokeColor' => 'rgba(151,187,205,1)',
+                'pointColor' => 'rgba(151,187,205,1)',
+                'pointStrokeColor' => '#fff',
+                'data' => ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Austritt']);}
+																									),
             ],
             [
-                'label1' => "Kündigung",
-                'fillColor' => "rgba(101,107,205,0.5)",
-                'strokeColor' => "rgba(101,107,205,1)",
-                'pointColor' => "rgba(101,107,205,1)",
-                'pointStrokeColor' => "#fff",
-                'data' => ArrayHelper::getColumn($datasets,'Kuendigung')
+                'label' => 'Kündigung',
+                'fillColor' => 'rgba(101,107,205,0.5)',
+                'strokeColor' => 'rgba(101,107,205,1)',
+                'pointColor' => 'rgba(101,107,205,1)',
+                'pointStrokeColor' => '#fff',
+                'data' => ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Kuendigung']);}
+																									),
             ],
         ],
     ]
-]);
+]); */
 ?>
-			</td>
-		</tr>
-		</table>
-
-
-			<?php /* 
+			<?php echo 
 			   RGraphLine::widget([
         		'allowDynamic' => true,
-				    'data' => !empty($datasets) ? array_map('intval', ArrayHelper::getColumn($datasets,'WT-Eintritt')) : [ 0 ],
+				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Eintritt']);}
+																									) : [ 0 ],
 				    'options' => [
-				        'height' => 400,
-				        'width' => 800,
-		            'colors' => ['red'],
+				        'height' => 600,
+				        'width' => 1000,
+		            'colors' => ['green'],
            			'filled' => true,
 		            'title' => 'WT-Eintritte',
-		            'labels' => !empty($labels) ? array_map(function($val){return substr($val,0,15);},
-                                  array_column(array_chunk(ArrayHelper::getColumn($labels,'l'),count($labels)/10),0)
-                        ) : [ 'No Data' ],
+		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
                 'numxticks' => 10,
 	              'textAngle' => 45,
 	              'textSize' => 8,
 	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
 	              'titleSize' => 12,
-				    ]
-				 ]);  	*/
+				    ],
+				    'htmlOptions' => [
+              'height' =>  '400px',
+              'width' => '800px',
+          ],
+  
+				 ]);  
+				 echo 
+			   RGraphLine::widget([
+        		'allowDynamic' => true,
+				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Austritt']);}
+																									) : [ 0 ],
+				    'options' => [
+				        'height' => 400,
+				        'width' => 1000,
+		            'colors' => ['red'],
+           			'filled' => true,
+		            'title' => 'WT-Austritte',
+		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
+                'numxticks' => 10,
+	              'textAngle' => 45,
+	              'textSize' => 8,
+	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
+	              'titleSize' => 12,
+				    ],
+				    'htmlOptions' => [
+              'height' =>  '400px',
+              'width' => '800px',
+          ],
+  
+				 ]); 
+				 
+				 echo 
+			   RGraphLine::widget([
+        		'allowDynamic' => true,
+				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Kuendigung']);}
+																									) : [ 0 ],
+				    'options' => [
+				        'height' => 600,
+				        'width' => 1000,
+		            'colors' => ['yellow'],
+           			'filled' => true,
+		            'title' => 'WT-Kündigungen',
+		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
+                'numxticks' => 10,
+	              'textAngle' => 45,
+	              'textSize' => 8,
+	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
+	              'titleSize' => 12,
+				    ],
+				    'htmlOptions' => [
+              'height' =>  '400px',
+              'width' => '800px',
+          ],
+  
+				 ]); 	
 }		?>
+			</td>
+		</tr>
+		</table>
+
+
 </div>

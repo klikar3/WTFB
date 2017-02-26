@@ -264,7 +264,7 @@ class TexteController extends Controller
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
-				if (empty($textmodel)) return "Zugehörigen Text nicht gefunden!" ;
+				if (empty($textmodel)) return ''; //"Zugehörigen Text nicht gefunden!" ;
 				
         if ($datamodel == 'mitglieder') {
 					$model = Mitglieder::findOne($dataid);

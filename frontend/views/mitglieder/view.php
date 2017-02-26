@@ -29,7 +29,7 @@ use frontend\models\Texte;
 				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
-				                                'model'=>$model,
+				                                'model'=>$model,  'tabnum' => 1,
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -42,49 +42,62 @@ use frontend\models\Texte;
 						'active' => $tabnum == 2?true:false,				
 
 		    ],
-*/		    [
+*/				[
+				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
+						'content'=>$this->render('_view_interessent', array(
+		                                'model'=>$model, 'tabnum' => 2, 
+		                        ) ),
+						'active' => $tabnum == 2?true:false,
+				],
+		    [
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
 				    'content'=>$this->render('_view_vertrag', array(
-				                                'model'=>$model, 'contracts' => $contracts
+				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Konto',
 						'content'=>$this->render('_view_zahlung', array(
-		                                'model'=>$model, 
+		                                'model'=>$model, 'tabnum' => 4, 
 		                        ) ),
 						'active' => $tabnum == 4?true:false,
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
 						'content'=>$this->render('_view_grade', array(
-		                                'model'=>$model, 'grade' => $grade, 
+		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 
 		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-pencil"></i> Notiz',
 						'content'=>$this->render('_view_notiz', array(
-		                                'model'=>$model,  
+		                                'model'=>$model, 'tabnum' => 6, 
 		                        ) ),
-						'active' => $tabnum == 6?true:false,
+						'active' => $tabnum == 6?true:false, 
 				],
-				[
-				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
-						'content'=>$this->render('_view_interessent', array(
-		                                'model'=>$model,  
-		                        ) ),
-						'active' => $tabnum == 7?true:false,
-				],
-			    [
+			  [
 				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Texte',
 						'content'=>$this->render('_view_texte', array(
-		                                'model'=>$model,  
+		                                'model'=>$model, 'tabnum' => 8, 
 		                        ) ),
 						'active' => $tabnum == 8?true:false,
 						'headerOptions' => Yii::$app->user->identity->isAdmin ? ['class'=>'enabled'] : ['class'=>'disabled'],
 						
+		    ],  
+			  [
+				    'label'=>'<div class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> Löschen</div>',
+						'content'=>Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
+			          'class' => 'btn btn-sm btn-danger',
+			          'data' => [
+			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
+			              'method' => 'post',
+			          ],
+//			          'style' => 'width: 80px; text-align: left;',
+			
+			      ]),                                                      
+						'active' => $tabnum == 9?true:false, 
 		    ],  
     ];
  
@@ -100,9 +113,8 @@ $this->params['breadcrumbs'][] = $this->title;
 if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
-<div class="mitglieder-view">
-  <div class="row">
-    <div id="content" class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+
+<div class="col-xs-12 visible">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -112,26 +124,24 @@ if($model->hasErrors()){
 						?>				
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
-				    'items'=>$items,
-				    'position'=>TabsX::POS_ABOVE,
-//				    'height' => TabsX::SIZE_LARGE,
-	 					'bordered'=>true,
-				    'encodeLabels'=>false
+						    'enableStickyTabs' => true,
+						    'items'=>$items,
+						    'position'=>TabsX::POS_ABOVE,
+		//				    'height' => TabsX::SIZE_LARGE,
+			 					'bordered'=>true,
+						    'encodeLabels'=>false,
 				    ]);
 				?>
-	    </div><!-- content -->
-    <div id="right" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-	      <?= Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i>&nbsp;Löschen'), ['delete', 'id' => $model->MitgliederId], [
-	          'class' => 'btn btn-sm btn-danger',
-	          'data' => [
-	              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
-	              'method' => 'post',
-	          ],
-	          'style' => 'width: 80px; text-align: left;',
-	
-	      ]); ?>
-    </div><!-- right -->
-
-  </div>
-
+</div>
+<div class="col-xs-12 hidden">
+				<?php    // Ajax Tabs Left
+				    echo TabsX::widget([
+						    'enableStickyTabs' => true,
+						    'items'=>$items,
+						    'position'=>TabsX::POS_LEFT,
+//						    'sideways'=>true,
+			 					'bordered'=>true,
+						    'encodeLabels'=>false,
+				    ]);
+				?>
 </div>

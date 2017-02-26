@@ -197,9 +197,9 @@ use frontend\models\SearchVertrag;
 </div>
 <div class="col-sm-3 col-md-3" >
 <?php if (Yii::$app->user->identity->isAdmin) { ?>
- <div class="row"style="margin-bottom: 8px;height:32px;">
+ <div class="row" style="margin-bottom: 8px;height:32px;">
  </div>
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
@@ -209,7 +209,7 @@ use frontend\models\SearchVertrag;
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
  </div>												        
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
@@ -223,7 +223,7 @@ use frontend\models\SearchVertrag;
 		?>
 		
  </div>												        
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
@@ -233,7 +233,7 @@ use frontend\models\SearchVertrag;
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
  </div>												        
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
@@ -243,7 +243,7 @@ use frontend\models\SearchVertrag;
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
  </div>												        
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Standard-Email',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Email", 'txtid' => 0] ), [
@@ -255,7 +255,7 @@ use frontend\models\SearchVertrag;
  ?>
 	</div>
 <?php } ?>
-	<div class="row"style="margin-bottom: 8px">
+	<div class="row" style="margin-bottom: 8px">
 		<?php	if (!empty($model->vertrag)) {
 				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
 															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
@@ -268,7 +268,7 @@ use frontend\models\SearchVertrag;
 		}										        
  ?>
 	</div>
- <div class="row"style="margin-bottom: 8px">
+ <div class="row" style="margin-bottom: 8px">
 		<?php	
 			Modal::begin([
 			    'header'=>'<center>Vertrag hochladen</center>',

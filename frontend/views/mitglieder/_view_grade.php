@@ -24,24 +24,22 @@ use frontend\models\Pruefer;
 /* @var $model app\models\Mitglieder */
 
 ?>
-	<div class="row">
-	  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div class="panel panel-info" style="font-size:0.9em;">
-					<div class="panel-heading panel-xs" style="margin-bottom: 0px;">
-					<?php
-						$mg = new MitgliedergradePrint();
-						$datum = date('Y-m-d');
-    				$mg->Datum = $datum;
-            $mg->MitgliedId = $model->MitgliederId;
-            $mg->GradId = null;
-            $mg->PrueferId = null; 
-						$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
-          ?>
-					<?= 'Mitglied: ' . $model->Name . ', ' . $model->Vorname . '</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+<?php
+	$mg = new MitgliedergradePrint();
+	$datum = date('Y-m-d');
+	$mg->Datum = $datum;
+  $mg->MitgliedId = $model->MitgliederId;
+  $mg->GradId = null;
+  $mg->PrueferId = null; 
+	$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
+?>
+				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
+					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
+					<?= '<h5 style="padding-top:0em;margin-top:0em;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 					<?php Modal::begin([ 'id' => 'mg-modal',
 						'header' => $header,
 						'size'=>'modal-md',					
-						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary'],
+						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 					]);
 					?>
@@ -91,12 +89,13 @@ use frontend\models\Pruefer;
 					</div>									
 					<?php $form = ActiveForm::end(); ?>
 					<?php Modal::end();?>
-				</div>
+				</div> </h5>
 			</div>		
 
 
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
+	        'responsiveWrap' => false,
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 					'rowOptions' => [ 'style' => 'font-size:0.85em',
@@ -104,7 +103,7 @@ use frontend\models\Pruefer;
 	        'columns' => [
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{print}',
-												'header' => '<span style:"text-align-left;">Aktion</span>',
+												'header' => '<span style="text-align-left;">Aktion</span>',
 												'controller' => 'mitgliedergrade',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
@@ -134,7 +133,7 @@ use frontend\models\Pruefer;
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => 'Prüfer' ],
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{delete}',
-												'header' => '<span style:"text-align-left;">Aktion</span>',
+												'header' => '<span style="text-align-left;">Aktion</span>',
 												'controller' => 'mitgliedergrade',
 												'deleteOptions' => [
 														'data-confirm' => 'Soll der Grad wirklich gelöscht werden?',
@@ -144,6 +143,4 @@ use frontend\models\Pruefer;
 				],
 	    ]); ?>
 
-	</div>
-</div>
 
