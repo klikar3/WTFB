@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Mitglieders');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="mitglieder-index">
+<div class="mitglieder-index modal-content">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

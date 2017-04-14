@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Mitgliedergrade */
 
-$this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Mitgliedergrade',
-]);
+$this->title = Yii::t('app', 'Graduierung vergeben').' für '.$model->mitglied->Vorname.' '. $model->mitglied->Name;
 //$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitgliedergrades'), 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>

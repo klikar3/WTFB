@@ -56,8 +56,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
         'nextPageCssClass' => 'next',
         'activePageCssClass' => 'active',
         'disabledPageCssClass' => 'disabled',
-        'firstPageLabel' => 'First',
-        'lastPageLabel' => 'Last'
+        'firstPageLabel' => '««',
+        'lastPageLabel' => '»»'
 ]);    
 ?>
 
@@ -65,8 +65,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-          <div class="row">
-            <div id="content" class="col-12">
+            <div id="content" class="col-12 modal-content">
 
 
     <?php echo DynaGrid::widget([
@@ -272,26 +271,27 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 
             </div><!-- content -->
 
-         </div>
+     
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
 </div>
 
+ <?php //echo $content_mcf ?>
 
-<div class="col-xs-12 visible-xs">
+<div class="visible-xs">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+             <div id="content" class="col-12 modal-content">
 
     <?php echo DynaGrid::widget([
-//				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
 				'theme'=>'simple-condensed',
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'filterModel'=>$searchModel,
-						'options'=>['id'=>'grid-1',], // a unique identifier is important
+						'summary' => '{begin}-{end} von {totalCount}',
+//						'options'=>['id'=>'grid-2',], // a unique identifier is important
 //						'containerOptions' => ['style' => 'min-width: 300px;'],
 //						'emptyCell'=>'-',
 						'panel' => [
@@ -306,49 +306,23 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
         		'responsive' => true,
 						'responsiveWrap' => false,
-						'toolbar' => false/*[
-										 	['content'=>$content_mcf  
-											],
-										 	['content'=> 
-													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
-													'class'=>'btn btn-default',
-													'target'=>'_blank',
-													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
+						'toolbar' => [
+//										 	['content'=>$content_mcf,  
+//											],
+										 	['content'=>
+													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													'class'=>'btn btn-success',
+//													'target'=>'_blank',
+//													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
 													'data-toggle'=>'tooltip',
-													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
-													])  
-											],
-										 	['content'=>$content_plf  
-											],
-											'{export}',
-											'{toggleData}',
-									]*/,
+													'title'=>'Neuen Eintrag anlegen'
+												]
+											)]
+									],
 				],				
-				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
+				'options'=>['id'=>'dynagrid-2'], // a unique identifier is important
         'columns' => [
-/*            ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{email}',
-							'mergeHeader' => true,
-							'controller' => 'mitglieder',
-							'options' => [
-								'id' => 'test_id',
-							],
-							'buttons' => [ 
-								'email' => function ($url, $model) {
-									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
-									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Email an Mitglied senden'),
-							        ]);
-							    },
-							],
-							'width' => '3em',
-							'contentOptions' =>['class' => 'col-xs-1'],
-							'headerOptions' => [
-								'class' => 'col-xs-1'
-							],															
-						],
-*/						['format' => 'raw',
+						['format' => 'raw',
               'attribute' => 'NameLink',
               'width' => '40%',
 							'label' => 'Name',
@@ -384,41 +358,11 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							'filterInputOptions' => ['style' => 'font-size:0.8em;',],								
 							'headerOptions' => ['style' => 'font-size:0.8em;',],								
 						],
-/*            ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
-							'controller' => 'mitglieder',
-							'mergeHeader' => false,
-							'buttons' => [ 
-								'markieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Für Prüfung vormerken'),
-							        ]);
-							    },
-								'graduieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
-          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Graduierung'),
-							        ]);
-							    }
-							    
-							],							
-							'options' => [
-								'id' => 'test_id2',
-							],
-							'contentOptions' =>['class' => 'col-1','style' => 'font-size:12px;'],
-							'headerOptions' => [
-								'class' => 'col-1',
-							],															
-							'width' => '3em',
-//							'filterInputOptions' => [
-//								'class' => 'col1',
-//							]								
-						],
-*/        ], // -- columns
+        ], // -- columns
 //        'export' => true,    
 		]); ?>
 
+            </div><!-- content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";

@@ -9,6 +9,7 @@ use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
+use frontend\models\MitgliederSchulen;
 use frontend\models\MitgliedergradePrint;
 use frontend\models\MitgliedergradeSearch;
 use yii\web\Controller;
@@ -179,15 +180,16 @@ class MitgliedergradeController extends Controller
 //        		Yii::info("-----model: ".Vardumper::dumpAsString($model));
 //        		Yii::info("-----modelp: ".Vardumper::dumpAsString($modelp));
         		if (!$model->save()){
-		        			return $this->redirect(['/mitgliedergrade/createfast', 'mId' => $mId, 'grad' => $grad]);
+//		        			return $this->redirect(['/mitgliedergrade/createfast', 'mId' => $mId, 'grad' => $grad]);
+								$modelp->addErrors ($model->errors);
 		            return $this->render('create', [
 		                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider,  
 		            ]);
 						}
+        		$mgID = Yii::$app->db->getLastInsertID();
 		        $mitglied = $model->mitglied;
 		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
 		        $mitglied->save();
-        		$mgID = Yii::$app->db->getLastInsertID();
         		
         		$modelm = Mitglieder::find($mId)->one();
         		if ($modelm) {
@@ -266,64 +268,17 @@ class MitgliedergradeController extends Controller
     {
         $model = $this->findModel($id);
         $txtcode = $model->grad->textcode;
+        $dispName = $model->grad->DispName;
+        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->where(['MitgliederID' => $model->MitgliedId,'DispName' => $dispName])->one();
         $url = Url::toRoute(['texte/print', 
 																					'datamodel' => 'grad', 
 																					'dataid' => $id, 
-													 								'SchulId' => 0, 
+													 								'SchulId' => $Schule->SchulId, 
 																					 'txtcode' => $txtcode, 
-																					 'txtid' => 0
+																					 'txtid' => 0,
 																					 ]);
         return $this->redirect($url);
-    /*  
-//    	$this->layout = 'print';
-    	
-			 // get your HTML raw content without any layouts or scripts
-			$content = $this->renderPartial('_reportView', array(
-                                'model' => $this->findModel($id), 
-                        ));
 			
-			// setup kartik\mpdf\Pdf component
-			$pdf = new Pdf([
-				// set to use core fonts only
-				'mode' => Pdf::MODE_BLANK,
-				// A4 paper format
-				'format' => Pdf::FORMAT_A4,
-				// portrait orientation
-				'orientation' => Pdf::ORIENT_PORTRAIT,
-				// stream to browser inline
-				'destination' => Pdf::DEST_BROWSER,
-				// your html content input
-				'content' => $content,
-				// format content from your own css file if needed or use the
-				// enhanced bootstrap css built by Krajee for mPDF formatting
-				'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
-				// any css to be embedded if required
-				'cssInline' => '.kv-heading-1{font-size:18px}'.
-											'.kv-wrap{padding:20px;}' .
-											'.kv-align-center{text-align:center;}' .
-											'.kv-align-left{text-align:left;}' .
-											'.kv-align-right{text-align:right;}' .
-											'.kv-align-top{vertical-align:top!important;}' .
-											'.kv-align-bottom{vertical-align:bottom!important;}' .
-											'.kv-align-middle{vertical-align:middle!important;}' .
-											'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
-											'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-											'.wtfb-name{font-size:30px; font-weight: bold;}' .
-											'.wtfb-grad{font-size:18px; font-weight: bold;}' .
-											'.wtfb-datum{font-size:14px; font-weight: bold;}' .
-											'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
-				// set mPDF properties on the fly
-				'options' => ['title' => 'Prüfung'],
-				// call mPDF methods on the fly
-				'methods' => [
-//					'SetHeader'=>['Krajee Report Header'],
-//					'SetFooter'=>['{PAGENO}'],
-				]
-			]);
-			
-			// return the pdf output as per the destination setting
-			return $pdf->render();
-*/			
      }
 
     public function actionViewfrommitglied($id)

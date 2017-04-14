@@ -35,11 +35,11 @@ use frontend\models\Pruefer;
 ?>
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
 					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
-					<?= '<h5 style="padding-top:0em;margin-top:0em;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 					<?php Modal::begin([ 'id' => 'mg-modal',
 						'header' => $header,
 						'size'=>'modal-md',					
-						'toggleButton' => ['label' => 'Graduierung zuweisen', 'class' => 'btn btn-sm btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
+						'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 					]);
 					?>

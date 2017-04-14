@@ -35,7 +35,7 @@ use frontend\models\Sifu;
 				'mode'=>DetailView::MODE_VIEW,
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
+					'heading'=>$model->Name . ', ' . $model->Vorname,
 					'type'=>DetailView::TYPE_INFO,
 				],
         'attributes' => [

@@ -114,7 +114,7 @@ if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
 
-<div class="col-xs-12 visible">
+<div class="col-xs-12 visible modal-content">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -133,7 +133,7 @@ if($model->hasErrors()){
 				    ]);
 				?>
 </div>
-<div class="col-xs-12 hidden">
+<div class="col-xs-12 hidden modal-content">
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
 						    'enableStickyTabs' => true,

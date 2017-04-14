@@ -29,7 +29,7 @@ use frontend\models\SearchVertrag;
 /* @var $model app\models\Mitglieder */
 
 ?>
-<div class="col-sm-9 col-md-9" >
+<div class="col-sm-8 col-md-8" >
     <?= DetailView::widget([
     		'id' => 'dv_vv_'.$model->msID,
         'model' => $model,
@@ -199,7 +199,7 @@ use frontend\models\SearchVertrag;
 <?php if (Yii::$app->user->identity->isAdmin) { ?>
  <div class="row" style="margin-bottom: 8px;height:32px;">
  </div>
- <div class="row" style="margin-bottom: 8px">
+ <div class="row" style="width: 250px; margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
@@ -208,8 +208,17 @@ use frontend\models\SearchVertrag;
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
- </div>												        
- <div class="row" style="margin-bottom: 8px">
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Standard-Email',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'txtcode' => "Email", 'txtid' => 0] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Standard-Email drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]);
+ ?>
+	</div>
+<div class="row" style="width: 250px; margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
@@ -223,7 +232,7 @@ use frontend\models\SearchVertrag;
 		?>
 		
  </div>												        
- <div class="row" style="margin-bottom: 8px">
+ <div class="row" style="width: 250px; margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
@@ -232,8 +241,11 @@ use frontend\models\SearchVertrag;
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailAussetzen", $model->SchulId, 0);
+											 
+		?>
  </div>												        
- <div class="row" style="margin-bottom: 8px">
+ <div class="row" style="width: 250px; margin-bottom: 8px">
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
 															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
@@ -242,41 +254,22 @@ use frontend\models\SearchVertrag;
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailKündigung", $model->SchulId, 0);
+											 
+		?>
  </div>												        
- <div class="row" style="margin-bottom: 8px">
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Standard-Email',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Email", 'txtid' => 0] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Standard-Email drucken'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]);
- ?>
-	</div>
 <?php } ?>
-	<div class="row" style="margin-bottom: 8px">
-		<?php	if (!empty($model->vertrag)) {
-				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
-															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
-													 				'tabnum' => 3 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Vertrag ansehen'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]);
-		}										        
- ?>
-	</div>
- <div class="row" style="margin-bottom: 8px">
+ <div class="row" style="width: 250px; margin-bottom: 8px;">
 		<?php	
 			Modal::begin([
 			    'header'=>'<center>Vertrag hochladen</center>',
 					'size'=>'modal-md',					
 			    'toggleButton' => [
-			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hochladen</span>', 'class'=>'btn btn-default'
+			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hoch</span>', 'class'=>'btn btn-default',
+			        		'style' => 'width: 120px; text-align: left;',
 			    ],
 			]);
+		?> <div class="modal-content" style="height:70%;"> <?php
 			$form1 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data'] // important
 			]);
@@ -311,8 +304,20 @@ use frontend\models\SearchVertrag;
 		</p>	
 		<?php	
 			ActiveForm::end();
+		?>	 </div> <?php
 			Modal::end();		
 		?>	
+		<?php	if (!empty($model->vertrag)) {
+				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
+															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
+													 				'tabnum' => 3 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Vertrag ansehen'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]);
+		}										        
+ ?>
 	</div>
 			        	
 </div>

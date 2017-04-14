@@ -144,12 +144,15 @@ class TexteController extends Controller
 						$textmodel = Texte::find()
 												->where(['code' => $txtcode])
 												->one();
-				}else { 
+				} else { 
 						$textmodel = Texte::find()
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
-				if (empty($textmodel)) return "Zugehörigen Text nicht gefunden!" ;
+				if (empty($textmodel)) {
+					$datamodel->addError("Zugehörigen Text nicht gefunden!");
+					return "Zugehörigen Text nicht gefunden!" ;
+				}	
 				
         if ($datamodel == 'mitglieder') {
 					$model = Mitglieder::findOne($dataid);
@@ -264,8 +267,15 @@ class TexteController extends Controller
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
-				if (empty($textmodel)) return ''; //"Zugehörigen Text nicht gefunden!" ;
-				
+				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 120px; text-align: left;background-color:lightgrey;color:grey;"><span class="glyphicon glyphicon-envelope"></span> per Email</div>';
+/*									, Url::to('') .
+									"?subject=&body=",[
+											'class' => 'btn btn-sm btn-default',
+											'style' => 'width: 120px; text-align: left;',
+											'title' => Yii::t('app', 'Email an Mitglied senden'),
+											'disabled' => true,
+							  	]);//''; //"Zugehörigen Text nicht gefunden!" ;
+*/				
         if ($datamodel == 'mitglieder') {
 					$model = Mitglieder::findOne($dataid);
 					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
@@ -312,7 +322,7 @@ class TexteController extends Controller
 				
 				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
-				$pdf = Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> per Email</div>', Url::to($model->Email) .
 									"?subject=".$textmodel->betreff."&body=".$textmodel->txt,[
 											'title' => Yii::t('app', 'Email an Mitglied senden'),
 							  	]);							

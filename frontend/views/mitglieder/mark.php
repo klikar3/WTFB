@@ -21,8 +21,8 @@ use kartik\tabs\TabsX;
      
 
 $this->title = $model->Vorname . ' ' . $model->Name;
-$this->title = '';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieders'), 'url' => ['index']];
+//$this->title = '';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mitglieder-view">
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							
 							<div class="row" style="margin-bottom: 8px">
 								<div class="col-sm-10">
-							<?= $form->field($model, 'MitgliederId')->textInput(['disabled' => true]) ?>
+							<?php // $form->field($model, 'MitgliederId')->textInput(['hidden' => true]) ?>
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ),

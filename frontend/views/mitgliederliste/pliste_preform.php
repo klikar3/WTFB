@@ -16,21 +16,6 @@ use kartik\money\MaskMoney;
 use frontend\models\PruefungslisteForm;
 use frontend\models\Disziplinen;
 ?>
-<style type="text/css">
-    @media screen and (min-width: 768px) {
-        .modal-dialog {
-          width: 700px; /* New width for default modal */
-        }
-        .modal-sm {
-          width: 400px; /* New width for small modal */
-        }
-    }
-    @media screen and (min-width: 992px) {
-        .modal-lg {
-          width: 950px; /* New width for large modal */
-        }
-    }
-</style>
 			<?php $form = ActiveForm::begin(['method' => 'get',
 																			 'action' => Url::to(['/mitgliederliste/pruefungsliste']), 
 																				'fieldConfig'=>['showLabels'=>true],

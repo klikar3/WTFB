@@ -153,7 +153,7 @@ class MitgliederController extends Controller
 		//        $grade = new Grade();
         		Yii::info("----------------else model: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
-                'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider
+                'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'mcf' => $model
             ]);
         }
     }
