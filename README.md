@@ -11,7 +11,7 @@ based on:
 ---- controller:
 ```php
 	php-code hier
-```php
+```
 
 ---- View:
 
