@@ -65,7 +65,9 @@ use frontend\models\Disziplinen;
 																			 									,['style'=>'']
 			); ?>
 			<div style="float:right;"> <br>
-				<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . 
+				<?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-default',
+		        ]) . "  &nbsp;" .  Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . 
 						Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary', 
 															'onclick'=>"this.form.target='_blank';$('mymodal').modal('hide');return true;"]);
 				?>
