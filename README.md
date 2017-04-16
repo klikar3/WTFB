@@ -1,9 +1,5 @@
 # WtFB
 ----
-![example.jpg](https://raw.githubusercontent.com/klikar3/yii2-RGraph/master/example.jpg)
-oder
-![example2.jpg](https://raw.githubusercontent.com/klikar3/yii2-RGraph/master/example2.jpg)
-----
 Verwaltungswebseite für Verbandsmitglieder
 
 based on:
@@ -18,6 +14,10 @@ based on:
 ```html
 html-code hier
 ```
+![example.jpg](https://raw.githubusercontent.com/klikar3/yii2-RGraph/master/example.jpg)
+oder
+![example2.jpg](https://raw.githubusercontent.com/klikar3/yii2-RGraph/master/example2.jpg)
+----
 
     Yii 2 Advanced Application Template
 ===================================
