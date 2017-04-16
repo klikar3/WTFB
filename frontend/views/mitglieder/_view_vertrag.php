@@ -39,11 +39,19 @@ use frontend\models\Schulen;
                 $ms->Zahlungsweise = null;
                 $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
+<<<<<<< HEAD
 					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
 									'header' => $header,
 //									'headerOptions' => ['style' => 'height:1.5em'],
 									'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
+=======
+					<?= '<h5 style="padding-top:0em;margin-top:0em;">Mitglied: ' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
+									'header' => $header,
+//									'headerOptions' => ['style' => 'height:1.5em'],
+									'toggleButton' => ['label' => 'Vertrag zuweisen', 'class' => 'btn btn-sm btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
+>>>>>>> refs/remotes/github/master
 //	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
 									'size'=>'modal-md',					
 							]);

@@ -35,7 +35,11 @@ use frontend\models\Sifu;
 				'mode'=>DetailView::MODE_VIEW,
 				'buttons1' => '{update}',
 				'panel'=>[
+<<<<<<< HEAD
 					'heading'=>$model->Name . ', ' . $model->Vorname,
+=======
+					'heading'=>'Mitglied: ' . $model->Name . ', ' . $model->Vorname,
+>>>>>>> refs/remotes/github/master
 					'type'=>DetailView::TYPE_INFO,
 				],
         'attributes' => [

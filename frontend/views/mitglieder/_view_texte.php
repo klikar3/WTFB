@@ -31,7 +31,11 @@ use frontend\models\Texte;
 ?>
 	<div class="panel panel-info panel-xs" style="font-size:0.9em;height:3em;margin-top:0em;">
 			<div class="panel-heading panel-xs" style="height:3em;margin-top:0em;vertical-align:top;">
+<<<<<<< HEAD
 				<h5 style="padding-top:0em;margin-top:0em;"><?= $model->Name ?>, <?= $model->Vorname ?></h5>
+=======
+				<h5 style="padding-top:0em;margin-top:0em;">Mitglied: <?= $model->Name ?>, <?= $model->Vorname ?></h5>
+>>>>>>> refs/remotes/github/master
 			</div>
 	</div>
 			<?php
