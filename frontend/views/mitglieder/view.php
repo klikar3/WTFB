@@ -114,7 +114,6 @@ if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
 
-<<<<<<< HEAD
 <div class="col-xs-12 visible modal-content">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
@@ -135,28 +134,6 @@ if($model->hasErrors()){
 				?>
 </div>
 <div class="col-xs-12 hidden modal-content">
-=======
-<div class="col-xs-12 visible">
-		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
-		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
-		        ])*/ ?>
-		        <?php // Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
-		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
-		        //]) 
-						?>				
-				<?php    // Ajax Tabs Left
-				    echo TabsX::widget([
-						    'enableStickyTabs' => true,
-						    'items'=>$items,
-						    'position'=>TabsX::POS_ABOVE,
-		//				    'height' => TabsX::SIZE_LARGE,
-			 					'bordered'=>true,
-						    'encodeLabels'=>false,
-				    ]);
-				?>
-</div>
-<div class="col-xs-12 hidden">
->>>>>>> refs/remotes/github/master
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
 						    'enableStickyTabs' => true,

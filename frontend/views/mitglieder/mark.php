@@ -21,7 +21,6 @@ use kartik\tabs\TabsX;
      
 
 $this->title = $model->Vorname . ' ' . $model->Name;
-<<<<<<< HEAD
 //$this->title = '';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -58,44 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
 							<div class="row" style="margin-bottom: 8px">
 								<div class="col-sm-10">
 							<?php // $form->field($model, 'MitgliederId')->textInput(['hidden' => true]) ?>
-=======
-$this->title = '';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieders'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="mitglieder-view">
-  <div class="row">
-    <div id="content" class="col-sm-12">
-      <div class="row">
-		 		<div class="col-sm-4">
-				</div>
-			</div>
-                <p>
-
-	<?= GridView::widget([
-	        'dataProvider' => $grade,
-//	        'filterModel' => $searchModel,
-	        'columns' => [
-//	            ['class' => 'yii\grid\SerialColumn'],
-//							'MitgliedId', 
-							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
-							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
-							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
-							[ 'attribute' => 'Datum', 'value' => 'Datum' ],
-				],
-	    ]); ?>
-                </p>
-    						<?php $form = ActiveForm::begin(['method' => 'post',
-																'action' => ['mitglieder/mark', 
-																'id' => $model->MitgliederId],
-    														'fieldConfig'=>['showLabels'=>true],
-																'type' => ActiveForm::TYPE_HORIZONTAL,							
-																									]); ?>
-							
-							<div class="row" style="margin-bottom: 8px">
-								<div class="col-sm-10">
-							<?= $form->field($model, 'MitgliederId')->textInput(['disabled' => true]) ?>
->>>>>>> refs/remotes/github/master
 								</div>
 								<div class="col-sm-10">
     <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ),
@@ -105,7 +66,9 @@ $this->params['breadcrumbs'][] = $this->title;
 							</div>
       <div class="row">
 		 		<div class="col-sm-4">
-							<?= Html::submitButton('Submit', ['class'=>'btn btn-success']) ?>
+							<?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-default',
+		        ]) . "  &nbsp;" .  Html::submitButton('Submit', ['class'=>'btn btn-success']) ?>
 							<?php $form = ActiveForm::end(); ?>
 		        <?php // echo Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
 		           // 'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary', ]) 
