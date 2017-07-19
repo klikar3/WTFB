@@ -52,4 +52,10 @@ use frontend\models\Pruefer;
 //             'Status',
         ],
     ]); ?>
+ <div class="row" style="width:250px;margin-bottom:24px;margin-left:0px">
+ 		<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+											'target' => '_blank'
+							  	]);   ?>
+	</div>
 

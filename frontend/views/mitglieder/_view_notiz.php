@@ -22,10 +22,10 @@ use frontend\models\Mitgliedergrade;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
 use frontend\models\Sifu;
+use common\components\MyHelpers;
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
-
 ?>
  
     <?= DetailView::widget([
@@ -65,6 +65,7 @@ use frontend\models\Sifu;
             [ 'attribute' => 'LetzteAenderung',
             	'label' => 'Letzte Änderung',
             	'format' => ['date', 'php:d.m.Y H:i:s'],
+//            	'value' => MyHelpers::datetimeconv($model->LetzteAenderung,['localeFormat' => "Y-m-d H:i:s", 'olsonZone' => 'Europe/Berlin'],['localeFormat' => "Y-m-d H:i:s", 'olsonZone' => 'UTC']),
             	'type' => DetailView::INPUT_WIDGET,
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
@@ -72,6 +73,25 @@ use frontend\models\Sifu;
  									'ajaxConversion'=>true,
 //									'autoWidget' => true,
 //									'language' => 'de',
+							    'displayFormat' => 'php:d.m.Y H:i:s',
+							    'saveFormat' => 'php:Y-m-d H:i:s',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+            [ 'attribute' => 'LetztAendSifu',
+            	'label' => 'Letzte Änderung Sifu',
+            	'format' => ['date', 'php:d.m.Y H:i:s'],
+//            	'value' => MyHelpers::datetimeconv($model->LetztAendSifu,['localeFormat' => "Y-m-d H:i:s", 'olsonZone' => 'Europe/Berlin'],['localeFormat' => "Y-m-d H:i:s", 'olsonZone' => 'UTC']),
+            	'type' => DetailView::INPUT_WIDGET,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATETIME,
+ 									'ajaxConversion'=>true,
+//									'autoWidget' => true,
+//									'language' => 'de',
+									'displayTimezone' => 'Europe/Berlin',
 							    'displayFormat' => 'php:d.m.Y H:i:s',
 							    'saveFormat' => 'php:Y-m-d H:i:s',
 							    'options' => [

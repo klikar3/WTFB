@@ -75,8 +75,8 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 									'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
 							 ]             
             ],
-            'Vorname',
             'Name',
+            'Vorname',
             [ 'attribute' => 'Geschlecht',
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
@@ -122,6 +122,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 									'data' => array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' )),
 							 ]             
             ],
+            'ErzBerechtigter',
         		'PruefungZum',
         ],
     ]) ?>

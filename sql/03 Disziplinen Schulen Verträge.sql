@@ -88,7 +88,8 @@ AND `DisziplinId` =  (SELECT `DispId` FROM `disziplinen` WHERE `DispName` = 'WT-
 */
 
 /* Schulverträge   */
-INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
+-- Wing Tzun
+INSERT INTO `mitgliederschulen_neu`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
 ZahlungsArt,Zahlungsweise,BeitragAussetzenVon,BeitragAussetzenBis,BeitragAussetzenGrund,KuendigungAm) 
 SELECT m.`MitgliederId`, s.`SchulId`, m.BeitrittDatum, m.AustrittDatum, CASE m.VDauer WHEN '12 Monate' THEN 12
 WHEN '6 Monate' THEN 6 WHEN '4 Monate' THEN 4 WHEN '3 Monate' THEN 3 ELSE 0 END, m.Monatsbeitrag, 
@@ -101,7 +102,8 @@ GruppenArt = '') AND m.Disziplin LIKE'%Tz%'
 AND NOT EXISTS ( SELECT 1 FROM `mitgliederschulen` WHERE m.`MitgliederId`= `MitgliederId` 
 AND `SchulId` =  s.`SchulId` AND s.Disziplin = 1);
 
-INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
+-- WT-Kinder
+INSERT INTO `mitgliederschulen_neu`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
 ZahlungsArt,Zahlungsweise,BeitragAussetzenVon,BeitragAussetzenBis,BeitragAussetzenGrund,KuendigungAm) 
 SELECT m.`MitgliederId`, s.`SchulId`, m.BeitrittDatum, m.AustrittDatum, CASE m.VDauer WHEN '12 Monate' THEN 12
 WHEN '6 Monate' THEN 6 WHEN '4 Monate' THEN 4 WHEN '3 Monate' THEN 3 ELSE 0 END, m.Monatsbeitrag, 
@@ -113,7 +115,8 @@ where m.GruppenArt = 'Kinder-Gruppe' AND m.Disziplin LIKE'%Tz%'
 AND NOT EXISTS ( SELECT 1 FROM `mitgliederschulen` WHERE m.`MitgliederId`= `MitgliederId` 
 AND `SchulId` =  s.`SchulId` AND s.Disziplin = 3);
 
-INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
+-- WT-Jugend
+INSERT INTO `mitgliederschulen_neu`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate,MonatsBeitrag,
 ZahlungsArt,Zahlungsweise,BeitragAussetzenVon,BeitragAussetzenBis,BeitragAussetzenGrund,KuendigungAm) 
 SELECT m.`MitgliederId`, s.`SchulId`, m.BeitrittDatum, m.AustrittDatum, CASE m.VDauer WHEN '12 Monate' THEN 12
 WHEN '6 Monate' THEN 6 WHEN '4 Monate' THEN 4 WHEN '3 Monate' THEN 3 ELSE 0 END, m.Monatsbeitrag, 
@@ -127,8 +130,8 @@ AND `SchulId` =  s.`SchulId` AND s.Disziplin = 5);
 
 
 
-/* esckrima */
-INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate, MonatsBeitrag, ZahlungsArt, Zahlungsweise, BeitragAussetzenVon, BeitragAussetzenBis, BeitragAussetzenGrund, KuendigungAm) 
+/* Esckrima */
+INSERT INTO `mitgliederschulen_neu`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate, MonatsBeitrag, ZahlungsArt, Zahlungsweise, BeitragAussetzenVon, BeitragAussetzenBis, BeitragAussetzenGrund, KuendigungAm) 
 SELECT m.`MitgliederId`, s.`SchulId`, m.BeitrittDatum, m.AustrittDatum, 12, m.Monatsbeitrag, m.Zahlungsart, m.Zahlungsweise, m.BeitragAussetzenVon, m.BeitragAussetzenBis, m.BeitragAussetzenGrund,m.KuendigungDatum 
 FROM `mitglieder` m INNER JOIN `schulen` s 
 ON s.`SchulName` = m.`Schulort` AND s.Disziplin = 2 
@@ -136,9 +139,10 @@ INNER JOIN disziplinen d ON s.Disziplin = d.DispId
 where /*m.GruppenArt = 'Kinder-Gruppe'
 AND*/ m.Disziplin LIKE 'Esckrima' 
 AND NOT EXISTS ( SELECT 1 FROM `mitgliederschulen` WHERE m.`MitgliederId`= `MitgliederId` 
-AND `SchulId` =  s.`SchulId` AND s.Disziplin = 5);
+AND `SchulId` =  s.`SchulId` AND s.Disziplin = 2);
 ;
 
+/* Kinder-Esckrima */
 INSERT INTO `mitgliederschulen_neu`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate, MonatsBeitrag, ZahlungsArt, Zahlungsweise, BeitragAussetzenVon, BeitragAussetzenBis, BeitragAussetzenGrund, KuendigungAm) 
 SELECT m.`MitgliederId`, s.`SchulId`, m.BeitrittDatum, m.AustrittDatum, 12, m.DM2Schule, m.Zahlungsart, m.Zahlungsweise, m.BeitragAussetzenVon, m.BeitragAussetzenBis, m.BeitragAussetzenGrund,m.KuendigungDatum 
 FROM `mitglieder_neu` m INNER JOIN `schulen` s 
@@ -148,6 +152,12 @@ where /*m.GruppenArt = 'Kinder-Gruppe'
 AND*/ m.Disziplin LIKE '%Tz%E%' ;
 
 
+INSERT INTO `mitgliederschulen`(`MitgliederId`, `SchulId`, Von, Bis, VDauerMonate, MonatsBeitrag, ZahlungsArt, Zahlungsweise, BeitragAussetzenVon, BeitragAussetzenBis, BeitragAussetzenGrund, KuendigungAm) 
+select ms.`MitgliederId`, ms.`SchulId`, ms.Von, ms.Bis, ms.VDauerMonate, ms.MonatsBeitrag, ms.ZahlungsArt, 
+ms.Zahlungsweise, ms.BeitragAussetzenVon, ms.BeitragAussetzenBis, ms.BeitragAussetzenGrund, ms.KuendigungAm 
+from  `mitgliederschulen_neu` ms left outer join `mitgliederschulen` m
+on ms.`MitgliederId` = m.`MitgliederId` AND ms.`SchulId` = m.`SchulId` and ms.von = m.von
+where m.msid is null
 
 /*---------- Grade ------------------------------------------
  --- wt */

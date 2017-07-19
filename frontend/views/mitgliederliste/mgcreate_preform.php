@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
@@ -18,44 +19,51 @@ use frontend\models\Disziplinen;
 use frontend\models\Funktion;
 use frontend\models\Schulen;
 ?>
-
+							<div class="panel-info" style="color:#337ab7;">																	
 			<?php Modal::begin([ 'id' => 'mg-cr-mod',
-				'header' => '<center><h5>Mitglied anlegen</h5></center>',
+				'header' => '<center><h5>Neues Mitglied anlegen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-success', 
-													'title'=>'Mitglied anlegen'],
-				'size'=>'modal-sm',
+													'title'=>'Neues Mitglied anlegen'],
+				'size'=>'modal-md',
 				'clientOptions' => [ 'style' => 'adjust:center;',
 											'backdrop' => true,
 											'keyboard' => true,
 				],					
-				'footer' =>  '<div style="float: right;">'.Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . 
-						Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']).'</div>',
+//				'footer' =>  false, //'<div style="float: right;">'.Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . 
+//						Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary']).'</div>',
 //				'footer'=>Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary']) 									
 		]);
 		?>
-	<div class="modal-content container-fluid">
-	
+
 			<?php $form = ActiveForm::begin([ 'method' => 'post',
 																			  'action' => Url::to(['/mitglieder/create']),
 																			  'enableClientValidation' => true,
 																				'enableAjaxValidation' => false, 
 																				'fieldConfig'=>['showLabels'=>true],
-																				'type' => ActiveForm::TYPE_VERTICAL,
-																				'formConfig' => [//'labelSpan' => 3, 
-																													'deviceSize' => ActiveForm::SIZE_SMALL,
+																				'type' => ActiveForm::TYPE_HORIZONTAL,
+																				'formConfig' => [ 'labelSpan' => 3, 
+																													'deviceSize' => ActiveForm::SIZE_MEDIUM,
 																													'showErrors' => true,
 																				],
 //																				'options'=>['style'=>'width:20em;margin:0px;']												
 																			]); ?>
-				<?= $form->field($mcf, 'Vorname',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
-																			 ;
-				?>
+				<?php if($mcf->hasErrors()){
+						  	echo BaseHtml::errorSummary($mcf);
+							} 
+				?>																			
+							<div class="row">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 				<?= $form->field($mcf, 'Name',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
 																			 ])
 									 ;
+				?>
+				<?= $form->field($mcf, 'Vorname',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
+																			 ;
 				?>
 				<?= $form->field($mcf, 'Geschlecht',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'width:20em;font-size:0.85em;']
@@ -88,6 +96,14 @@ use frontend\models\Schulen;
 //																			 ->label('',['style'=>'width:0em;height:0em;padding:0em;']);
 //																			 ->label('none');
 				?>
+			<div style="float:right;margin-bottom: 8px;"> <br>
+				<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default', 'style'=>"margin-right:5px;"]) . "  &nbsp;" . 
+						Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary', 
+//															'onclick'=>"this.form.target='_blank';$('mymodal').modal('hide');return true;"]);
+															'onclick'=>"$('mymodal').modal('hide');return true;"]);
+				?>
+			</div>
+			</div>
 		<?php $form = ActiveForm::end(); ?>
 		</div>
 		<?php Modal::end();
@@ -95,8 +111,6 @@ use frontend\models\Schulen;
 		// class="col-xs-8 col-xs-offset-1 col-sm-8 col-sm-offset-1"                      class="col-md-offset-4 
 		//col-xs-11 col-sm-11 col-md-11 col-lg-11 
 		//    col-md-offset-2"  		   				style="text-align:right;"
-
-
 		?>
-		
-		
+
+</div>		

@@ -76,6 +76,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
+						'summary' => '{begin}-{end} von {totalCount}',
 //						'emptyCell'=>'-',
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
@@ -137,7 +138,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'style' => 'width:10em;',
 							],
             ],
-//            'MitgliederId',
+            'MitgliederId',
 //            'MitgliedsNr',
 //						'Name',
 //            'Vorname',
@@ -216,6 +217,18 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
+            ['attribute' => 'LetztAendSifu', 'width' => '5em', 
+							'format' => ['date', 'php:d.m.Y H:i'],
+							'label' => 'Letzt.Änd.Sifu', 
+							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
+							'filterInputOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => 'width:5em;',
+							],								
+							'headerOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+							],								
+						],
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
 							'controller' => 'mitglieder',
@@ -254,12 +267,13 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						    },
 							'width' => '4em',
 							'contentOptions' =>['class' => 'hidden-xs table_class','style'=>'font-size:12px;'],
-							'filterType' => 'checkbox',
+							'filterType' => GridView::FILTER_CHECKBOX,
 							'label' => 'P. zum',
 //							'mergeHeader' => true,
-//							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]]
+//							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+								'style' => 'font-size:12px;width:4em !important;',
 							],								
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
@@ -290,7 +304,15 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'filterModel'=>$searchModel,
-						'summary' => '{begin}-{end} von {totalCount}',
+						'summary' => Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													'class'=>'btn btn-success', 
+													'style'=>"padding-top:0.1em;margin-top:0em;height:1.8em;",
+//													'target'=>'_blank',
+//													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
+													'data-toggle'=>'tooltip',
+													'title'=>'Neuen Eintrag anlegen'
+												]
+											).'&nbsp;&nbsp;&nbsp;{begin}-{end} von {totalCount}',
 //						'options'=>['id'=>'grid-2',], // a unique identifier is important
 //						'containerOptions' => ['style' => 'min-width: 300px;'],
 //						'emptyCell'=>'-',
@@ -306,7 +328,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
         		'responsive' => true,
 						'responsiveWrap' => false,
-						'toolbar' => [
+						'toolbar' => false, /*[
 //										 	['content'=>$content_mcf,  
 //											],
 										 	['content'=>
@@ -318,13 +340,13 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 													'title'=>'Neuen Eintrag anlegen'
 												]
 											)]
-									],
+									], */
 				],				
 				'options'=>['id'=>'dynagrid-2'], // a unique identifier is important
         'columns' => [
 						['format' => 'raw',
               'attribute' => 'NameLink',
-              'width' => '40%',
+              'width' => '30%',
 							'label' => 'Name',
 							'contentOptions' =>['style' => 'font-size:0.8em;'],
 							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
@@ -352,11 +374,27 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							'headerOptions' => ['style' => 'font-size:0.8em;', ],								
 						],
            ['attribute' => 'LetzteAenderung', 
-              'width' => '30%',
+              'width' => '20%',
 							'format' => ['date', 'php:d.m.Y H:i'], 
 							'contentOptions' =>['style' => 'font-size:0.8em;'],
-							'filterInputOptions' => ['style' => 'font-size:0.8em;',],								
+							'filterInputOptions' => ['style' => 'width:8em;font-size:0.8em;',],								
 							'headerOptions' => ['style' => 'font-size:0.8em;',],								
+						],
+            ['attribute' => 'LetztAendSifu', 'width' => '20%', 
+							'format' => ['date', 'php:d.m.Y H:i'], 
+							'label' => 'Letzt.Änd.Sifu', 
+							'contentOptions' =>[
+								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => 'width:20%;font-size:0.8em;',
+							],
+							'filterInputOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => 'width:8em;font-size:0.8em;',
+							],								
+							'headerOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => 'width:20%;font-size:0.8em;',
+							],								
 						],
         ], // -- columns
 //        'export' => true,    

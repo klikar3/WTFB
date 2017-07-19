@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use frontend\models\Mitgliederliste;
+use yii\helpers\VarDumper;
 
 /**
  * MitgliederSearch represents the model behind the search form about `app\models\Mitglieder`.
@@ -22,8 +23,8 @@ class MitgliederlisteSearch extends Mitgliederliste
     {
         return [
             [['MitgliederId', 'MitgliedsNr'], 'integer'],
-            [['LetzteAenderung'],'date', 'format' => 'd.m.Y'],
-            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung'], 'safe'],
+            [['LetzteAenderung', 'LetztAendSifu'],'date', 'format' => 'd.m.Y'],
+            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung', 'LetztAendSifu'], 'safe'],
         ];
     }
 
@@ -68,9 +69,11 @@ class MitgliederlisteSearch extends Mitgliederliste
 		            'Funktion',
 		            'Vertreg',
 		            'Grad',
-		            'LetzteAenderung'
+		            'LetzteAenderung', 
+								'LetztAendSifu'
 		        ]
 		    ]); 
+        		Yii::info("----------------mitgliederlisteSearch: ".Vardumper::dumpAsString($this)); 
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -104,6 +107,7 @@ class MitgliederlisteSearch extends Mitgliederliste
 				};
     		$query->andWhere('Name LIKE "%' . $this->NameLink . '%" '  );
         $query->andWhere('LetzteAenderung >= STR_TO_DATE("' . $this->LetzteAenderung . '" , "%e.%c.%Y %H:%i:%s")' );
+//        $query->andWhere('LetztAendSifu >= STR_TO_DATE("' . $this->LetztAendSifu . '" , "%e.%c.%Y %H:%i:%s")' );
 //				if ($this->LetzteAenderung) {
 //						$query->andFilterWhere(['>=', 'LetzteAenderung', $this->LetzteAenderung]);
 //				};

@@ -180,9 +180,10 @@ class MitgliederlisteController extends Controller
 				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
-        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
-    		->from('mitgliederliste')
-    		->join('RIGHT JOIN', 'tally','mitgliederliste.MitgliederId = null')
+//        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
+        ->select('m.*')
+    		->from('mitgliederliste m')
+    		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')
     		->limit($r);
 				
 				$query->union($query2, true);//false is UNION, true is UNION ALL

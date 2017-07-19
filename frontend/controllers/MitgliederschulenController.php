@@ -66,7 +66,9 @@ class MitgliederschulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         return $this->redirect(['/mitgliederschulen/view', 
             'id' => $id,
@@ -78,7 +80,7 @@ class MitgliederschulenController extends Controller
         }
     }    
 
-    public function actionViewfrommitglied($id)
+    public function actionViewfrommitglied($id, $openv = 0)
     {
         $model = $this->findModel($id);
 //        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
@@ -87,14 +89,16 @@ class MitgliederschulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 3
+            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
         ]);
         } else {
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 3
+            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
 //            return $this->render('/mitglieder/view', [
 //                'model' => $mgModel,
             ]);
@@ -112,7 +116,9 @@ class MitgliederschulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);
         } else {
@@ -128,7 +134,9 @@ class MitgliederschulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
         } else {
@@ -150,7 +158,9 @@ class MitgliederschulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);
         } else {
@@ -169,7 +179,9 @@ class MitgliederschulenController extends Controller
     public function actionDelete($id)
     {
 	        $mitglied = $this->findModel($id)->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         $this->findModel($id)->delete();
 
@@ -179,7 +191,9 @@ class MitgliederschulenController extends Controller
     public function actionDeletefast($id)
     {
 	        $mitglied = $this->findModel($id)->mitglieder;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
     		$mid = $this->findModel($id)->MitgliederId;
         $this->findModel($id)->delete();

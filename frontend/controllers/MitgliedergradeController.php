@@ -9,7 +9,7 @@ use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
-use frontend\models\MitgliederSchulen;
+use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliedergradePrint;
 use frontend\models\MitgliedergradeSearch;
 use yii\web\Controller;
@@ -77,7 +77,9 @@ class MitgliedergradeController extends Controller
 //	        	$model = $this->findModel($id);
 	        $mitglied = $model->Mitglied;
 	        Vardumper::dump($mitglied) ;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
 	        return $this->redirect(['/mitgliedergrade/view', 
 	            'id' => $id,
@@ -128,7 +130,9 @@ class MitgliedergradeController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglied;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->mgID]);
         } else {
@@ -188,7 +192,9 @@ class MitgliedergradeController extends Controller
 						}
         		$mgID = Yii::$app->db->getLastInsertID();
 		        $mitglied = $model->mitglied;
+		        date_default_timezone_set('Europe/Berlin');
 		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		
         		$modelm = Mitglieder::find($mId)->one();
@@ -223,7 +229,9 @@ class MitgliedergradeController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 //            return $this->redirect(['view', 'id' => $model->mgID]);
 	        $mitglied = $model->mitglied;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliedId, 'tabnum' => 5]);
         } else {
@@ -290,7 +298,9 @@ class MitgliedergradeController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 	        $mitglied = $model->mitglied;
+	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
             'id' => $model->MitgliedId, 'tabnum' => 5

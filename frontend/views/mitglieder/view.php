@@ -11,6 +11,7 @@ use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
+use yii\widgets\Pjax;
 use kartik\tabs\TabsX;
 
 use frontend\models\Mitglieder;
@@ -23,13 +24,14 @@ use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Texte;
 ?>
+<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
 <?php
     $items = [
 		    [
 				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
-				                                'model'=>$model,  'tabnum' => 1,
+				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv,
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -45,35 +47,35 @@ use frontend\models\Texte;
 */				[
 				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
 						'content'=>$this->render('_view_interessent', array(
-		                                'model'=>$model, 'tabnum' => 2, 
+		                                'model'=>$model, 'tabnum' => 2, 'openv' => $openv, 
 		                        ) ),
 						'active' => $tabnum == 2?true:false,
 				],
 		    [
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
 				    'content'=>$this->render('_view_vertrag', array(
-				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,
+				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv,
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Konto',
 						'content'=>$this->render('_view_zahlung', array(
-		                                'model'=>$model, 'tabnum' => 4, 
+		                                'model'=>$model, 'tabnum' => 4, 'openv' => $openv, 
 		                        ) ),
 						'active' => $tabnum == 4?true:false,
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
 						'content'=>$this->render('_view_grade', array(
-		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 
+		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 'openv' => $openv, 
 		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-pencil"></i> Notiz',
 						'content'=>$this->render('_view_notiz', array(
-		                                'model'=>$model, 'tabnum' => 6, 
+		                                'model'=>$model, 'tabnum' => 6,
 		                        ) ),
 						'active' => $tabnum == 6?true:false, 
 				],
@@ -145,3 +147,4 @@ if($model->hasErrors()){
 				    ]);
 				?>
 </div>
+<?php Pjax::end(); ?>

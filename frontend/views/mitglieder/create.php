@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseHtml;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
@@ -18,7 +19,6 @@ use frontend\models\Disziplinen;
 use frontend\models\Funktion;
 use frontend\models\Schulen;
 ?>
-
 			<?php /*Modal::begin([ 'id' => 'mg-cr-mod',
 				'header' => '<center><h5>Mitglied anlegen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-success', 
@@ -33,7 +33,8 @@ use frontend\models\Schulen;
 //				'footer'=>Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary']) 									
 		]);
 */		?>
-	<div class="modal-content container-fluid">
+	<div class="modal-content container-fluid" style="color:#337ab7;">
+ <center><h5>Neues Mitglied anlegen</h5></center> <hr>
 	
 			<?php $form = ActiveForm::begin([ 'method' => 'post',
 																			  'action' => Url::to(['/mitglieder/create']),
@@ -47,15 +48,18 @@ use frontend\models\Schulen;
 																				],
 //																				'options'=>['style'=>'width:20em;margin:0px;']												
 																			]); ?>
-				<?= $form->field($mcf, 'Vorname',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
-																			 ;
-				?>
+				<?php if($mcf->hasErrors()){
+						  echo BaseHtml::errorSummary($mcf);
+						} ?>																			
 				<?= $form->field($mcf, 'Name',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
 																			 ])
 									 ;
+				?>
+				<?= $form->field($mcf, 'Vorname',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
+																			 ;
 				?>
 				<?= $form->field($mcf, 'Geschlecht',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'width:20em;font-size:0.85em;']

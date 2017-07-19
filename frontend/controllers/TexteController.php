@@ -316,13 +316,21 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 				}
+
+				if ($txtcode == 'EmailBegruessung') 
+					$link = "Begr.-Email";
+				else if ($txtcode == 'EmailAussetzen') 
+					$link = "Auss.-Email";
+				else if ($txtcode == 'EmailKündigung') 
+					$link = "Künd.-Email";
+				else $link = "per Email";						
 				
 				// Linefeed für Outlook ersetzen
 				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );
 				
 				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
-				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> per Email</div>', Url::to($model->Email) .
+				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($model->Email) .
 									"?subject=".$textmodel->betreff."&body=".$textmodel->txt,[
 											'title' => Yii::t('app', 'Email an Mitglied senden'),
 							  	]);							

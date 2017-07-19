@@ -59,9 +59,8 @@ class Mitgliederliste extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['MitgliederId', 'PruefungZum'], 'integer'],
+            [['MitgliederId', 'PruefungZum', 'MitgliedsNr'], 'integer'],
             [['MitgliederId', 'MitgliedsNr', 'Schulname', 'LeiterName', 'DispName'], 'required'],
-            [['MitgliedsNr'], 'string', 'max' => 6],
             [['Vorname'], 'string', 'max' => 18],
             [['Nachname'], 'string', 'max' => 29],
             [['Name'], 'string', 'max' => 49],
@@ -71,8 +70,8 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             [['LeiterName'], 'string', 'max' => 80],
             [['DispName'], 'string', 'max' => 30],
             [['Vertrag'], 'string', 'max' => 50],
-            [['LetzteAenderung'], 'date', 'format' => 'php:Y-m-d'],
-            [['LetzteAenderung'], 'safe'],
+            [['LetzteAenderung', 'LetztAendSifu'], 'date', 'format' => 'php:Y-m-d'],
+            [['LetzteAenderung', 'LetztAendSifu'], 'safe'],
         ];
     }
 
@@ -96,6 +95,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'Grad' => Yii::t('app', 'Grade'),
             'Funktion' => Yii::t('app', 'Funktion'),
             'LetzteAenderung' => Yii::t('app', 'Letzte Änderung'),
+            'LetztAendSifu' => Yii::t('app', 'Letzte Änderung Sifu'),
         ];
     }
     

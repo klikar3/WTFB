@@ -6,8 +6,10 @@ use Yii;
 use yii\helpers\VarDumper;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
-use jschaedl\iban\library\IBAN\Validation\IBANValidator;
-use IBAN\Generation\IBANGenerator;
+//use jschaedl\iban\library\IBAN\Validation\IBANValidator;
+use IBAN\Validation\IBANValidator;
+use IBAN\Generation\IBANGeneratorDE;
+use IBAN\Generation\IBANGeneratorNL;
 use IBAN\Rule\RuleFactory;
 
 use frontend\models\Schulen;
@@ -45,6 +47,7 @@ use frontend\models\Schulen;
  * @property string $Disziplin
  * @property string $Funktion
  * @property string $Sifu
+ * @property string $ErzBerechtigter
  * @property string $Woher
  * @property string $Graduierung
  * @property string $VDauer
@@ -208,16 +211,46 @@ class Mitglieder extends \yii\db\ActiveRecord
 
 		public function validateIban($attribute, $params) 
 		{
-				if (empty($this->$attribute)) return;
+				if (empty($attribute)) return;
 			
 				// validation 
-//				$ibanValidator = new IBANValidators();
-//				if ($ibanValidator->validate($this->$attribute)) {
-//						return;
-//				}
+				$ibanValidator = new IBANValidator();
+				if ($ibanValidator->validate($attribute)) {
+						return;
+				}
 				$this->addError($attribute, 'IBAN is not valid!');
-			}    
-			
+		}    
+
+		public function checkIBAN($attribute) {
+		
+		// Normalize input (remove spaces and make upcase)
+		$iban = strtoupper(str_replace(' ', '', $iban));
+		
+		if (preg_match('/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/', $iban)) {
+		    $country = substr($iban, 0, 2);
+		    $check = intval(substr($iban, 2, 2));
+		    $account = substr($iban, 4);
+		
+		    // To numeric representation
+		    $search = range('A','Z');
+		    foreach (range(10,35) as $tmp)
+		        $replace[]=strval($tmp);
+		    $numstr=str_replace($search, $replace, $account.$country.'00');
+		
+		    // Calculate checksum
+		    $checksum = intval(substr($numstr, 0, 1));
+		    for ($pos = 1; $pos < strlen($numstr); $pos++) {
+		        $checksum *= 10;
+		        $checksum += intval(substr($numstr, $pos,1));
+		        $checksum %= 97;
+		    }
+		
+		    return ((98-$checksum) == $check);
+		} else
+		    return false;
+		}
+		
+					
     /**
      * @inheritdoc
      */
@@ -226,16 +259,16 @@ class Mitglieder extends \yii\db\ActiveRecord
         return [
             [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
             [['MitgliederId'], 'unique'],
-		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+//		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
             [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
             [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm'],'date', 'format' => 'php:Y-m-d'],
-            [['LetzteAenderung'],'date', 'format' => 'Y-m-d H:m:s'],
+            [['LetzteAenderung','LetztAendSifu'],'date', 'format' => 'Y-m-d H:m:s'],
 //            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum', 'ProbetrainingAm', 'KontaktAm'], 'default', 'allowEmpty'=>true, 'value' => null],
-           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung'], 'safe'],
+           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung','LetztAendSifu'], 'safe'],
            	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'Status', 'Schulort', 
 						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
             [['Name', 'Betreff'], 'string', 'max' => 30],
-            [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu'], 'string', 'max' => 50],
+            [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['BLZ', 'Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 45],
@@ -284,6 +317,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'HandyNr' => Yii::t('app', 'Handy-Nr'),
             'Fax' => Yii::t('app', 'Fax'),
             'LetzteAenderung' => Yii::t('app', 'Letzte Änderung'),
+            'LetztAendSifu' => Yii::t('app', 'Letzte Änderung Sifu'),
             'Email' => Yii::t('app', 'Email'),
             'Beruf' => Yii::t('app', 'Beruf'),
             'Nationalitaet' => Yii::t('app', 'Nationalität'),
@@ -298,6 +332,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Disziplin' => Yii::t('app', 'Disziplin'),
             'Funktion' => Yii::t('app', 'Funktion'),
             'Sifu' => Yii::t('app', 'Sifu'),
+            'ErzBerechtigter' => Yii::t('app', 'ErzBerechtigter'),
             'Woher' => Yii::t('app', 'Woher'),
             'Graduierung' => Yii::t('app', 'Graduierung'),
             'VDauer' => Yii::t('app', 'Vertragsdauer'),
@@ -461,7 +496,9 @@ class Mitglieder extends \yii\db\ActiveRecord
 		public function beforeValidate() {
 		    if (parent::beforeValidate()) {
 //		    		$jetzt = new \yii\db\Expression('NOW();');
+						date_default_timezone_set('Europe/Berlin');
 						$this->LetzteAenderung = date('Y-m-d H:i:s');
+						if (Yii::$app->user->identity->isAdmin) { $this->LetztAendSifu = $this->LetzteAenderung; }
 		        return true;
 		    }
 		    return false;

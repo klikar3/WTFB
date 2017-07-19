@@ -162,9 +162,14 @@ use frontend\models\Schulen;
 							],
 */							
 							[ 'class' => '\kartik\grid\ExpandRowColumn', 
-                'value' => function ($data, $model, $key, $index) { 
-                        return GridView::ROW_COLLAPSED;
-                    },
+                'value' => function ($data, $model, $key, $index ) use ($openv) { 
+//                				($data->msID == $openv) ? GridView::ROW_EXPANDED : GridView::ROW_COLLAPSED;
+                				if ($data->msID == $openv) 
+													return GridView::ROW_EXPANDED;
+												else 	
+                        	return GridView::ROW_COLLAPSED;
+                    }
+										,
 								'detail' => function ($data, $model, $key, $index) {//function ($data, $id) {
 									//$cont = Mitgliederschulen::findOne($id);
 	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$data]);
@@ -206,6 +211,5 @@ use frontend\models\Schulen;
   											],
 					],				
 	    ]); ?>
-
 
 

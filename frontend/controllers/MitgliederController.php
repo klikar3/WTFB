@@ -64,7 +64,7 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id,$tabnum)
+    public function actionView($id,$tabnum, $openv = 0)
     {
         $model = $this->findModel($id);
         
@@ -89,7 +89,7 @@ class MitgliederController extends Controller
 				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
   	
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
+            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum, 'openv' => $openv]);
         } else {
 						$errors = $model->errors;
 						VarDumper::dump($errors);
@@ -97,7 +97,7 @@ class MitgliederController extends Controller
 						VarDumper::dump($errors);
 						VarDumper::dump($errors);
             return $this->render('view', [
-                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'tabnum' => $tabnum
+                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'tabnum' => $tabnum, 'openv' => $openv
             ]);
         }
 
@@ -134,11 +134,16 @@ class MitgliederController extends Controller
 				]);
 				
         if ($model->load(Yii::$app->request->post()) ) {
-        		Yii::info("----------------if model: ".Vardumper::dumpAsString($model));       
+        		Yii::info("----------------if model-load: ".Vardumper::dumpAsString($model));
+						$model->Kontoinhaber = $model->Name.', '.$model->Vorname; 
+						$model->validate();      
+						$errors = $model->errors;
+        		Yii::trace($errors);
         		if ($model->save()){
-            		return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
+            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));       
+        				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
-        } else {
+        } //else {
 						$errors = $model->errors;
         		Yii::trace($errors);
 						$datum = date('Y-m-d');
@@ -151,11 +156,11 @@ class MitgliederController extends Controller
 		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
 		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
 		//        $grade = new Grade();
-        		Yii::info("----------------else model: ".Vardumper::dumpAsString($model));       
+        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
                 'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'mcf' => $model
             ]);
-        }
+//        }
     }
 
     /**
