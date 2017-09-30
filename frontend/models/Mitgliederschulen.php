@@ -73,7 +73,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return [
            [['MitgliederId', 'SchulId', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'VertragId', 'WM', 'SF', 'BL', 'OK'], 'safe'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'VertragId', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
 	         [['MonatsBeitrag'], 'number'],
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
 	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],

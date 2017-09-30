@@ -56,9 +56,11 @@ AppAsset::register($this);
 																  	['label' => 'Schulen', 'url' => ['/schulen/index']],
 																  	['label' => 'Schulleiter', 'url' => ['/schulleiter/index']],
 																  	['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']],
+																  	['label' => 'Sektionen', 'url' => ['/sektionen/index']],
 																  	['label' => 'Sifus', 'url' => ['/sifu/index']],
 																  	['label' => 'Texte', 'url' => ['/texte/index']],
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
+																  	['label' => 'DB-Backup', 'url' => ['/backup']],
 //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
@@ -66,17 +68,17 @@ AppAsset::register($this);
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
+																  	['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']],
 																]];
-/*                $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
-																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
-																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
-																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
-																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
+/*                $menuItems[] = ['label' => 'System', 'url' => ['/backup'], 'items' => [
+																  	['label' => 'DB-Backup', 'url' => ['/backup']],
 																]];
 */								}								
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
                 $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
+																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsliste'],
+																  	 'linkOptions' => ['target' => '_blank']]
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[

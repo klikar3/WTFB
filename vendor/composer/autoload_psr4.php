@@ -15,6 +15,7 @@ return array(
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\authclient\\' => array($vendorDir . '/yiisoft/yii2-authclient'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
+    'spanjeta\\modules\\backup\\' => array($vendorDir . '/spanjeta/yii2-backup'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
     'moonland\\tinymce\\' => array($vendorDir . '/moonlandsoft/yii2-tinymce'),
     'moonland\\helpers\\' => array($vendorDir . '/moonlandsoft/helpers'),

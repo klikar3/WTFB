@@ -98,6 +98,10 @@ use frontend\models\Pruefer;
 	        'responsiveWrap' => false,
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
+			    'formatter' => [
+			        'class' => 'yii\i18n\Formatter',
+			        'nullDisplay' => '',
+			    ],
 					'rowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 	        'columns' => [
@@ -120,9 +124,10 @@ use frontend\models\Pruefer;
                 'value' => function ($data, $model, $key, $index) { 
                         return GridView::ROW_COLLAPSED;
                     },
-								'detail' => function ($data, $id) {
+								'detail' => function ($data, $id) use ($grade_zur_auswahl, $pruefer_zur_auswahl){
 									$cont = Mitgliedergrade::findOne($id);
-	                return Yii::$app->controller->renderPartial('_grad-detail', ['model'=>$cont]);
+	                return Yii::$app->controller->renderPartial('_grad-detail', ['model'=>$cont, 'grade_zur_auswahl' => $grade_zur_auswahl,
+																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
             		},
             		'enableRowClick' => true,
 							],

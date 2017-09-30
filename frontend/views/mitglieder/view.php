@@ -20,18 +20,20 @@ use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
+use frontend\models\Mitgliedersektionen;
+use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Texte;
 ?>
-<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
+<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
 <?php
     $items = [
 		    [
 				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
-				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv,
+				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -47,14 +49,14 @@ use frontend\models\Texte;
 */				[
 				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
 						'content'=>$this->render('_view_interessent', array(
-		                                'model'=>$model, 'tabnum' => 2, 'openv' => $openv, 
+		                                'model'=>$model, 'tabnum' => 2, 'openv' => $openv,  
 		                        ) ),
 						'active' => $tabnum == 2?true:false,
 				],
 		    [
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
 				    'content'=>$this->render('_view_vertrag', array(
-				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv,
+				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],
@@ -67,8 +69,11 @@ use frontend\models\Texte;
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
-						'content'=>$this->render('_view_grade', array(
-		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 'openv' => $openv, 
+						'content'=>$this->render('_view_grade_index', array(
+		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
+																		'tabnum' => 5, 'openv' => $openv, 
+																		'grade_zur_auswahl' => $grade_zur_auswahl,
+																		'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
@@ -126,6 +131,7 @@ if($model->hasErrors()){
 						?>				
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
+				    		'id' => 'main-tab',
 						    'enableStickyTabs' => true,
 						    'items'=>$items,
 						    'position'=>TabsX::POS_ABOVE,
@@ -138,6 +144,7 @@ if($model->hasErrors()){
 <div class="col-xs-12 hidden modal-content">
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
+				    		'id' => 'main-tab',
 						    'enableStickyTabs' => true,
 						    'items'=>$items,
 						    'position'=>TabsX::POS_LEFT,

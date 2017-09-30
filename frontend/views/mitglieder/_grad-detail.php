@@ -37,6 +37,10 @@ use frontend\models\Schulen;
 					'heading'=>'&nbsp;', // Grad # ' . $model->mgID,
 					'type'=>DetailView::TYPE_INFO,
 				],
+		    'formatter' => [
+		        'class' => 'yii\i18n\Formatter',
+		        'nullDisplay' => '',
+		    ],
 				'formOptions' => [
 							'action' => ['mitgliedergrade/viewfrommitglied', 'id' => $model->mgID, 'tabnum' => 3 ],
 				],
@@ -56,7 +60,7 @@ use frontend\models\Schulen;
             	'type' => DetailView::INPUT_SELECT2,
             	'label' => 'Grad',
             	'widgetOptions' => [
-									'data' => array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' )),
+									'data' => $grade_zur_auswahl,
 							    'options' => [
 				            	'id' => 'dv_vv_g_'.$model->mgID,											
 									],
@@ -88,8 +92,7 @@ use frontend\models\Schulen;
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->mgID,
 //									'data' => array_merge(["0" => ""], ArrayHelper::map( Pruefer::find()->all(), 
-									'data' => ArrayHelper::map( Pruefer::find()->all(), 
-									'prueferId', 'pName' ),
+									'data' => $pruefer_zur_auswahl,
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->mgID,											
 //									    'pluginOptions' => [

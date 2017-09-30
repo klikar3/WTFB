@@ -104,6 +104,10 @@ use frontend\models\Schulen;
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'responsiveWrap' => false,
+			    'formatter' => [
+			        'class' => 'yii\i18n\Formatter',
+			        'nullDisplay' => '',
+			    ],
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 					'rowOptions' => [ 'style' => 'font-size:0.85em',

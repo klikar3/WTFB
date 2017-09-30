@@ -13,6 +13,7 @@ use kartik\mpdf\Pdf;
 
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
+use frontend\models\Mitgliederschulen;
 use frontend\models\Numbers;
 use frontend\models\Texte;
 use frontend\models\TexteSearch;
@@ -127,7 +128,7 @@ class TexteController extends Controller
         }
     }
     
-    public function actionPrint($datamodel, $dataid, $txtcode, $SchulId, $txtid)
+    public function actionPrint($datamodel, $dataid, $txtcode, $SchulId, $vertragId = null, $txtid)
     {
 //  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
     		
@@ -154,29 +155,32 @@ class TexteController extends Controller
 					return "Zugehörigen Text nicht gefunden!" ;
 				}	
 				
-        if ($datamodel == 'mitglieder') {
-					$model = Mitglieder::findOne($dataid);
-					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $model->Sifu) , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+//        if ($datamodel == 'mitglieder') {
+					$modelm = Mitglieder::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $modelm->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $modelm->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $modelm->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($modelm->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $modelm->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $modelm->Sifu) , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $modelm->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $modelm->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $modelm->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $modelm->PLZ , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-				}
+//				}
 				
 				
         if ($datamodel == 'vertrag') {
-/*					$model = Mitgliederschulen::findOne($dataid);
-					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
+					$modelv = Mitgliederschulen::findOne($vertragId);
+/*					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
 					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
+*/					$textmodel->txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#kuendigungsdatum#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#austrittsdatum#', Yii::$app->formatter->asDatetime($modelv->Bis, "php:d.m.Y") , $textmodel->txt );
+/*					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	

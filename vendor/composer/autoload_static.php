@@ -28,6 +28,10 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
+        's' => 
+        array (
+            'spanjeta\\modules\\backup\\' => 24,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
@@ -172,6 +176,10 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'spanjeta\\modules\\backup\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spanjeta/yii2-backup',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (

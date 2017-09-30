@@ -4,17 +4,25 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Grade;
+use frontend\models\Mitgliedersektionen;
+use frontend\models\MitgliedersektionenSearch;
+use frontend\models\Pruefer;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use IBAN\Validation\IBANValidator;
+use IBAN\Generation\IBANGenerator;
+use IBAN\Generation\IBANGeneratorDE;
+use IBAN\Rule\RuleFactory;
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
@@ -77,27 +85,68 @@ class MitgliederController extends Controller
 			    'query' => $query,
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
 				]);
+				
+				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+  	
+				// Sektionen
+				$squery = Mitgliedersektionen::find();
+				$squery->andWhere(['=', 'mitglied_id', $id]);
+				$msdataProvider = new ActiveDataProvider([
+			    'query' => $squery,
+     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC]]
+				]);
   	
   	    // Verträge
 				$vquery = Mitgliederschulen::find();
 				$vquery->andWhere(['=', 'MitgliederId', $id]);
-				Yii::info('-----$vquery: '.VarDumper::dumpAsString($vquery));
+				//Yii::info('-----$vquery: '.VarDumper::dumpAsString($vquery));
 				$vdataProvider = new ActiveDataProvider([
 			    'query' => $vquery,
      			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
 				]);
 				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
   	
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum, 'openv' => $openv]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+				        if (!empty($model->KontoNr) and !empty($model->BLZ)) {
+				        	$model->IBAN = IBANGenerator::DE($model->BLZ,$model->KontoNr); 
+//				        Yii::info('----- $KontoNr: '.VarDumper::dumpAsString($model->KontoNr));
+//				        Yii::info('----- $BLZ: '.VarDumper::dumpAsString($model->BLZ));
+//				        Yii::info('-----$generatedIban: '.VarDumper::dumpAsString($model->IBAN));
+								$model->validate();      
+								$errors = $model->errors;
+//		        		Yii::trace($errors);
+								}
+								if ($model->save() and empty($model->errors)) {
+            			return $this->redirect(['view', 'id' => $model->MitgliederId, 
+																					'grade' => $mgdataProvider, 
+																					'sektionen' => $msdataProvider, 
+																					'contracts' => $vdataProvider, 
+																					'tabnum' => $tabnum, 
+																					'openv' => $openv,
+																					'grade_zur_auswahl' => $grade_zur_auswahl,
+																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+																					]);
+        				} else {
+								$errors = $model->errors;
+//								Yii::info('-----$save model: '.VarDumper::dumpAsString($errors));
+		           	return $this->render('view', [
+		                'model' => $model, 'errors' => $errors, 
+										'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+										'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
+										'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
+										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+		            ]);
+		        }
+				} else {
 						$errors = $model->errors;
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
+//						Yii::info('-----$load model: '.VarDumper::dumpAsString($errors));
             return $this->render('view', [
-                'model' => $model, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'tabnum' => $tabnum, 'openv' => $openv
+                'model' => $model, 'errors' => $errors, 
+								'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+								'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
+								'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
+								'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
             ]);
         }
 
@@ -134,13 +183,13 @@ class MitgliederController extends Controller
 				]);
 				
         if ($model->load(Yii::$app->request->post()) ) {
-        		Yii::info("----------------if model-load: ".Vardumper::dumpAsString($model));
+//        		Yii::info("----------------if model-load: ".Vardumper::dumpAsString($model));
 						$model->Kontoinhaber = $model->Name.', '.$model->Vorname; 
 						$model->validate();      
 						$errors = $model->errors;
         		Yii::trace($errors);
         		if ($model->save()){
-            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));       
+//            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));       
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } //else {
@@ -156,7 +205,7 @@ class MitgliederController extends Controller
 		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
 		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
 		//        $grade = new Grade();
-        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
+//        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
                 'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'mcf' => $model
             ]);

@@ -42,6 +42,10 @@ use frontend\models\InteressentVorgaben;
 					'headingOptions' => ['style' => 'font-size:1em'],
 					'type'=>DetailView::TYPE_INFO,
 				],
+		    'formatter' => [
+		        'class' => 'yii\i18n\Formatter',
+		        'nullDisplay' => '',
+		    ],
 				'formOptions' => [
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 2 ],
 				],

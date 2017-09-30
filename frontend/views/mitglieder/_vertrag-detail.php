@@ -30,7 +30,7 @@ use frontend\models\SearchVertrag;
 /* @var $model app\models\Mitglieder */
 
 ?>
-<?php Pjax::begin(['id'=>'pjaxDetailView_'.$model->msID,]); ?>
+<?php Pjax::begin(['id'=>'pjaxDetailView_'.$model->msID, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
 
 <div class="col-sm-7 col-md-7"">
     <?= DetailView::widget([
@@ -46,6 +46,10 @@ use frontend\models\SearchVertrag;
 					'type'=>DetailView::TYPE_INFO,
 				],
         'container' => ['id'=>'id_dVOrdenPago_'.$model->msID],
+		    'formatter' => [
+		        'class' => 'yii\i18n\Formatter',
+		        'nullDisplay' => '',
+		    ],
 				'formOptions' => [
 							'action' => ['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
 //              'action' => Url::current(['tabnum' => 3, '#' => 'dv_vv_'.$model->msID, 'openv' => $model->msID]),
@@ -209,27 +213,10 @@ use frontend\models\SearchVertrag;
         ],
     ]);  ?>
 </div>
-<div class="col-sm-3 col-md-3" >
+<div class="col-sm-5 col-md-5" style="width:300px;">
 <?php if (Yii::$app->user->identity->isAdmin) { ?>
- <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px">
-   <div class="col-sm-5 col-md-5 col-5" id = "wm1.$model->msID" >  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Ausweis drucken'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]); ?>
-	 </div>	
-	 <div class="col-sm-5 col-md-5 col-5" id = "wm2.$model->msID" >										        
- 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Standard-Email</div>', Url::to($model->mitglieder->Email) .
-									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
-											'title' => Yii::t('app', 'Standard-Email an Mitglied senden'),
-							  	]);
-		?>
-		</div>
-		<div class="col-sm-2 col-md-2 col-2" id = "wm3.$model->msID" >
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
+ 		<div class="col-sm-2 col-md-2 col-2" id = "wm3.$model->msID"  style="float:left;">
 		<?php 			$form2 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formwm'.$model->msID], // important
 			    'id' => 'formwm'.$model->msID,
@@ -247,16 +234,7 @@ use frontend\models\SearchVertrag;
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
 												
-/*			 Html::checkbox('wm'.$model->msID, $model->WM, [
-												'id' => 'wm'.$model->msID,
-												'class' => 'left-checkbox', 
-												'value' => $model->WM, 
-												'disabled' => false, 
-												'style' => 'width:15px;', 
-												'label' => 'WM',
-												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;'],
-*/			/*									'ajax' => array(
+			/*									'ajax' => array(
 			                                'type'=>'POST',
 			                                'url'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
 			                                'data'=>"shafi"
@@ -265,24 +243,7 @@ use frontend\models\SearchVertrag;
 	*/			ActiveForm::end();								
 		?> 
 	 </div>  
-	</div>
- <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px"> 
-   <div class="col-sm-5 col-md-5 col-5" id = "sf1.$model->msID" >  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Begrüßung drucken'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]); ?>
-	
-	 </div>  
-   <div class="col-sm-5 col-md-5 col-5" id = "sf2.$model->msID" >  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailBegruessung", $model->SchulId, 0);
-		?>
-	 </div>  
-   <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID" >  
+  <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;">  
 		<?php //echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form3 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data'], // important
@@ -304,24 +265,7 @@ use frontend\models\SearchVertrag;
 			ActiveForm::end();
 		?> 
 	 </div>  
-</div>												        
- <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px">
-   <div class="col-sm-5 col-md-5 col-5" id = "bl1.$model->msID" >  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Aussetzen drucken'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]); ?>
-	 </div>  
-   <div class="col-sm-5 col-md-5 col-5" id = "bl2.$model->msID" >  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailAussetzen", $model->SchulId, 0);
-											 
-		?>
-	 </div>  
-   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" >  
+  <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:left;" >  
 		<?php //echo Html::checkbox('bl'.$model->msID, $model->BL, ['value' => $model->BL, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'BL', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form4 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
@@ -343,24 +287,29 @@ use frontend\models\SearchVertrag;
 
 		?>
 	 </div>  
- </div>												        
- <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px">
-   <div class="col-sm-5 col-md-5 col-5" id = "bl3.$model->msID" >  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Kündigung drucken'),
-															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 120px; text-align: left;',
-												        ]); ?>
-	 </div>  
-   <div class="col-sm-5 col-md-5 col-5" id = "bl3.$model->msID" >  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailKündigung", $model->SchulId, 0);
-											 
+  <div class="col-sm-2 col-md-2 col-2" id = "bv3.$model->msID" style="!float:left;" >  
+		<?php //echo Html::checkbox('bl'.$model->msID, $model->BL, ['value' => $model->BL, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'BL', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+			$form4 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
+			    'id' => 'formbl'.$model->msID,
+			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+					echo $form4->field($model, 'BV')->checkbox([
+												'id' => 'bv'.$model->msID,
+												'class' => 'left-checkbox', 
+//												'value' => $model->BL, 
+												'disabled' => false, 
+												'style' => 'width:15px;', 
+												'label' => 'BV',
+												'onclick' => 'this.form.submit()', 
+												'labelOptions' => ['style' => 'font-size:0.75em;']
+												]);
+			ActiveForm::end();
+
 		?>
 	 </div>  
-   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" >  
+   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:right;" >  
 		<?php //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form5 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important
@@ -382,9 +331,79 @@ use frontend\models\SearchVertrag;
 
 		?>
 	 </div>  
+ </div>
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
+   <div class="col-sm-2 col-md-2 col-2" id = "wm1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
+															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Ausweis drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+	</div>	
+  <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;width:130px;">  
+ 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Standard-Email</div>', Url::to($model->mitglieder->Email) .
+									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
+											'title' => Yii::t('app', 'Standard-Email an Mitglied senden'),
+							  	]);
+		?>
+		</div>
+	</div>
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;"> 
+   		<div class="col-sm-2 col-md-2 col-2" id = "sf1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Begrüßung drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+			</div>									        
+	    <div class="col-sm-2 col-md-2 col-2" id = "sf2.$model->msID" style="float:leftt;margin-left:0px;width:130px;">
+	 		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailBegruessung", $model->SchulId, 0);
+		?>
+   		</div>
+</div>												        
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px auto">
+   <div class="col-sm-2 col-md-2 col-2" id = "bl1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Aussetzen drucken'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+	 </div>
+   <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailAussetzen", $model->SchulId, 0);
+											 
+		?>
+	 </div>  
+ </div>												        
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
+   <div class="col-sm-5 col-md-5 col-5" id = "bl3.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
+															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
+                    					'target'=>'_blank',
+															'class'=>'linksWithTarget btn btn-sm btn-default',
+															'title' => Yii::t('app', 'Kündigung drucken'),
+															'style' => 'width: 120px; text-align: left;',
+												        ]); ?>
+		</div>										        
+   <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailKündigung", $model->SchulId, 0);
+											 
+		?>
+	 </div>  
  </div>												        
 <?php } ?>
- <div class="row" style="width:250px;margin-bottom:8px;margin-left:0px">
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
+   <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	
 			Modal::begin([
 			    'header'=>'<center>Vertrag hochladen</center>',
@@ -431,7 +450,9 @@ use frontend\models\SearchVertrag;
 			ActiveForm::end();
 		?>	 </div> <?php
 			Modal::end();		
-		?>	
+		?>
+	 </div>		
+   <div class="col-sm-5 col-md-5 col-5" id = "v2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	if (!empty($model->vertrag)) {
 				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
 															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
@@ -443,15 +464,17 @@ use frontend\models\SearchVertrag;
 												        ]);
 		}										        
  ?>
-	</div>
+	 </div>  
+</div>
 <?php if (Yii::$app->user->identity->isAdmin) { ?>
 	
- <div class="row" style="width:250px;margin-bottom:24px;margin-left:0px">
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:width:0px auto;">
+   <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
  		<?php	echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de'),[
 											'title' => Yii::t('app', 'Mitglied in SWM eintragen'),
 											'target' => '_blank'
 							  	]);   ?>
+	 </div>						  	
 	</div>
 <?php } ?>			        	
-</div>
 <?php  Pjax::end(); ?>

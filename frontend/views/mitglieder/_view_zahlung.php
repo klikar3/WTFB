@@ -43,19 +43,21 @@ use frontend\models\Pruefer;
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 4, ],
 				],
         'attributes' => [
-             'KontoNr',
-             'BLZ',
-             'Bank',
-        		 'IBAN',
-        		 'BIC',
-             'Kontoinhaber',
+              ['attribute' => 'KontoNr',['enableAjaxValidation' => true],'options' => ['onchange' => "changeHidden(\"IBAN\")"]],
+              ['attribute' => 'BLZ',['enableAjaxValidation' => true]],
+              'Bank',
+        		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
+        		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
+              'Kontoinhaber',
 //             'Status',
         ],
     ]); ?>
+	Achtung: IBAN wird beim Speichern aus BLZ und Konto-Nr. generiert!
  <div class="row" style="width:250px;margin-bottom:24px;margin-left:0px">
  		<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
 											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
 											'target' => '_blank'
 							  	]);   ?>
 	</div>
+	
 

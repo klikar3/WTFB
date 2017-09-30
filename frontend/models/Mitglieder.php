@@ -8,8 +8,8 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 //use jschaedl\iban\library\IBAN\Validation\IBANValidator;
 use IBAN\Validation\IBANValidator;
+use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
-use IBAN\Generation\IBANGeneratorNL;
 use IBAN\Rule\RuleFactory;
 
 use frontend\models\Schulen;
@@ -183,6 +183,7 @@ use frontend\models\Schulen;
 
 class Mitglieder extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -209,48 +210,73 @@ class Mitglieder extends \yii\db\ActiveRecord
     }
 
 
-		public function validateIban($attribute, $params) 
+		public function checkIBAN($iban) {
+		
+			// Normalize input (remove spaces and make upcase)
+			$iban = strtoupper(str_replace(' ', '', $iban));
+			
+			if (preg_match('/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/', $iban)) {
+			    $country = substr($iban, 0, 2);
+			    $check = intval(substr($iban, 2, 2));
+			    $account = substr($iban, 4);
+			
+			    // To numeric representation
+			    $search = range('A','Z');
+			    foreach (range(10,35) as $tmp)
+			        $replace[]=strval($tmp);
+			    $numstr=str_replace($search, $replace, $account.$country.'00');
+			
+			    // Calculate checksum
+			    $checksum = intval(substr($numstr, 0, 1));
+			    for ($pos = 1; $pos < strlen($numstr); $pos++) {
+			        $checksum *= 10;
+			        $checksum += intval(substr($numstr, $pos,1));
+			        $checksum %= 97;
+			    }
+			
+			    return ((98-$checksum) == $check);
+			} else
+			    return false;
+		}
+		
+					
+		public function validateIban($model, $attribute) 
 		{
 				if (empty($attribute)) return;
-			
+//				Yii::warning('----- $attribute: '.VarDumper::dumpAsString($attribute));
+//			  Yii::warning('----- $model->$attribute: '.VarDumper::dumpAsString($model->$attribute));
 				// validation 
 				$ibanValidator = new IBANValidator();
-				if ($ibanValidator->validate($attribute)) {
+				if ($this->checkIBAN($attribute) and $ibanValidator->validate($model->$attribute)) {
+//			  		Yii::warning('----- validtate ok: '.VarDumper::dumpAsString($model->$attribute));
 						return;
 				}
 				$this->addError($attribute, 'IBAN is not valid!');
 		}    
 
-		public function checkIBAN($attribute) {
-		
-		// Normalize input (remove spaces and make upcase)
-		$iban = strtoupper(str_replace(' ', '', $iban));
-		
-		if (preg_match('/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/', $iban)) {
-		    $country = substr($iban, 0, 2);
-		    $check = intval(substr($iban, 2, 2));
-		    $account = substr($iban, 4);
-		
-		    // To numeric representation
-		    $search = range('A','Z');
-		    foreach (range(10,35) as $tmp)
-		        $replace[]=strval($tmp);
-		    $numstr=str_replace($search, $replace, $account.$country.'00');
-		
-		    // Calculate checksum
-		    $checksum = intval(substr($numstr, 0, 1));
-		    for ($pos = 1; $pos < strlen($numstr); $pos++) {
-		        $checksum *= 10;
-		        $checksum += intval(substr($numstr, $pos,1));
-		        $checksum %= 97;
-		    }
-		
-		    return ((98-$checksum) == $check);
-		} else
-		    return false;
-		}
-		
-					
+		public function generateIban($attribute, $params) 
+		{
+				if (empty($attribute)) return;
+			  if (empty($this->KontoNr) or empty($this->BLZ)) return;
+				// validation 
+				$ibanGenerator = new IBANGeneratorDE();
+//				Yii::info('-----gen  $KontoNr: '.VarDumper::dumpAsString($this->KontoNr));
+//				Yii::info('-----gen $BLZ: '.VarDumper::dumpAsString($this->BLZ));
+				$generatedIban = $ibanGenerator->generate($this->BLZ, $this->KontoNr);
+//				Yii::info('-----gen $generatedIban: '.VarDumper::dumpAsString($generatedIban));
+				if (!empty($generatedIban)) {
+						$ibanValidator = new IBANValidator();
+						if ($this->checkIBAN($generatedIban) and $ibanValidator->validate($generatedIban)) {
+//						Yii::warning('-----gen $generatedIban valid: '.VarDumper::dumpAsString($generatedIban));
+								$this->IBAN = $generatedIban;
+								$attribute = $generatedIban;
+								return;
+						}
+//						Yii::warning('-----gen $generatedIban invalid '.VarDumper::dumpAsString($generatedIban));
+				}
+				$this->addError($attribute, 'Resulting IBAN is not valid!');
+		}    
+
     /**
      * @inheritdoc
      */
@@ -259,7 +285,11 @@ class Mitglieder extends \yii\db\ActiveRecord
         return [
             [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
             [['MitgliederId'], 'unique'],
-//		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+		        [['IBAN'], 'generateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
+		        [['KontoNr', 'BLZ'], 'string', 'min' => 5, 'max' => 10],
+		        [['KontoNr', 'BLZ'], 'generateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
             [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
             [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm'],'date', 'format' => 'php:Y-m-d'],
             [['LetzteAenderung','LetztAendSifu'],'date', 'format' => 'Y-m-d H:m:s'],
@@ -270,13 +300,14 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['Name', 'Betreff'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
-            [['BLZ', 'Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
+            [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 45],
-            [['KontoNr', 'AktivPassiv', 'Monatsbeitrag', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
+            [['AktivPassiv', 'Monatsbeitrag', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
 							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'EinladungIAzum', 'Abschlussgespraech', 
 							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],
             [['Kontoinhaber'], 'string', 'max' => 31],
-            [['Woher', 'Bemerkung1'], 'string', 'max' => 27],
+            [['Woher'], 'string', 'max' => 27],
+            [['Bemerkung1'], 'string', 'max' => 512],
             [['Geburtsort','IBAN'], 'string', 'max' => 26],
             [['GruppenArt', 'BeitragOffenAb', 'EPruefungAm', 'BeginnEsckrima', 'EndeEsckrima'], 'string', 'max' => 18], 
 	          [['Zahlungsart', 'KPruefungZum', 'EPruefungZum'], 'string', 'max' => 12],

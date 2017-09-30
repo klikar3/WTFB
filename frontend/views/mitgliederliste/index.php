@@ -77,6 +77,10 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
 						'summary' => '{begin}-{end} von {totalCount}',
+				    'formatter' => [
+				        'class' => 'yii\i18n\Formatter',
+				        'nullDisplay' => '',
+				    ],
 //						'emptyCell'=>'-',
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
@@ -168,7 +172,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
-								'style' => 'width:3em;',
+								'style' => 'width:4em;',
 							],								
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -206,24 +210,24 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						 ],
-            ['attribute' => 'LetzteAenderung', 'width' => '5em', 
+            ['attribute' => 'LetzteAenderung', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y H:i'], 
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
-								'style' => 'width:5em;',
+								'style' => 'width:8em;',
 							],								
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
-            ['attribute' => 'LetztAendSifu', 'width' => '5em', 
+            ['attribute' => 'LetztAendSifu', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y H:i'],
 							'label' => 'Letzt.Änd.Sifu', 
 							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
 							'filterInputOptions' => [
 								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
-								'style' => 'width:5em;',
+								'style' => 'width:8em;',
 							],								
 							'headerOptions' => [
 								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
@@ -254,9 +258,6 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
 							'width' => '60px',
-//							'filterInputOptions' => [
-//								'class' => 'hidden-xs table_class',
-//							]								
 						],
 //            'PruefungZum',
 						[
@@ -266,7 +267,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 						        return Html::checkbox('PruefungZum[]', $model->PruefungZum, ['value' => $index, 'disabled' => true]);
 						    },
 							'width' => '4em',
-							'contentOptions' =>['class' => 'hidden-xs table_class','style'=>'font-size:12px;'],
+							'contentOptions' =>['class' => 'hidden-xs table_class','style'=>'font-size:12px;text-align:center !important'],
 							'filterType' => GridView::FILTER_CHECKBOX,
 							'label' => 'P. zum',
 //							'mergeHeader' => true,

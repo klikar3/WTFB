@@ -47,6 +47,10 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 				'formOptions' => [
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1/*, 'style' => 'font-size:1em',*/],
 				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
         'attributes' => [
