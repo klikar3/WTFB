@@ -109,3 +109,6 @@ ADD INDEX `ix_prueferid` (`PrueferId` ASC)  COMMENT '';
 ALTER TABLE `tbl_dynagrid_dtl` 
 ADD INDEX `ix_dynagrid_id` (`dynagrid_id` ASC)  COMMENT '';
 
+ALTER TABLE `mitgliederschulen` 
+ADD COLUMN `AGebuehr` DECIMAL(8,2) NULL DEFAULT 0.0 COMMENT '' AFTER `BV`,
+ADD COLUMN `AGbezahltAm` DATE NULL COMMENT '' AFTER `AGebuehr`;

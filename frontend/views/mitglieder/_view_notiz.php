@@ -44,6 +44,10 @@ use common\components\MyHelpers;
 				'formOptions' => [
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 6 ],
 				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
         'attributes' => [
             [ 'attribute' => 'Bemerkung1',
             	'label' => 'Bemerkung',

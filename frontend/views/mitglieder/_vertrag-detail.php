@@ -30,7 +30,7 @@ use frontend\models\SearchVertrag;
 /* @var $model app\models\Mitglieder */
 
 ?>
-<?php Pjax::begin(['id'=>'pjaxDetailView_'.$model->msID, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
+<?php //Pjax::begin(['id'=>'pjaxDetailView_'.$model->msID, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
 
 <div class="col-sm-7 col-md-7"">
     <?= DetailView::widget([
@@ -58,7 +58,7 @@ use frontend\models\SearchVertrag;
 				],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
-				'labelColOptions' => [ 'style' => 'width:120px;'],
+				'labelColOptions' => [ 'style' => 'width:200px;'],
         'attributes' => [
             [ 'attribute' => 'SchulId',
 							'id' => 'schulid_'.$model->msID,
@@ -201,6 +201,24 @@ use frontend\models\SearchVertrag;
             	'id' => 'dv_vv_bag_'.$model->msID,
             	'label' => 'Auss. Grund',
             ],
+            [ 'attribute' => 'AGebuehr',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
+            [ 'attribute' => 'AGbezahltAm',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_bag_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
             
 //             'AufnahmegebuehrBezahlt',
 /*						[ 'attribute' =>  'BL',
@@ -301,7 +319,7 @@ use frontend\models\SearchVertrag;
 //												'value' => $model->BL, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'BV',
+												'label' => 'BE',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
@@ -477,4 +495,4 @@ use frontend\models\SearchVertrag;
 	 </div>						  	
 	</div>
 <?php } ?>			        	
-<?php  Pjax::end(); ?>
+<?php // Pjax::end(); ?>

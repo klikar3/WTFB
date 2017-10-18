@@ -274,10 +274,11 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
-								'style' => 'font-size:12px;width:4em !important;',
+								'style' => 'font-size:12px;width:4em !important;text-align:center !important;',
 							],								
 							'headerOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+								'style' => 'text-align:center !important',
 							],																
 						],
         ], // -- columns

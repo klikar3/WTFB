@@ -73,8 +73,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return [
            [['MitgliederId', 'SchulId', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'VertragId', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
-	         [['MonatsBeitrag'], 'number'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
+	         [['MonatsBeitrag','AGebuehr'], 'number'],
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
 	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
 	         [['MitgliederId'], 'exist', 'skipOnError' => true, 'targetClass' => Mitglieder::className(), 'targetAttribute' => ['MitgliederId' => 'MitgliederId']],
@@ -103,6 +103,9 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 						'BeitragAussetzenVon' => Yii::t('app', 'Aussetzen ab'), 
 						'BeitragAussetzenBis' => Yii::t('app', 'Aussetzen bis'), 
 						'BeitragAussetzenGrund' => Yii::t('app', 'Aussetzen Grund'),
+						'AGebuehr' => Yii::t('app', 'Aufnahmegebühr'),
+						'AGbezahltAm' => Yii::t('app', 'AG bezahlt am'),
+						'BV' => Yii::t('app', 'BE'),
         ];
     }
 

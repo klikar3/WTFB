@@ -301,7 +301,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
-						[['Bank'], 'string', 'max' => 45],
+						[['Bank'], 'string', 'max' => 100],
             [['AktivPassiv', 'Monatsbeitrag', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
 							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'EinladungIAzum', 'Abschlussgespraech', 
 							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],

@@ -27,8 +27,10 @@ use frontend\models\Texte;
     <?= $form->field($model, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
 													[ 'prompt' => 'Schule', 'id' => 'field-pid' ])->label('Schule'); ?>
 
-		<?= 
-				$form->field($model, 'txt')->widget(TinyMCE::className(), [
+		<?php if (strpos($model->code,'Email') !== false) {
+							echo $form->field($model, 'txt')->textarea(['rows' => '6','maxlength' => true]); }
+					else
+				echo $form->field($model, 'txt')->widget(TinyMCE::className(), [
 				    'toggle' => [
 				        'active' => true,
 				    ],

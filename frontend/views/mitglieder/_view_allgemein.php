@@ -18,6 +18,7 @@ use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
+use frontend\models\InteressentVorgaben;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Pruefer;
@@ -127,6 +128,13 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 							 ]             
             ],
             'ErzBerechtigter',
+            [ 'attribute' => 'Woher',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'wert', 'wert' )),
+							 ],             
+            ],
         		'PruefungZum',
         ],
     ]) ?>

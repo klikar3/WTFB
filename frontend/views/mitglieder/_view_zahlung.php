@@ -42,6 +42,10 @@ use frontend\models\Pruefer;
 				'formOptions' => [
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 4, ],
 				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
         'attributes' => [
               ['attribute' => 'KontoNr',['enableAjaxValidation' => true],'options' => ['onchange' => "changeHidden(\"IBAN\")"]],
               ['attribute' => 'BLZ',['enableAjaxValidation' => true]],

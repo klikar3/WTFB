@@ -26,7 +26,7 @@ use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Texte;
 ?>
-<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
+<?php //Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
 <?php
     $items = [
 		    [
@@ -121,7 +121,7 @@ if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
 
-<div class="col-xs-12 visible modal-content">
+<div class="col-xs-12 visible modal-content" style="font-size:12pt !important;">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -154,4 +154,4 @@ if($model->hasErrors()){
 				    ]);
 				?>
 </div>
-<?php Pjax::end(); ?>
+<?php //Pjax::end(); ?>
