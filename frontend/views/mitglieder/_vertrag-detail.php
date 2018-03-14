@@ -414,7 +414,7 @@ use frontend\models\SearchVertrag;
 												        ]); ?>
 		</div>										        
    <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailKündigung", $model->SchulId, 0);
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailKündigung", $model->SchulId, 0);
 											 
 		?>
 	 </div>  

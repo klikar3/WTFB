@@ -7,6 +7,7 @@ use frontend\models\Anrede;
 use frontend\models\AnredeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -17,6 +18,19 @@ class AnredeController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

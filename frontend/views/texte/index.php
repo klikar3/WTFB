@@ -24,25 +24,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\ActionColumn',
-            						'template' => '{email}{update}{delete}',
-												'controller' => 'mitgliedertexte',
-												'header' => '<center>Aktion</center>',
-												'buttons' => [ 
-													'email' => function ($url, $model) {
-														return '<center>'.Html::a('<span class="glyphicon glyphicon-envelope"></span>', 
-																					Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'txtid' => 0 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Email Erzeugen'),
-												        ]) . '</center>';
-												    },
-												],
+    						'template' => '{email}  {update}  {delete}',
+								'controller' => 'texte',
+								'header' => '<center>Aktion</center>',
+                 'options' => [
+                    'style' => 'width:70px;',
+                ],
+								'buttons' => [ 
+									'email' => function ($url, $model) {
+										return ''.Html::a('<span class="glyphicon glyphicon-envelope"></span>', 
+																	Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'txtid' => 0 ] ), [
+            					'target'=>'_blank',
+											'title' => Yii::t('app', 'Email Erzeugen'),
+								        ]) . '';
+								    },
+								],
 							],
-						[ 'class' => 'yii\grid\SerialColumn'],
+//						[ 'class' => 'yii\grid\SerialColumn'],
 	           'id',
   	         'code',
-  	         'SchulId',
+  	         ['attribute' => 'SchulId',
+              'value' => function ($data) { return $data->schul->SchulDisp;},
+              ],
     	       'fuer',
-      	     'txt:ntext',
+//      	     'txt:ntext',
              'betreff', 
 		        'quer',         
 				],

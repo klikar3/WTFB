@@ -8,6 +8,7 @@ use frontend\models\FunktionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * FunktionController implements the CRUD actions for Funktion model.
@@ -17,6 +18,19 @@ class FunktionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

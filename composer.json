@@ -1,5 +1,5 @@
 {
-    "name": "WTFB Admin",
+    "name": "klikar3/WTFB",
     "description": "WTFB Admin Application",
     "keywords": ["yii2", "framework", "advanced", "klikar3"],
     "homepage": "https://github.com/klikar3/WTFB",
@@ -14,8 +14,8 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": ">=2.0.0",
+        "php": ">=5.5.0",
+        "yiisoft/yii2": ">=2.0.9",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
     		"kartik-v/yii2-context-menu": "*",
@@ -34,8 +34,10 @@
 				"jschaedl/iban": "dev-master",
 				"2amigos/yii2-ckeditor-widget": "*",
 				"2amigos/yii2-chartjs-widget" : "*",
+        "2amigos/yii2-tinymce-widget" : "~1.1",
 				"klikar3/rgraph" : "*",
-				"moonlandsoft/yii2-tinymce": "*"
+				"moonlandsoft/yii2-tinymce": "*",
+    	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta"
     },
     "require-dev": {
         "codeception/codeception": "*",
@@ -45,12 +47,12 @@
         "c006/yii2-migration-utility": "dev-master"
     },
     "config": {
-        "process-timeout": 1800
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
         }
     }
 }

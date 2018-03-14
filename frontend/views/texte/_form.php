@@ -4,7 +4,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\widgets\ActiveForm;
-use dosamigos\ckeditor\CKEditor;
+//use dosamigos\ckeditor\CKEditor;
+//use dosamigos\tinymce\TinyMce;
 use moonland\tinymce\TinyMCE;
 
 use frontend\models\Schulen;
@@ -13,6 +14,10 @@ use frontend\models\Texte;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Texte */
 /* @var $form yii\widgets\ActiveForm */
+
+/* https://github.com/EVODelavega/placeholder-plugin */
+$this->registerJS('tinymce.PluginManager.add("placeholder",function(d){var b,c,e=[],g=d.settings.ph_remove||!1,a=d.settings.placeholders,f="function"===typeof d.settings.ph_callback?d.settings.ph_callback:function(){tinymce.activeEditor.insertContent(this._value)};"string"===typeof a&&(a=document.querySelectorAll(a));if("object"!==typeof a||"undefined"===typeof a.length)throw new TypeError("placeholder items must be objects (pass either an array, a NodeList, a jQuery object or a selector string)");for(b=0;b<a.length;++b)a[b]instanceof HTMLElement?c={text:a[b].textContent,value:a[b].value||this.text,onclick:f}:"object"===typeof a[b]?(c=a[b],c.hasOwnProperty("value")||(c.value=c.text||""),c.hasOwnProperty("text")||(c.text=c.value),c.hasOwnProperty("onclick")||(c.onclick=f)):c=!1,c&&e.push(c);if(g)for(b=0;b<a.length;++b)a[b]instanceof HTMLElement&&a[b].parentNode.removeChild(a[b]);d.addButton("placeholder",{text:"Placeholders",type:"menubutton",name:"placeholder",icon:!1,menu:e})});');
+
 ?>
 
 <div class="texte-form">
@@ -28,31 +33,51 @@ use frontend\models\Texte;
 													[ 'prompt' => 'Schule', 'id' => 'field-pid' ])->label('Schule'); ?>
 
 		<?php if (strpos($model->code,'Email') !== false) {
-							echo $form->field($model, 'txt')->textarea(['rows' => '6','maxlength' => true]); }
+							echo $form->field($model, 'txt')->textarea(['rows' => '6','maxlength' => true, 'style' => 'width:30em;']); }
 					else
 				echo $form->field($model, 'txt')->widget(TinyMCE::className(), [
 				    'toggle' => [
 				        'active' => true,
 				    ],
+            'options' => [ 
+//                'class' => 'col-md-6',
+                'style' => 'width:700px;',
+            ],
+            'plugins' => [
+                "advlist autolink lists link charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen fullpage",
+                "insertdatetime media table contextmenu paste placeholder"
+            ],
 				    'toolbar' => [
-							'newdocument fullpage | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect',
-  						'cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor',
- '						table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | spellchecker | visualchars visualblocks nonbreaking template pagebreak restoredraft'								
-/*								'undo redo',
-								'fontsizeselect',
-								'bold italic underline',
-								'alignleft aligncenter alignright alignjustify',
-								'bullist numlist outdent indent',
-								'link image',
-//								'forecolor backcolor',
-								'print preview code fullscreen codesample about',
-*/						],
+							'styleselect formatselect fontselect fontsizeselect | placeholder | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify ',
+  						'cut copy paste undo redo | searchreplace | bullist numlist | outdent indent blockquote | link unlink anchor image media code codesample | preview | forecolor backcolor',
+ 						  'table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | spellchecker | visualchars visualblocks nonbreaking template pagebreak restoredraft'								
+						],
+            'placeholders' => [
+                ['value' => '#mitgliedernummer#', 'text' => 'MitgliedsNr'],
+                ['value' => '#anrede#', 'text' => 'Anrede'],
+                ['value' => '#vorname#', 'text' => 'Vorname'],
+                ['value' => '#nachname#', 'text' => 'Nachname'],
+                ['value' => '#geburtstag#', 'text' => 'Geburtstag'],
+                ['value' => '#schulort#', 'text' => 'Schulort'],
+                ['value' => '#sifu#', 'text' => 'Sifu'],
+                ['value' => '#strasse#', 'text' => 'Strasse'],
+                ['value' => '#plz#', 'text' => 'PLZ'],
+                ['value' => '#wohnort#', 'text' => 'Wohnort'],
+                ['value' => '#heute#', 'text' => 'Heute'],
+                ['value' => '#kuendigungam#', 'text' => 'Kuendigung am'],
+                ['value' => '#kuendigungsdatum#', 'text' => 'Kuendigungsdatum'],
+                ['value' => '#austrittsdatum#', 'text' => 'Austrittsdatum'],
+//                ['value' => '##', 'text' => ''],
+//                ['value' => '##', 'text' => ''],
+//                ['value' => '##', 'text' => ''],
+            ],
 						'content_css' => [
 					    '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
 					    '//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.css',
 					    '//www.tinymce.com/css/codepen.min.css'    
 					  ],
-					]);
+					])->label('');
 /*				$form->field($model, 'txt')->widget(CKEditor::className(), [
         'options' => ['rows' => 16],
         'preset' => 'full',

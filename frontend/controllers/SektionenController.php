@@ -7,6 +7,7 @@ use frontend\models\Sektionen;
 use frontend\models\SektionenSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -20,6 +21,19 @@ class SektionenController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

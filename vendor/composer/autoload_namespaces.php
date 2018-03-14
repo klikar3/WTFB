@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'SepaXmlCreator' => array($vendorDir . '/sepa-xml-creator/sepa-xml-creator/src'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'IBAN' => array($vendorDir . '/jschaedl/iban/library', $vendorDir . '/jschaedl/iban/tests/library'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),

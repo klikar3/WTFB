@@ -147,19 +147,19 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         ),
         'yii\\httpclient\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient/src',
         ),
         'yii\\gii\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-gii',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-gii/src',
         ),
         'yii\\faker\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-faker',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-faker/src',
         ),
         'yii\\debug\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-debug',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-debug/src',
         ),
         'yii\\composer\\' => 
         array (
@@ -167,11 +167,11 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         ),
         'yii\\bootstrap\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap/src',
         ),
         'yii\\authclient\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient/src',
         ),
         'yii\\' => 
         array (
@@ -184,8 +184,8 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'moonland\\tinymce\\' => 
         array (
@@ -466,6 +466,13 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
     );
 
     public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'SepaXmlCreator' => 
+            array (
+                0 => __DIR__ . '/..' . '/sepa-xml-creator/sepa-xml-creator/src',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 

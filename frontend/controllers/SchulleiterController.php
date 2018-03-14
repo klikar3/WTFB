@@ -26,6 +26,9 @@ class SchulleiterController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                   [
+                        'allow' => false,
+                    ],
                 ],
             ],
             'verbs' => [

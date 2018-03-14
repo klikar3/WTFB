@@ -23,7 +23,7 @@ class MitgliederlisteSearch extends Mitgliederliste
     {
         return [
             [['MitgliederId', 'MitgliedsNr'], 'integer'],
-            [['LetzteAenderung', 'LetztAendSifu'],'date', 'format' => 'd.m.Y'],
+            [['LetzteAenderung', 'LetztAendSifu', 'GeburtsDatum'],'date', 'format' => 'd.m.Y'],
             [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung', 'LetztAendSifu'], 'safe'],
         ];
     }
@@ -70,7 +70,8 @@ class MitgliederlisteSearch extends Mitgliederliste
 		            'Vertreg',
 		            'Grad',
 		            'LetzteAenderung', 
-								'LetztAendSifu'
+								'LetztAendSifu',
+								'GeburtsDatum'
 		        ]
 		    ]); 
         		Yii::info("----------------mitgliederlisteSearch: ".Vardumper::dumpAsString($this)); 

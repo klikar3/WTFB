@@ -7,6 +7,7 @@ use frontend\models\Sifu;
 use frontend\models\SifuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -17,6 +18,19 @@ class SifuController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

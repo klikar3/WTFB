@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 
@@ -26,6 +27,19 @@ class MitgliedersektionenController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

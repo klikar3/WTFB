@@ -233,6 +233,18 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
 							],								
 						],
+            ['attribute' => 'GeburtsDatum', 'width' => '8em', 
+							'format' => ['date', 'php:d.m.Y'],
+							'label' => 'Geb.Datum', 
+							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
+							'filterInputOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => 'width:6em;',
+							],								
+							'headerOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+							],								
+						],
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
 							'controller' => 'mitglieder',

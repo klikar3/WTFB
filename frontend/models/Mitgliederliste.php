@@ -72,6 +72,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             [['Vertrag'], 'string', 'max' => 50],
             [['LetzteAenderung', 'LetztAendSifu'], 'date', 'format' => 'php:Y-m-d'],
             [['LetzteAenderung', 'LetztAendSifu'], 'safe'],
+            [['GeburtsDatum', 'GeburtsDatum'], 'safe'],
         ];
     }
 
@@ -96,6 +97,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
             'Funktion' => Yii::t('app', 'Funktion'),
             'LetzteAenderung' => Yii::t('app', 'Letzte Änderung'),
             'LetztAendSifu' => Yii::t('app', 'Letzte Änderung Sifu'),
+            'GeburtsDatum' => Yii::t('app', 'Geburtsdatum'),
         ];
     }
     

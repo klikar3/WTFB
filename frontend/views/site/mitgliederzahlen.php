@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
@@ -14,6 +15,7 @@ use dosamigos\chartjs\ChartJs;
 //use robregonm\rgraph\RGraphWidget;
 //use robregonm\rgraph\RGraphBar;
 //use klikar3\rgraph\RGraphBar;
+use klikar3\rgraph\RGraphBar;
 use klikar3\rgraph\RGraphLine;
 
 use frontend\models\AuswertungenForm;
@@ -67,11 +69,21 @@ $this->params['breadcrumbs'][] = $this->title;
 				$form = ActiveForm::end();
 		 	?>
 
-  </div>  
+  </div> <h4> 
 <?php if (!empty($datasets)) {  echo Schulen::findOne($model->schule)->SchulDisp;
-?>    
+				$Esum = $Asum = 0;
+        foreach ($datasets as $dat) {
+            $Esum += $dat['Eintritt'];
+            $Asum += $dat['Austritt'];
+        }
+?>       </h4> <table> 
+          <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=$Esum?></td> </tr>
+          <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=$Asum?></td> </tr>
+        </table>
+    
     <table>
-    	<tr> <td>  <!---
+      </td>  <td>  
+      <!---
 <p><a font style="color:#bcbcbc;background-color:#bcbcbc;font-size:7pt">nbsp;</a><a font style="color:#bcbcbc;font-size:7pt"> Eintritte </a><br>
 <a font style="color:#97BBCD;background-color:#97BBCD;font-size:7pt">nbsp;</a><a font style="color:#97BBCD;font-size:7pt"> Austritte </a><br>
 <a font style="color:#656BCD;background-color:#656BCD;font-size:7pt">nbsp;</a><a font style="color:#656BCD;font-size:7pt"> Kündigungen </a>
@@ -132,8 +144,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]
 ]); */
 ?>
-			<?php echo 
-			   RGraphLine::widget([
+			<?php 
+        /* echo 
+			   RGraphBar::widget([
         		'allowDynamic' => true,
 				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
     																							return intval($element['Eintritt']);}
@@ -158,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
   
 				 ]);  
 				 echo 
-			   RGraphLine::widget([
+			   RGraphBar::widget([
         		'allowDynamic' => true,
 				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
     																							return intval($element['Austritt']);}
@@ -181,10 +194,79 @@ $this->params['breadcrumbs'][] = $this->title;
               'width' => '800px',
           ],
   
-				 ]); 
-				 
+				 ]); */
+/*         $dat = [ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Eintritt']);}
+																									) , ArrayHelper::getColumn($datasets, function ($element) {
+    																							return -intval($element['Austritt']);}
+																									)]; 
+         Yii::warning(VarDumper::dumpAsString($dat),'application');                                     
+*/          	
+			   echo 
+			   RGraphBar::widget([
+        		'allowDynamic' => true,
+				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
+    																							return intval($element['Eintritt']);}
+																									)  : [ 0 ],
+				    'options' => [
+				        'height' => 600,
+				        'width' => 1000,
+		            'colors' => ['lightgreen'],
+           			'filled' => true,
+                'labelsAbove' => true,
+                'labelsAboveSize' => 10,
+                'labelsAboveOffset' => -14,
+		            'title' => 'WT-Eintritte / WT-Austritte',
+		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
+//                'numxticks' => 10,
+	              'textAngle' => 45,
+	              'textSize' => 8,
+	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
+                'outofbonds' => true,
+	              'titleSize' => 12,
+                'xaxispos' => 'center',
+				    ],
+				    'htmlOptions' => [
+              'height' =>  '400px',
+              'width' => '800px',
+          ],
+          'id' => 'ea',
+				 ]);  
+			   echo 
+			   RGraphBar::widget([
+        		'allowDynamic' => true,
+				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
+    																							return -intval($element['Austritt']);}
+																									) : [ 0 ],
+				    'options' => [
+				        'height' => 600,
+				        'width' => 1000,
+		            'colors' => ['red'],
+           			'filled' => true,
+                'labelsAbove' => true,
+                'labelsAboveSize' => 10,
+                'labelsAboveOffset' => -14,
+                'ylabels' => false,
+		            'title' => '',
+		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
+//                'numxticks' => 10,
+	              'textAngle' => 45,
+	              'textSize' => 8,
+	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
+                'outofbonds' => true,
+	              'titleSize' => 12,
+                'xaxispos' => 'center',
+                'backgroundGrid' => false,
+				    ],
+				    'htmlOptions' => [
+              'height' =>  '0px',
+              'width' => '0px',
+          ],
+          'id' => 'ea',
+				 ]);  
+
 				 echo 
-			   RGraphLine::widget([
+			   RGraphBar::widget([
         		'allowDynamic' => true,
 				    'data' => !empty($datasets) ? ArrayHelper::getColumn($datasets, function ($element) {
     																							return intval($element['Kuendigung']);}
@@ -207,7 +289,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'width' => '800px',
           ],
   
-				 ]); 	
+				 ]);
 }		?>
 			</td>
 		</tr>

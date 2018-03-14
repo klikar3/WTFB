@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -26,6 +27,19 @@ class TexteController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => [],
+                'rules' => [
+                   [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                   [
+                        'allow' => false,
+                    ],
+						    ],    
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -173,21 +187,21 @@ class TexteController extends Controller
 				
         if ($datamodel == 'vertrag') {
 					$modelv = Mitgliederschulen::findOne($vertragId);
-/*					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->mitglied->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $model->mitglied->Name , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-*/					$textmodel->txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#kuendigungsdatum#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#austrittsdatum#', Yii::$app->formatter->asDatetime($modelv->Bis, "php:d.m.Y") , $textmodel->txt );
-/*					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $model->mitglied->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $model->mitglied->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $model->mitglied->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $model->mitglied->PLZ , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-*/				}
+				}
         if ($datamodel == 'grad') {
 					$model = Mitgliedergrade::findOne($dataid);
 					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
@@ -293,23 +307,28 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+          $email = $model->Email;
 				}
 				
 				
         if ($datamodel == 'vertrag') {
-/*					$model = Mitgliederschulen::findOne($dataid);
-					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , $model->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
+					$modelv = Mitgliederschulen::findOne($dataid);
+					$textmodel->txt = str_replace ( '#vorname#' , $modelv->mitglieder->Vorname , $textmodel->txt ); 
+					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $modelv->mitglieder->MitgliedsNr , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#nachname#' , $modelv->mitglieder->Name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($modelv->mitglieder->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#kuendigungsdatum#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#austrittsdatum#', Yii::$app->formatter->asDatetime($modelv->Bis, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#schulort#' , $modelv->mitglieder->Schulort , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sifu#' , $modelv->mitglieder->Sifu , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#anrede#' , $modelv->mitglieder->Anrede , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-*/				}
+          $email = $modelv->mitglieder->Email;
+				}
         if ($datamodel == 'grad') {
 					$model = Mitgliedergrade::findOne($dataid);
 					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
@@ -319,6 +338,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+          $email = $model->mitglied->Email;
 				}
 
 				if ($txtcode == 'EmailBegruessung') 
@@ -334,8 +354,8 @@ class TexteController extends Controller
 				
 				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
-				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($model->Email) .
-									"?subject=".$textmodel->betreff."&body=".$textmodel->txt,[
+				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
+									"?subject=".$textmodel->betreff."&from="."verwaltung@wingtzun.de"."&body=".$textmodel->txt,[
 											'title' => Yii::t('app', 'Email an Mitglied senden'),
 							  	]);							
 			return $pdf;

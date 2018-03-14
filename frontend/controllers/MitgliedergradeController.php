@@ -39,6 +39,9 @@ class MitgliedergradeController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                   [
+                        'allow' => false,
+                    ],
                 ],
             ],
             'verbs' => [

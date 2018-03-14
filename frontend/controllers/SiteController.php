@@ -23,6 +23,16 @@ class SiteController extends Controller
 {
     /**
      * @inheritdoc
+     * 
+        ?: matches a guest user (not authenticated yet)
+        @: matches an authenticated user
+        
+        If you are using RBAC (Role-Based Access Control), you may also specify role names. 
+        In this case, yii\web\User::can() will be called to check access.
+
+        Note that it is preferred to check for permissions instead.
+
+        If this property is not set or empty, it means this rule applies regardless of roles.
      */
     public function behaviors()
     {
@@ -54,8 +64,11 @@ class SiteController extends Controller
 						        [
 						            'actions' => ['view', 'search'],
 						            'allow' => true,
-						            'roles' => ['?', '*', 'admin'],
+						            'roles' => ['@', 'admin'],
 						        ],
+                    [
+                        'allow' => false,
+                    ],
 						    ],    
             ],
             'verbs' => [
@@ -139,9 +152,9 @@ class SiteController extends Controller
 				$model = new AuswertungenForm();
 				$model->schule = 10;
 //				$model->von = date_create_from_format('d.m.Y', '01.01.2016');
-				$model->von = '01.01.2016';
-				$model->bis = '31.03.2016';
-        VarDumper::dump($model);
+				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+				$model->bis = date('d.m.Y',mktime(0, 0, 0, date("m")+1, 1, date("Y"))-"1d");
+//        VarDumper::dump($model);
 
         if ($model->load(Yii::$app->request->post() )) {
         } else {
@@ -151,24 +164,28 @@ class SiteController extends Controller
         }
         
 //        VarDumper::dump($model);
-        
-        $datasets = (new \yii\db\Query())
+        $query = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
             ->from('mitgliederzahl1 mz')
 //            ->join('tbl_profile p', 'u.id=p.user_id')
-            ->where('((jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)) and SchulId=:schule', 
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
 											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
 														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
 														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
 														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
-														'schule' => (int)$model->schule))
+														'schule' => (int)$model->schule));
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        
+        $datasets = $query
 						->orderBy('jahr,monat')
             ->all();
 //				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
 				$labels = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l')
             ->from('mitgliederzahl1 mz')
-            ->where('((jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)) and SchulId=:schule', 
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
 											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
 														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
 														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
@@ -177,7 +194,7 @@ class SiteController extends Controller
 						->orderBy('jahr,monat')
 						->all();
 //        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
-           Vardumper::dumpAsString($datasets); 
+           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
 /*        $datasets = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
             ->from('mitgliederzahlen mz')
