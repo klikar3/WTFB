@@ -128,6 +128,14 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getMgl()
+    {
+        return $this->hasOne(Mitgliederliste::className(), ['MitgliederId' => 'MitgliederId']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getVertrag()
     {
         return $this->hasOne(Vertrag::className(), ['VertragId' => 'VertragId']);

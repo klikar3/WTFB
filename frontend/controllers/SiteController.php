@@ -9,8 +9,10 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
+use yii\data\ActiveDataProvider;
 
 use frontend\models\AuswertungenForm;
+use frontend\models\Mitgliederschulen;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -151,8 +153,8 @@ class SiteController extends Controller
     {
 				$model = new AuswertungenForm();
 				$model->schule = 10;
-//				$model->von = date_create_from_format('d.m.Y', '01.01.2016');
-				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+//				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
 				$model->bis = date('d.m.Y',mktime(0, 0, 0, date("m")+1, 1, date("Y"))-"1d");
 //        VarDumper::dump($model);
 
@@ -163,6 +165,138 @@ class SiteController extends Controller
             ]);
         }
         
+//        VarDumper::dump($model);
+        $query = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
+            ->from('mitgliederzahl1 mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule));
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        
+        $datasets = $query
+						->orderBy('jahr,monat')
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahl1 mz')
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule))
+						->orderBy('jahr,monat')
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+/*        $datasets = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
+            ->from('mitgliederzahlen mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahlen mz')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+*/            
+        return $this->render('mitgliederzahlen',['model' => $model, 'datasets' => $datasets, 'labels' => $labels]);
+    }
+
+    public function actionKuendigungen($von,$bis,$schule)
+    {
+//        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $query = Mitgliederschulen::find()            
+            ->where('KuendigungAm >= :von and KuendigungAm <= :bis and SchulId = :schule', 
+											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
+														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
+														':schule' => $schule
+                            )
+                    )
+            ->orderBy('KuendigungAm desc');
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+            
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['attributes' => ['KuendigungAm desc']]
+        ]);
+
+        return $this->render('kuendigungen', [
+//            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionEintritte($von,$bis,$schule)
+    {
+//        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $query = Mitgliederschulen::find()            
+            ->where('von >= :von and von <= :bis and SchulId = :schule', 
+											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
+														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
+														':schule' => $schule
+                            )
+                    )
+            ->orderBy('Von desc');
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+            
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['attributes' => ['Bis desc']]
+        ]);
+
+        return $this->render('eintritte', [
+//            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionAustritte($von,$bis,$schule)
+    {
+//        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $query = Mitgliederschulen::find()
+//            ->join('Mitgliedergrade mg', 'mg.MitgliedId = Mitgliederschulen.MitgliedId')            
+            ->where('bis >= :von and bis <= :bis and SchulId = :schule', 
+											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
+														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
+														':schule' => $schule
+                            )
+                    )
+            ->orderBy('Bis desc');
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+            
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['attributes' => ['Bis desc']]
+        ]);
+
+        return $this->render('austritte', [
+//            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
 //        VarDumper::dump($model);
         $query = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')

@@ -71,14 +71,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
   </div> <h4> 
 <?php if (!empty($datasets)) {  echo Schulen::findOne($model->schule)->SchulDisp;
-				$Esum = $Asum = 0;
+				$Esum = $Asum = $Ksum = 0;
         foreach ($datasets as $dat) {
             $Esum += $dat['Eintritt'];
             $Asum += $dat['Austritt'];
+            $Ksum += $dat['Kuendigung'];
         }
 ?>       </h4> <table> 
-          <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=$Esum?></td> </tr>
-          <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=$Asum?></td> </tr>
+          <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Esum,Url::toRoute(['site/eintritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
+          <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Asum,Url::toRoute(['site/austritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
+          <tr><td>Kündigungen gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Ksum,Url::toRoute(['site/kuendigungen','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
         </table>
     
     <table>
@@ -276,6 +278,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				        'width' => 1000,
 		            'colors' => ['yellow'],
            			'filled' => true,
+                'labelsAbove' => true,
+                'labelsAboveSize' => 10,
+                'labelsAboveOffset' => -14,
 		            'title' => 'WT-Kündigungen',
 		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
                 'numxticks' => 10,

@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $searchModel frontend\models\MitgliederschulenSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Mitgliederschulens');
+$this->title = Yii::t('app', 'Mitgliederschulen');
 $this->params['breadcrumbs'][] = $this->title;
 
 // Set LinkPager defaults
@@ -42,7 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'msID', 'width' => '60px'],
             'mitglieder.Vorname',
             'mitglieder.Name',
-            'schul.Schulname',
+            'schul.SchulDisp',
+            'SchulId',
             'Von',
             'Bis',
             'VertragId',

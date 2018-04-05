@@ -1,0 +1,63 @@
+<?php
+
+use yii\helpers\Html;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $searchModel frontend\models\MitgliederschulenSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('app', 'Kündigungen');
+$this->params['breadcrumbs'][] = $this->title;
+
+// Set LinkPager defaults
+\Yii::$container->set('yii\widgets\LinkPager', [
+        'options' => ['class' => 'pagination'],
+        'firstPageCssClass' => 'prev',
+        'lastPageCssClass' => 'next',
+        'prevPageCssClass' => 'prev',
+        'nextPageCssClass' => 'next',
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+        'firstPageLabel' => 'First',
+        'lastPageLabel' => 'Last'
+]);  
+?>
+<div class="maustritte-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => false,
+        'columns' => [
+//            ['attribute' => 'msID', 'width' => '60px'],
+            'mitglieder.Vorname',
+            'mitglieder.Name',
+            'schul.SchulDisp',
+//            'SchulId',
+            ['attribute' => 'Von',
+             'value' => function ($data) {
+                  return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');
+                  }
+            ], 
+            ['attribute' => 'KuendigungAm',
+             'value' => function ($data) {
+                  return \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
+                  }
+            ], 
+            ['attribute' => 'Bis',
+             'value' => function ($data) {
+                  return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
+                  }
+            ], 
+
+
+//            ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],
+        ],
+    ]); ?>
+
+</div>
