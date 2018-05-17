@@ -62,6 +62,7 @@ AppAsset::register($this);
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
 																  	'<li role="presentation" class="divider"></li>',
 																  	['label' => 'DB-Backup', 'url' => ['/backup']],
+																  	['label' => 'Alle Mitglieder-Daten Checken', 'url' => ['/mitglieder/check']],
 //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
@@ -70,8 +71,6 @@ AppAsset::register($this);
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																  	['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']],
-																  	'<li role="presentation" class="divider"></li>',
-																  	['label' => 'Alle Mitglieder-Daten Checken', 'url' => ['/mitglieder/check']],
 																]];
 /*                $menuItems[] = ['label' => 'System', 'url' => ['/backup'], 'items' => [
 																  	['label' => 'DB-Backup', 'url' => ['/backup']],

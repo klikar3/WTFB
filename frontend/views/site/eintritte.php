@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'mitglieder.Vorname',
             'mitglieder.Name',
             'schul.SchulDisp',
-//            'SchulId',
+            'MonatsBeitrag',
             ['attribute' => 'Von',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');

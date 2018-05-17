@@ -39,17 +39,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'mitglieder.Name',
             'schul.SchulDisp',
 //            'SchulId',
+            ['attribute' => 'mgl.Grad',
+              'label' => 'Grade',
+              'value' => function ($data) {
+                  return !empty($data->mgl->Grad) ? $data->mgl->Grad : '-';
+                  },
+            ],
             ['attribute' => 'Von',
+              'label' => 'Eintritt',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'KuendigungAm',
+              'label' => 'Kündigung',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Bis',
+              'label' => 'Austritt',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }

@@ -13,6 +13,7 @@ use yii\data\ActiveDataProvider;
 
 use frontend\models\AuswertungenForm;
 use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederschulenSearch;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -225,20 +226,21 @@ class SiteController extends Controller
     public function actionKuendigungen($von,$bis,$schule)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $searchModel = new MitgliederschulenSearch();
         $query = Mitgliederschulen::find()            
             ->where('KuendigungAm >= :von and KuendigungAm <= :bis and SchulId = :schule', 
 											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
 														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
 														':schule' => $schule
                             )
-                    )
-            ->orderBy('KuendigungAm desc');
+                    );
+//            ->orderBy('KuendigungAm desc')
         $sql = $query->createCommand()->getRawSql($query);
         Yii::warning(VarDumper::dumpAsString($sql),'application');
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['attributes' => ['KuendigungAm desc']]
+            'sort' => ['defaultOrder' => ['Bis' => SORT_DESC],]
         ]);
 
         return $this->render('kuendigungen', [
@@ -250,6 +252,7 @@ class SiteController extends Controller
     public function actionEintritte($von,$bis,$schule)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $searchModel = new MitgliederschulenSearch();
         $query = Mitgliederschulen::find()            
             ->where('von >= :von and von <= :bis and SchulId = :schule', 
 											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
@@ -275,25 +278,28 @@ class SiteController extends Controller
     public function actionAustritte($von,$bis,$schule)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
+        $searchModel = new MitgliederschulenSearch();
         $query = Mitgliederschulen::find()
-            ->join('Mitgliedergrade mg', 'mg.MitgliedId = Mitgliederschulen.MitgliedId')            
+//            ->join('Mitgliedergrade mg', 'mg.MitgliedId = Mitgliederschulen.MitgliedId')            
             ->where('bis >= :von and bis <= :bis and SchulId = :schule', 
 											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
 														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
 														':schule' => $schule
                             )
-                    )
-            ->orderBy('Bis desc');
+                    );
+//            ->orderBy('Bis desc')
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        //Yii::warning(VarDumper::dumpAsString($sql),'application');
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['attributes' => ['Bis desc']]
+            'sort' => [ 'defaultOrder' => ['Bis' => SORT_DESC],
+//                        'attributes' => ['Bis' => SORT_DESC]
+                      ]
         ]);
 
         return $this->render('austritte', [
-//            'searchModel' => $searchModel,
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
 

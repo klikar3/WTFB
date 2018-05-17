@@ -287,7 +287,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['MitgliederId'], 'unique'],
 		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 		        [['IBAN'], 'generateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
-		        [['KontoNr', 'BLZ'], 'string', 'min' => 5, 'max' => 10, 'skipOnEmpty' => true],
+		        [['KontoNr', 'BLZ'], 'string', 'min' => 5, 'max' => 10],
 		        [['KontoNr', 'BLZ'], 'generateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
             [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],

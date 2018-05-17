@@ -19,7 +19,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     {
         return [
             [['msID', 'MitgliederId', 'SchulId', 'VertragId'], 'integer'],
-            [['Von', 'Bis', 'KuendigungAm'], 'safe'],
+            [['Von', 'Bis'], 'safe'],
         ];
     }
 

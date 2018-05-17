@@ -36,7 +36,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark'],
+                        'actions' => ['index','view','create','update','delete','mark','check'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -317,5 +317,20 @@ class MitgliederController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionCheck()
+    {
+        set_time_limit(300);
+        foreach (Mitglieder::find()->each(10) as $model) {
+            if (!$model->validate()) {
+              //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
+              $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.json_encode($model->errors).'<br>';
+            }
+        }
+         VarDumper::dump($errors);
+        return $this->render('check', [
+                'model' => $model, 
+            ]);
     }
 }
