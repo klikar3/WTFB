@@ -32,6 +32,7 @@ use frontend\models\Schulen;
 								$ms = new MitgliederSchulen();
 								$datum = date('php:Y-m-d');
         				$ms->Von = $datum;
+                $ms->VDatum = $datum;
                 $ms->MitgliederId = $model->MitgliederId;
                 $ms->VDauerMonate = null;
                 $ms->MonatsBeitrag = null;
@@ -63,6 +64,15 @@ use frontend\models\Schulen;
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(''); ?> 
+									<?= $form->field($ms, 'VDatum')->widget(DateControl::classname(),
+											[ 'type' => DateControl::FORMAT_DATE,
+ 												'ajaxConversion'=>true,
+												'options'=>[
+														'id' => 'vd_feld',
+														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
+														
+												],
+											]); ?>
 									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
 											[ 'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
@@ -182,6 +192,7 @@ use frontend\models\Schulen;
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disziplin' ],
+							[ 'attribute' => 'VDatum', 'value' => 'VDatum', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Bis', 'value' => 'Bis', 'format' => ['date', 'php:d.m.Y'] ],
 /*							[ 'attribute' => 'KuendigungAm', 'value' => 'KuendigungAm', 'format' => ['date', 'php:d.m.Y'] ],

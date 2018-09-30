@@ -74,7 +74,7 @@ class MitgliederlisteSearch extends Mitgliederliste
 								'GeburtsDatum'
 		        ]
 		    ]); 
-        		Yii::info("----------------mitgliederlisteSearch: ".Vardumper::dumpAsString($this)); 
+        	//	Yii::info("----------------mitgliederlisteSearch: ".Vardumper::dumpAsString($this)); 
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

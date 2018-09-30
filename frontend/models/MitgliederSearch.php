@@ -19,7 +19,28 @@ class MitgliederSearch extends Mitglieder
     {
         return [
             [['MitgliederId', 'VertragMit', 'SFirm', 'BListe'], 'integer'],
-            [['MitgliedsNr', 'Vorname', 'Name', 'Geschlecht', 'Anrede', 'GeburtsDatum', 'PLZ', 'Wohnort', 'Strasse', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 'Email', 'Beruf', 'Nationalitaet', 'BLZ', 'Bank', 'KontoNr', 'Status', 'AktivPassiv', 'Kontoinhaber', 'Schulort', 'Disziplin', 'Funktion', 'Sifu', 'Woher', 'Graduierung', 'VDauer', 'Monatsbeitrag', 'BeitrittDatum', 'KuendigungDatum', 'AustrittDatum', 'Geburtsort', 'GruppenArt', 'Zahlungsart', 'Zahlungsweise', 'EinzugZum', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'BeitragAussetzenGrund', 'AufnahmegebuehrBezahlt', 'EWTONr', 'EWTOAustritt', 'BeitragOffenAb', 'BeitragOffenEuro', 'BeitragOffenBis', 'Mahngebuehren', 'GesamtOffen', 'Mahnung1Am', 'Mahnung2Am', 'Mahnung3Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'Bemerkungen', 'Betreff', 'Text', 'KontaktAm', 'KontaktArt', 'Bemerkung1', 'EinladungIAzum', 'WarZumIAda', 'zumIAnichtDa', 'ProbetrainingAm', 'PTwarDa', 'zumPTnichtDa', 'VertragAbgeschlossen', 'Abschlussgespraech', 'Bemerkung2', 'WTPruefungZum', 'WTPruefungAm', 'KPruefungZum', 'KPruefungAm', 'EPruefungZum', 'EPruefungAm', 'GutscheinVon', 'Name2Schule', 'DM2Schule', 'NeuerBeitrag', 'Vereinbarung', 'RechnungsNr', 'VErgaenzungAb', 'Land', 'AussetzenDauer', 'Betrag', 'BezahltAm', 'ZahlungsweiseBetrag', 'datumwt1sg', 'datumwt2sg', 'datumwt3sg', 'datumwt4sg', 'datumwt5sg', 'datumwt6sg', 'datumwt7sg', 'datumwt8sg', 'datumwt9sg', 'datumwt10sg', 'datumwt11sg', 'datumwt12sg', 'datumwt1tg', 'datumwt2tg', 'datumwt3tg', 'datumwt4tg', 'datumwt5pg', 'AufnahmegebuehrBezahltAm', 'datumWtPraktikum', 'datumWtAusbilder1', 'datumWtAusbilder2', 'datumWtAusbilder3', 'datumWtSchulleiter', 'AufnGebuehrBetrag', 'DVDgesendetAm', 'datume11tg', 'datume12tg', 'datume21tg', 'datume22tg', 'datume31tg', 'datume32tg', 'datume41tg', 'datume42tg', 'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum'], 'safe'],
+            [['MitgliedsNr', 'Vorname', 'Name', 'Geschlecht', 'Anrede', 'GeburtsDatum', 'PLZ', 
+              'Wohnort', 'Strasse', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'LetzteAenderung', 
+              'Email', 'Beruf', 'Nationalitaet', 'BLZ', 'Bank', 'KontoNr', 'Status', 'AktivPassiv', 
+              'Kontoinhaber', 'Schulort', 'Disziplin', 'Funktion', 'Sifu', 'Woher', 'Graduierung', 
+              'VDauer', 'Monatsbeitrag', 'BeitrittDatum', 'KuendigungDatum', 'AustrittDatum', 
+              'Geburtsort', 'GruppenArt', 'Zahlungsart', 'Zahlungsweise', 'EinzugZum', 
+              'BeitragAussetzenVon', 'BeitragAussetzenBis', 'BeitragAussetzenGrund', 
+              'AufnahmegebuehrBezahlt', 'EWTONr', 'EWTOAustritt', 'BeitragOffenAb', 'BeitragOffenEuro', 
+              'BeitragOffenBis', 'Mahngebuehren', 'GesamtOffen', 'Mahnung1Am', 'Mahnung2Am', 'Mahnung3Am', 
+              'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'Bemerkungen', 'Betreff', 'Text', 'KontaktAm', 
+              'KontaktArt', 'Bemerkung1', 'EinladungIAzum', 'WarZumIAda', 'zumIAnichtDa', 'ProbetrainingAm', 
+              'PTwarDa', 'zumPTnichtDa', 'VertragAbgeschlossen', 'Abschlussgespraech', 'Bemerkung2', 
+              'WTPruefungZum', 'WTPruefungAm', 'KPruefungZum', 'KPruefungAm', 'EPruefungZum', 'EPruefungAm', 
+              'GutscheinVon', 'Name2Schule', 'DM2Schule', 'NeuerBeitrag', 'Vereinbarung', 'RechnungsNr', 
+              'VErgaenzungAb', 'Land', 'AussetzenDauer', 'Betrag', 'BezahltAm', 'ZahlungsweiseBetrag', 
+              'datumwt1sg', 'datumwt2sg', 'datumwt3sg', 'datumwt4sg', 'datumwt5sg', 'datumwt6sg', 
+              'datumwt7sg', 'datumwt8sg', 'datumwt9sg', 'datumwt10sg', 'datumwt11sg', 'datumwt12sg', 
+              'datumwt1tg', 'datumwt2tg', 'datumwt3tg', 'datumwt4tg', 'datumwt5pg', 'AufnahmegebuehrBezahltAm', 
+              'datumWtPraktikum', 'datumWtAusbilder1', 'datumWtAusbilder2', 'datumWtAusbilder3', 
+              'datumWtSchulleiter', 'AufnGebuehrBetrag', 'DVDgesendetAm', 'datume11tg', 'datume12tg', 
+              'datume21tg', 'datume22tg', 'datume31tg', 'datume32tg', 'datume41tg', 'datume42tg', 
+              'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum', 'RecDeleted'], 'safe'],
         ];
     }
 
@@ -60,6 +81,7 @@ class MitgliederSearch extends Mitglieder
         $query->andFilterWhere(['like', 'Vorname', $this->Vorname]);
         $query->andFilterWhere(['like', 'Name', $this->Name]);
         $query->andFilterWhere(['like', 'Geschlecht', $this->Geschlecht]);
+        $query->andFilterWhere(['like', 'RecDeleted', $this->RecDeleted]);
 /*        $query->andFilterWhere(['like', 'Anrede', $this->Anrede])
             ->andFilterWhere(['like', 'GeburtsDatum', $this->GeburtsDatum])
             ->andFilterWhere(['like', 'PLZ', $this->PLZ])

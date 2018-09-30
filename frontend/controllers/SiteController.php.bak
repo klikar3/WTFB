@@ -240,7 +240,7 @@ class SiteController extends Controller
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['Bis' => SORT_DESC],]
+            'sort' => ['defaultOrder' => ['KuendigungAm' => SORT_DESC],]
         ]);
 
         return $this->render('kuendigungen', [
@@ -259,14 +259,14 @@ class SiteController extends Controller
 														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
 														':schule' => $schule
                             )
-                    )
-            ->orderBy('Von desc');
+                    );
+//            ->orderBy('Von desc')
         $sql = $query->createCommand()->getRawSql($query);
         Yii::warning(VarDumper::dumpAsString($sql),'application');
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['attributes' => ['Bis desc']]
+            'sort' => ['defaultOrder' => ['Von' => SORT_DESC],]
         ]);
 
         return $this->render('eintritte', [

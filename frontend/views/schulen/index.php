@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\SchulenSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Schulens');
+$this->title = Yii::t('app', 'Schulen');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="schulen-index">

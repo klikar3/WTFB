@@ -3,7 +3,9 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\VarDumper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "mitgliederschulen".
@@ -71,9 +73,9 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['MitgliederId', 'SchulId', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
+           [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
 	         [['MonatsBeitrag','AGebuehr'], 'number'],
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
 	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
@@ -92,6 +94,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'msID' => Yii::t('app', 'a'),
             'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
             'SchulId' => Yii::t('app', 'Schule'),
+						'VDatum' => Yii::t('app', 'V-Datum'),
             'Von' => Yii::t('app', 'Eintritt'),
             'Bis' => Yii::t('app', 'Austritt'),
             'VertragId' => Yii::t('app', 'Vertrag (.pdf)'),
@@ -140,4 +143,11 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Vertrag::className(), ['VertragId' => 'VertragId']);
     }
+    
+	   public function getNameLink() {
+		    $url = Url::to(['/mitglieder/view', 'id'=>$this->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
+		    $options = []; // any HTML attributes for your link
+		    return Html::a($this->mitglieder->Name . ', ' . $this->mitglieder->Vorname, $url, $options); // assuming you have a relation called profile
+		}
+
 }

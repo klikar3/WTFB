@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 
@@ -39,14 +40,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'msID', 'width' => '60px'],
-            'mitglieder.Vorname',
-            'mitglieder.Name',
+            ['attribute' => 'NameLink',
+             'format' => 'raw', 
+//             'value' => function ($data) { return Html::a($data->msID, Url::to(['/mitglieder/view', 'id'=>$data->msID, 'tabnum' => 1]), []);},
+             'width' => '100px'
+            ],
+//            'mitglieder.Vorname',
+//            'mitglieder.Name',
             'schul.SchulDisp',
-            'schulId',
+            'SchulId',
             'Von',
             'Bis',
             'VertragId',
+            'MonatsBeitrag',
+            'ZahlungsArt',
+            'Zahlungsweise',
 
             ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],
         ],

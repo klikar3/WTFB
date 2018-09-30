@@ -71,6 +71,9 @@ class MitgliederschulenController extends Controller
 	        $mitglied = $model->mitglieder;
 	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+            $mitglied->mandatDatum = $model->VDatum;
+          }
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         return $this->redirect(['/mitgliederschulen/view', 
@@ -94,6 +97,9 @@ class MitgliederschulenController extends Controller
 	        $mitglied = $model->mitglieder;
 	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+            $mitglied->mandatDatum = $model->VDatum;
+          }
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
@@ -121,6 +127,9 @@ class MitgliederschulenController extends Controller
 	        $mitglied = $model->mitglieder;
 	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+            $mitglied->mandatDatum = $model->VDatum;
+          }
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);
@@ -139,6 +148,9 @@ class MitgliederschulenController extends Controller
 	        $mitglied = $model->mitglieder;
 	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+            $mitglied->mandatDatum = $model->VDatum;
+          }
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
@@ -163,6 +175,9 @@ class MitgliederschulenController extends Controller
 	        $mitglied = $model->mitglieder;
 	        date_default_timezone_set('Europe/Berlin');
 	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+            $mitglied->mandatDatum = $model->VDatum;
+          }
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->msID]);

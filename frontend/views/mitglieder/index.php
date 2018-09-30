@@ -1,13 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MitgliederSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Mitglieders');
+$this->title = Yii::t('app', 'Mitglieder');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mitglieder-index modal-content">
@@ -32,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'Vorname',
             'Name',
             'Geschlecht',
+            'RecDeleted',
             // 'Anrede',
             // 'GeburtsDatum',
             // 'PLZ',
@@ -181,7 +183,23 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'BeginnEsckrima',
             // 'EndeEsckrima',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+    						'template' => '{view}  {update}  {delete}',
+//								'controller' => 'texte',
+								'header' => '<center>Aktion</center>',
+                 'options' => [
+                    'style' => 'width:70px;',
+                ],
+								'buttons' => [ 
+									'delete' => function ($url, $model) {
+										return ''.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+																	Url::toRoute(['/mitglieder/deleteAdmin', 'id' => $model->MitgliederId ] ), [
+            					'target'=>'_blank',
+											'title' => Yii::t('app', 'Datensatz wirklich aus der DB löschen'),
+								        ]) . '';
+								    },
+								],
+							],
         ],
     ]); ?>
 

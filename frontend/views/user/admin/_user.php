@@ -22,5 +22,5 @@ use frontend\models\Schulleiter;
 <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($user, 'password')->passwordInput() ?>
 <?= $form->field($user, 'LeiterId')->dropdownList(ArrayHelper::map( Schulleiter::find()->all(), 'LeiterId', 'LeiterName' ),
-																			[ 'prompt' => 'Schule' ]
+																			[ 'prompt' => 'Schulleiter' ]
 																		) ?>

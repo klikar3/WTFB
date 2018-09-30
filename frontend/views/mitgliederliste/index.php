@@ -221,18 +221,6 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
-            ['attribute' => 'LetztAendSifu', 'width' => '8em', 
-							'format' => ['date', 'php:d.m.Y H:i'],
-							'label' => 'Letzt.Änd.Sifu', 
-							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
-							'filterInputOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
-								'style' => 'width:8em;',
-							],								
-							'headerOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
-							],								
-						],
             ['attribute' => 'GeburtsDatum', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y'],
 							'label' => 'Geb.Datum', 
@@ -292,6 +280,18 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 								'style' => 'text-align:center !important',
 							],																
+						],
+            ['attribute' => 'LetztAendSifu', 'width' => Yii::$app->user->identity->isAdmin ? '8em' : '0px', 
+							'format' => ['date', 'php:d.m.Y H:i'],
+							'label' => Yii::$app->user->identity->isAdmin ? 'Letzt.Änd.Sifu' : '', 
+							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
+							'filterInputOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+								'style' => Yii::$app->user->identity->isAdmin ? 'width:8em;' : 'width:0px;',
+							],								
+							'headerOptions' => [
+								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+							],								
 						],
         ], // -- columns
 //        'export' => true,    

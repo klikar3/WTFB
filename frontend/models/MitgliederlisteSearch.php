@@ -24,7 +24,9 @@ class MitgliederlisteSearch extends Mitgliederliste
         return [
             [['MitgliederId', 'MitgliedsNr'], 'integer'],
             [['LetzteAenderung', 'LetztAendSifu', 'GeburtsDatum'],'date', 'format' => 'd.m.Y'],
-            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung', 'LetztAendSifu'], 'safe'],
+            [['MitgliedsNr', 'Vorname', 'Nachname', 'Name', 'NameLink', 'Schulname', 'LeiterName', 
+              'DispName', 'Vertrag', 'PruefungZum', 'Grad', 'Funktion','LetzteAenderung', 
+              'LetztAendSifu'], 'safe'],
         ];
     }
 

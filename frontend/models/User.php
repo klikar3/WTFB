@@ -227,7 +227,7 @@ class User extends BaseUser
             'passwordLength'   => ['password', 'string', 'min' => 6, 'on' => ['register', 'create']],
             
             //'LeiterId' rules
-            'LeiterIdLength' => ['LeiterId', 'string']
+            'LeiterIdLength' => ['LeiterId', 'integer']
         ];
     }
 

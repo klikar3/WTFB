@@ -270,7 +270,7 @@ class SiteController extends Controller
         ]);
 
         return $this->render('eintritte', [
-//            'searchModel' => $searchModel,
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

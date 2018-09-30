@@ -78,6 +78,22 @@ use frontend\models\SearchVertrag;
 									],
 							 ]             
             ],    
+            [ 'attribute' => 'VDatum',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+				          'id' => 'dv_vd_vv_'.$model->msID,											
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose' => true, 'todayHighlight' => true, 'todayBtn' => true],
+				            	'id' => 'dv_vd_vvp_'.$model->msID,											
+									],
+							]
+            ],
             [ 'attribute' => 'VDauerMonate',
             	'id' => 'dv_vv_a_'.$model->msID,
             ],

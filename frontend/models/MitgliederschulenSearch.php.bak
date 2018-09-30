@@ -15,11 +15,13 @@ class MitgliederschulenSearch extends Mitgliederschulen
     /**
      * @inheritdoc
      */
+		public $NameLink;
+
     public function rules()
     {
         return [
             [['msID', 'MitgliederId', 'SchulId', 'VertragId'], 'integer'],
-            [['Von', 'Bis'], 'safe'],
+            [['Von', 'Bis', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink'], 'safe'],
         ];
     }
 
@@ -41,7 +43,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
      */
     public function search($params)
     {
-        $query = Mitgliederschulen::find();
+        $query = Mitgliederschulen::find()->innerJoinWith('mitglieder', true);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -52,7 +54,15 @@ class MitgliederschulenSearch extends Mitgliederschulen
 		        'attributes' => [
 		            'Von',
 		            'Bis',
-		            'KuendigungAm',
+		            'SchulId',
+                'VDatum',
+		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',		            
+                'NameLink' => [
+		                'asc' => ['mitglieder.Name' => SORT_ASC],
+		                'desc' => ['mitglieder.Name' => SORT_DESC],
+		                'label' => 'Name',
+		                'default' => SORT_ASC,
+		            ],  
 		        ]
 		    ]);
 
@@ -64,10 +74,16 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'msID' => $this->msID,
             'MitgliederId' => $this->MitgliederId,
             'SchulId' => $this->SchulId,
+            'VDatum' => $this->VDatum,
             'Von' => $this->Von,
             'Bis' => $this->Bis,
             'VertragId' => $this->VertragId,
+            'MonatsBeitrag' => $this->MonatsBeitrag, 
+            'ZahlungsArt' => $this->ZahlungsArt, 
+            'Zahlungsweise' => $this->Zahlungsweise,
+//            'NameLink' => $this->NameLink,
         ]);
+    		$query->andWhere('mitglieder.Name LIKE "%' . $this->NameLink . '%" '  );
 
         return $dataProvider;
     }

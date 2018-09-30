@@ -32,13 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => false,
+        'filterModel' => $searchModel,
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
-            'mitglieder.Vorname',
-            'mitglieder.Name',
+            ['attribute' => 'NameLink',
+             'format' => 'raw', 
+             'width' => '200px'
+            ],
+//            'mitglieder.Vorname',
+//            'mitglieder.Name',
             'schul.SchulDisp',
             'MonatsBeitrag',
+            'VDatum',
             ['attribute' => 'Von',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');

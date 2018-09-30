@@ -4,8 +4,19 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\db\Query;
+use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\web\NotFoundHttpException;
+use IBAN\Validation\IBANValidator;
+use IBAN\Generation\IBANGenerator;
+use IBAN\Generation\IBANGeneratorDE;
+use IBAN\Rule\RuleFactory;
+
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederSearch;
@@ -14,21 +25,14 @@ use frontend\models\Grade;
 use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Pruefer;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
-use IBAN\Validation\IBANValidator;
-use IBAN\Generation\IBANGenerator;
-use IBAN\Generation\IBANGeneratorDE;
-use IBAN\Rule\RuleFactory;
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
  */
 class MitgliederController extends Controller
 {
+    public $percent;
+    
     public function behaviors()
     {
         return [
@@ -36,7 +40,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -120,6 +124,10 @@ class MitgliederController extends Controller
 								$errors = $model->errors;
 //		        		Yii::trace($errors);
 								}
+                if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
+                  $mitglied->mandatNr = $model->MitgliedsNr;
+                }
+                
 								if ($model->save() and empty($model->errors)) {
             			return $this->redirect(['view', 'id' => $model->MitgliederId, 
 																					'grade' => $mgdataProvider, 
@@ -191,6 +199,9 @@ class MitgliederController extends Controller
 						$model->validate();      
 						$errors = $model->errors;
         		Yii::trace($errors);
+            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
+              $mitglied->mandatNr = $model->MitgliedsNr;
+            }
         		if ($model->save()){
 //            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));       
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
@@ -207,6 +218,9 @@ class MitgliederController extends Controller
 		        $model->BeitrittDatum = $datum;
 		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
 		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
+            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
+              $mitglied->mandatNr = $model->MitgliedsNr;
+            }
 		//        $grade = new Grade();
 //        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
@@ -251,7 +265,7 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDeleteAdmin($id)
     {
         $this->findModel($id)->delete();
 
@@ -259,6 +273,21 @@ class MitgliederController extends Controller
     }
 
     /**
+    /**
+     * Deletes an existing Mitglieder model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        $model->RecDeleted = 1;
+        $model->save();
+
+        return $this->redirect(['mitgliederliste/index']);
+    }
+
      * Markiert ein Mitglied für die nächste Prüfung.
      * @return mixed
      */
@@ -321,16 +350,86 @@ class MitgliederController extends Controller
     
     public function actionCheck()
     {
-        set_time_limit(300);
-        foreach (Mitglieder::find()->each(10) as $model) {
-            if (!$model->validate()) {
-              //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
-              $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.var_export($model->errors).'<br>';
-            }
-        }
-         VarDumper::dump($errors);
-        return $this->render('check', [
-                'model' => $model, 
+//        Yii::$app->response->headers->set('Content-Type', 'text/event-stream');
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        header('Content-Type: text/event-stream');
+        // recommended to prevent caching of event data.
+//        header('Cache-Control: no-cache'); 
+//        ob_start();
+          return $this->render('check', [
+                'percent' => 0, 
             ]);
+//        $this->actionRuncheck();    
     }
+    
+    public function actionRuncheck()
+    {
+        set_time_limit(300);
+        
+//        header('Content-Type: text/event-stream');
+        // recommended to prevent caching of event data.
+//        header('Cache-Control: no-cache'); 
+        $connection = Yii::$app->db;
+        $dbSchema = $connection->schema;
+        //or $connection->getSchema();
+        $tables = $dbSchema->tableNames;//returns array of tbl schema's
+//        ob_start();
+        foreach($tables as $tbl)
+        {
+            echo $tbl, ':<br/>';
+        }
+        
+        $max = Mitglieder::find()->count();
+        $i = $percent = 0;
+        
+        $this->send_message(0, 'start 0 of ' . $max , 0);
+        
+        $errors[] = 'Gefundene Fehler: ';
+        foreach (Mitglieder::find()->each(10) as $model) {
+            $i += 1;
+            if (($i < 50) && !$model->validate()) {
+              //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
+              $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.json_encode($model->errors).'<br>';
+            }
+            $percent = ($i * 100) / $max;
+            if ($i %10 == 0) $this->send_message($i, 'on iteration ' . $i . ' of ' . $max , $percent);
+ //           if ($i %10 == 0) $this->renderAjax('progBar', ['percent' => $percent,]);
+        }
+//         VarDumper::dump($errors);
+        $this->send_message('CLOSE', 'Process complete',100);
+        //return //ob_get_clean();
+    }
+    
+    public function actionDisplay($percent) {
+        if (Yii::$app->request->isAjax) {
+//            sleep(1);
+            if (true) {
+                $res = array(
+                    'success' => true,
+                    'nextLabel' => Yii::t('app', 'Action two ...'),
+                    'nextUrl' => Url::to(['two'])
+                );
+            } else {
+                $res = array(
+                    'success' => false,
+                    'errorMsg' => Yii::t('text', 'An error occurred while processing.'),
+                );
+            }
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $res;
+        }
+    }
+    
+    private function send_message($id, $message, $progress) {
+        $d = array('message' => $message , 'progress' => $progress);
+          
+        echo "id: $id" . PHP_EOL;
+        echo "data: " . json_encode($d) . PHP_EOL;
+        echo PHP_EOL;
+          
+        ob_flush();
+        flush();
+    }
+  
 }

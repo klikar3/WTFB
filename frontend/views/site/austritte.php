@@ -37,8 +37,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //        'emptyCell'=>'-',
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
-            'mitglieder.Vorname',
-            'mitglieder.Name',
+            ['attribute' => 'NameLink',
+             'format' => 'raw', 
+             'width' => '200px'
+            ],
+//            'mitglieder.Vorname',
+//            'mitglieder.Name',
             'schul.SchulDisp',
 //            'SchulId',
             [ 'attribute' => 'mgl.Grad',

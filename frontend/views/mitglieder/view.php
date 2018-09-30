@@ -95,16 +95,27 @@ use frontend\models\Texte;
 		    ],  
 			  [
 				    'label'=>'<div class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> Löschen</div>',
-						'content'=>Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
+						'content'=> Yii::$app->user->identity->isAdmin ? 
+                Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
+			          'class' => 'btn btn-sm btn-danger',
+			          'data' => [
+			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden? <hr>&nbsp;Wurde vorher ein Backup gemacht? <br>&nbsp;Ein Backup kostet nix!!!'),
+			              'method' => 'post',
+    			          ],
+//			          'style' => 'width: 80px; text-align: left;',
+			
+    			      ]) . ' <hr>&nbsp;Wurde vorher ein Backup gemacht? <br>&nbsp;Ein Backup kostet nix!!!<br>'
+              :
+                Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
 			          'class' => 'btn btn-sm btn-danger',
 			          'data' => [
 			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
 			              'method' => 'post',
-			          ],
+    			          ],
 //			          'style' => 'width: 80px; text-align: left;',
 			
-			      ]),                                                      
-						'active' => $tabnum == 9?true:false, 
+    			      ]),                                                      
+    						'active' => $tabnum == 9?true:false, 
 		    ],  
     ];
  

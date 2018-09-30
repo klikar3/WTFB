@@ -53,6 +53,22 @@ use frontend\models\Pruefer;
         		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
         		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
               'Kontoinhaber',
+              'mandatNr',
+              //'mandatDatum',
+                [ 'attribute' => 'mandatDatum',
+                    'format' => ['date', 'php:d.m.Y'],
+                    'type' => DetailView::INPUT_WIDGET,
+                    'widgetOptions' => [
+                                    'class' => DateControl::classname(),
+                                                                            'type' => DateControl::FORMAT_DATE,
+                                                                'displayFormat' => 'php:d.m.Y',
+                                                                'saveFormat' => 'php:Y-m-d',
+                                                                'options' => [
+                                                                                            'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+                                                                            ],
+                                                            ]
+                ],
+              
 //             'Status',
         ],
     ]); ?>
