@@ -57,6 +57,7 @@ class MitgliederlisteController extends Controller
     {
         $searchModel = new MitgliederlisteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere('RecDeleted = 0');
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -60,14 +60,14 @@ use frontend\models\Texte;
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],
-				[
+/*				[
 				    'label'=>'<i class="glyphicon glyphicon-euro"></i> Konto',
 						'content'=>$this->render('_view_zahlung', array(
 		                                'model'=>$model, 'tabnum' => 4, 'openv' => $openv, 
 		                        ) ),
 						'active' => $tabnum == 4?true:false,
 				],
-				[
+*/				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
 						'content'=>$this->render('_view_grade_index', array(
 		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
@@ -95,18 +95,7 @@ use frontend\models\Texte;
 		    ],  
 			  [
 				    'label'=>'<div class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> Löschen</div>',
-						'content'=> Yii::$app->user->identity->isAdmin ? 
-                Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
-			          'class' => 'btn btn-sm btn-danger',
-			          'data' => [
-			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden? <hr>&nbsp;Wurde vorher ein Backup gemacht? <br>&nbsp;Ein Backup kostet nix!!!'),
-			              'method' => 'post',
-    			          ],
-//			          'style' => 'width: 80px; text-align: left;',
-			
-    			      ]) . ' <hr>&nbsp;Wurde vorher ein Backup gemacht? <br>&nbsp;Ein Backup kostet nix!!!<br>'
-              :
-                Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
+						'content'=> Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
 			          'class' => 'btn btn-sm btn-danger',
 			          'data' => [
 			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),

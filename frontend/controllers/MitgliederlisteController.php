@@ -147,7 +147,7 @@ class MitgliederlisteController extends Controller
         if (($model = Mitgliederliste::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page/record does not exist.');
         }
     }
     

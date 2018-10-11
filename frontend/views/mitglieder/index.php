@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'EndeEsckrima',
 
             ['class' => 'yii\grid\ActionColumn',
-    						'template' => '{view}  {update}  {delete}',
+    						'template' => '{view}  {update}  {delete}  {restore}',
 //								'controller' => 'texte',
 								'header' => '<center>Aktion</center>',
                  'options' => [
@@ -193,10 +193,25 @@ $this->params['breadcrumbs'][] = $this->title;
 								'buttons' => [ 
 									'delete' => function ($url, $model) {
 										return ''.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
-																	Url::toRoute(['/mitglieder/deleteAdmin', 'id' => $model->MitgliederId ] ), [
-            					'target'=>'_blank',
+																	Url::toRoute(['/mitglieder/delete-admin', 'id' => $model->MitgliederId ] ), [
+      			          'data' => [
+      			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?  Wurde vorher ein Backup gemacht? Ein Backup kostet nix!!!'),
+      			              'method' => 'post',
+          			          ],
+//            					'target'=>'_blank',
 											'title' => Yii::t('app', 'Datensatz wirklich aus der DB löschen'),
-								        ]) . '';
+								        ])  . '';
+								    },
+									'restore' => function ($url, $model) {
+										return ''.Html::a('<span class="glyphicon glyphicon-new-window"></span>', 
+																	Url::toRoute(['/mitglieder/restore', 'id' => $model->MitgliederId ] ), [
+      			          'data' => [
+      			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich wiederhergestellt werden?'),
+      			              'method' => 'post',
+          			          ],
+//            					'target'=>'_blank',
+											'title' => Yii::t('app', 'Datensatz wirklich wiederherstellen'),
+								        ])  . '';
 								    },
 								],
 							],

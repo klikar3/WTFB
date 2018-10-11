@@ -21,7 +21,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     {
         return [
             [['msID', 'MitgliederId', 'SchulId', 'VertragId'], 'integer'],
-            [['Von', 'Bis', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink'], 'safe'],
         ];
     }
 

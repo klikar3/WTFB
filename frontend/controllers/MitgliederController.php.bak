@@ -40,10 +40,15 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+						        [
+						            'actions' => ['delete-admin','restore'],
+						            'allow' => Yii::$app->user->identity->isAdmin ? true : false,
+						            'roles' => ['@'],
+						        ],
                    [
                         'allow' => false,
                     ],
@@ -124,9 +129,9 @@ class MitgliederController extends Controller
 								$errors = $model->errors;
 //		        		Yii::trace($errors);
 								}
-                if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
-                  $mitglied->mandatNr = $model->MitgliedsNr;
-                }
+//                if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
+//                  $mitglied->mandatNr = $model->MitgliedsNr;
+//                }
                 
 								if ($model->save() and empty($model->errors)) {
             			return $this->redirect(['view', 'id' => $model->MitgliederId, 
@@ -269,10 +274,9 @@ class MitgliederController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['mitgliederliste/index']);
+        return $this->redirect(['/mitglieder/index']);
     }
 
-    /**
     /**
      * Deletes an existing Mitglieder model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -288,6 +292,38 @@ class MitgliederController extends Controller
         return $this->redirect(['mitgliederliste/index']);
     }
 
+    /**
+     * Deletes an existing Mitglieder model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionRestore($id)
+    {
+        $model = $this->findModel($id);
+        $model->RecDeleted = 0;
+        $model->save();
+
+        return $this->redirect(['mitglieder/index']);
+    }
+
+    public function actionSwm($id)
+    {
+        $url = 'http://swm.wingtzun.de/nl.php?' . http_build_query ( [ 'param' => 12 ] );
+        $script = <<<JS
+                function openInNewTab(url) {
+                  var win = window.open(url, '_blank');
+                  win.focus();
+                }
+                 openInNewTab('$url');
+JS;
+    
+        $this->getView()->registerJs( $script , \yii\web\View::POS_READY );
+        return $this->render ( 'external' );
+//        return $this->redirect(['http://swm.wingtzun.de/nl.php'],307);
+    }
+
+    /**
      * Markiert ein Mitglied für die nächste Prüfung.
      * @return mixed
      */

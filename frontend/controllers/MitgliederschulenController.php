@@ -144,21 +144,37 @@ class MitgliederschulenController extends Controller
     {
         $model = new Mitgliederschulen();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-	        $mitglied = $model->mitglieder;
-	        date_default_timezone_set('Europe/Berlin');
-	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
-            $mitglied->mandatDatum = $model->VDatum;
-          }
-				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
-	        $mitglied->save();
-            return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (empty($model->mandatNr) and !empty($model->mitglieder->MitgliedsNr)) {
+              $model->mandatNr = sprintf('%d',$model->mitglieder->MitgliedsNr);
+            }
+            if (empty($model->mandatDatum) and !empty($model->VDatum)) {
+              $model->mandatDatum = $model->VDatum;
+            }
+            if (empty($model->Kontoinhaber)) {
+              $model->Kontoinhaber = $model->mitglieder->Vorname.' '.$model->mitglieder->Name;
+            }
+            if ($model->save()) {
+    	        $mitglied = $model->mitglieder;
+    	        date_default_timezone_set('Europe/Berlin');
+    	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+/*              if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+                $mitglied->mandatDatum = $model->VDatum;
+              }
+*/    				  
+            if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+    	        $mitglied->save();
+                return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+        }    
     }
 
     /**

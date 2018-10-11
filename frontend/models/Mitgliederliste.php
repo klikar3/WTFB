@@ -46,9 +46,10 @@ class Mitgliederliste extends \yii\db\ActiveRecord
     { 
 			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
-    	
+    	    $schulids =  Schulleiterschulen::find()->select(['SchulId'])->where(['LeiterId' => Yii::$app->user->identity->LeiterId]);
 					// VarDumper::dump($schulleiter);
-		    	return parent::find()->where( ['LeiterName' => $schulleiter->LeiterName]);
+//		    	return parent::find()->where( ['LeiterName' => $schulleiter->LeiterName]);
+		    	return parent::find()->where( ['in', 'SchulId', $schulids]);
 		  }
 		  return parent::find();
     }

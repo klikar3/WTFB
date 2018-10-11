@@ -29,15 +29,15 @@ use frontend\models\Schulen;
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
 					<div class="panel-heading panel-xs" style="margin-bottom: 0px;height:3em;">
 							<?php
+								$datum = date('Y-m-d');
 								$ms = new MitgliederSchulen();
-								$datum = date('php:Y-m-d');
         				$ms->Von = $datum;
                 $ms->VDatum = $datum;
                 $ms->MitgliederId = $model->MitgliederId;
-                $ms->VDauerMonate = null;
+                $ms->VDauerMonate = 12;
                 $ms->MonatsBeitrag = null;
-                $ms->ZahlungsArt = null;
-                $ms->Zahlungsweise = null;
+                $ms->ZahlungsArt = 'Bankeinzug';
+                $ms->Zahlungsweise = 'monatlich';
                 $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
 					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
@@ -67,6 +67,8 @@ use frontend\models\Schulen;
 									<?= $form->field($ms, 'VDatum')->widget(DateControl::classname(),
 											[ 'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
+        	 							'displayFormat' => 'php:d.m.Y',
+        	 							'saveFormat' => 'php:Y-m-d',
 												'options'=>[
 														'id' => 'vd_feld',
 														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
@@ -77,8 +79,8 @@ use frontend\models\Schulen;
 											[ 'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
 // 												'displayTimezone' => 'Europe/Berlin',
-//									    'displayFormat' => 'php:d.m.Y',
-//										    'saveFormat' => 'php:Y-m-d',
+        	 							'displayFormat' => 'php:d.m.Y',
+        	 							'saveFormat' => 'php:Y-m-d',
 												'options'=>[
 														'id' => 'von_feld',
 														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],

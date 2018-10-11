@@ -156,7 +156,7 @@ class SiteController extends Controller
 				$model->schule = 10;
 //				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
 				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
-				$model->bis = date('d.m.Y',mktime(0, 0, 0, date("m")+1, 1, date("Y"))-"1d");
+				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)-"1d");
 //        VarDumper::dump($model);
 
         if ($model->load(Yii::$app->request->post() )) {
@@ -220,7 +220,12 @@ class SiteController extends Controller
 						->all();
 //        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
 */            
-        return $this->render('mitgliederzahlen',['model' => $model, 'datasets' => $datasets, 'labels' => $labels]);
+        return $this->render('mitgliederzahlen',['model' => $model, 
+                                                'datasets' => $datasets, 
+                                                'labels' => $labels,
+                                                'von' => $model->von,
+                                                'bis' => $model->bis, 
+                                                'schule' => $model->schule]);
     }
 
     public function actionKuendigungen($von,$bis,$schule)
@@ -249,7 +254,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionEintritte($von,$bis,$schule)
+    public function actionEintritte($von,$bis,$schule,$print = 0)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
         $searchModel = new MitgliederschulenSearch();
@@ -262,7 +267,7 @@ class SiteController extends Controller
                     );
 //            ->orderBy('Von desc')
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        //Yii::warning(VarDumper::dumpAsString($sql),'application');
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -271,7 +276,11 @@ class SiteController extends Controller
 
         return $this->render('eintritte', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider, 
+            'von' => $von,
+            'bis' => $bis, 
+            'schule' => $schule,
+            'print' => $print,
         ]);
     }
 

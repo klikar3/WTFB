@@ -113,7 +113,40 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-//             'KuendigungAm',
+            [ 'attribute' => 'BeitragAussetzenVon',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_bav_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+            [ 'attribute' => 'BeitragAussetzenBis',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_bab_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+            [ 'attribute' =>  'BeitragAussetzenGrund',
+            	'id' => 'dv_vv_bag_'.$model->msID,
+            	'label' => 'Auss. Grund',
+            ],
             [ 'attribute' => 'KuendigungAm',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
@@ -180,8 +213,12 @@ use frontend\models\SearchVertrag;
 									],
 							 ]             
 						],
-//             'EinzugZum',
-            [ 'attribute' => 'BeitragAussetzenVon',
+             'Bank',
+        		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
+        		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
+             'Kontoinhaber',
+             'mandatNr',
+             [ 'attribute' => 'mandatDatum',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
@@ -191,31 +228,10 @@ use frontend\models\SearchVertrag;
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
-				            	'id' => 'dv_vv_bav_'.$model->msID,											
+				            	'id' => 'dv_vv_md_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 									],
 							]
-            ],
-//             'BeitragAussetzenVon',
-//             'BeitragAussetzenBis',
-            [ 'attribute' => 'BeitragAussetzenBis',
-            	'format' => ['date', 'php:d.m.Y'],
-            	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
-            	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
-							    'options' => [
-				            	'id' => 'dv_vv_bab_'.$model->msID,											
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-									],
-							]
-            ],
-            [ 'attribute' =>  'BeitragAussetzenGrund',
-            	'id' => 'dv_vv_bag_'.$model->msID,
-            	'label' => 'Auss. Grund',
             ],
             [ 'attribute' => 'AGebuehr',
             	'id' => 'dv_vv_mb_'.$model->msID,
@@ -248,10 +264,10 @@ use frontend\models\SearchVertrag;
     ]);  ?>
 </div>
 <div class="col-sm-5 col-md-5" style="width:300px;">
-<?php if (Yii::$app->user->identity->isAdmin) { ?>
+<?php if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
  		<div class="col-sm-2 col-md-2 col-2" id = "wm3.$model->msID"  style="float:left;">
-		<?php 			$form2 = ActiveForm::begin([
+		<?php /*			$form2 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formwm'.$model->msID], // important
 			    'id' => 'formwm'.$model->msID,
 			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
@@ -267,15 +283,15 @@ use frontend\models\SearchVertrag;
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
-												
+*/												
 			/*									'ajax' => array(
 			                                'type'=>'POST',
 			                                'url'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
 			                                'data'=>"shafi"
 																	)
 										]);
-	*/			ActiveForm::end();								
-		?> 
+				ActiveForm::end();								
+*/		?> 
 	 </div>  
   <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;">  
 		<?php //echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
@@ -291,7 +307,7 @@ use frontend\models\SearchVertrag;
 //												'value' => $model->SF, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'SF',
+												'label' => 'Bank',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
@@ -301,7 +317,7 @@ use frontend\models\SearchVertrag;
 	 </div>  
   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:left;" >  
 		<?php //echo Html::checkbox('bl'.$model->msID, $model->BL, ['value' => $model->BL, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'BL', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
-			$form4 = ActiveForm::begin([
+/*			$form4 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
 			    'id' => 'formbl'.$model->msID,
 			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
@@ -318,12 +334,12 @@ use frontend\models\SearchVertrag;
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
 			ActiveForm::end();
-
+*/
 		?>
 	 </div>  
   <div class="col-sm-2 col-md-2 col-2" id = "bv3.$model->msID" style="!float:left;" >  
 		<?php //echo Html::checkbox('bl'.$model->msID, $model->BL, ['value' => $model->BL, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'BL', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
-			$form4 = ActiveForm::begin([
+/*			$form4 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
 			    'id' => 'formbl'.$model->msID,
 			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
@@ -340,7 +356,7 @@ use frontend\models\SearchVertrag;
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
 			ActiveForm::end();
-
+*/
 		?>
 	 </div>  
    <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:right;" >  
@@ -500,15 +516,45 @@ use frontend\models\SearchVertrag;
  ?>
 	 </div>  
 </div>
-<?php if (Yii::$app->user->identity->isAdmin) { ?>
+<?php if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
 	
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:width:0px auto;">
    <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
- 		<?php	echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de'),[
+ 		<?php	/* echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de',true),[
 											'title' => Yii::t('app', 'Mitglied in SWM eintragen'),
 											'target' => '_blank'
+							  	]); */  ?>
+		<?php //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+/*			$form6 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formswm'.$model->msID], // important
+			    'id' => 'formswm'.$model->msID,
+          'action'=>['http://swm.wingtzun.de/nl.php'],
+//			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+*/      
+          echo Html::beginForm('http://swm.wingtzun.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->msID]);
+          echo Html::hiddenInput('MailingListId', 3);
+          echo Html::hiddenInput('FormId', 2);
+          echo Html::hiddenInput('FormEncoding', 'utf-8');
+          echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
+          echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'g',['id' => "u_Gender_f"]);
+          echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
+          echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
+          echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
+          echo Html::hiddenInput('Action', 'subscribe');
+          echo Html::submitButton('In SWM eintragen', ['class' => 'btn btn-sm btn-default']);
+          echo Html::endForm(); 
+									
+		?>
+                  
+	 </div>
+   <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+											'target' => '_blank'
 							  	]);   ?>
-	 </div>						  	
+   </div>						  	
 	</div>
 <?php } ?>			        	
 <?php // Pjax::end(); ?>
