@@ -31,6 +31,9 @@ use frontend\models\SearchVertrag;
 
 ?>
 <?php //Pjax::begin(['id'=>'pjaxDetailView_'.$model->msID, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
+<?php $anzeigen =  (Yii::$app->user->identity->isAdmin or 
+                    (Yii::$app->user->identity->username == 'eva') or 
+                    (Yii::$app->user->identity->username == 'evastgt')) ? true : false; ?>
 
 <div class="col-sm-7 col-md-7"">
     <?= DetailView::widget([
@@ -69,7 +72,7 @@ use frontend\models\SearchVertrag;
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
 									'data' => ArrayHelper::map( Schulen::find()->all(), 
-									'SchulId', 'SchulDisp' ),
+									'SchulId', 'SchulId' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
 									    'pluginOptions' => [
@@ -94,9 +97,6 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-            [ 'attribute' => 'VDauerMonate',
-            	'id' => 'dv_vv_a_'.$model->msID,
-            ],
             [ 'attribute' => 'Von',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
@@ -112,6 +112,9 @@ use frontend\models\SearchVertrag;
 				            	'id' => 'dv_vv_vvp_'.$model->msID,											
 									],
 							]
+            ],
+            [ 'attribute' => 'VDauerMonate',
+            	'id' => 'dv_vv_a_'.$model->msID,
             ],
             [ 'attribute' => 'BeitragAussetzenVon',
             	'format' => ['date', 'php:d.m.Y'],
@@ -264,7 +267,7 @@ use frontend\models\SearchVertrag;
     ]);  ?>
 </div>
 <div class="col-sm-5 col-md-5" style="width:300px;">
-<?php if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
+<?php //if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
  		<div class="col-sm-2 col-md-2 col-2" id = "wm3.$model->msID"  style="float:left;">
 		<?php /*			$form2 = ActiveForm::begin([
@@ -294,7 +297,7 @@ use frontend\models\SearchVertrag;
 */		?> 
 	 </div>  
   <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;">  
-		<?php //echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+		<?php if ($anzeigen) {//echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form3 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data'], // important
 			    'id' => 'formsf'.$model->msID,
@@ -312,7 +315,7 @@ use frontend\models\SearchVertrag;
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
 												
-			ActiveForm::end();
+			ActiveForm::end();   }
 		?> 
 	 </div>  
   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:left;" >  
@@ -360,7 +363,7 @@ use frontend\models\SearchVertrag;
 		?>
 	 </div>  
    <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:right;" >  
-		<?php //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+		<?php  if ($anzeigen) {//echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form5 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important
 			    'id' => 'formok'.$model->msID,
@@ -377,22 +380,26 @@ use frontend\models\SearchVertrag;
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
-			ActiveForm::end();
+			ActiveForm::end();  }
 
 		?>
 	 </div>  
- </div>
+ <?php // } ?>
+   </div>
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
    <div class="col-sm-2 col-md-2 col-2" id = "wm1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
+   <?php  if ($anzeigen) { 
+		echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Ausweis drucken'),
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
-												        ]); ?>
+												        ]);
+    } ?>
 	</div>	
+
   <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;width:130px;">  
  		<?php	echo Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Standard-Email</div>', Url::to($model->mitglieder->Email) .
 									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
@@ -413,7 +420,7 @@ use frontend\models\SearchVertrag;
 												        ]); ?>
 			</div>									        
 	    <div class="col-sm-2 col-md-2 col-2" id = "sf2.$model->msID" style="float:leftt;margin-left:0px;width:130px;">
-	 		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailBegruessung", $model->SchulId, 0);
+	 		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailBegruessung", $model->SchulId, 0);
 		?>
    		</div>
 </div>												        
@@ -429,7 +436,7 @@ use frontend\models\SearchVertrag;
 												        ]); ?>
 	 </div>
    <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailAussetzen", $model->SchulId, 0);
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailAussetzen", $model->SchulId, 0);
 											 
 		?>
 	 </div>  
@@ -446,54 +453,76 @@ use frontend\models\SearchVertrag;
 												        ]); ?>
 		</div>										        
    <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailKündigung", $model->SchulId, 0);
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailKuendigung", $model->SchulId, 0);
 											 
 		?>
 	 </div>  
  </div>												        
-<?php } ?>
+
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
    <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	
 			Modal::begin([
 			    'header'=>'<center>Vertrag hochladen</center>',
-					'size'=>'modal-md',					
+					'size'=>'modal-md',
 			    'toggleButton' => [
 			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hoch</span>', 'class'=>'btn btn-default',
 			        		'style' => 'width: 120px; text-align: left;',
 			    ],
+          'clientOptions' => [
+            'backdrop' => 'static',					
+          ]
 			]);
 		?> <div class="modal-content" style="height:70%;"> <?php
 			$form1 = ActiveForm::begin([
-			    'options'=>['enctype'=>'multipart/form-data'] // important
+			    'options'=>[//'enctype'=>'multipart/form-data', 
+                      'action' => Url::toRoute(['/mitgliederschulen/upload', 'id' => $model->msID, 
+													 				'tabnum' => 3]), // important
+                      'target' => '_blank', 
+          ]           
 			]);
 		?>
 		<p>	
 		<?php	
 			// A block file picker button with custom icon and label
+//      Yii::$app->params['uploadUrl'] = Url::toRoute(['/mitgliederschulen/upload', 'id' => $model->msID, 
+//													 				'tabnum' => 3 ] );
 			echo FileInput::widget([
-			    'name' => 'attachment_53',
+			    'name' => 'attachment_53'.$model->msID,
+          'id' => 'attachment_53'.$model->msID,
 			    'pluginOptions' => [
-			        'showCaption' => false,
-			        'showRemove' => false,
+			        'showCaption' => false, //'action' => 'get',
+			        'showRemove' => true,
 			        'showUpload' => true,
+              'uploadAsync' => true,
 			        'uploadLabel' => "Hochladen",
+			        'browseLabel' =>  'Pdf auswählen',
 			        'msgSizeTooLarge' => "Die Datei '{name}'' ({size} KB) ist größer als die Maximalgröße von {maxSize} KB!",
-			        'previewClass' => '',
-			        'mainClass' => '',
+//			        'previewClass' => '',
+//			        'mainClass' => '',
 			        'browseClass' => 'btn btn-default btn-sm',
 			        'browseIcon' => '<i class="glyphicon glyphicon-list-alt"></i> ',
-			        'browseLabel' =>  'Pdf auswählen',
 			        'maxFileSize' => 1024,
 			        'maxFileCount' => 1,
 			        'allowedFileExtensions' => ['jpg','gif','png','pdf'],
-			        'uploadUrl' => Url::toRoute(['mitgliederschulen/upload', 'id' => $model->msID, 
-													 				'tabnum' => 3 ] )
+              'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp'. DIRECTORY_SEPARATOR .'tmp',
+              'uploadUrl' => \Yii::getAlias('@webroot').'/index.php?r=mitgliederschulen/upload',
+              'uploadExtraData' => [
+                  'id' => 'attachment_53'.$model->msID,
+                  'tabnum' => 3,
+                  'modelId' => $model->msID
+              ]
+//			        'uploadUrl' => Url::to(['/mitgliederschulen/upload', 'id' => $model->msID, 
+//													 				'tabnum' => 3 ] ),
 			    ],
-			    'options' => ['accept' => 'image/* text/*',
-			    		'multiple' => false,
-					]
+			    'options' => ['accept' => 'image/jpeg,application/pdf',
+			    		'multiple' => false, 'id' => 'attachment_53'.$model->msID,
+					],
+//          'pluginEvents' => [
+//              'fileuploaded' => 'this.form.submit()',
+//          ],
 			]);
+//    echo Html::submitButton('Eintragen', ['class' => 'btn btn-sm btn-default']);  
 		?>
 		</p>	
 		<?php	
@@ -516,15 +545,15 @@ use frontend\models\SearchVertrag;
  ?>
 	 </div>  
 </div>
-<?php if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
 	
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:width:0px auto;">
    <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
- 		<?php	echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de',true),[
+    <?php  if ($anzeigen) { 
+ 		   	/* echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de',true),[
 											'title' => Yii::t('app', 'Mitglied in SWM eintragen'),
 											'target' => '_blank'
-							  	]);   ?>
-		<?php //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+							  	]); */  
+		 //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 /*			$form6 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formswm'.$model->msID], // important
 			    'id' => 'formswm'.$model->msID,
@@ -546,9 +575,9 @@ use frontend\models\SearchVertrag;
           echo Html::submitButton('In SWM eintragen', ['class' => 'btn btn-sm btn-default']);
           echo Html::endForm(); 
 									
-		?>
-                  
+		 } ?>                 
 	 </div>
+	
    <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
    	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
 											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
@@ -556,5 +585,5 @@ use frontend\models\SearchVertrag;
 							  	]);   ?>
    </div>						  	
 	</div>
-<?php } ?>			        	
+		        	
 <?php // Pjax::end(); ?>

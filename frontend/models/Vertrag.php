@@ -14,6 +14,7 @@ use Yii;
  */
 class Vertrag extends \yii\db\ActiveRecord
 {
+    //public $pdf;
     /**
      * @inheritdoc
      */
@@ -28,7 +29,8 @@ class Vertrag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pdf'], 'string'],
+            [['pdf', 'VertragId', 'name', 'typ'], 'safe'],
+            [['pdf'], 'file', 'extensions'=>'pdf'],
         ];
     }
 

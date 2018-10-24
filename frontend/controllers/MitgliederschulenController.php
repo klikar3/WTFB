@@ -10,6 +10,7 @@ use frontend\models\VertragSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use yii\helpers\VarDumper;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -262,29 +263,86 @@ class MitgliederschulenController extends Controller
         }
     }    
     
-    public function actionUpload($id,$tabnum)
+    public function actionUpload($id = 0, $tabnum = 0)
     {
-        $model = $this->findModel($id);
+        //Yii::warning("-----actionUpload");
+        $id = $_POST['id'];
+        $tabnum = $_POST['tabnum'];
+        $model = $this->findModel($_POST['modelId']);
 //        $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
         
-				$fileData = $_FILES['attachment_53'];
-				$image = UploadedFile::getInstanceByName($fileData['tmp_name']);
-				$file_blob = file_get_contents($fileData['tmp_name']);;
+        if (empty($_FILES[$id])) {
+            echo json_encode(['error'=>'No files found for upload.']); 
+            return; // terminate
+        }				
+        
+        $fileData = $_FILES[$id];
+//        Yii::warning("-----Name: ".$fileData['tmp_name']);
+				//$d = sys_get_temp_dir();
+        //Yii::warning("-----dir: ".$d);
+				//move_uploaded_file($fileData['tmp_name'], 'd:\wamp\tmp\test.pdf');
+        		
+				//$image = UploadedFile::getInstanceByName($fileData['tmp_name']);
+				$file_blob = file_get_contents($fileData['tmp_name']);
+        if (!$file_blob) {
+            echo json_encode(['error'=>'Datei nicht gefunden.']); 
+            return; // terminate
+        }
 				if (!empty($file_blob)) {
 	        if (!empty($model->VertragId)) {
-	        	$vertrag = $model->vertrag;
+            $vertrag = \frontend\models\Vertrag::findOne($model->VertragId);
+	        	//$vertrag = $model->vertrag;
+//            Yii::warning("-----Vertrag: ".$vertrag->VertragId);
 					} else {
 						$vertrag = new Vertrag();
 				 	}
 				  $vertrag->pdf = $file_blob;
 				  $vertrag->name = $fileData['name'];
 				  $vertrag->typ = $fileData['type'];
+          if (!$vertrag->validate()) {
+            echo json_encode(['error'=>'Vertrag nicht validiert.']); 
+            return; // terminate
+          }
 				  if ($vertrag->save()) {
+//            Yii::warning("-----vertrag gesichert");
+            //Yii::warning($vertrag->pdf);
 						$model->VertragId = $vertrag->VertragId;
-						if (!$model->save()) return '<div class="alert alert-danger">Konnte MitgliederSchulen nicht speichern</div>';;
-					}	
+            if (!$model->Validate()) {
+//                Yii::warning("-----model nicht gesichert");
+                echo json_encode(['error'=>'Konnte MitgliederSchulen nicht validieren.']); 
+                // or you can throw an exception 
+                return; // terminate
+            }						
+            if (!$model->save()) {
+//                Yii::warning("-----model nicht gesichert");
+                echo json_encode(['error'=>'Konnte MitgliederSchulen nicht speichern.']); 
+                // or you can throw an exception 
+                return; // terminate
+            } else {
+//                Yii::warning("-----model gesichert");
+            }                   
+					}	else {
+//            Yii::warning("-----vertrag nicht gesichert");
+            $model->addError('Vertrag konnte nicht gesichert werden!');
+            $output = json_encode(['error' => 'Vertrag konnte nicht gesichert werden!']);
+          }
 				}
-				return json_encode($image);
+        
+        $output = json_encode(['success' => 'Datei hochgeladen']);
+/*        return json_encode(
+                  'error' => 'An error exception message if applicable',
+                  initialPreview  [
+                      // initial preview thumbnails for server uploaded files if you want it displayed immediately after upload
+                  ],
+                  initialPreviewConfig: [
+                      // configuration for each item in initial preview 
+                  ],
+                  initialPreviewThumbTags: [
+                      // initial preview thumbnail tags configuration that will be replaced dynamically while rendering
+                  ],
+                  append: true // whether to append content to the initial preview (or set false to overwrite)
+              });  */
+				return $output;
 //				return $this->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$model]);
 /*        if (isset($_POST['expandRowKey'])) {
             $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);

@@ -3,18 +3,21 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Mitglieder;
-use frontend\models\Mitgliedersektionen;
-use frontend\models\MitgliedersektionenSearch;
-use frontend\models\Sektionen;
-use frontend\models\SektionenSearch;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+
+use frontend\models\Mitglieder;
+use frontend\models\Mitgliederschulen;
+use frontend\models\Mitgliedersektionen;
+use frontend\models\MitgliedersektionenSearch;
+use frontend\models\Sektionen;
+use frontend\models\SektionenSearch;
 
 /**
  * MitgliedersektionenController implements the CRUD actions for Mitgliedersektionen model.
@@ -289,5 +292,22 @@ class MitgliedersektionenController extends Controller
 			return $pdf->render();
 		}
     
-    
+    public function actionPrint($id)
+    {
+        $model = $this->findModel($id);
+//        $txtcode = $model->sektion->textcode;
+//        $dispName = $model->grad->DispName;
+        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->andWhere(['MitgliederID' => $model->mitglied_id,'DispName' => 'Wing Tzun'])->one();
+        $url = Url::toRoute(['texte/print', 
+																					'datamodel' => 'sektion', 
+																					'dataid' => $id, 
+//													 								'SchulId' => $Schule->SchulId, 
+  																				'txtcode' => 'sektionBest', 
+																					'txtid' => 0,
+                                          'target' => '_blank',
+																					 ]);
+        return $this->redirect($url);
+			
+     }
+
 }

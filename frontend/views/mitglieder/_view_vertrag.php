@@ -31,13 +31,13 @@ use frontend\models\Schulen;
 							<?php
 								$datum = date('Y-m-d');
 								$ms = new MitgliederSchulen();
-        				$ms->Von = $datum;
-                $ms->VDatum = $datum;
+//        				$ms->Von = $datum;
+//                $ms->VDatum = $datum;
                 $ms->MitgliederId = $model->MitgliederId;
-                $ms->VDauerMonate = 12;
+//                $ms->VDauerMonate = 12;
                 $ms->MonatsBeitrag = null;
-                $ms->ZahlungsArt = 'Bankeinzug';
-                $ms->Zahlungsweise = 'monatlich';
+//                $ms->ZahlungsArt = 'Bankeinzug';
+//                $ms->Zahlungsweise = 'monatlich';
                 $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
 					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
@@ -69,10 +69,12 @@ use frontend\models\Schulen;
  												'ajaxConversion'=>true,
         	 							'displayFormat' => 'php:d.m.Y',
         	 							'saveFormat' => 'php:Y-m-d',
-												'options'=>[
+												'widgetOptions'=>[
 														'id' => 'vd_feld',
 														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
-														
+                            'options' => [
+                                'placeholder' => 'Vertrags-Abschlussdatum',
+                            ],														
 												],
 											]); ?>
 									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
@@ -81,21 +83,23 @@ use frontend\models\Schulen;
 // 												'displayTimezone' => 'Europe/Berlin',
         	 							'displayFormat' => 'php:d.m.Y',
         	 							'saveFormat' => 'php:Y-m-d',
-												'options'=>[
+												'widgetOptions'=>[
 														'id' => 'von_feld',
-														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
-														
+														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => false, 'todayBtn' => true],														
+                            'options' => [
+                                'placeholder' => 'Eintrittsdatum',
+                            ],
 												],
 											]); ?>
 
-    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' ),
+    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulId' ),
 																			[ 'prompt' => 'Schule' ]
 																		) ?>
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
 																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
 																		) ?>
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
-																			[ 'prompt' => 'MonatsBeitrag' ]
+																			[ 'placeholder' => 'MonatsBeitrag' ]
 																		) ?>
     								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung']) ,
 																			[ 'prompt' => 'Zahlungsart' ]

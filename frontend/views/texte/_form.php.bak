@@ -40,8 +40,8 @@ $this->registerJS('tinymce.PluginManager.add("placeholder",function(d){var b,c,e
 				        'active' => true,
 				    ],
             'options' => [ 
-                'class' => 'col-md-6',
-//                'style' => 'width:600px;',
+//                'class' => 'col-md-6',
+                'style' => 'width:700px;',
             ],
             'plugins' => [
                 "advlist autolink lists link charmap print preview anchor",

@@ -38,7 +38,7 @@ $content_plf = $this->render('pliste_preform',['plf' => $plf]);
 
 $mcf = new Mitglieder();
 //$mcf->BeitrittDatum = $datum;
-$mcf->Geschlecht = 'männlich';
+//$mcf->Geschlecht = 'männlich';
 $mcf->Funktion = 'Schüler/in';
 //$mcf->MitgliederId = Mitglieder::find()->max('MitgliederId') + 1;
 $mcf->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;

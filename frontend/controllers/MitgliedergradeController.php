@@ -280,13 +280,14 @@ class MitgliedergradeController extends Controller
         $model = $this->findModel($id);
         $txtcode = $model->grad->textcode;
         $dispName = $model->grad->DispName;
-        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->where(['MitgliederID' => $model->MitgliedId,'DispName' => $dispName])->one();
+        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->andWhere(['MitgliederID' => $model->MitgliedId,'DispName' => $dispName])->one();
         $url = Url::toRoute(['texte/print', 
 																					'datamodel' => 'grad', 
 																					'dataid' => $id, 
 													 								'SchulId' => $Schule->SchulId, 
 																					 'txtcode' => $txtcode, 
 																					 'txtid' => 0,
+                                           'target' => '_blank',
 																					 ]);
         return $this->redirect($url);
 			

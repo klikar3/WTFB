@@ -36,7 +36,7 @@ class Schulen extends \yii\db\ActiveRecord
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
-		    	return parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )]);
+		    	return parent::find()->where( ['schulen.SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )]);
 		  }
 		  return parent::find();
     }

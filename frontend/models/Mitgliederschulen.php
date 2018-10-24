@@ -50,7 +50,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public static function find()
     { 
 			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
-		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+//		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
 		    	
 					// VarDumper::dump($schulleiter);
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
@@ -65,7 +65,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
 //					return parent::find()->where( ['SchulId' => $si]);
-					$r = parent::find()->where( ['SchulId' => $si]);
+					$r = parent::find()->where( ['mitgliederschulen.SchulId' => $si]);
 					// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
 					
 		    	return (!empty($r)) ? $r : [] ;

@@ -127,7 +127,6 @@ use frontend\models\SifuSearch;
 			        'class' => 'yii\i18n\Formatter',
 			        'nullDisplay' => '',
 			    ],
-	        'columns' => [
 /*							[ 'class' => '\kartik\grid\ExpandRowColumn', 
                 'value' => function ($data, $model, $key, $index) { 
                         return GridView::ROW_COLLAPSED;
@@ -138,7 +137,24 @@ use frontend\models\SifuSearch;
             		},
             		'enableRowClick' => true,
 							],
-*/							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz' ],
+*/
+	        'columns' => [
+            	[ 'class' => '\kartik\grid\ActionColumn',
+            						'template' => '{print}',
+												'header' => '<span style="text-align-left;">Aktion</span>',
+												'controller' => 'mitgliedersektionen',
+												'buttons' => [ 
+													'print' => function ($url, $model) {
+        										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
+																			Url::toRoute(['mitgliedersektionen/print', 'id' => $model->msekt_id] ), [
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Bestätigung drucken'),
+												        ]);
+												    }
+												],
+												'width' => '30px',
+							],
+							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz' ],
 							[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Vermittler', 'value' => 'vermittler.SifuName', 'label' => 'Vermittler' ],
 							[ 'attribute' => 'pdatum', 'value' => 'pdatum', 'format' => ['date', 'php:d.m.Y'] ],

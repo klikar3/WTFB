@@ -37,7 +37,8 @@
         "2amigos/yii2-tinymce-widget" : "~1.1",
 				"klikar3/rgraph" : "*",
 				"moonlandsoft/yii2-tinymce": "*",
-    	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta"
+    	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
+        "supplyhog/yii2-clipboardjs" : "dev-master"
     },
     "require-dev": {
         "codeception/codeception": "*",
