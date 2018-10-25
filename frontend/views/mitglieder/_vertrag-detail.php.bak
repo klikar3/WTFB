@@ -506,7 +506,7 @@ use frontend\models\SearchVertrag;
 			        'maxFileCount' => 1,
 			        'allowedFileExtensions' => ['jpg','gif','png','pdf'],
               'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp'. DIRECTORY_SEPARATOR .'tmp',
-              'uploadUrl' => \Yii::getAlias('@webroot').'/index.php?r=mitgliederschulen/upload',
+              'uploadUrl' => \Yii::$app->request->BaseUrl.'/index.php?r=mitgliederschulen/upload',
               'uploadExtraData' => [
                   'id' => 'attachment_53'.$model->msID,
                   'tabnum' => 3,

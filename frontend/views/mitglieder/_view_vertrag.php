@@ -92,7 +92,7 @@ use frontend\models\Schulen;
 												],
 											]); ?>
 
-    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulId' ),
+    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->orderBy('sort')->all(), 'SchulId', 'SchulDisp' ),
 																			[ 'prompt' => 'Schule' ]
 																		) ?>
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,

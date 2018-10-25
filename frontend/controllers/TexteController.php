@@ -220,7 +220,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
 					$textmodel->txt = str_replace ( '#nachname#' , $model->mitglied->Name , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#grad#' , $model->sektion->name , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#sektion#' , $model->sektion->name , $textmodel->txt );
 //					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );

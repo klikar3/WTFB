@@ -72,7 +72,7 @@ use frontend\models\SearchVertrag;
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
 									'data' => ArrayHelper::map( Schulen::find()->all(), 
-									'SchulId', 'SchulId' ),
+									'SchulId', 'SchulDisp' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
 									    'pluginOptions' => [
