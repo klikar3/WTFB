@@ -153,7 +153,7 @@ class MitgliederschulenController extends Controller
               $model->mandatDatum = $model->VDatum;
             }
             if (empty($model->Kontoinhaber)) {
-              $model->Kontoinhaber = $model->mitglieder->Vorname.' '.$model->mitglieder->Name;
+              $model->Kontoinhaber = $model->mitglieder->Name.', '.$model->mitglieder->Vorname;
             }
             if ($model->save()) {
     	        $mitglied = $model->mitglieder;

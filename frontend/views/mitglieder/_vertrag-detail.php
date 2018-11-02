@@ -165,7 +165,10 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-//             'Bis',
+            [ 'attribute' =>  'KuendigungGrund',
+            	'id' => 'dv_vv_bag_'.$model->msID,
+            	'label' => 'Künd. Grund',
+            ],
             [ 'attribute' => 'Bis',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
@@ -216,9 +219,9 @@ use frontend\models\SearchVertrag;
 									],
 							 ]             
 						],
-             'Bank',
         		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
         		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
+             'Bank',
              'Kontoinhaber',
              'mandatNr',
              [ 'attribute' => 'mandatDatum',

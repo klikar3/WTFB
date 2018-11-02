@@ -158,7 +158,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 	         [['BIC'], 'string', 'max' => 11],            
 	         [['MonatsBeitrag','AGebuehr'], 'number'],
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
-	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
+	         [['BeitragAussetzenGrund', 'KuendigungGrund'], 'string', 'max' => 45],
 	         [['MitgliederId'], 'exist', 'skipOnError' => true, 'targetClass' => Mitglieder::className(), 'targetAttribute' => ['MitgliederId' => 'MitgliederId']],
 	         [['SchulId'], 'exist', 'skipOnError' => true, 'targetClass' => Schulen::className(), 'targetAttribute' => ['SchulId' => 'SchulId']],
 	         [['VertragId'], 'exist', 'skipOnError' => true, 'targetClass' => Vertrag::className(), 'targetAttribute' => ['VertragId' => 'VertragId']],
@@ -195,6 +195,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 						'Kontoinhaber' => Yii::t('app', 'Kontoinhaber'),
 						'mandatNr' => Yii::t('app', 'Mandat-Nr'),
 						'mandatDatum' => Yii::t('app', 'Mandat-Datum'),
+            'KuendigungGrund' => Yii::t('app', 'KuendigungGrund'),
         ];
     }
 

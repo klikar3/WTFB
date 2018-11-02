@@ -265,7 +265,7 @@ class MitgliederschulenController extends Controller
     
     public function actionUpload($id = 0, $tabnum = 0)
     {
-       Yii::warning("-----actionUpload");
+        //Yii::warning("-----actionUpload");
         $id = $_POST['id'];
         $tabnum = $_POST['tabnum'];
         $model = $this->findModel($_POST['modelId']);
@@ -273,12 +273,11 @@ class MitgliederschulenController extends Controller
         
         if (empty($_FILES[$id])) {
             echo json_encode(['error'=>'No files found for upload.']); 
-            // or you can throw an exception 
             return; // terminate
         }				
         
         $fileData = $_FILES[$id];
-        Yii::warning("-----Name: ".$fileData['tmp_name']);
+//        Yii::warning("-----Name: ".$fileData['tmp_name']);
 				//$d = sys_get_temp_dir();
         //Yii::warning("-----dir: ".$d);
 				//move_uploaded_file($fileData['tmp_name'], 'd:\wamp\tmp\test.pdf');
@@ -287,14 +286,13 @@ class MitgliederschulenController extends Controller
 				$file_blob = file_get_contents($fileData['tmp_name']);
         if (!$file_blob) {
             echo json_encode(['error'=>'Datei nicht gefunden.']); 
-            // or you can throw an exception 
             return; // terminate
         }
 				if (!empty($file_blob)) {
 	        if (!empty($model->VertragId)) {
             $vertrag = \frontend\models\Vertrag::findOne($model->VertragId);
 	        	//$vertrag = $model->vertrag;
-            Yii::warning("-----Vertrag: ".$vertrag->VertragId);
+//            Yii::warning("-----Vertrag: ".$vertrag->VertragId);
 					} else {
 						$vertrag = new Vertrag();
 				 	}
@@ -303,28 +301,28 @@ class MitgliederschulenController extends Controller
 				  $vertrag->typ = $fileData['type'];
           if (!$vertrag->validate()) {
             echo json_encode(['error'=>'Vertrag nicht validiert.']); 
-            // or you can throw an exception 
             return; // terminate
           }
 				  if ($vertrag->save()) {
-            Yii::warning("-----vertrag gesichert");
+//            Yii::warning("-----vertrag gesichert");
             //Yii::warning($vertrag->pdf);
 						$model->VertragId = $vertrag->VertragId;
             if (!$model->Validate()) {
-                Yii::warning("-----model nicht gesichert");
+//                Yii::warning("-----model nicht gesichert");
                 echo json_encode(['error'=>'Konnte MitgliederSchulen nicht validieren.']); 
                 // or you can throw an exception 
                 return; // terminate
-            }						if (!$model->save()) {
-                Yii::warning("-----model nicht gesichert");
+            }						
+            if (!$model->save()) {
+//                Yii::warning("-----model nicht gesichert");
                 echo json_encode(['error'=>'Konnte MitgliederSchulen nicht speichern.']); 
                 // or you can throw an exception 
                 return; // terminate
             } else {
-                Yii::warning("-----model gesichert");
+//                Yii::warning("-----model gesichert");
             }                   
 					}	else {
-            Yii::warning("-----vertrag nicht gesichert");
+//            Yii::warning("-----vertrag nicht gesichert");
             $model->addError('Vertrag konnte nicht gesichert werden!');
             $output = json_encode(['error' => 'Vertrag konnte nicht gesichert werden!']);
           }

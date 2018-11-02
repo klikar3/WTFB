@@ -65,7 +65,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
 //					return parent::find()->where( ['SchulId' => $si]);
-					$r = parent::find()->where( ['Mitgliederschulen.SchulId' => $si]);
+					$r = parent::find()->where( ['mitgliederschulen.SchulId' => $si]);
 					// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
 					
 		    	return (!empty($r)) ? $r : [] ;
