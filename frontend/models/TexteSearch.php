@@ -18,7 +18,7 @@ class TexteSearch extends Texte
     public function rules()
     {
         return [
-            [['id', 'SchulId', 'quer'], 'integer'],
+            [['id', 'SchulId', 'quer', 'randLinks'], 'integer'],
             [['code', 'fuer', 'txt', 'betreff'], 'safe'],
         ];
     }

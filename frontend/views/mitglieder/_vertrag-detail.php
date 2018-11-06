@@ -63,6 +63,12 @@ use frontend\models\SearchVertrag;
 				],
 				'labelColOptions' => [ 'style' => 'width:200px;'],
         'attributes' => [
+            [
+                'group'=>true,
+                'label'=>false, //'Teil 1: Grunddaten',
+                'rowOptions'=>['class'=>'table-warning'],
+                'groupOptions'=>['style'=>'background: lightgreen;']
+            ],
             [ 'attribute' => 'SchulId',
 							'id' => 'schulid_'.$model->msID,
             	'value' => $model->schul->SchulDisp,
@@ -83,6 +89,7 @@ use frontend\models\SearchVertrag;
             ],    
             [ 'attribute' => 'VDatum',
             	'format' => ['date', 'php:d.m.Y'],
+            	'label' => 'Vertragsdatum',
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
             	'widgetOptions' => [
@@ -98,6 +105,7 @@ use frontend\models\SearchVertrag;
 							]
             ],
             [ 'attribute' => 'Von',
+              'label' => 'Eintrittsdatum',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
@@ -114,7 +122,14 @@ use frontend\models\SearchVertrag;
 							]
             ],
             [ 'attribute' => 'VDauerMonate',
-            	'id' => 'dv_vv_a_'.$model->msID,
+            	'label' => 'Vertragsdauer',
+              'id' => 'dv_vv_a_'.$model->msID,
+            ],
+            [
+                'group'=>true,
+                'label'=>false, //'Teil 2: Aussetzen',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: lightgreen;']
             ],
             [ 'attribute' => 'BeitragAussetzenVon',
             	'format' => ['date', 'php:d.m.Y'],
@@ -148,12 +163,19 @@ use frontend\models\SearchVertrag;
             ],
             [ 'attribute' =>  'BeitragAussetzenGrund',
             	'id' => 'dv_vv_bag_'.$model->msID,
-            	'label' => 'Auss. Grund',
+            	'label' => 'Aussetzgrund',
+            ],
+            [
+                'group'=>true,
+                'label'=> false, //'Teil 3: Beendigung',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: lightgreen;']
             ],
             [ 'attribute' => 'KuendigungAm',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
+            	'label' => 'Kündigungsdatum',
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
@@ -165,12 +187,9 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-            [ 'attribute' =>  'KuendigungGrund',
-            	'id' => 'dv_vv_bag_'.$model->msID,
-            	'label' => 'Künd. Grund',
-            ],
             [ 'attribute' => 'Bis',
             	'format' => ['date', 'php:d.m.Y'],
+            	'label' => 'Austrittsdatum',
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
             	'widgetOptions' => [
@@ -184,12 +203,23 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-            [ 'attribute' => 'MonatsBeitrag',
-            	'id' => 'dv_vv_mb_'.$model->msID,
+            [ 'attribute' =>  'KuendigungGrund',
+            	'id' => 'dv_vv_bag_'.$model->msID,
+            	'label' => 'Kündigungsgrund',
             ],
 //             'ZahlungsArt',
 //             'Zahlungsweise',
+            [
+                'group'=>true,
+                'label'=> false, //'Teil 4: Zahlungsdaten',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: lightgreen;']
+            ],
+            [ 'attribute' => 'MonatsBeitrag',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
 						[ 'attribute' => 'ZahlungsArt',  
+            	'label' => 'Zahlungsart',
 				      'id' => 'dv_vv_za_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
@@ -205,6 +235,7 @@ use frontend\models\SearchVertrag;
 							],             
 						],
 						[ 'attribute' => 'Zahlungsweise',  
+            	'label' => 'Zahlungsweise',
 				      'id' => 'dv_vv_zw_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
@@ -223,8 +254,11 @@ use frontend\models\SearchVertrag;
         		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
              'Bank',
              'Kontoinhaber',
-             'mandatNr',
+             [ 'attribute' => 'mandatNr',
+              'label' => 'Mandatsnummer',
+             ], 
              [ 'attribute' => 'mandatDatum',
+              'label' => 'Mandatsdatum',
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,

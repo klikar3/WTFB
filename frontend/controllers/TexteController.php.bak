@@ -360,7 +360,7 @@ class TexteController extends Controller
 					$link = "Begr.-Email";
 				else if ($txtcode == 'EmailAussetzen') 
 					$link = "Auss.-Email";
-				else if ($txtcode == 'EmailKündigung') 
+				else if ($txtcode == 'EmailKuendigung') 
 					$link = "Künd.-Email";
 				else $link = "per Email";						
 				

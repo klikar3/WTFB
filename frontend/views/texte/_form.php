@@ -124,7 +124,12 @@ $this->registerJS('tinymce.PluginManager.add("placeholder",function(d){var b,c,e
 		
 		   	<?= $form->field($model, 'quer')->dropdownList(array("0"=>"Hoch","1"=>"Quer" )
 												)->label('Orientierung')  ?>
-		   	
+                        
+        <?= $form->field($model, 'randLinks')->textInput(['maxlength' => 5])->label('Rand links in mm') ?>
+        <?= $form->field($model, 'randRechts')->textInput(['maxlength' => 5])->label('Rand rechts in mm') ?>
+        <?= $form->field($model, 'randOben')->textInput(['maxlength' => 5])->label('Rand oben in mm') ?>
+        <?= $form->field($model, 'randUnten')->textInput(['maxlength' => 5])->label('Rand unten in mm') ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Erstellen') : Yii::t('app', 'Sichern'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

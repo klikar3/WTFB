@@ -14,6 +14,7 @@ use Yii;
  * @property string $txt
  * @property string $betreff 
  * @property integer $quer 
+ * @property integer $randLinks 
  * *
  * @property Schulen $schul
  */
@@ -46,7 +47,7 @@ class Texte extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['SchulId', 'quer'], 'integer'],
+            [['SchulId', 'quer', 'randLinks', 'randRechts', 'randOben', 'randUnten'], 'integer'],
             [['code', 'fuer', 'txt'], 'required'],
             [['txt'], 'string'],
             [['code'], 'string', 'max' => 50],
