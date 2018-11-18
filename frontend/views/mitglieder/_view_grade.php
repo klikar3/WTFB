@@ -33,8 +33,8 @@ use frontend\models\Pruefer;
   $mg->PrueferId = null; 
 	$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
-				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
-					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
+				<div class="panel panel-info panel-xs panel-sm panel-md panel-lg panel-xl" style="font-size:0.9em;height:3em;">
+					<div class="panel-heading panel-xs panel-sm panel-md panel-lg panel-xl" style="height:3em;margin-bottom: 0px;">
 					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 					<?php Modal::begin([ 'id' => 'mg-modal',
 						'header' => $header,
@@ -59,7 +59,7 @@ use frontend\models\Pruefer;
 							<div class="row">																	
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label('') ; ?>
 							<?php  echo $form->field($mg, 'Datum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
@@ -92,7 +92,7 @@ use frontend\models\Pruefer;
 				</div> </h5>
 			</div>		
 
-
+ 
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
 	        'responsiveWrap' => false,
@@ -112,8 +112,8 @@ use frontend\models\Pruefer;
 												'buttons' => [ 
 													'print' => function ($url, $model) {
         										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
-																			Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
-                    					'target'=>'_blank',
+																			Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [ 'data-pjax' => 0, 
+                    					'target'=>"_blank",
 															'title' => Yii::t('app', 'Urkunde drucken'),
 												        ]);
 												    }
@@ -130,6 +130,7 @@ use frontend\models\Pruefer;
 																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
             		},
             		'enableRowClick' => true,
+                'hidden' => true,
 							],
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],

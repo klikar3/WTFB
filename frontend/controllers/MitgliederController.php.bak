@@ -25,6 +25,7 @@ use frontend\models\Grade;
 use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Pruefer;
+use frontend\models\Sektionen;
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
@@ -99,6 +100,7 @@ class MitgliederController extends Controller
 				]);
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' ));
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
   	
 				// Sektionen
@@ -141,6 +143,7 @@ class MitgliederController extends Controller
 																					'tabnum' => $tabnum, 
 																					'openv' => $openv,
 																					'grade_zur_auswahl' => $grade_zur_auswahl,
+																					'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 																					]);
         				} else {
@@ -151,6 +154,7 @@ class MitgliederController extends Controller
 										'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
 										'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
 										'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
+										'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 		            ]);
 		        }
@@ -163,6 +167,7 @@ class MitgliederController extends Controller
 								'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
 								'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
 								'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
             ]);
         }
 
@@ -319,7 +324,7 @@ class MitgliederController extends Controller
 JS;
     
         $this->getView()->registerJs( $script , \yii\web\View::POS_READY );
-        return $this->render ( 'external' );
+        return $this->render ( 'Swm' );
 //        return $this->redirect(['http://swm.wingtzun.de/nl.php'],307);
     }
 
@@ -345,10 +350,10 @@ JS;
             return $this->redirect(['mitgliederliste/index', 'id' => $model->MitgliederId]);
         } else {
 						$errors = $model->errors;
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
-						VarDumper::dump($errors);
+						//VarDumper::dump($errors);
+						//VarDumper::dump($errors);
+						//VarDumper::dump($errors);
+						//VarDumper::dump($errors);
 						
 						$mgrad = Mitgliedergrade::find()->andWhere(['MitgliedId' => $model->MitgliederId])->orderBy('datum desc')->one();//->max('Datum');
 //						VarDumper::dump($mgrad);

@@ -310,4 +310,28 @@ class MitgliedersektionenController extends Controller
 			
      }
 
+    public function actionViewfrommitglied($id)
+    {
+        $model = $this->findModel($id);
+//        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
+//              throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglied;
+	        date_default_timezone_set('Europe/Berlin');
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+	        $mitglied->save();
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->mitglied_id, 'tabnum' => 5
+        ]);
+        } else {
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->mitglied_id, 'tabnum' => 5
+//            return $this->render('/mitglieder/view', [
+//                'model' => $mgModel,
+            ]);
+        }
+    }    
 }

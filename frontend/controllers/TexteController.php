@@ -154,16 +154,20 @@ class TexteController extends Controller
 //    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
 
  					$textmodel = Texte::findOne($numbers['id']);
-				} else if ($txtid != 0) {
+				} else {
+          if ($txtid != 0) {
  						$textmodel = Texte::findOne($txtid);
-				} else if ($SchulId == 0) {
+				  } else {
+            if ($SchulId == 0) {
 						$textmodel = Texte::find()
 												->where(['code' => $txtcode])
 												->one();
-				} else { 
+				    } else { 
 						$textmodel = Texte::find()
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
+            }
+          }              
 				}
 				if (empty($textmodel)) {
 //					$datamodel->addError("Zugehörigen Text nicht gefunden!");

@@ -146,22 +146,34 @@ use frontend\models\SifuSearch;
 												'buttons' => [ 
 													'print' => function ($url, $model) {
         										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
-																			Url::toRoute(['mitgliedersektionen/print', 'id' => $model->msekt_id] ), [
-                    					'target'=>'_blank',
+																			Url::toRoute(['mitgliedersektionen/print', 'id' => $model->msekt_id] ), [ 'data-pjax' => 0, 
+                    					'target'=>"_blank",
 															'title' => Yii::t('app', 'Bestätigung drucken'),
 												        ]);
 												    }
 												],
 												'width' => '30px',
 							],
+							[ 'class' => '\kartik\grid\ExpandRowColumn', 
+                'value' => function ($data, $model, $key, $index) { 
+                        return GridView::ROW_COLLAPSED;
+                    },
+								'detail' => function ($data, $id) use ($sektionen_zur_auswahl, $pruefer_zur_auswahl){
+									$cont = Mitgliedersektionen::findOne($id);
+	                return Yii::$app->controller->renderPartial('_sektion-detail', ['model'=>$cont, 'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
+            		},
+            		'enableRowClick' => true,
+                'hidden' => true,
+							],
 							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz' ],
-							[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],
-							[ 'attribute' => 'Vermittler', 'value' => 'vermittler.SifuName', 'label' => 'Vermittler' ],
+		//					[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],
+		//					[ 'attribute' => 'Vermittler', 'value' => 'vermittler.SifuName', 'label' => 'Vermittler' ],
 							[ 'attribute' => 'pdatum', 'value' => 'pdatum', 'format' => ['date', 'php:d.m.Y'] ],
 //							 'PrueferId',	        
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => 'Prüfer' ],
             	[ 'class' => '\kartik\grid\ActionColumn',
-            						'template' => '{delete}{update}',
+            						'template' => '{delete}',
 												'header' => '<span style="text-align-left;">Aktion</span>',
 												'controller' => 'mitgliedersektionen',
 												'deleteOptions' => [

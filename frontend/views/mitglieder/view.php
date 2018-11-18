@@ -46,14 +46,14 @@ use frontend\models\Texte;
 						'active' => $tabnum == 2?true:false,				
 
 		    ],
-*/				[
+				[
 				    'label'=>'<i class="glyphicon glyphicon-question-sign"></i> Interessent',
 						'content'=>$this->render('_view_interessent', array(
 		                                'model'=>$model, 'tabnum' => 2, 'openv' => $openv,  
 		                        ) ),
 						'active' => $tabnum == 2?true:false,
 				],
-		    [
+*/		    [
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
 				    'content'=>$this->render('_view_vertrag', array(
 				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 
@@ -74,6 +74,7 @@ use frontend\models\Texte;
 																		'tabnum' => 5, 'openv' => $openv, 
 																		'grade_zur_auswahl' => $grade_zur_auswahl,
 																		'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+																		'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
@@ -120,8 +121,6 @@ $this->params['breadcrumbs'][] = $this->title;
 if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
-
-<div class="col-xs-12 visible modal-content" style="font-size:12pt !important;">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -129,7 +128,9 @@ if($model->hasErrors()){
 		            //'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary',
 		        //]) 
 						?>				
-				<?php    // Ajax Tabs Left
+
+<div class="visible" style="font-size:12pt !important;">
+				<?php    // Ajax Tabs top
 				    echo TabsX::widget([
 				    		'id' => 'main-tab',
 						    'enableStickyTabs' => true,

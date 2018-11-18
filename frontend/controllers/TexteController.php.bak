@@ -234,6 +234,10 @@ class TexteController extends Controller
 						'format' => ($textmodel->quer == 0) ? "A4" : "A4-L", //Pdf::FORMAT_A4,
 						// portrait orientation
 						'orientation' => ($textmodel->quer == 0) ? Pdf::ORIENT_PORTRAIT : Pdf::ORIENT_LANDSCAPE,
+            'marginLeft' => empty($textmodel->randLinks) ? 25 : $textmodel->randLinks,
+            'marginRight' => empty($textmodel->randRechts) ? 25 : $textmodel->randRechts,
+            'marginTop' => empty($textmodel->randOben) ? 25 : $textmodel->randOben,
+            'marginBottom' => empty($textmodel->randUnten) ? 25 : $textmodel->randUnten,
 						// stream to browser inline
 						'destination' => Pdf::DEST_BROWSER,
 						// format content from your own css file if needed or use the

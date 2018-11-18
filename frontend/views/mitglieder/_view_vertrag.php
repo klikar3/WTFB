@@ -27,7 +27,7 @@ use frontend\models\Schulen;
 ?>      
 
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
-					<div class="panel-heading panel-xs" style="margin-bottom: 0px;height:3em;">
+					<div class="panel-heading" style="margin-bottom: 0px;height:3em;">
 							<?php
 								$datum = date('Y-m-d');
 								$ms = new MitgliederSchulen();
@@ -130,57 +130,7 @@ use frontend\models\Schulen;
 					],
 	        'columns' => [
 //	            'msID',
-//							'MitgliederId', 
-/*            	[ 'class' => '\kartik\grid\ActionColumn',
-      						'template' => '{Ausweis}{Begruessung}{Aussetzen}{Kuendigung}{standard}',
-									'controller' => 'mitgliederschulen',
-									'dropdown' => true,
-									'hidden' => !Yii::$app->user->identity->isAdmin,
-			            'buttons' => [
-			               'Ausweis' => function ($url, $model) {
-        										return Html::a('<p><span class="glyphicon glyphicon-print"></span>Ausweis drucken</p>', 
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'txtid' => 1 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Ausweis drucken'),
-												        ]);
-			                },
-			               'Begruessung' => function ($url, $model) {
-        										return Html::a('<p><span class="glyphicon glyphicon-print"></span>Begrüßung drucken</p>',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'txtid' => 2 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Begrüßung drucken'),
-												        ]);
-			                },
-       							'Aussetzen' => function ($url, $model) {
-        										return Html::a('<p><span class="glyphicon glyphicon-print"></span>Aussetzen drucken</p>',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'txtid' => 3 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Aussetzen drucken'),
-												        ]);
-			                },
-			               'Kuendigung' => function ($url, $model) {
-        										return Html::a('<p><span class="glyphicon glyphicon-print"></span>Kündigung drucken</p>',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'txtid' => 4 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Kündigung drucken'),
-												        ]);
-			                },
-			               'standard' => function ($url, $model) {
-        										return Html::a('<p><span class="glyphicon glyphicon-print"></span>Standard-Email drucken</p>',  
-															Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
-													 				'txtid' => 5 ] ), [
-                    					'target'=>'_blank',
-															'title' => Yii::t('app', 'Standard-Email drucken'),
-												        ]);
-			                },
-			            ],
-//								'width' => '60px',
-							],
-*/							
+//							'MitgliederId', 							
 							[ 'class' => '\kartik\grid\ExpandRowColumn', 
                 'value' => function ($data, $model, $key, $index ) use ($openv) { 
 //                				($data->msID == $openv) ? GridView::ROW_EXPANDED : GridView::ROW_COLLAPSED;
@@ -190,11 +140,11 @@ use frontend\models\Schulen;
                         	return GridView::ROW_COLLAPSED;
                     }
 										,
-								'detail' => function ($data, $model, $key, $index) {//function ($data, $id) {
-									//$cont = Mitgliederschulen::findOne($id);
+								'detail' => function ($data, $model, $key, $index) {
 	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$data]);
             		},
             		'enableRowClick' => true,
+                'hidden' => true,
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disziplin' ],

@@ -26,9 +26,10 @@ use kartik\datecontrol\DateControl;
 
     <?= $form->field($model, 'MitgliedId')->hiddenInput()->label('') ?>
 
-    <?= $form->field($model, 'GradId')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' ),
+    <?= $form->field($model, 'GradId')->dropdownList(ArrayHelper::map( Grade::find()->select(['gradId', 'concat(GradName,\' \',DispName) as GradName'])->orderBy('gradId')->asArray()->all(), 'gradId', 'GradName', 'DispName' ),
 [ 'prompt' => '',
-	'value' => 'GradId']
+//	'value' => 'GradId'
+]
 )->label('Graduierung') ?>
 
     <?= $form->field($model, 'Datum')->widget(DateControl::classname(), [

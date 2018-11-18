@@ -297,7 +297,7 @@ class MitgliedersektionenController extends Controller
         $model = $this->findModel($id);
 //        $txtcode = $model->sektion->textcode;
 //        $dispName = $model->grad->DispName;
-        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->andWhere(['MitgliederID' => $model->MitgliedId,'DispName' => 'Wing Tzun'])->one();
+        $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->andWhere(['MitgliederID' => $model->mitglied_id,'DispName' => 'Wing Tzun'])->one();
         $url = Url::toRoute(['texte/print', 
 																					'datamodel' => 'sektion', 
 																					'dataid' => $id, 
@@ -310,4 +310,28 @@ class MitgliedersektionenController extends Controller
 			
      }
 
+    public function actionViewfrommitglied($id)
+    {
+        $model = $this->findModel($id);
+//        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
+//              throw new NotFoundHttpException('The requested page does not exist.');
+//        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	        $mitglied = $model->mitglied;
+	        date_default_timezone_set('Europe/Berlin');
+	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+	        $mitglied->save();
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->MitgliedId, 'tabnum' => 5
+        ]);
+        } else {
+        	return $this->redirect(['/mitglieder/view', 
+            'id' => $model->MitgliedId, 'tabnum' => 5
+//            return $this->render('/mitglieder/view', [
+//                'model' => $mgModel,
+            ]);
+        }
+    }    
 }

@@ -63,12 +63,6 @@ use frontend\models\SearchVertrag;
 				],
 				'labelColOptions' => [ 'style' => 'width:200px;'],
         'attributes' => [
-            [
-                'group'=>true,
-                'label'=>false, //'Teil 1: Grunddaten',
-                'rowOptions'=>['class'=>'table-warning'],
-                'groupOptions'=>['style'=>'background: lightgreen;']
-            ],
             [ 'attribute' => 'SchulId',
 							'id' => 'schulid_'.$model->msID,
             	'value' => $model->schul->SchulDisp,
@@ -129,7 +123,103 @@ use frontend\models\SearchVertrag;
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
                 'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: lightgreen;']
+//                'groupOptions'=>['style'=>'background: lightblue;'],
+                'groupOptions'=>['style'=>'background: #d9edf7;'],
+            ],
+            [ 'attribute' => 'MonatsBeitrag',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
+            [ 'attribute' => 'AGebuehr',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
+						[ 'attribute' => 'ZahlungsArt',  
+            	'label' => 'Zahlungsart',
+				      'id' => 'dv_vv_za_'.$model->msID,											
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+				          'id' => 'dv_vv_za_w_'.$model->msID,											
+									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung'],
+							    'options' => [
+				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
+							],             
+						],
+						[ 'attribute' => 'Zahlungsweise',  
+            	'label' => 'Zahlungsweise',
+				      'id' => 'dv_vv_zw_'.$model->msID,											
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+				          'id' => 'dv_vv_zw_w_'.$model->msID,											
+									'data' => ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich'],
+							    'options' => [
+				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
+									    'pluginOptions' => [
+									        'allowClear' => true,
+									    ],
+									],
+							 ]             
+						],
+            [
+                'group'=>true,
+                'label'=>false, //'Teil 2: Aussetzen',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: #d9edf7;']
+            ],
+        		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
+        		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
+             'Bank',
+             'Kontoinhaber',
+             [ 'attribute' => 'mandatNr',
+              'label' => 'Mandatsnummer',
+             ], 
+             [ 'attribute' => 'mandatDatum',
+              'label' => 'Mandatsdatum',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_md_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+/*            [
+                'group'=>true,
+                'label'=>false, //'Teil 2: Aussetzen',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: #d9edf7;']
+            ],
+            [ 'attribute' => 'AGbezahltAm',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_bag_'.$model->msID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+*/            
+            [
+                'group'=>true,
+                'label'=> false, //'Teil 4: Zahlungsdaten',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: #d9edf7;']
             ],
             [ 'attribute' => 'BeitragAussetzenVon',
             	'format' => ['date', 'php:d.m.Y'],
@@ -169,7 +259,7 @@ use frontend\models\SearchVertrag;
                 'group'=>true,
                 'label'=> false, //'Teil 3: Beendigung',
                 'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: lightgreen;']
+                'groupOptions'=>['style'=>'background: #d9edf7;']
             ],
             [ 'attribute' => 'KuendigungAm',
             	'format' => ['date', 'php:d.m.Y'],
@@ -209,88 +299,6 @@ use frontend\models\SearchVertrag;
             ],
 //             'ZahlungsArt',
 //             'Zahlungsweise',
-            [
-                'group'=>true,
-                'label'=> false, //'Teil 4: Zahlungsdaten',
-                'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: lightgreen;']
-            ],
-            [ 'attribute' => 'MonatsBeitrag',
-            	'id' => 'dv_vv_mb_'.$model->msID,
-            ],
-						[ 'attribute' => 'ZahlungsArt',  
-            	'label' => 'Zahlungsart',
-				      'id' => 'dv_vv_za_'.$model->msID,											
-            	'format' => 'raw',
-            	'type' => DetailView::INPUT_SELECT2,
-            	'widgetOptions' => [
-				          'id' => 'dv_vv_za_w_'.$model->msID,											
-									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung'],
-							    'options' => [
-				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
-									    'pluginOptions' => [
-									        'allowClear' => true,
-									    ],
-									],
-							],             
-						],
-						[ 'attribute' => 'Zahlungsweise',  
-            	'label' => 'Zahlungsweise',
-				      'id' => 'dv_vv_zw_'.$model->msID,											
-            	'format' => 'raw',
-            	'type' => DetailView::INPUT_SELECT2,
-            	'widgetOptions' => [
-				          'id' => 'dv_vv_zw_w_'.$model->msID,											
-									'data' => ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich'],
-							    'options' => [
-				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
-									    'pluginOptions' => [
-									        'allowClear' => true,
-									    ],
-									],
-							 ]             
-						],
-        		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
-        		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
-             'Bank',
-             'Kontoinhaber',
-             [ 'attribute' => 'mandatNr',
-              'label' => 'Mandatsnummer',
-             ], 
-             [ 'attribute' => 'mandatDatum',
-              'label' => 'Mandatsdatum',
-            	'format' => ['date', 'php:d.m.Y'],
-            	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
-            	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
-							    'options' => [
-				            	'id' => 'dv_vv_md_'.$model->msID,											
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-									],
-							]
-            ],
-            [ 'attribute' => 'AGebuehr',
-            	'id' => 'dv_vv_mb_'.$model->msID,
-            ],
-            [ 'attribute' => 'AGbezahltAm',
-            	'format' => ['date', 'php:d.m.Y'],
-            	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
-            	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
-							    'options' => [
-				            	'id' => 'dv_vv_bag_'.$model->msID,											
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-									],
-							]
-            ],
             
 //             'AufnahmegebuehrBezahlt',
 /*						[ 'attribute' =>  'BL',

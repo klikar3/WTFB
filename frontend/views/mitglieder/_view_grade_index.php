@@ -27,21 +27,26 @@ use frontend\models\Texte;
 ?>
 <?php
 
+$content_grade = $this->render('_view_grade', array(
+		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 'openv' => $openv, 
+																		'grade_zur_auswahl' => $grade_zur_auswahl, 'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+		                        ) );
+$content_sekt =  $this->render('_view_sektionen', array(
+		                                'model'=>$model, 'sektionen' => $sektionen, 'tabnum' => 5, 'openv' => $openv, 
+																		'sektionen_zur_auswahl' => $sektionen_zur_auswahl, 'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+		                        ) );                           
 
 $items1 = [
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
-						'content'=>$this->render('_view_grade', array(
-		                                'model'=>$model, 'grade' => $grade, 'tabnum' => 5, 'openv' => $openv, 
-																		'grade_zur_auswahl' => $grade_zur_auswahl, 'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
-		                        ) ),
+            'id' => 'grade',
+						'content' => $content_grade,
 //						'active' => $tabnum == 5?true:false,				
 				],
 				[
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Sektion',
-						'content'=>$this->render('_view_sektionen', array(
-		                                'model'=>$model, 'sektionen' => $sektionen, 'tabnum' => 5, 'openv' => $openv, 
-		                        ) ),
+            'id' => 'sektionen',
+						'content'=>$content_sekt,
 //						'active' => $tabnum == 5?true:false,				
 				],
 ];
@@ -53,9 +58,25 @@ $this->title = $model->MitgliedsNr;
 if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
-<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
+<?php if (1==0) {?>
+<div class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </div>
+<div class="hidden-xs hidden-sm hidden-md hidden-xl"> LG </div>
+<div class="hidden-xs hidden-sm hidden-lg hidden-xl"> MD </div>
+<div class="hidden-xs hidden-md hidden-lg hidden-xl"> SM </div>
+<div class="hidden-sm hidden-md hidden-lg hidden-xl"> XS </div>
+<?php }?>
 
-<div class="col-xs-12 visible modal-content">
+<div class="row hidden-xs hidden-sm">
+<div class="col-md-6">   
+  <?php echo $content_grade; ?>  
+</div>
+<div class="col-md-6">
+  <?php echo $content_sekt;
+  ?>
+</div>
+</div>
+<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
+<div class="hidden-xs hidden-md hidden-lg hidden-xl">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -65,7 +86,7 @@ if($model->hasErrors()){
 						?>				
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
-				    		'id' => 'main-grade',
+				    		'id' => 'main-grade-t',
 						    'enableStickyTabs' => true,
 						    'items'=>$items1,
 						    'position'=>TabsX::POS_ABOVE,
@@ -75,19 +96,20 @@ if($model->hasErrors()){
 				    ]);
 				?>
 </div>
-<div class="col-xs-12 hidden modal-content">
+<div class="hidden-sm  hidden-md hidden-lg hidden-xl">
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
-				    		'id' => 'main-grade',
+				    		'id' => 'main-grade-l',
 						    'enableStickyTabs' => true,
 						    'items'=>$items1,
 						    'position'=>TabsX::POS_LEFT,
-//						    'sideways'=>true,
+						    'sideways'=>true,
 			 					'bordered'=>true,
 						    'encodeLabels'=>false,
 				    ]);
 				?>
 </div>
+
 <?php Pjax::end(); ?>
 
 

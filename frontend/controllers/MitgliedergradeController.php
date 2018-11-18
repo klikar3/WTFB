@@ -287,8 +287,9 @@ class MitgliedergradeController extends Controller
 													 								'SchulId' => $Schule->SchulId, 
 																					 'txtcode' => $txtcode, 
 																					 'txtid' => 0,
+																					 ],[
                                            'target' => '_blank',
-																					 ]);
+                                           ]);
         return $this->redirect($url);
 			
      }
