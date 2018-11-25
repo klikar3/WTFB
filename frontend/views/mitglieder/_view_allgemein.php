@@ -30,7 +30,332 @@ use frontend\models\Sifu;
 
 $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 ?>
-<div class="row hidden-xs"> 
+<div class="row">
+<div class="col-md-6">   
+       <?= DetailView::widget([
+    		'id' => 'dv_va',
+        'model' => $model,
+				'condensed'=>true,
+//				'container' => ['style' => 'font-size:0.9em'],
+				'hover'=>true,
+				'mode'=>DetailView::MODE_VIEW,
+				'mainTemplate' => '{detail}',
+				'buttons1' => '{update}',
+				'panel'=>[
+					'heading'=>$model->Name . ', ' . $model->Vorname,
+					'headingOptions' => ['style' => 'font-size:1em'],
+					'type'=>DetailView::TYPE_INFO,					
+				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1/*, 'style' => 'font-size:1em',*/],
+				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
+				],
+        'valueColOptions'=>['style'=>'width:30%'], 
+        'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+        'attributes' => [
+           ['attribute' => 'MitgliedsNr',
+          	'format' => 'raw',
+//            	'class'=>'col-sm-6 table_class',
+          	'type' => DetailView::INPUT_SELECT2,
+          	'value' => $model->MitgliedsNr,
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'widgetOptions' => [
+								'data' => [$model->MitgliedsNr=>$model->MitgliedsNr, 0=>0, $newnr => $newnr ], 
+						 ],
+           ],
+            [ 'attribute' => 'Schulort',
+	            'format' => 'raw',
+	            'type' => DetailView::INPUT_SELECT2,
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+	            'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+									'Schulname', 'Schulname' )),
+							]
+            ],
+            [ 'attribute' => 'Anrede',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
+							 ]             
+            ],
+            [ 'attribute' => 'Name',
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            ], 
+            [ 'attribute' => 'Vorname',
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            ], 
+            [ 'attribute' => 'Geschlecht',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ['männlich'=>'männlich','weiblich'=>'weiblich']),
+							]
+            ],
+            [ 'attribute' => 'GeburtsDatum',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+            [ 'attribute' => 'Strasse',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            ],
+            [ 'attribute' => 'PLZ',
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            ],
+            [ 'attribute' => 'Wohnort',
+               'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ],
+            [ 'attribute' => 'Nationalitaet',
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            ],
+          [ 'attribute' => 'Beruf',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],
+          [ 'attribute' => 'Telefon1',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],
+          [ 'attribute' => 'HandyNr',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],
+          [ 'attribute' => 'Email',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],
+          [ 'attribute' => 'Funktion',
+          	'format' => 'raw',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_SELECT2,
+          	'widgetOptions' => [
+								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+								'inhalt', 'inhalt' )),['style'=>'']),
+						 ]             
+          ],
+          [ 'attribute' => 'Sifu',
+          	'format' => 'raw',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_SELECT2,
+          	'widgetOptions' => [
+								'data' => array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' )),
+						 ]             
+          ],
+          [ 'attribute' => 'ErzBerechtigter',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],
+          [ 'attribute' => 'Woher',
+          	'format' => 'raw',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_SELECT2,
+          	'widgetOptions' => [
+								'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'wert', 'wert' )),
+						 ],             
+          ],   
+   		    [ 'attribute' => 'PruefungZum',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],   
+    ],]); ?>
+  
+</div>
+<div class="col-md-6">
+       <?= DetailView::widget([
+    		'id' => 'dv_vb',
+        'model' => $model,
+				'condensed'=>true,
+//				'container' => ['style' => 'font-size:0.9em'],
+				'hover'=>true,
+				'mode'=>DetailView::MODE_VIEW,
+				'mainTemplate' => '{detail}',
+				'buttons1' => '{update}',
+				'panel'=>[
+					'heading'=>$model->Name . ', ' . $model->Vorname,
+					'headingOptions' => ['style' => 'font-size:1em'],
+					'type'=>DetailView::TYPE_INFO,					
+				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1/*, 'style' => 'font-size:1em',*/],
+				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
+				],
+        'valueColOptions'=>['style'=>'width:30%'], 
+        'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+        'attributes' => [
+          [ 'attribute' => 'KontaktAm',
+          	'format' => ['date', 'php:d.m.Y'],
+            'valueColOptions'=>['style'=>'width:30%;'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+          	'ajaxConversion' => true,
+//        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
+          	'widgetOptions' => [
+          			'class' => DateControl::classname(),
+								'type' => DateControl::FORMAT_DATE,
+						    'displayFormat' => 'php:d.m.Y',
+						    'saveFormat' => 'php:Y-m-d',
+						    'options' => [
+										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+								],
+						],
+          ],
+          [ 'attribute' => 'KontaktArt',
+          	'format' => 'raw',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_SELECT2,
+          	'widgetOptions' => [
+								'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "KontaktArt"])->orderBy('sort')->all(), 'wert', 'wert' )),
+						 ],             
+          ],
+          [ 'attribute' => 'Disziplin',
+          	'format' => 'raw',
+          'valueColOptions'=>['style'=>'width:30%'], 
+          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_SELECT2,
+          	'widgetOptions' => [
+								'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' )),
+						 ],             
+          ],
+          [ 'attribute' => 'EinladungIAzum',
+          	'format' => ['date', 'php:d.m.Y'],
+          'valueColOptions'=>['style'=>'width:30%'], 
+          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+          	'ajaxConversion' => true,
+   					'label' => 'Info-Abend am',
+         	  'widgetOptions' => [
+          			'class' => DateControl::classname(),
+								'type' => DateControl::FORMAT_DATE,
+						    'displayFormat' => 'php:d.m.Y',
+						    'saveFormat' => 'php:Y-m-d',
+                'options' => [
+										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+  							    ],
+						],
+          ],
+          [ 'attribute'=>'WarZumIAda', 
+          'valueColOptions'=>['style'=>'width:30%'], 
+          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+					  'type'=>DetailView::INPUT_CHECKBOX_X,    
+						'value' => $model->showTriState($model->WarZumIAda),
+  					'autoLabel' => true,
+  					'label' => 'War zum IA da',
+						'widgetOptions' => [
+									'id' => 'wziad',				
+									'pluginOptions'=>[  
+										'threeState' => false, 
+									],
+						],
+					],
+          [ 'attribute' => 'ProbetrainingAm',
+          	'format' => ['date', 'php:d.m.Y'],
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+            'label' => 'Probetr. am',
+          	'ajaxConversion' => true,
+          	'widgetOptions' => [
+          			'class' => DateControl::classname(),
+								'type' => DateControl::FORMAT_DATE,
+						    'displayFormat' => 'php:d.m.Y',
+						    'saveFormat' => 'php:Y-m-d',
+						    'options' => [
+										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+								],
+						],
+          ],
+           ['attribute'=>'PTwarDa','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+						'value' => $model->showTriState($model->PTwarDa),
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+							'widgetOptions' => [
+									'id' => 'ptwd',				
+									'pluginOptions'=>[  
+										'threeState' => false, 
+									],
+						],
+					 ],                         
+           ['attribute'=>'VertragAbgeschlossen','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+						'value' => $model->showTriState($model->VertragAbgeschlossen),
+            'label'	=> 'Vertrag',			
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+						'widgetOptions' => [				
+									'id' => 'vack',
+									'pluginOptions'=>[  
+										'threeState' => false, 
+									],
+						],
+					 ],
+           ['attribute'=>'VertragMit','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+						'value' => $model->showTriState($model->VertragMit),
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+						'widgetOptions' => [				
+									'id' => 'vmck',				
+									'pluginOptions'=>[  
+										'threeState' => false, 
+									],
+						],
+					 ],
+           ['attribute'=>'Bemerkung2',
+            'label' => 'Bemerkung',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+           ['attribute'=>'GutscheinVon',
+            'label' => 'Gutschein Von',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+
+
+        ],
+    ]) ?>
+
+</div>
+</div>
+
+<?php if (1==0) {?>
+
+<div class="col-sm-12 hidden-xs"> 
     <?= DetailView::widget([
     		'id' => 'dv_va',
         'model' => $model,
@@ -481,7 +806,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
     ]) ?>
 
  </div>
- <div class="row hidden-sm hidden-md hidden-lg">
+ <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
      <?= DetailView::widget([
     		'id' => 'dv_va',
         'model' => $model,
@@ -771,3 +1096,4 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
     ]) ?>
 </div>
 
+<?php }?>

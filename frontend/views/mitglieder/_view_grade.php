@@ -33,15 +33,21 @@ use frontend\models\Pruefer;
   $mg->PrueferId = null; 
 	$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
-				<div class="panel panel-info panel-xs panel-sm panel-md panel-lg panel-xl" style="font-size:0.9em;height:3em;">
-					<div class="panel-heading panel-xs panel-sm panel-md panel-lg panel-xl" style="height:3em;margin-bottom: 0px;">
-					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
-					<?php Modal::begin([ 'id' => 'mg-modal',
+				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
+					<div class="panel-heading" style="height:3em;margin-bottom: 0px;">
+					<?php //'<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+              echo '<h5 style="padding-top:0em;margin-top:0em;clear: both;">Prüfungen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+          ?>
+					<?php Modal::begin([ 'id' => 'mg-ag-modal',
 						'header' => $header,
 						'size'=>'modal-md',					
 						'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
-					]);
+/*
+                'class' => 'col-sm-10',
+                'style' => 'float:left;',
+            ],
+*/					]);
 					?>
 					<?php $form = ActiveForm::begin([ 'action' => ['mitgliedergrade/createfast',
 																													'mId' => $mg->MitgliedId,
@@ -52,15 +58,19 @@ use frontend\models\Pruefer;
 																						'fieldConfig'=>['showLabels'=>true],
 																						'id' => 'mg-cr-vg', 
 																						'type' => ActiveForm::TYPE_HORIZONTAL,							
-																						'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL,
+																						'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM,
 																							'showErrors' => true,
 																						]
 																						]); ?>
 							<div class="row">																	
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
-							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label('') ; ?>
+    				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
+														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
+				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
+													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
 							<?php  echo $form->field($mg, 'Datum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,
@@ -75,10 +85,6 @@ use frontend\models\Pruefer;
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
 								]); ?>
-				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
-													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
-    				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
-														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
 						<div style="text-align:right;">  <br>
@@ -96,6 +102,8 @@ use frontend\models\Pruefer;
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
 	        'responsiveWrap' => false,
+          'options' => ['id' => 'exp_row_grade',
+          ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 			    'formatter' => [

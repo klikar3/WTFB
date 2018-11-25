@@ -112,8 +112,8 @@ use frontend\models\Texte;
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
-//$this->title = $model->Vorname . ' ' . $model->Name;
-$this->title = $model->MitgliedsNr;
+$this->title = $model->Name . ', ' . $model->Vorname . ' - ' . $model->MitgliedsNr;
+//$this->title = $model->MitgliedsNr;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['/mitgliederliste/index']];
 $this->params['breadcrumbs'][] = $this->title;
 //$this->params['breadcrumbs'][] = ['label' => 'zurück', 'url' => Yii::$app->request->getReferrer()];

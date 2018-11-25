@@ -31,6 +31,7 @@ use IBAN\Rule\RuleFactory;
  * @property string $BeitragAussetzenBis 
  * @property string $BeitragAussetzenGrund 
  * @property string $KuendigungAm 
+ * @property string $kFristMonate
  *
  * @property Mitglieder $mitglieder 
  * @property Schulen $schul
@@ -148,7 +149,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return [
            [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
-	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate'], 'integer'],
+	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate'], 'integer'],
 	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
@@ -196,6 +197,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 						'mandatNr' => Yii::t('app', 'Mandat-Nr'),
 						'mandatDatum' => Yii::t('app', 'Mandat-Datum'),
             'KuendigungGrund' => Yii::t('app', 'KuendigungGrund'),
+            'KFristMonate' => Yii::t('app', 'Kündigungsfrist'),
         ];
     }
 

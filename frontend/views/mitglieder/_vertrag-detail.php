@@ -119,6 +119,10 @@ use frontend\models\SearchVertrag;
             	'label' => 'Vertragsdauer',
               'id' => 'dv_vv_a_'.$model->msID,
             ],
+            [ 'attribute' => 'KFristMonate',
+//            	'label' => 'Vertragsdauer',
+              'id' => 'dv_vkf_a_'.$model->msID,
+            ],
             [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',

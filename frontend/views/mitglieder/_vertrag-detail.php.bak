@@ -119,6 +119,10 @@ use frontend\models\SearchVertrag;
             	'label' => 'Vertragsdauer',
               'id' => 'dv_vv_a_'.$model->msID,
             ],
+            [ 'attribute' => 'kFristMonate',
+//            	'label' => 'Vertragsdauer',
+              'id' => 'dv_vkf_a_'.$model->msID,
+            ],
             [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
@@ -127,6 +131,9 @@ use frontend\models\SearchVertrag;
                 'groupOptions'=>['style'=>'background: #d9edf7;'],
             ],
             [ 'attribute' => 'MonatsBeitrag',
+            	'id' => 'dv_vv_mb_'.$model->msID,
+            ],
+            [ 'attribute' => 'AGebuehr',
             	'id' => 'dv_vv_mb_'.$model->msID,
             ],
 						[ 'attribute' => 'ZahlungsArt',  
@@ -190,14 +197,11 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
-            [
+/*            [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
                 'rowOptions'=>['class'=>'table-info'],
                 'groupOptions'=>['style'=>'background: #d9edf7;']
-            ],
-            [ 'attribute' => 'AGebuehr',
-            	'id' => 'dv_vv_mb_'.$model->msID,
             ],
             [ 'attribute' => 'AGbezahltAm',
             	'format' => ['date', 'php:d.m.Y'],
@@ -214,6 +218,7 @@ use frontend\models\SearchVertrag;
 									],
 							]
             ],
+*/            
             [
                 'group'=>true,
                 'label'=> false, //'Teil 4: Zahlungsdaten',

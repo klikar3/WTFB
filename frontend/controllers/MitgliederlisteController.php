@@ -180,7 +180,7 @@ class MitgliederlisteController extends Controller
         $d = new ActiveDataProvider([
 				     'query' => $query,
 				]);
-				$zz = 32;
+				$zz = 33;
 				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
@@ -210,6 +210,7 @@ class MitgliederlisteController extends Controller
 						// format content from your own css file if needed or use the
 						// enhanced bootstrap css built by Krajee for mPDF formatting
 						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+//						'cssFile' => 'css/kv-mpdf-bootstrap.css',
 						// any css to be embedded if required
 						'cssInline' => '.kv-heading-1{font-size:18px}'.
 													'.kv-wrap{padding:20px;}' .
@@ -237,7 +238,11 @@ class MitgliederlisteController extends Controller
 						]
 			]);
 			return $pdf->render();
-		}
+/*			return $this->renderPartial('pruefungsliste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+		            'plf' => $plf]);
+*/		}
 		
     public function actionResetpliste()
     {

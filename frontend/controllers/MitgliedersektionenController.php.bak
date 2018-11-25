@@ -190,8 +190,10 @@ class MitgliedersektionenController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        $mgid = $model->mitglied_id;
 
-        return $this->redirect(['index']);
+//        return $this->redirect(['index']);
+        return $this->redirect(['/mitglieder/view', 'id' => $mgid, 'tabnum' => 5]);
     }
 
     /**
@@ -324,11 +326,11 @@ class MitgliedersektionenController extends Controller
 				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 	        $mitglied->save();
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliedId, 'tabnum' => 5
+            'id' => $model->mitglied_id, 'tabnum' => 5
         ]);
         } else {
         	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliedId, 'tabnum' => 5
+            'id' => $model->mitglied_id, 'tabnum' => 5
 //            return $this->render('/mitglieder/view', [
 //                'model' => $mgModel,
             ]);

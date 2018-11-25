@@ -189,9 +189,12 @@ class MitgliedersektionenController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $mgid = $model->mitglied_id;
+        $model->delete();
 
-        return $this->redirect(['index']);
+//        return $this->redirect(['index']);
+        return $this->redirect(['/mitglieder/view', 'id' => $mgid, 'tabnum' => 5]);
     }
 
     /**

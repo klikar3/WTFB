@@ -38,7 +38,7 @@
 				"klikar3/rgraph" : "*",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
-        "supplyhog/yii2-clipboardjs" : "dev-master"
+        "eddmash/yii2-clipboard": "@dev"
     },
     "require-dev": {
         "codeception/codeception": "*",

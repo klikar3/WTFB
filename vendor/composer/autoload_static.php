@@ -32,7 +32,6 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         ),
         's' => 
         array (
-            'supplyhog\\ClipboardJs\\' => 22,
             'spanjeta\\modules\\backup\\' => 24,
         ),
         'p' => 
@@ -133,6 +132,10 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
             'Faker\\' => 6,
             'Facebook\\WebDriver\\' => 19,
         ),
+        'E' => 
+        array (
+            'Eddmash\\Clipboard\\' => 18,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -180,10 +183,6 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
-        ),
-        'supplyhog\\ClipboardJs\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/supplyhog/yii2-clipboardjs/src',
         ),
         'spanjeta\\modules\\backup\\' => 
         array (
@@ -462,6 +461,10 @@ class ComposerStaticInit84b31ece943dd802e0fa5e4f0209e509
         'Facebook\\WebDriver\\' => 
         array (
             0 => __DIR__ . '/..' . '/facebook/webdriver/lib',
+        ),
+        'Eddmash\\Clipboard\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/eddmash/yii2-clipboard/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

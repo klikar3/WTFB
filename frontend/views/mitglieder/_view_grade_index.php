@@ -1,4 +1,5 @@
 <?php
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\BaseHtml;
@@ -58,15 +59,8 @@ $this->title = $model->MitgliedsNr;
 if($model->hasErrors()){
   echo BaseHtml::errorSummary($model);
 }?>
-<?php if (1==0) {?>
-<div class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </div>
-<div class="hidden-xs hidden-sm hidden-md hidden-xl"> LG </div>
-<div class="hidden-xs hidden-sm hidden-lg hidden-xl"> MD </div>
-<div class="hidden-xs hidden-md hidden-lg hidden-xl"> SM </div>
-<div class="hidden-sm hidden-md hidden-lg hidden-xl"> XS </div>
-<?php }?>
 
-<div class="row hidden-xs hidden-sm">
+<div class="row">
 <div class="col-md-6">   
   <?php echo $content_grade; ?>  
 </div>
@@ -75,8 +69,12 @@ if($model->hasErrors()){
   ?>
 </div>
 </div>
-<?php Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
-<div class="hidden-xs hidden-md hidden-lg hidden-xl">
+
+<?php if (1==0) {?>
+
+<?php // Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId,]); ?>
+<div class="row  hidden-xs hidden-sm hidden-md hidden-lg hidden-xl">
+<div class="col-md-6 ">
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
@@ -95,21 +93,68 @@ if($model->hasErrors()){
 						    'encodeLabels'=>false,
 				    ]);
 				?>
+</div>        
+
+
+<?php //Pjax::end(); ?>
+
+<?php 
+
+$data = [
+    ['id' => 1, 'name' => 'Prüfungen',],
+    ['id' => 2, 'name' => 'Programme',],
+];
+
+$provider = new ArrayDataProvider([
+    'allModels' => $data,
+    'pagination' => false,
+    'sort' => false,
+]);
+
+// get the rows in the currently requested page
+$rows = $provider->getModels();
+
+echo GridView::widget([
+	        'dataProvider' => $provider,
+	        'responsiveWrap' => false,
+          'headerRowOptions' => [ 'style' => 'font-size:0.85em', 'hidden' => true
+//					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
+					],
+          'summary' => false,
+					'rowOptions' => [ 'style' => 'font-size:0.85em',
+					],
+	        'columns' => [
+							[ 'class' => '\kartik\grid\ExpandRowColumn',
+                'options' => ['id' => 'exp_row', //function ($data, $model, $key, $index ) { return 'exp_row_'.(string)$key;},
+                ], 
+                'value' => function ($data, $model, $key, $index ) use ($openv) { 
+//                				($data->msID == $openv) ? GridView::ROW_EXPANDED : GridView::ROW_COLLAPSED;
+/*                				if ($data->id == $openv) 
+													return GridView::ROW_EXPANDED;
+												else 	
+*/                        	return GridView::ROW_COLLAPSED;
+                    },
+								'detail' => function ($data, $model, $key, $index) use ($content_grade, $content_sekt) {
+	                return ($key == 0) ? $content_grade : $content_sekt;
+            		},
+            		'enableRowClick' => true,
+                'hidden' => false,
+							],
+							[ 'attribute' => 'name', 'value' => 'name' ],
+				],
+    			'options' => ['htmlOptions' => [
+      											'style' => 'overflow-y:scroll;height:800px;text-size:0.8em;',
+  											],
+					],				
+	    ]);
+
+?>
 </div>
-<div class="hidden-sm  hidden-md hidden-lg hidden-xl">
-				<?php    // Ajax Tabs Left
-				    echo TabsX::widget([
-				    		'id' => 'main-grade-l',
-						    'enableStickyTabs' => true,
-						    'items'=>$items1,
-						    'position'=>TabsX::POS_LEFT,
-						    'sideways'=>true,
-			 					'bordered'=>true,
-						    'encodeLabels'=>false,
-				    ]);
-				?>
-</div>
 
-<?php Pjax::end(); ?>
+<?php }?>
 
-
+<div class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </div>
+<div class="hidden-xs hidden-sm hidden-md hidden-xl"> LG </div>
+<div class="hidden-xs hidden-sm hidden-lg hidden-xl"> MD </div>
+<div class="hidden-xs hidden-md hidden-lg hidden-xl"> SM </div>
+<div class="hidden-sm hidden-md hidden-lg hidden-xl"> XS </div>

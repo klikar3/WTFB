@@ -42,7 +42,9 @@ use frontend\models\SifuSearch;
 ?>
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
 					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
-					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+					<?php // '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' 
+                echo '<h5 style="padding-top:0em;margin-top:0em;">Programme&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+          ?>
 					<?php Modal::begin([ 'id' => 'mgs-modal',
 						'header' => $header,
 						'size'=>'modal-md',					
@@ -70,7 +72,7 @@ use frontend\models\SifuSearch;
 							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label('') ; ?>
     				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList(ArrayHelper::map( Sektionen::find()->all(), 'sekt_id', 'kurz' ),
 														[ 'prompt' => 'Sektion', 'id' => 'field-gid' ])->label('Sektion');  ?>
-							<?php  echo $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
+							<?php  /* $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,
 								'ajaxConversion'=>true,
@@ -83,9 +85,11 @@ use frontend\models\SifuSearch;
 //										'placeholder'=>'Graduierungsdatum', 
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
-								]); ?>
-				    <?php  echo $form->field($mgs, 'vermittler_id')->dropdownList(ArrayHelper::map( Sifu::find()->all(), 'sId', 'SifuName' ),
-													[ 'prompt' => 'Vermittler', 'id' => 'field-pid' ])->label('Vermittler');  ?>
+								]);*/ ?>
+				    <?php /* echo $form->field($mgs, 'vermittler_id')->dropdownList(ArrayHelper::map( Sifu::find()->all(), 'sId', 'SifuName' ),
+													[ 'prompt' => 'Vermittler', 'id' => 'field-pid' ])->label('Vermittler');*/ ?>
+				    <?php  echo $form->field($mgs, 'pruefer_id')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
+													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
 							<?php  echo $form->field($mgs, 'pdatum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,
@@ -100,8 +104,6 @@ use frontend\models\SifuSearch;
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
 								]); ?>
-				    <?php  echo $form->field($mgs, 'pruefer_id')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
-													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
 						<div style="text-align:right;">  <br>
@@ -119,6 +121,8 @@ use frontend\models\SifuSearch;
  	<?= GridView::widget([
 	        'dataProvider' => $sektionen,
 	        'responsiveWrap' => false,
+          'options' => ['id' => 'exp_row_sekts',
+          ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
 					],
 					'rowOptions' => [ 'style' => 'font-size:0.85em',

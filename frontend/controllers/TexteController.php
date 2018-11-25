@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\i18n\Formatter;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
@@ -217,7 +218,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#grad#' , $model->grad->gKurz , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDate($model->Datum, 'php:d.m.Y') , $textmodel->txt );
 				}
         if ($datamodel == 'sektion') {
 					$model = Mitgliedersektionen::findOne($dataid);
@@ -227,7 +228,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#sektion#' , $model->sektion->name , $textmodel->txt );
 //					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDate($model->pdatum, 'php:d.m.Y'), $textmodel->txt );
 				}
 							
 				$pdf = new Pdf([
