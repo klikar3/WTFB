@@ -40,7 +40,7 @@ use frontend\models\Schulen;
 //                $ms->Zahlungsweise = 'monatlich';
                 $header = '<center><h5>Neuen Schulvertrag für '.$model->Name.', '.$model->Vorname.'</h5></center><a size="0.9em">';
               ?>
-					<?= '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
+					<?= '<h5 style="padding-top:0em;margin-top:0em;">Verträge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
 									'header' => $header,
 //									'headerOptions' => ['style' => 'height:1.5em'],
@@ -60,10 +60,10 @@ use frontend\models\Schulen;
 																									]
 																								]); ?>
 							<div class="row">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(''); ?> 
+							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(false); ?> 
 									<?= $form->field($ms, 'VDatum')->widget(DateControl::classname(),
 											[ 'type' => DateControl::FORMAT_DATE,
  												'ajaxConversion'=>true,
@@ -98,8 +98,14 @@ use frontend\models\Schulen;
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
 																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
 																		) ?>
+    								<?= $form->field($ms, 'KFristMonate')->dropdownList(range( 0, 6, 1 ) ,
+																			[ 'prompt' => 'Kündigungsfrist in Monaten' ]
+																		) ?>
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
 																			[ 'placeholder' => 'MonatsBeitrag' ]
+																		) ?>
+    								<?= $form->field($ms, 'AGebuehr')->textInput(
+																			[ 'placeholder' => 'Aufnahmegebühr' ]
 																		) ?>
     								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung']) ,
 																			[ 'prompt' => 'Zahlungsart' ]
@@ -151,16 +157,7 @@ use frontend\models\Schulen;
 							[ 'attribute' => 'VDatum', 'value' => 'VDatum', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Bis', 'value' => 'Bis', 'format' => ['date', 'php:d.m.Y'] ],
-/*							[ 'attribute' => 'KuendigungAm', 'value' => 'KuendigungAm', 'format' => ['date', 'php:d.m.Y'] ],
-							[ 'attribute' => 'VDauerMonate', 'value' => 'VDauerMonate' ],
-							[ 'attribute' => 'MonatsBeitrag', 'value' => 'MonatsBeitrag' ],
-							[ 'attribute' => 'ZahlungsArt', 'value' => 'ZahlungsArt' ],
-							[ 'attribute' => 'Zahlungsweise', 'value' => 'Zahlungsweise' ],
-							[ 'attribute' => 'BeitragAussetzenVon', 'value' => 'BeitragAussetzenVon', 'format' => ['date', 'php:d.m.Y'] ],
-							[ 'attribute' => 'BeitragAussetzenBis', 'value' => 'BeitragAussetzenBis', 'format' => ['date', 'php:d.m.Y'] ],
-							[ 'attribute' => 'BeitragAussetzenGrund', 'value' => 'BeitragAussetzenGrund' ],
-							[ 'attribute' => 'VertragId', 'value' => 'VertragId' ],
-*/            	[ 'class' => 'yii\grid\ActionColumn',
+            	[ 'class' => 'yii\grid\ActionColumn',
             						'template' => '{delete}',
 												'controller' => 'mitgliederschulen',
 												'header' => '<center>Aktion</center>',

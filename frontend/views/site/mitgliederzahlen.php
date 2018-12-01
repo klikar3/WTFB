@@ -249,6 +249,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'labelsAboveSize' => 10,
                 'labelsAboveOffset' => -14,
                 'ylabels' => false,
+//                'ymin' => -10,
 		            'title' => '',
 		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
 //                'numxticks' => 10,

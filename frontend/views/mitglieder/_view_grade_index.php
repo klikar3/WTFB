@@ -153,8 +153,3 @@ echo GridView::widget([
 
 <?php }?>
 
-<div class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </div>
-<div class="hidden-xs hidden-sm hidden-md hidden-xl"> LG </div>
-<div class="hidden-xs hidden-sm hidden-lg hidden-xl"> MD </div>
-<div class="hidden-xs hidden-md hidden-lg hidden-xl"> SM </div>
-<div class="hidden-sm hidden-md hidden-lg hidden-xl"> XS </div>

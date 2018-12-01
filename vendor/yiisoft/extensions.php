@@ -121,15 +121,6 @@ return array (
     ),
     'bootstrap' => 'dektrium\\user\\Bootstrap',
   ),
-  'klikar3/rgraph' => 
-  array (
-    'name' => 'klikar3/rgraph',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@klikar3/rgraph' => $vendorDir . '/klikar3/rgraph',
-    ),
-  ),
   'spanjeta/yii2-backup' => 
   array (
     'name' => 'spanjeta/yii2-backup',
@@ -146,15 +137,6 @@ return array (
     'alias' => 
     array (
       '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap/src',
-    ),
-  ),
-  'yiisoft/yii2-debug' => 
-  array (
-    'name' => 'yiisoft/yii2-debug',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug/src',
     ),
   ),
   'yiisoft/yii2-faker' => 
@@ -245,15 +227,6 @@ return array (
     'alias' => 
     array (
       '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid/src',
-    ),
-  ),
-  'kartik-v/yii2-krajee-base' => 
-  array (
-    'name' => 'kartik-v/yii2-krajee-base',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
     ),
   ),
   'kartik-v/yii2-money' => 
@@ -452,6 +425,33 @@ return array (
     'alias' => 
     array (
       '@Eddmash/Clipboard' => $vendorDir . '/eddmash/yii2-clipboard/src',
+    ),
+  ),
+  'kartik-v/yii2-krajee-base' => 
+  array (
+    'name' => 'kartik-v/yii2-krajee-base',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
+    ),
+  ),
+  'yiisoft/yii2-debug' => 
+  array (
+    'name' => 'yiisoft/yii2-debug',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug/src',
+    ),
+  ),
+  'klikar3/rgraph' => 
+  array (
+    'name' => 'klikar3/rgraph',
+    'version' => '1.0.0.0-alpha4',
+    'alias' => 
+    array (
+      '@klikar3/rgraph' => $vendorDir . '/klikar3/rgraph',
     ),
   ),
 );

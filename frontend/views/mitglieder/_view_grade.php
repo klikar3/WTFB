@@ -66,7 +66,7 @@ use frontend\models\Pruefer;
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label('') ; ?>
+							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label(false) ; ?>
     				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
 														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
 				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),

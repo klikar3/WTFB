@@ -29,11 +29,72 @@ use frontend\models\Texte;
 /* @var $model app\models\Mitglieder */
 
 ?>
-	<div class="panel panel-info panel-xs" style="font-size:0.9em;height:3em;margin-top:0em;">
-			<div class="panel-heading panel-xs" style="height:3em;margin-top:0em;vertical-align:top;">
-				<h5 style="padding-top:0em;margin-top:0em;"><?= $model->Name ?>, <?= $model->Vorname ?></h5>
-			</div>
-	</div>
+    <?= DetailView::widget([
+        'model' => $model,
+				'condensed'=>true,
+				'hover'=>true,
+				'mode'=>DetailView::MODE_VIEW,
+				'buttons1' => '{update}',
+				'panel'=>[
+					'heading'=> 'Texte...', //$model->Name . ', ' . $model->Vorname,
+					'headingOptions' => ['style' => 'font-size:1em'],
+					'type'=>DetailView::TYPE_INFO,
+				],
+				'rowOptions' => [ 'style' => 'font-size:0.85em',
+				],
+				'formOptions' => [
+							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 6 ],
+				],
+		    'formatter' => [
+	        'class' => 'yii\i18n\Formatter',
+	        'nullDisplay' => '',
+		    ],
+        'attributes' => [
+            [ 'attribute' => 'AktivPassiv',
+            	'format' => 'raw',
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+									'data' => array_merge(["" => ""], ['Aktiv'=>'Aktiv','Passiv'=>'Passiv']),
+							],
+						],	
+            [ 'attribute' => 'LetzteAenderung',
+            	'label' => 'Letzte Änderung',
+            	'format' => ['date', 'php:d.m.Y H:i:s'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATETIME,
+ 									'ajaxConversion'=>true,
+//									'autoWidget' => true,
+//									'language' => 'de',
+							    'displayFormat' => 'php:d.m.Y H:i:s',
+							    'saveFormat' => 'php:Y-m-d H:i:s',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+            [ 'attribute' => 'LetztAendSifu',
+            	'label' => 'Letzte Änderung Sifu',
+            	'format' => ['date', 'php:d.m.Y H:i:s'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'widgetOptions' => [
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATETIME,
+ 									'ajaxConversion'=>true,
+//									'autoWidget' => true,
+//									'language' => 'de',
+									'displayTimezone' => 'Europe/Berlin',
+							    'displayFormat' => 'php:d.m.Y H:i:s',
+							    'saveFormat' => 'php:Y-m-d H:i:s',
+							    'options' => [
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+									],
+							]
+            ],
+      ],
+    ]) ?>
+
 			<?php
 			 $txtid = new Numbers();
 			 $txtid->id = 0;
@@ -66,6 +127,4 @@ use frontend\models\Texte;
 						</div>	
 					<?php $form = ActiveForm::end();
 			}  ?>
-
-
 

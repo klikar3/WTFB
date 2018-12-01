@@ -42,7 +42,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>$model->Name . ', ' . $model->Vorname,
+					'heading'=>'Person', //$model->Name . ', ' . $model->Vorname,
 					'headingOptions' => ['style' => 'font-size:1em'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
@@ -202,7 +202,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>$model->Name . ', ' . $model->Vorname,
+					'heading'=> 'Kontakt', //$model->Name . ', ' . $model->Vorname,
 					'headingOptions' => ['style' => 'font-size:1em'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
@@ -289,7 +289,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
-            'label' => 'Probetr. am',
+            'label' => 'Probetraining am',
           	'ajaxConversion' => true,
           	'widgetOptions' => [
           			'class' => DateControl::classname(),
@@ -341,11 +341,29 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
            ['attribute'=>'GutscheinVon',
-            'label' => 'Gutschein Von',
+            'label' => 'Gutschein von',
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
-
+            [
+                'group'=>true,
+                'label'=>false, //'Teil 2: Aussetzen',
+                'rowOptions'=>['class'=>'table-info'],
+//                'groupOptions'=>['style'=>'background: lightblue;'],
+                'groupOptions'=>['style'=>'background: #d9edf7;'],
+            ],
+            [
+                'group'=>true,
+                'label'=>false, //'Teil 2: Aussetzen',
+                'rowOptions'=>['class'=>'table-info'],
+//                'groupOptions'=>['style'=>'background: lightblue;'],
+                'groupOptions'=>['style'=>'background: #d9edf7;'],
+            ],
+            [ 'attribute' => 'Bemerkung1',
+            	'label' => 'Bemerkung',
+              'format' => 'raw',
+              'type' => DetailView::INPUT_TEXTAREA,
+            ],
 
         ],
     ]) ?>

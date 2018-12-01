@@ -61,11 +61,11 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 ]);    
 ?>
 
-<div class="mitglieder-index hidden-xs">
+<span class="mitglieder-index hidden-xs">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            <div id="content" class="col-12 modal-content">
+            <span id="content" class="col-12 modal-content">
 
 
     <?php echo DynaGrid::widget([
@@ -297,20 +297,20 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        'export' => true,    
 		]); ?>
 
-            </div><!-- content -->
+            </span><!-- content -->
 
      
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div>
+</span>
 
  <?php //echo $content_mcf ?>
 
-<div class="visible-xs">
+<span class="visible-xs">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-             <div id="content" class="col-12 modal-content">
+             <span id="content" class="col-12 modal-content">
 
     <?php echo DynaGrid::widget([
 				'storage'=>DynaGrid::TYPE_DB,
@@ -343,9 +343,10 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
         		'responsive' => true,
 						'responsiveWrap' => false,
 						'toolbar' => false, /*[
-//										 	['content'=>$content_mcf,  
-//											],
-										 	['content'=>
+										 	['content'=>$content_mcf,  
+											],
+            ],
+*//*										 	['content'=>
 													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success',
 //													'target'=>'_blank',
@@ -414,12 +415,12 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        'export' => true,    
 		]); ?>
 
-            </div><!-- content -->
+            </span><!-- content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div>
+</span>
 <?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}   ?>
 
 

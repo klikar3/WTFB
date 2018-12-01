@@ -228,9 +228,9 @@ class MitgliederController extends Controller
 		        $model->BeitrittDatum = $datum;
 		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
 		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
-            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
-              $mitglied->mandatNr = $model->MitgliedsNr;
-            }
+//            if ((empty($mitglied->mandatNr)) and (!empty($model->MitgliedsNr))) {
+//              $mitglied->mandatNr = $model->MitgliedsNr;
+//            }
 		//        $grade = new Grade();
 //        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [

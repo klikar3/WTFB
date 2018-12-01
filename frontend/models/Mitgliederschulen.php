@@ -148,12 +148,13 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise'], 'required'],
+           [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'KFristMonate'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate'], 'integer'],
 	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 					 [['Bank'], 'string', 'max' => 100],
+           [['mandatNr'], 'string', 'max' => 30], 
            [['Kontoinhaber'], 'string', 'max' => 31],
            [['IBAN'], 'string', 'max' => 26],
 	         [['BIC'], 'string', 'max' => 11],            

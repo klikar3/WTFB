@@ -35,7 +35,7 @@
 				"2amigos/yii2-ckeditor-widget": "*",
 				"2amigos/yii2-chartjs-widget" : "*",
         "2amigos/yii2-tinymce-widget" : "~1.1",
-				"klikar3/rgraph" : "*",
+				"klikar3/rgraph" : "1.0.0-alpha4",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
         "eddmash/yii2-clipboard": "@dev"

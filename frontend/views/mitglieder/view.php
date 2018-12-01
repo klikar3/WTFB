@@ -78,14 +78,14 @@ use frontend\models\Texte;
 		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
-				[
+/*				[
 				    'label'=>'<i class="glyphicon glyphicon-pencil"></i> Notiz',
 						'content'=>$this->render('_view_notiz', array(
 		                                'model'=>$model, 'tabnum' => 6,
 		                        ) ),
 						'active' => $tabnum == 6?true:false, 
 				],
-			  [
+*/			  [
 				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Texte',
 						'content'=>$this->render('_view_texte', array(
 		                                'model'=>$model, 'tabnum' => 8, 

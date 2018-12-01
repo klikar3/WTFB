@@ -38,7 +38,7 @@ use frontend\models\SifuSearch;
   $mgs->sektion_id = null;
   $mgs->pruefer_id = null; 
   $mgs->vermittler_id = null; 
-	$header = '<center><h5>Neue Sektion für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
+	$header = '<center><h5>Neues Programm für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
 					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
@@ -71,7 +71,7 @@ use frontend\models\SifuSearch;
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label('') ; ?>
     				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList(ArrayHelper::map( Sektionen::find()->all(), 'sekt_id', 'kurz' ),
-														[ 'prompt' => 'Sektion', 'id' => 'field-gid' ])->label('Sektion');  ?>
+														[ 'prompt' => 'Programm', 'id' => 'field-gid' ])->label('Programm');  ?>
 							<?php  /* $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,
@@ -170,10 +170,10 @@ use frontend\models\SifuSearch;
             		'enableRowClick' => true,
                 'hidden' => true,
 							],
-							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz' ],
+							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz', 'label' => 'Programm'  ],
 		//					[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],
 		//					[ 'attribute' => 'Vermittler', 'value' => 'vermittler.SifuName', 'label' => 'Vermittler' ],
-							[ 'attribute' => 'pdatum', 'value' => 'pdatum', 'format' => ['date', 'php:d.m.Y'] ],
+							[ 'attribute' => 'pdatum', 'value' => 'pdatum', 'format' => ['date', 'php:d.m.Y'], 'label' => 'Datum'  ],
 //							 'PrueferId',	        
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => 'Prüfer' ],
             	[ 'class' => '\kartik\grid\ActionColumn',

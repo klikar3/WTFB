@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $Ksum += $dat['Kuendigung'];
         }
 ?>       </h4> <table> 
-          <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Esum,Url::toRoute(['site/eintritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
+          <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Esum,Url::toRoute(['site/eintritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule, 'print' => 0]),['target' => '_blank'])?></td> </tr>
           <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Asum,Url::toRoute(['site/austritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
           <tr><td>Kündigungen gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Ksum,Url::toRoute(['site/kuendigungen','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
         </table>
@@ -249,6 +249,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'labelsAboveSize' => 10,
                 'labelsAboveOffset' => -14,
                 'ylabels' => false,
+                'ymin' => -10,
 		            'title' => '',
 		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
 //                'numxticks' => 10,

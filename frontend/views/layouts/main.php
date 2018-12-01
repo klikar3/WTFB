@@ -100,7 +100,7 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => $menuItems,
-            ]);
+            ]);            
             NavBar::end();
         ?>
 
@@ -128,7 +128,12 @@ Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYP
 
     <footer class="footer">
         <div class="container">
-        <p class="pull-left">&copy; WT Data <?= date('Y') ?></p>
+        <p class="pull-left"><span class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </span>
+<span class="hidden-xs hidden-sm hidden-md hidden-xl">(LG)</span>
+<span class="hidden-xs hidden-sm hidden-lg hidden-xl">(MD)</span>
+<span class="hidden-xs hidden-md hidden-lg hidden-xl">(SM)</span>
+<span class="hidden-sm hidden-md hidden-lg hidden-xl">(XS)</span>
+    &copy; WT Data <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
