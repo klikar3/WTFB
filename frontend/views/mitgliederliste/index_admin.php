@@ -31,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $plf = new PruefungslisteForm();
 $datum = date('d.m.Y');
-$plf->datum = $datum;
-//$plf->pgeb = 40.00;
-$plf->disp = 'Wing Tzun';
+$plf->datum = $pruefung->datum;
+$plf->pgeb = 50.00;
+$plf->disp = $pruefung->disp->DispName; //'Wing Tzun';
 $content_plf = $this->render('pliste_preform',['plf' => $plf]);
 
 $mcf = new Mitglieder();
@@ -65,10 +65,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            <span id="content" class="col-12 modal-content">
-
-
-    <?php echo DynaGrid::widget([
+            <div id="content" class="col-12 modal-content">
+      <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
 				'theme'=>'simple-condensed',
@@ -95,7 +93,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
 													'class'=>'btn btn-default',
 													'target'=>'_blank',
-													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
+													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
 													'data-toggle'=>'tooltip',
 													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
 													])  
@@ -234,15 +232,17 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 							],								
 						],
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
+            	'template' => '{graduieren} &nbsp;&nbsp; {markieren}',
 							'controller' => 'mitglieder',
 							'mergeHeader' => false,
 //							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Für Prüfung vormerken'),
+									return Html::a( $model->printed ? '<span class="glyphicon glyphicon-print" style="color:lightgreen"></span>'
+                                                  : '<span class="glyphicon glyphicon-print"></span>'
+                                  , Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
+          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Letzte Prüfungsurkunde nochmals drucken'),
 							        ]);
 							    },
 								'graduieren' => function ($url, $model) {
@@ -297,7 +297,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        'export' => true,    
 		]); ?>
 
-            </span><!-- content -->
+            </div><!-- content -->
 
      
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
@@ -310,7 +310,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-             <span id="content" class="col-12 modal-content">
+             <div id="content" class="col-12 modal-content">
 
     <?php echo DynaGrid::widget([
 				'storage'=>DynaGrid::TYPE_DB,
@@ -415,7 +415,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //        'export' => true,    
 		]); ?>
 
-            </span><!-- content -->
+            </div><!-- content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";

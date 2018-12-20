@@ -1,5 +1,5 @@
 {
-    "name": "klikar3/WTFB",
+    "name": "klikar3/wtfb",
     "description": "WTFB Admin Application",
     "keywords": ["yii2", "framework", "advanced", "klikar3"],
     "homepage": "https://github.com/klikar3/WTFB",
@@ -20,7 +20,7 @@
         "yiisoft/yii2-swiftmailer": "*",
     		"kartik-v/yii2-context-menu": "*",
 				"kartik-v/yii2-mpdf": "*",
-				"kartik-v/yii2-grid": "*",
+				"kartik-v/yii2-grid": "~3.2.7",
 				"kartik-v/yii2-widgets": "*",
 				"kartik-v/yii2-checkbox-x": "*",
 				"kartik-v/yii2-datecontrol": "dev-master",
@@ -35,7 +35,7 @@
 				"2amigos/yii2-ckeditor-widget": "*",
 				"2amigos/yii2-chartjs-widget" : "*",
         "2amigos/yii2-tinymce-widget" : "~1.1",
-				"klikar3/rgraph" : "@dev",
+				"klikar3/rgraph" : "1.0.0-alpha4",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
         "eddmash/yii2-clipboard": "@dev"

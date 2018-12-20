@@ -11,7 +11,11 @@ use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\data\ActiveDataProvider;
 
+use kartik\mpdf\Pdf;
+
 use frontend\models\AuswertungenForm;
+use frontend\models\Mitglieder;
+use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederschulenSearch;
 use frontend\models\PasswordResetRequestForm;
@@ -55,7 +59,7 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['mitgliederliste'],
+                        'actions' => ['mitgliederliste', 'InfoAbendliste'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -422,9 +426,92 @@ class SiteController extends Controller
         ]);
     }
     
-/*    public function actionMitglieder()
-    {
-        return $this->render('/mitglieder/index');
-    }
- */
+		public function actionInfoAbendliste() {
+ 
+        $searchModel = new MitgliederSearch();
+        $query = Mitglieder::find()->joinWith('mitgliedergrades mg')
+//                 ->where(['mg.mgID is null'] )
+                 ->andWhere(['is', 'mg.mgID', new \yii\db\Expression('null')])
+                 ->andWhere(['is', 'ProbetrainingAm', new \yii\db\Expression('null')])
+                 ->andWhere(['not', ['EinladungIAzum' => null]])
+                 ->andWhere(['=', 'Schulort', 'Stuttgart']);
+//        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+        
+        $d = new ActiveDataProvider([
+				     'query' => $query,
+				]);
+				$zz = 18;
+				$r = $zz-($d->count % $zz);
+				
+        $query2 = (new \yii\db\Query())
+//        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
+        ->select('m.*')
+    		->from('mitglieder m')
+    		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')
+    		->limit($r);
+				
+				$query->union($query2, true);//false is UNION, true is UNION ALL
+
+				$dataProvider = new ActiveDataProvider([
+				     'query' => $query,
+				     'sort'=> ['defaultOrder' => ['Name'=>SORT_ASC]]
+				]); 
+        $dataProvider->pagination->pageSize = 200;
+        
+/*			return $this->renderPartial('ialiste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider ,
+//		            'plf' => $plf
+        ]);
+*/        $content = $this->renderPartial('ialiste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+//		            'plf' => $plf,
+		        ]); 
+
+				$pdf = new Pdf([
+						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+						// set to use core fonts only
+						'mode' => Pdf::MODE_BLANK,
+						// A4 paper format
+						'format' => Pdf::FORMAT_A4,
+						// portrait orientation
+						'orientation' => Pdf::ORIENT_LANDSCAPE,
+						// stream to browser inline
+						'destination' => Pdf::DEST_BROWSER,
+						// format content from your own css file if needed or use the
+						// enhanced bootstrap css built by Krajee for mPDF formatting
+						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+//						'cssFile' => 'css/kv-mpdf-bootstrap.css',
+						// any css to be embedded if required
+						'cssInline' => '.kv-heading-1{font-size:18px}'.
+													'.kv-wrap{padding:20px;}' .
+													'.kv-align-center{text-align:center;}' .
+													'.kv-align-left{text-align:left;}' .
+													'.kv-align-right{text-align:right;}' .
+													'.kv-align-top{vertical-align:top!important;}' .
+													'.kv-align-bottom{vertical-align:bottom!important;}' .
+													'.kv-align-middle{vertical-align:middle!important;}' .
+													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+            'marginLeft' => 0,
+            'marginRight' => 5,
+						'content' => $content,
+						'options' => [
+								'title' => 'InfoAbend-Liste',
+								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy',
+						],
+						'methods' => [
+							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
+							'SetFooter' => ['|Seite {PAGENO}|'],
+						]
+			]);
+			return $pdf->render();
+/*			return $this->renderPartial('pruefungsliste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+		            'plf' => $plf]);
+*/		}
+		
 }

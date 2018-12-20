@@ -17,7 +17,8 @@ $this->title = Yii::t('app', 'Graduierung vergeben').' für '.$model->mitglied->
     <?= $this->render('_form', [
         'model' => $model,
         'ddataProvider' => $ddataProvider,
-        'gdataProvider' => $gdataProvider,                
+        'gdataProvider' => $gdataProvider,
+        'grade' => $grade,                
     ]) ?>
 
 </div>

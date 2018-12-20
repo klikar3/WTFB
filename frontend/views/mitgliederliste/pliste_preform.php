@@ -51,8 +51,13 @@ use frontend\models\Disziplinen;
 		?>
 				<?= $form->field($plf, 'datum',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;h']
-																			 ])->widget(DatePicker::classname(),
-																							[ 'value' => date('d.m.Y'), 
+																			 ])->widget(DateControl::classname(), [
+            							'type'=>DateControl::FORMAT_DATE,
+            							'ajaxConversion'=>true,
+             							'displayFormat' => 'php:d.m.Y',
+             							'saveFormat' => 'php:Y-m-d',
+//            							'value' => 'Datum',
+//                           'value' => date('d.m.Y'), 
 																								'options'=>[//'placeholder'=>'Graduierungsdatum',
 																														'style'=>''], 
 																								'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy',

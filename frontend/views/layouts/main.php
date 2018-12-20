@@ -33,7 +33,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'WTFB-Datenbank',
+                'brandLabel' => 'WTFB-Data',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -65,6 +65,7 @@ AppAsset::register($this);
 //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'Prüfungen', 'url' => ['/pruefungen/index']],
 																  	['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']],
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
@@ -76,9 +77,14 @@ AppAsset::register($this);
 /*                $menuItems[] = ['label' => 'System', 'url' => ['/backup'], 'items' => [
 																  	['label' => 'DB-Backup', 'url' => ['/backup']],
 																]];
-*/								}								
+*/							}	else {
+                $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'Prüfungen', 'url' => ['/pruefungen/index']],
+																]];
+                }							
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
                 $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
+                                    ['label' => 'InfoAbend-Liste', 'url' => ['/site/info-abendliste']],
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
 																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsliste'],
 																  	 'linkOptions' => ['target' => '_blank']]
@@ -111,7 +117,7 @@ AppAsset::register($this);
         <?php /*echo Alert::widget()*/ 
 foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYPE_DANGER,
-													    'icon' => 'glyphicon glyphicon-exclamation-sign', 'body' => $message ]);
+													    'icon' => 'glyphicon glyphicon-exclamation-sign', 'body' => "Alert: ".$message ]);
 //echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
 }			
 				?>
@@ -133,8 +139,8 @@ Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYP
 <span class="hidden-xs hidden-sm hidden-lg hidden-xl">(MD)</span>
 <span class="hidden-xs hidden-md hidden-lg hidden-xl">(SM)</span>
 <span class="hidden-sm hidden-md hidden-lg hidden-xl">(XS)</span>
-    &copy; WT Data <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
+    &copy; WTFB <?= date('Y') ?></p>
+        <p class="pull-right">Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>&nbsp;<?= Yii::getVersion() ?></p>
         </div>
     </footer>
 

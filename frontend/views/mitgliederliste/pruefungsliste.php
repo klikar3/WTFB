@@ -11,12 +11,12 @@ use frontend\models\Grade;
 /* @var $searchModel frontend\models\MitgliedergradeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Seminarliste für ' . $plf->datum);
+$this->title = Yii::t('app', 'Seminarliste für ' . Yii::$app->formatter->asDate($plf->datum, 'dd.MM.YYYY'));
 
 ?>
 <div class="mitgliedergrade-index" style="padding-left:20px;">
-
-    <h3><?= Html::encode($this->title) ?></h3>
+    <div style="text-align: center;">
+    <h3><?= Html::encode($this->title) ?></h3></div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
         
 		//Yii::info("-----Prüfungsliste: ".Vardumper::dumpAsString($plf));
@@ -51,6 +51,9 @@ $this->title = Yii::t('app', 'Seminarliste für ' . $plf->datum);
             ],
 						['format' => 'raw',
              'attribute' => 'NameLink',
+             'value'=>function ($data) {
+                        return empty($data->Name) ? "" : $data->Vorname.', '.$data->Name;
+                      },
         		 'contentOptions' => ['style' => 'text-align:left;width: 500px;padding-left:4px;border:1px solid black;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:left;border-right: 1px solid black;border-bottom: 2px solid black;'],
             ],                                                                      
@@ -79,7 +82,7 @@ $this->title = Yii::t('app', 'Seminarliste für ' . $plf->datum);
 //				     'format'=>['decimal',2],
              'format' => 'raw',
              'value'=>function ($data) {
-                        return ($data->PGeb=='0') ? '' : Yii::$app->formatter->asDecimal($data->PGeb);
+                        return ($data->PGeb=='0') ? '' : Yii::$app->formatter->asInteger($data->PGeb);
                       },
         		 'contentOptions' => ['style' => 'width: 100px;text-align:right;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:right;border-right: 1px solid black;border-bottom: 2px solid black;'],

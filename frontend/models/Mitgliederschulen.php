@@ -32,7 +32,8 @@ use IBAN\Rule\RuleFactory;
  * @property string $BeitragAussetzenGrund 
  * @property string $KuendigungAm 
  * @property string $kFristMonate
- *
+* @property integer $WtfbOk
+*
  * @property Mitglieder $mitglieder 
  * @property Schulen $schul
  * @property Mitglieder $mitglieder
@@ -149,8 +150,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return [
            [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'KFristMonate'], 'required'],
-	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WM', 'SF', 'BV', 'BL', 'OK'], 'safe'],
+	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate', 'WtfbOk', 'VerlaengerungMonate'], 'integer'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 					 [['Bank'], 'string', 'max' => 100],
@@ -160,7 +161,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 	         [['BIC'], 'string', 'max' => 11],            
 	         [['MonatsBeitrag','AGebuehr'], 'number'],
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
-	         [['BeitragAussetzenGrund', 'KuendigungGrund'], 'string', 'max' => 45],
+	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
+	         [['KuendigungGrund'], 'string', 'max' => 500],
 	         [['MitgliederId'], 'exist', 'skipOnError' => true, 'targetClass' => Mitglieder::className(), 'targetAttribute' => ['MitgliederId' => 'MitgliederId']],
 	         [['SchulId'], 'exist', 'skipOnError' => true, 'targetClass' => Schulen::className(), 'targetAttribute' => ['SchulId' => 'SchulId']],
 	         [['VertragId'], 'exist', 'skipOnError' => true, 'targetClass' => Vertrag::className(), 'targetAttribute' => ['VertragId' => 'VertragId']],
@@ -199,6 +201,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 						'mandatDatum' => Yii::t('app', 'Mandat-Datum'),
             'KuendigungGrund' => Yii::t('app', 'KuendigungGrund'),
             'KFristMonate' => Yii::t('app', 'Kündigungsfrist'),
+            'WtfbOk' => Yii::t('app', 'WTFB'),
+            'VerlaengerungMonate' => Yii::t('app', 'V-Verlängerung'),
         ];
     }
 

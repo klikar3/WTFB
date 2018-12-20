@@ -3,6 +3,18 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
+use yii\helpers\VarDumper;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+
+use kartik\datecontrol\DateControl;
+use kartik\widgets\DatePicker;
+use kartik\mpdf\Pdf;
+
 use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
@@ -12,16 +24,7 @@ use frontend\models\Mitgliedergrade;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliedergradePrint;
 use frontend\models\MitgliedergradeSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\helpers\Url;
-use yii\helpers\VarDumper;
-use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
-use kartik\datecontrol\DateControl;
-use kartik\widgets\DatePicker;
-use kartik\mpdf\Pdf;
-use yii\filters\AccessControl;
+use frontend\models\Pruefungen;
 
 /**
  * MitgliedergradeController implements the CRUD actions for Mitgliedergrade model.
@@ -148,8 +151,22 @@ class MitgliedergradeController extends Controller
 */        }
     }
 
-    public function actionCreatefast($mId, $grad)
+    public function actionCreatefast($mId, $grad = 0)
     {
+        $pruefung = Pruefungen::find()->where('erledigt = 0')->one();
+//        Yii::warning("-----pruefung: ".Vardumper::dumpAsString($pruefung));
+        
+        $maxgrad = Mitgliedergrade::find()->joinWith('grad')->where(['=', 'MitgliedId', $mId])
+                      ->andWhere(['=', 'grade.DispName', $pruefung->disp->DispName])
+                      ->orderBy('gradId desc')->one();
+        if (!empty($maxgrad)) {              
+            $maxgradid = $maxgrad->GradId;
+        } else 
+            $maxgradid = 0;
+        $grad = Grade::find()->where(['=', 'DispName', $pruefung->disp->DispName])
+                          ->andWhere(['>', 'gradId', $maxgradid])
+                          ->orderBy('gradId')->one();
+                          
     		$query = Disziplinen::find();
 				$ddataProvider = new ActiveDataProvider([
 			    'query' => $query,
@@ -157,7 +174,7 @@ class MitgliedergradeController extends Controller
 				]);
 				
     		$query = Grade::find();
-				//$query->where(['=', 'MitgliedId', $mId]);
+				//$query->where(where('erledigt  = 0'));
 				$gdataProvider = new ActiveDataProvider([
 			    'query' => $query,
      			'sort' => ['defaultOrder' => ['id' => SORT_ASC]]
@@ -165,7 +182,8 @@ class MitgliedergradeController extends Controller
 				
     		$query = Mitgliedergrade::find();
 				$query->where(['=', 'MitgliedId', $mId]);
-
+        //$query->andWhere(['=', 'MitgliedId', $mId]);
+        
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
      			'sort' => ['defaultOrder' => ['Datum' => SORT_DESC]]
@@ -174,9 +192,9 @@ class MitgliedergradeController extends Controller
         $modelp = new MitgliedergradePrint();
         $modelp->MitgliedId = $mId;
         $modelp->GradId = $grad;
-        $modelp->Datum = date('Y-m-d');
-        $modelp->PrueferId = Yii::$app->user->identity->PrueferId;
-        $modelp->print = false;
+        $modelp->Datum = $pruefung->datum;
+        $modelp->PrueferId = $pruefung->prueferId;
+        $modelp->print = true;
 //				Yii::Error( 'test');
         if ($modelp->load(Yii::$app->request->post())) {
         		$model = new Mitgliedergrade();
@@ -184,28 +202,31 @@ class MitgliedergradeController extends Controller
         		$model->GradId = $modelp->GradId;
         		$model->Datum = $modelp->Datum;
         		$model->PrueferId = $modelp->PrueferId;
+            if ($modelp->print) $model->printed = 1;
 //        		Yii::info("-----model: ".Vardumper::dumpAsString($model));
 //        		Yii::info("-----modelp: ".Vardumper::dumpAsString($modelp));
         		if (!$model->save()){
 //		        			return $this->redirect(['/mitgliedergrade/createfast', 'mId' => $mId, 'grad' => $grad]);
 								$modelp->addErrors ($model->errors);
 		            return $this->render('create', [
-		                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider,  
+		                'model' => $modelp, 'ddataProvider' => $ddataProvider, 'gdataProvider' => $gdataProvider, 'grade' => $mgdataProvider, 
 		            ]);
 						}
         		$mgID = Yii::$app->db->getLastInsertID();
 		        $mitglied = $model->mitglied;
 		        date_default_timezone_set('Europe/Berlin');
 		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+            $mitglied->PruefungZum = $grad->gradId;
 				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		
-        		$modelm = Mitglieder::find($mId)->one();
+/*        		$modelm = Mitglieder::find($mId)->one();
         		if ($modelm) {
 //  				Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
 		        		$modelm->PruefungZum = 0;
 		        		$modelm->save();
         		}
+*/            
         		if ($modelp->print) {
 								return $this->redirect(['/mitgliedergrade/print', 'id' => $mgID]);
 						}
@@ -214,7 +235,8 @@ class MitgliedergradeController extends Controller
             return $this->render('create', [
                 'model' => $modelp ,
                 'ddataProvider' => $ddataProvider,
-                'gdataProvider' => $gdataProvider,                
+                'gdataProvider' => $gdataProvider,
+                'grade' => $mgdataProvider,                
             ]);
         }
     }
@@ -280,6 +302,8 @@ class MitgliedergradeController extends Controller
         $model = $this->findModel($id);
         $txtcode = $model->grad->textcode;
         $dispName = $model->grad->DispName;
+        $model->printed = 1;
+        $model->save();
         $Schule = MitgliederSchulen::find()->joinWith('schul')->joinWith('schul.disziplinen')->andWhere(['MitgliederID' => $model->MitgliedId,'DispName' => $dispName])->one();
         $url = Url::toRoute(['texte/print', 
 																					'datamodel' => 'grad', 
@@ -287,8 +311,9 @@ class MitgliedergradeController extends Controller
 													 								'SchulId' => $Schule->SchulId, 
 																					 'txtcode' => $txtcode, 
 																					 'txtid' => 0,
+																					 ],[
                                            'target' => '_blank',
-																					 ]);
+                                           ]);
         return $this->redirect($url);
 			
      }

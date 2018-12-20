@@ -101,6 +101,9 @@ use frontend\models\Schulen;
     								<?= $form->field($ms, 'KFristMonate')->dropdownList(range( 0, 6, 1 ) ,
 																			[ 'prompt' => 'Kündigungsfrist in Monaten' ]
 																		) ?>
+    								<?= $form->field($ms, 'VerlaengerungMonate')->dropdownList(range( 0, 36, 1 ) ,
+																			[ 'prompt' => 'Vertragsverlängerung in Monaten' ]
+																		) ?>
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
 																			[ 'placeholder' => 'MonatsBeitrag' ]
 																		) ?>
@@ -126,6 +129,8 @@ use frontend\models\Schulen;
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'responsiveWrap' => false,
+          'options' => ['id' => 'exp_grid_vertrag',
+          ], 
 			    'formatter' => [
 			        'class' => 'yii\i18n\Formatter',
 			        'nullDisplay' => '',
@@ -150,7 +155,7 @@ use frontend\models\Schulen;
 	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$data]);
             		},
             		'enableRowClick' => true,
-                'hidden' => true,
+                'hidden' => false,
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disziplin' ],

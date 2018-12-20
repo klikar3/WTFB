@@ -616,12 +616,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/cebe/markdown.git",
-            "reference": "530bc7dcbdfea5ad2da030110ee3ac07cc797f90"
+            "reference": "a91a7cb3b814f773f876a7c2e8a09df8885c8b1d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/cebe/markdown/zipball/530bc7dcbdfea5ad2da030110ee3ac07cc797f90",
-            "reference": "530bc7dcbdfea5ad2da030110ee3ac07cc797f90",
+            "url": "https://api.github.com/repos/cebe/markdown/zipball/a91a7cb3b814f773f876a7c2e8a09df8885c8b1d",
+            "reference": "a91a7cb3b814f773f876a7c2e8a09df8885c8b1d",
             "shasum": ""
         },
         "require": {
@@ -633,7 +633,7 @@
             "facebook/xhprof": "*@dev",
             "phpunit/phpunit": "4.1.*"
         },
-        "time": "2018-06-13T20:42:05+00:00",
+        "time": "2018-12-06T11:07:54+00:00",
         "bin": [
             "bin/markdown"
         ],
@@ -1140,15 +1140,16 @@
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "8db1967d92f55de1b94b175478ed16a7dfc53a90"
+            "reference": "9799bbcb90ed2df488adb0924169163156483e52"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8db1967d92f55de1b94b175478ed16a7dfc53a90",
-            "reference": "8db1967d92f55de1b94b175478ed16a7dfc53a90",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/9799bbcb90ed2df488adb0924169163156483e52",
+            "reference": "9799bbcb90ed2df488adb0924169163156483e52",
             "shasum": ""
         },
         "require": {
+            "ext-json": "*",
             "guzzlehttp/promises": "^1.0",
             "guzzlehttp/psr7": "^1.4",
             "php": ">=5.5"
@@ -1161,7 +1162,7 @@
         "suggest": {
             "psr/log": "Required for using the Log middleware"
         },
-        "time": "2018-11-24T20:31:03+00:00",
+        "time": "2018-12-07T08:18:25+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1260,18 +1261,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/psr7.git",
-            "reference": "3f01c0d3f3de1c6e08377ca5cbf71d45f92f160c"
+            "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/3f01c0d3f3de1c6e08377ca5cbf71d45f92f160c",
-            "reference": "3f01c0d3f3de1c6e08377ca5cbf71d45f92f160c",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/5e61346ab1e1ca7d01d2f633bad9574d35717781",
+            "reference": "5e61346ab1e1ca7d01d2f633bad9574d35717781",
             "shasum": ""
         },
         "require": {
             "php": ">=5.4.0",
             "psr/http-message": "~1.0",
-            "ralouphie/getallheaders": "^2.0.5"
+            "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
         },
         "provide": {
             "psr/http-message-implementation": "1.0"
@@ -1279,7 +1280,10 @@
         "require-dev": {
             "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
         },
-        "time": "2018-11-25T15:30:48+00:00",
+        "suggest": {
+            "zendframework/zend-httphandlerrunner": "Emit PSR-7 responses"
+        },
+        "time": "2018-12-07T15:04:46+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1435,15 +1439,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-            "reference": "80f5bb33a098a2de41ee993a42bf13e7f1c2d999"
+            "reference": "c3e9f9fb6559956eb1985b37d70f724e94ff9a68"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/80f5bb33a098a2de41ee993a42bf13e7f1c2d999",
-            "reference": "80f5bb33a098a2de41ee993a42bf13e7f1c2d999",
+            "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/c3e9f9fb6559956eb1985b37d70f724e94ff9a68",
+            "reference": "c3e9f9fb6559956eb1985b37d70f724e94ff9a68",
             "shasum": ""
         },
-        "time": "2018-11-22T14:35:40+00:00",
+        "time": "2018-12-07T09:29:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2009,12 +2013,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-dynagrid.git",
-            "reference": "60bdcb8f012557ce4930700f043a782edc56ad1d"
+            "reference": "70e6e6ea0c7d4fc4a7ec17abb1ddb548c719567a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-dynagrid/zipball/60bdcb8f012557ce4930700f043a782edc56ad1d",
-            "reference": "60bdcb8f012557ce4930700f043a782edc56ad1d",
+            "url": "https://api.github.com/repos/kartik-v/yii2-dynagrid/zipball/70e6e6ea0c7d4fc4a7ec17abb1ddb548c719567a",
+            "reference": "70e6e6ea0c7d4fc4a7ec17abb1ddb548c719567a",
             "shasum": ""
         },
         "require": {
@@ -2023,7 +2027,7 @@
             "kartik-v/yii2-widget-activeform": "~1.4",
             "kartik-v/yii2-widget-select2": "~2.0"
         },
-        "time": "2018-11-07T17:40:02+00:00",
+        "time": "2018-12-05T18:06:28+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -2066,17 +2070,17 @@
     },
     {
         "name": "kartik-v/yii2-grid",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "v3.2.7",
+        "version_normalized": "3.2.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-grid.git",
-            "reference": "5fdfcfc2c7cd285411d97e4ab4baae508d6d896a"
+            "reference": "233fcf68fc6197e9451c95117ea45be153db1a8e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/5fdfcfc2c7cd285411d97e4ab4baae508d6d896a",
-            "reference": "5fdfcfc2c7cd285411d97e4ab4baae508d6d896a",
+            "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/233fcf68fc6197e9451c95117ea45be153db1a8e",
+            "reference": "233fcf68fc6197e9451c95117ea45be153db1a8e",
             "shasum": ""
         },
         "require": {
@@ -2085,7 +2089,7 @@
         "suggest": {
             "kartik-v/yii2-mpdf": "For exporting grids to PDF"
         },
-        "time": "2018-11-20T04:15:55+00:00",
+        "time": "2018-11-03T18:08:29+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -2125,19 +2129,19 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-            "reference": "11896b44c3d70666b057c9153f2f77aeeb078ff6"
+            "reference": "ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/11896b44c3d70666b057c9153f2f77aeeb078ff6",
-            "reference": "11896b44c3d70666b057c9153f2f77aeeb078ff6",
+            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c",
+            "reference": "ec7fc2c5ed76ee29c939ed6fe33bab76eb25499c",
             "shasum": ""
         },
         "suggest": {
             "yiisoft/yii2-bootstrap": "for Krajee extensions to work with Bootstrap 3.x version",
             "yiisoft/yii2-bootstrap4": "for Krajee extensions to work with Bootstrap 4.x version"
         },
-        "time": "2018-11-27T03:22:26+00:00",
+        "time": "2018-12-04T03:40:27+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -5777,15 +5781,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/tinymce/tinymce-dist.git",
-            "reference": "e3ec3aea8938a08701b82492880d31327be30b30"
+            "reference": "d8e62a36a305bf042477f5f02eb5976e4a5330a3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/e3ec3aea8938a08701b82492880d31327be30b30",
-            "reference": "e3ec3aea8938a08701b82492880d31327be30b30",
+            "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/d8e62a36a305bf042477f5f02eb5976e4a5330a3",
+            "reference": "d8e62a36a305bf042477f5f02eb5976e4a5330a3",
             "shasum": ""
         },
-        "time": "2018-11-27T14:43:37+00:00",
+        "time": "2018-12-04T14:13:57+00:00",
         "type": "component",
         "extra": {
             "component": {
@@ -5877,12 +5881,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-framework.git",
-            "reference": "233295e54448ed202b891a1edef1db274161af04"
+            "reference": "d090ade334e136c32aef3ea620a575473ae23198"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/233295e54448ed202b891a1edef1db274161af04",
-            "reference": "233295e54448ed202b891a1edef1db274161af04",
+            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d090ade334e136c32aef3ea620a575473ae23198",
+            "reference": "d090ade334e136c32aef3ea620a575473ae23198",
             "shasum": ""
         },
         "require": {
@@ -5898,7 +5902,7 @@
             "php": ">=5.4.0",
             "yiisoft/yii2-composer": "~2.0.4"
         },
-        "time": "2018-11-29T15:16:19+00:00",
+        "time": "2018-12-07T15:39:12+00:00",
         "bin": [
             "yii"
         ],
@@ -6151,12 +6155,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-debug.git",
-            "reference": "097f7e52eaa3e46c33d20802fcc72904b35e2688"
+            "reference": "9020db255600e185bca4c09b62ee22eed58f92db"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/097f7e52eaa3e46c33d20802fcc72904b35e2688",
-            "reference": "097f7e52eaa3e46c33d20802fcc72904b35e2688",
+            "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/9020db255600e185bca4c09b62ee22eed58f92db",
+            "reference": "9020db255600e185bca4c09b62ee22eed58f92db",
             "shasum": ""
         },
         "require": {
@@ -6169,7 +6173,7 @@
             "yiisoft/yii2-coding-standards": "~2.0",
             "yiisoft/yii2-swiftmailer": "*"
         },
-        "time": "2018-11-30T19:20:03+00:00",
+        "time": "2018-12-07T15:41:54+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -6259,12 +6263,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-gii.git",
-            "reference": "89c38652b24ea158c379fdfe5806f563f5d3e795"
+            "reference": "111da4dee053c4f8cfa00e4e3738094eba6490d7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/89c38652b24ea158c379fdfe5806f563f5d3e795",
-            "reference": "89c38652b24ea158c379fdfe5806f563f5d3e795",
+            "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/111da4dee053c4f8cfa00e4e3738094eba6490d7",
+            "reference": "111da4dee053c4f8cfa00e4e3738094eba6490d7",
             "shasum": ""
         },
         "require": {
@@ -6273,7 +6277,7 @@
             "yiisoft/yii2": "~2.0.14",
             "yiisoft/yii2-bootstrap": "~2.0.0"
         },
-        "time": "2018-11-23T09:42:54+00:00",
+        "time": "2018-12-01T20:41:05+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {

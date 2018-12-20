@@ -14,8 +14,10 @@ use kartik\mpdf\Pdf;
 		 
 use frontend\models\Grade;
 use frontend\models\Mitglieder;
+use frontend\models\Mitgliedergrade;
 use frontend\models\Mitgliederliste;
 use frontend\models\MitgliederlisteSearch;
+use frontend\models\Pruefungen;
 use frontend\models\PruefungslisteForm;
 
 /**
@@ -58,10 +60,13 @@ class MitgliederlisteController extends Controller
         $searchModel = new MitgliederlisteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere('RecDeleted = 0');
+        $pruefung = Pruefungen::find()->where('erledigt = 0')->one();
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'pruefung' => $pruefung,
         ]);
     }
 
@@ -247,6 +252,7 @@ class MitgliederlisteController extends Controller
     public function actionResetpliste()
     {
         Mitglieder::updateAll(['PruefungZum' => '']);
+        Mitgliedergrade::updateAll(['printed' => 0]);
         return $this->redirect(['index']);
     }
 }

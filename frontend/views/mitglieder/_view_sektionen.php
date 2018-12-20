@@ -69,7 +69,7 @@ use frontend\models\SifuSearch;
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label('') ; ?>
+							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label(false) ; ?>
     				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList(ArrayHelper::map( Sektionen::find()->all(), 'sekt_id', 'kurz' ),
 														[ 'prompt' => 'Programm', 'id' => 'field-gid' ])->label('Programm');  ?>
 							<?php  /* $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
@@ -103,7 +103,7 @@ use frontend\models\SifuSearch;
 //										'placeholder'=>'Graduierungsdatum', 
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
-								]); ?>
+								])->label('Datum'); ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
 						<div style="text-align:right;">  <br>

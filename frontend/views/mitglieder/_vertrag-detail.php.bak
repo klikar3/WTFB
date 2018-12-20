@@ -119,9 +119,13 @@ use frontend\models\SearchVertrag;
             	'label' => 'Vertragsdauer',
               'id' => 'dv_vv_a_'.$model->msID,
             ],
-            [ 'attribute' => 'kFristMonate',
+            [ 'attribute' => 'KFristMonate',
 //            	'label' => 'Vertragsdauer',
               'id' => 'dv_vkf_a_'.$model->msID,
+            ],
+            [ 'attribute' => 'VerlaengerungMonate',
+            	'label' => 'Vertragsdauer',
+              'id' => 'dv_vv_a_'.$model->msID,
             ],
             [
                 'group'=>true,
@@ -318,7 +322,7 @@ use frontend\models\SearchVertrag;
 <div class="col-sm-5 col-md-5" style="width:300px;">
 <?php //if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
- 		<div class="col-sm-2 col-md-2 col-2" id = "wm3.$model->msID"  style="float:left;">
+ 		<div class="col-sm-1 col-md-1 col-1" id = "wm3.$model->msID"  style="float:left;">
 		<?php /*			$form2 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formwm'.$model->msID], // important
 			    'id' => 'formwm'.$model->msID,
@@ -345,7 +349,7 @@ use frontend\models\SearchVertrag;
 				ActiveForm::end();								
 */		?> 
 	 </div>  
-  <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;">  
+  <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:left;padding-right:2em;">  
 		<?php if ($anzeigen) {//echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form3 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data'], // important
@@ -389,29 +393,28 @@ use frontend\models\SearchVertrag;
 */
 		?>
 	 </div>  
-  <div class="col-sm-2 col-md-2 col-2" id = "bv3.$model->msID" style="!float:left;" >  
+  <div class="col-sm-2 col-md-2 col-2" id = "bv3.$model->msID" style="!float:right;padding-right:1em;" >  
 		<?php //echo Html::checkbox('bl'.$model->msID, $model->BL, ['value' => $model->BL, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'BL', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
-/*			$form4 = ActiveForm::begin([
+			$form4 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
 			    'id' => 'formbl'.$model->msID,
 			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
 
 			]);
-					echo $form4->field($model, 'BV')->checkbox([
+					echo $form4->field($model, 'WtfbOk')->checkbox([
 												'id' => 'bv'.$model->msID,
 												'class' => 'left-checkbox', 
-//												'value' => $model->BL, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'BE',
+												'label' => 'WTFB',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
 			ActiveForm::end();
-*/
+
 		?>
 	 </div>  
-   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:right;" >  
+   <div class="col-sm-2 col-md-2 col-2" id = "bl3.$model->msID" style="!float:right;padding-left:3em;" >  
 		<?php  if ($anzeigen) {//echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form5 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important

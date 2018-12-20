@@ -208,7 +208,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
 				}
         if ($datamodel == 'grad') {
 					$model = Mitgliedergrade::findOne($dataid);
