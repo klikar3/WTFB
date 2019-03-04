@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\VarDumper;
 
 use frontend\models\Grade;
@@ -10,7 +11,7 @@ use frontend\models\Grade;
 /* @var $searchModel frontend\models\MitgliedergradeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Sektionsliste für ' . date('d.m.Y'));
+$this->title = Yii::t('app', 'Sektionsliste für ' . $schule . ' am ' . date('d.m.Y'));
 
 ?>
 <div class="mitgliedergrade-index">
@@ -21,6 +22,7 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . date('d.m.Y'));
 //		Yii::info("-----Sektionsliste: ".Vardumper::dumpAsString($plf));
 
 		$dataProvider->pagination->pageSize = 200;
+    $dataProvider->sort = false;
 //    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 //		$dataProvider->sort = ['defaultOrder' => ['PruefungZum'=>SORT_ASC]];
 		
@@ -34,29 +36,46 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . date('d.m.Y'));
 		        'class' => 'yii\i18n\Formatter',
 		        'nullDisplay' => '',
 		    ],
+        'tableOptions' => [
+            'style' => 'width: 800px;',
+        ],
+        'headerRowOptions' => [ 
+            'style' => 'font-family: helvetica, verdana, sansserif;font-size: 14pt;border: 2px solid black;text-align:right;',
+        ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'font-size: 12pt;width: 50px;text-align:right;']],
+            ['class' => 'kartik\grid\SerialColumn', 
+        		 'contentOptions' => ['style' => 'text-align:right;'],
+            ],
 						['format' => 'raw',
              'attribute' => 'mitglied.Name',
-        		 'contentOptions' => ['style' => 'font-size: 12pt;width: 200px;'],
+              'value' => function ($data) {
+                  Yii::warning(VarDumper::dumpAsString($data),'application');
+                  return $data->Vorname . ' ' .$data->Nachname;
+                  },
+//        		 'contentOptions' => ['style' => 'font-family: helvetica, verdana, sansserif;font-size: 12pt;width: 200px;border: 1px solid black;border-top:0px;border-left: 0px;'],
             ],
-						['format' => 'raw',
-             'attribute' => 'mitglied.Vorname',
-        		 'contentOptions' => ['style' => 'font-size: 12pt;width: 200px;'],
-            ],
+//						['format' => 'raw',
+//             'attribute' => 'mitglied.Vorname',
+////        		 'contentOptions' => ['style' => 'font-family: helvetica, verdana, sansserif;font-size: 12pt;width: 200px;border: 1px solid black;border-top:0px;border-left: 0px;'],
+//              'value' => function ($data) {
+////                  Yii::warning(VarDumper::dumpAsString($data),'application');
+//                  return !empty($data->mitglied->Vorname) ? $data->mitglied->Vorname : '-';
+//                  },
+//            ],
 						['format' => 'raw',
              'attribute' => 'sektion.name',
-        		 'contentOptions' => ['style' => 'font-size: 12pt;width:400px;'],
+             'label' => 'Programm',
+        		 'contentOptions' => ['style' => 'text-align:right;'],
             ],
-						['format' => ['date', 'php:d.m.Y'],
-             'attribute' => 'vdatum',
-             'label' => 'Vermittelt',
-        		 'contentOptions' => ['style' => 'font-size: 12pt; width: 200px;text-align:right;'],
-            ],
+//						['format' => ['date', 'php:d.m.Y'],
+//             'attribute' => 'vdatum',
+//             'label' => 'Vermittelt',
+////        		 'contentOptions' => ['style' => 'font-family: helvetica, verdana, sansserif;font-size: 12pt; width: 200px;text-align:right;border: 1px solid black;border-top:0px;border-left: 0px;'],
+//            ],
 						['format' => ['date', 'php:d.m.Y'],
              'attribute' => 'pdatum',
              'label' => 'Geprüft',
-        		 'contentOptions' => ['style' => 'font-size: 12pt; width: 200px;text-align:right;'],
+        		 'contentOptions' => ['style' => 'text-align:center;'],
             ],
         ],
         'showFooter' => false,

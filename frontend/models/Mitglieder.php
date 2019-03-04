@@ -202,9 +202,13 @@ class Mitglieder extends \yii\db\ActiveRecord
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 					// VarDumper::dump($schulleiterschulen);
 					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+          $si = array_map(function ($v) { return $v->Schulname; }, $schule);
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+            if (!in_array('Stuttgart', $si)) $si = ['Stuttgart'] + $si;
+          }
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
-		    	return parent::find()->where( ['Schulort' => array_map(function ($v) { return $v->Schulname; }, $schule)]);
+		    	return parent::find()->where( ['Schulort' => $si]);
 		  }
 		  return parent::find();
     }

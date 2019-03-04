@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => false,
+        'showPageSummary' => true,
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
             ['attribute' => 'NameLink',
@@ -67,6 +68,14 @@ $this->params['breadcrumbs'][] = $this->title;
                   return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
             ], 
+            ['attribute' => 'MonatsBeitrag',
+//             'enableSorting' => ($print == 1) ? false : true,
+             'width' => '100px',
+             'pageSummary' => true,
+             'pageSummaryOptions' => [
+                'append' => '.00',
+             ],
+            ],
 
 
 //            ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],

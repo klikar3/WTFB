@@ -1,0 +1,82 @@
+<?php
+
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use yii\widgets\DetailView;
+use yii\helpers\Url;
+use kartik\grid\GridView;
+use kartik\widgets\ActiveForm;
+use kartik\popover\PopoverX;
+use kartik\datecontrol\DateControl;
+use kartik\widgets\DatePicker;
+
+use frontend\models\Mitgliedergrade;
+use frontend\models\Disziplinen;
+use frontend\models\DisziplinenSearch;
+use frontend\models\Grade;
+use frontend\models\GradeSearch;
+use frontend\models\Pruefer;
+use kartik\tabs\TabsX;
+     
+
+$this->title = $model->Vorname . ' ' . $model->Name;
+//$this->title = '';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="mitglieder-view">
+  <div class="row">
+    <div id="content" class="col-sm-12">
+      <div class="row">
+		 		<div class="col-sm-4">
+				</div>
+			</div>
+                <p>
+
+	<?= GridView::widget([
+	        'dataProvider' => $grade,
+//	        'filterModel' => $searchModel,
+	        'columns' => [
+//	            ['class' => 'yii\grid\SerialColumn'],
+//							'MitgliedId', 
+							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
+							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
+							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName' ],
+							[ 'attribute' => 'Datum', 'value' => 'Datum','format' => ['date', 'php:d.m.Y'] ],
+				],
+	    ]); ?>
+                </p>
+    						<?php $form = ActiveForm::begin(['method' => 'post',
+																'action' => ['mitglieder/mark', 
+																'id' => $model->MitgliederId],
+    														'fieldConfig'=>['showLabels'=>true],
+																'type' => ActiveForm::TYPE_HORIZONTAL,							
+																									]); ?>
+							
+							<div class="row" style="margin-bottom: 8px">
+								<div class="col-sm-10">
+							<?php // $form->field($model, 'MitgliederId')->textInput(['hidden' => true]) ?>
+								</div>
+								<div class="col-sm-10">
+    <?= $form->field($model, 'PruefungZum')->dropdownList(ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ),
+[ 'prompt' => 'Grad' ]
+) ?>
+								</div>
+							</div>
+      <div class="row">
+		 		<div class="col-sm-4">
+							<?= Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
+		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-default',
+		        ]) . "  &nbsp;" .  Html::submitButton('Submit', ['class'=>'btn btn-success']) ?>
+							<?php $form = ActiveForm::end(); ?>
+		        <?php // echo Html::a(Yii::t('app', 'Close'), Yii::$app->request->getReferrer(), [
+		           // 'onclick'=>"js:window.close();return false;",'class'=>'btn btn-primary', ]) 
+						?>
+				</div>
+			</div>
+    </div><!-- content -->
+
+  </div>
+
+</div>

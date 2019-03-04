@@ -1,0 +1,144 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\helpers\VarDumper;
+
+use kartik\widgets\ActiveForm;
+use kartik\select2\Select2;
+use kartik\grid\GridView;
+use kartik\popover\PopoverX;
+use kartik\datecontrol\DateControl;
+use kartik\widgets\DatePicker;
+
+use frontend\models\AuswertungenForm;
+use frontend\models\Schulen;
+use frontend\models\Mitglieder;
+
+
+/* @var $this yii\web\View */
+$this->title = 'Schülerzahlen';
+$this->params['breadcrumbs'][] = $this->title;
+//RGraphAsset::register($this);
+
+$schulen = ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' );
+$schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
+//Yii::warning(VarDumper::dumpAsString($schulen),'application');
+//Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');
+?>
+<div class="row">
+  <div class="col-md-3"> </div>   
+  <div class="col-md-4"> 
+  <div class="panel panel-info"> 
+    <div class="panel-heading" style="margin: 5px;padding:5px;">   
+    <h4><?= Html::encode($this->title.' für') ?></h4>
+    </div>
+    <div class="panel-body" style="margin: 5px;padding:5px;">   
+			<?php 
+		 			$form = ActiveForm::begin( ['method' => 'post',
+					 														'action' => Url::to(['site/schuelerzahlen',]),
+																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
+																		 ]	); 
+			?>
+			<?php /*$form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+							['multiple'=>'multiple',
+//							'style'=>'width:200px'
+                ])										
+									->label(false); 
+*/			?>
+      <?= $form->field($model, 'schule')->widget(Select2::classname(), [
+          'data' => $schulauswahl,
+          'language' => 'de',
+          'options' => ['multiple' => true, 'placeholder' => 'Schule auswählen ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label(false);
+			?>
+					<div style="text-align: right;padding-bottom:5px;">
+					<?= Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']);
+					?>
+					</div>
+			<?php 
+				$form = ActiveForm::end();
+		 	?>
+
+  </div>
+  </div>
+  </div> 
+</div> 
+<div class="row">
+ 
+ 
+    <?php if (!empty($dataProvider)) echo GridView::widget([
+        'dataProvider' => $dataProvider,
+//        'filterModel' => $searchModel,
+//        'filterModel' => false,
+        'layout'=>"{items}",
+        'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => ''],
+         'showPageSummary' => true,
+        'tableOptions' => [
+            'style' => 'font-size: 11pt!important;font-weight:normal;',
+        ],
+//        'emptyCell'=>'-',
+        'columns' => [
+//            ['attribute' => 'msID', 'width' => '60px'],
+            ['attribute' => 'mitgliederliste.Nachname',
+             'format' => 'raw', 
+             'width' => '200px',
+            'label' => 'Name',
+            'value' => function ($data) {
+//                  Yii::warning(VarDumper::dumpAsString($data),'application');
+          		    $url = Url::to(['/mitglieder/view', 'id'=>$data->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
+          		    $options = ['target' => '_blank']; // any HTML attributes for your link
+          		    return Html::a($data->Name, $url, $options); // assuming you have a relation called profile
+//                  return $data->Nachname.', '.$data->Vorname;
+//                  return empty($data->NameLink) ? $data->NameLink : '-';
+                  },
+        		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
+            ],
+//            'mitglieder.Vorname',
+//            'mitglieder.Name',
+            [ 'attribute' => 'Vertrag',
+              'label' => 'Schule',
+//              'value' => function ($data) {
+//                  return !empty($data->Schulname) ? $data->Schulname . $data->schul->dispKurz : '-';
+//                  },
+//            'SchulId',
+        		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
+            ],
+            [ 'attribute' => 'mgl.Grad',
+              'label' => 'Grade',
+              'value' => function ($data) {
+                  return !empty($data->Grad) ? $data->Grad : '-';
+                  },
+            ],
+            ['attribute' => 'Von',
+              'label' => 'Eintritt',
+             'value' => function ($data) {
+                  return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');
+                  }
+            ], 
+            ['attribute' => 'KuendigungAm',
+              'label' => 'Kündigung',
+             'value' => function ($data) {
+                  return empty($data->KuendigungAm) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
+                  }
+            ], 
+            ['attribute' => 'Bis',
+              'label' => 'Austritt',
+             'value' => function ($data) {
+                  return empty($data->Bis) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
+                  }
+            ], 
+            ['attribute' => 'MonatsBeitrag',
+//             'enableSorting' => ($print == 1) ? false : true,
+             'width' => '100px',
+             'pageSummary' => true,
+            ],
+//            'VertragId',
+
+//            ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],
+        ],
+    ]); ?>
+</div>

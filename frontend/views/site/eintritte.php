@@ -60,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => false, //$searchModel,
+        'showPageSummary' => true,
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
             ['attribute' => 'NameLink',
@@ -73,10 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'mitglieder.Name',
             ['attribute' => 'schul.SchulDisp',
              'width' => '100px',
-            ],
-            ['attribute' => 'MonatsBeitrag',
-             'enableSorting' => ($print == 1) ? false : true,
-             'width' => '100px',
+             'label' => 'Schule',
             ],
             ['attribute' => 'VDatum',
              'value' => function ($data) {
@@ -92,6 +90,14 @@ $this->params['breadcrumbs'][] = $this->title;
              'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',
             ], 
+            ['attribute' => 'MonatsBeitrag',
+             'enableSorting' => ($print == 1) ? false : true,
+             'width' => '100px',
+             'pageSummary' => true,
+             'pageSummaryOptions' => [
+                'append' => '.00',
+             ],
+            ],
 /*            ['attribute' => 'Bis',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');

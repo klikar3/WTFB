@@ -44,9 +44,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
    <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/eintritte','von' => $von, 'bis' => $bis, 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary']) : '' ?>
-   <form id="form1">
+<?php
+  if ($print == 1) {
+?>
+  <form id="form1">
     <input type="button" value="Drucken" id="btnPrint" class="btn btn-primary"/>
-    </form>
+  </form>
+<?php
+  }
+?>
 
    <?php if (!empty($print)) {$dataProvider->sort = false; $dataProvider->pagination = false;} ?>
     <div id="dvContainer">
@@ -54,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => false, //$searchModel,
+        'showPageSummary' => true,
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
             ['attribute' => 'NameLink',
@@ -66,10 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'mitglieder.Vorname',
 //            'mitglieder.Name',
             ['attribute' => 'schul.SchulDisp',
-             'width' => '100px',
-            ],
-            ['attribute' => 'MonatsBeitrag',
-             'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',
             ],
             ['attribute' => 'VDatum',
@@ -86,6 +89,14 @@ $this->params['breadcrumbs'][] = $this->title;
              'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',
             ], 
+            ['attribute' => 'MonatsBeitrag',
+             'enableSorting' => ($print == 1) ? false : true,
+             'width' => '100px',
+             'pageSummary' => true,
+             'pageSummaryOptions' => [
+                'append' => '.00',
+             ],
+            ],
 /*            ['attribute' => 'Bis',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');

@@ -8,6 +8,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\data\ActiveDataProvider;
 
@@ -20,6 +21,7 @@ use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederschulenSearch;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\Schulen;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
@@ -28,19 +30,6 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
-    /**
-     * @inheritdoc
-     * 
-        ?: matches a guest user (not authenticated yet)
-        @: matches an authenticated user
-        
-        If you are using RBAC (Role-Based Access Control), you may also specify role names. 
-        In this case, yii\web\User::can() will be called to check access.
-
-        Note that it is preferred to check for permissions instead.
-
-        If this property is not set or empty, it means this rule applies regardless of roles.
-     */
     public function behaviors()
     {
         return [
@@ -153,6 +142,71 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+ 
+    public function actionSchuelerzahlen()
+    {
+				$model = new AuswertungenForm();
+				$model->schule = 10;
+//				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
+				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)/*-"1d"*/);
+//        VarDumper::dump($model);
+
+        if ($model->load(Yii::$app->request->post() )) {
+        } else {
+            $searchModel = new MitgliederschulenSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination = false;
+            return $this->render('schuelerzahlen', [
+                'model' => $model,
+//                'dataProvider' => $dataProvider,
+                                                
+            ]);
+        }
+        
+//        VarDumper::dump($model);
+/*        $query = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
+            ->from('mitgliederzahl1 mz')
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule));
+*/
+//        $searchModel = new MitgliederschulenSearch();
+        $query = Mitgliederschulen::find()->joinWith('mgl')
+            ->select(['mitgliederliste.Name', 'mitgliederliste.Grad', 'mitgliederliste.Schulname', 'mitgliederliste.Vertrag', 'Von', 'Bis', 'mitgliederschulen.SchulId', 'KuendigungAm', 'mitgliederschulen.MonatsBeitrag', 'mitgliederschulen.MitgliederId'])            
+            ->where('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
+											[':von'=> date('Y-m-d'), //\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
+//													':schule' => $model->schule
+                            ]
+                    )
+            ->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+            
+//        $sql = $query->createCommand()->getRawSql($query);
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['Von' => SORT_DESC],],
+            'pagination' => false,
+        ]);
+
+//           Yii::warning(Vardumper::dumpAsString($dataProvider),'application');
+                   
+//        $datasets = $query
+//						->orderBy('jahr,monat')
+//            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+        return $this->render('schuelerzahlen',['model' => $model, 
+                                                'dataProvider' => $dataProvider,
+                                                'von' => $model->von,
+                                                'bis' => $model->bis, 
+                                                'schule' => $model->schule]);
+    }
 
     public function actionMitgliederzahlen()
     {
@@ -160,7 +214,7 @@ class SiteController extends Controller
 				$model->schule = 10;
 //				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
 				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
-				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)-"1d");
+				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)/*-"1d"*/);
 //        VarDumper::dump($model);
 
         if ($model->load(Yii::$app->request->post() )) {
@@ -180,9 +234,9 @@ class SiteController extends Controller
 														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
 														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
 														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
-														'schule' => (int)$model->schule));
+														'schule' => $model->schule));
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         
         $datasets = $query
@@ -201,7 +255,7 @@ class SiteController extends Controller
 						->orderBy('jahr,monat')
 						->all();
 //        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
-           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
 /*        $datasets = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
             ->from('mitgliederzahlen mz')
@@ -263,12 +317,12 @@ class SiteController extends Controller
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
         $searchModel = new MitgliederschulenSearch();
         $query = Mitgliederschulen::find()            
-            ->where('von >= :von and von <= :bis and SchulId = :schule', 
+            ->where('von >= :von and von <= :bis', 
 											array(':von'=>\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
 														':bis'=>\DateTime::createFromFormat('d.m.Y', $bis)->format('Y-m-d'),
-														':schule' => $schule
                             )
-                    );
+                    )
+            ->andWhere(['SchulId' => $schule]);
 //            ->orderBy('Von desc')
         $sql = $query->createCommand()->getRawSql($query);
         //Yii::warning(VarDumper::dumpAsString($sql),'application');
@@ -426,16 +480,61 @@ class SiteController extends Controller
         ]);
     }
     
+		public function actionInfoabendauswahl() {
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+
+    }
+
+
+		public function actionInteressentenauswahl() {
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
 		public function actionInfoAbendliste() {
  
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
+            $schulnamen = ArrayHelper::getColumn($schulen,'Schulname');
+            $schule = implode(', ', $schulnamen);
+        } else {
+            Yii::warning('else','application');
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+//        Yii::warning(VarDumper::dumpAsString($schulnamen),'application');
+        
         $searchModel = new MitgliederSearch();
-        $query = Mitglieder::find()->joinWith('mitgliedergrades mg')
-//                 ->where(['mg.mgID is null'] )
-                 ->andWhere(['is', 'mg.mgID', new \yii\db\Expression('null')])
+        $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId=ms.MitgliederId')
+                 ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['is', 'ProbetrainingAm', new \yii\db\Expression('null')])
-                 ->andWhere(['not', ['EinladungIAzum' => null]])
-                 ->andWhere(['=', 'Schulort', 'Stuttgart']);
+//                 ->andWhere(['not', ['EinladungIAzum' => null]])
+                 ->andWhere('EinladungIAzum >= CURRENT_DATE')
+                 ->andWhere(['Schulort' => $schulnamen]);
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+//        Yii::warning(VarDumper::dumpAsString($query),'application');
+//        $sql = $query->createCommand()->getRawSql($query);
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $d = new ActiveDataProvider([
 				     'query' => $query,
@@ -458,15 +557,10 @@ class SiteController extends Controller
 				]); 
         $dataProvider->pagination->pageSize = 200;
         
-/*			return $this->renderPartial('ialiste', [
-		            'searchModel' => $searchModel,
-		            'dataProvider' => $dataProvider ,
-//		            'plf' => $plf
-        ]);
-*/        $content = $this->renderPartial('ialiste', [
+        $content = $this->renderPartial('ialiste', [
 		            'searchModel' => $searchModel,
 		            'dataProvider' => $dataProvider,
-//		            'plf' => $plf,
+		            'schule' => $schule,
 		        ]); 
 
 				$pdf = new Pdf([
@@ -494,7 +588,10 @@ class SiteController extends Controller
 													'.kv-align-middle{vertical-align:middle!important;}' .
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
+                          ' table{width: 100%;line-height: inherit;text-align: left; } table, td, th {border: 1px solid black;border-collapse: collapse;}'
+                          ,
+            'marginTop' => 10,
             'marginLeft' => 0,
             'marginRight' => 5,
 						'content' => $content,
@@ -504,7 +601,7 @@ class SiteController extends Controller
 						],
 						'methods' => [
 							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
-							'SetFooter' => ['|Seite {PAGENO}|'],
+							'SetFooter' => ['|Seite {PAGENO}| '.Yii::$app->formatter->asDate(date('d.m.Y'), 'dd.MM.YYYY')],
 						]
 			]);
 			return $pdf->render();
@@ -514,4 +611,103 @@ class SiteController extends Controller
 		            'plf' => $plf]);
 */		}
 		
+		public function actionInteressentenliste() {
+ 
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
+            $schulnamen = ArrayHelper::map($schulen,'Schulname','Schulname');
+            $schule = implode(', ', $schulnamen);
+        }
+        
+        $searchModel = new MitgliederSearch();
+        $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
+                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+                 ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
+                 ->andWhere(['Schulort' => $schulnamen]);
+//        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+//        Yii::warning(VarDumper::dumpAsString($query),'application');
+//        $sql = $query->createCommand()->getRawSql($query);
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        $d = new ActiveDataProvider([
+				     'query' => $query,
+				]);
+				$zz = 18;
+				$r = $zz-($d->count % $zz);
+				
+        $query2 = (new \yii\db\Query())
+        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+//        ->select('m.*')
+    		->from('mitglieder m')
+    		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')
+        ->andWhere(['is', 'm.MitgliederId', new \yii\db\Expression('null')])
+    		->limit($r);
+				
+				$query->union($query2, true);//false is UNION, true is UNION ALL
+
+				$dataProvider = new ActiveDataProvider([
+				     'query' => $query,
+				     'sort'=> ['defaultOrder' => ['Name'=>SORT_ASC]]
+				]); 
+        $dataProvider->pagination->pageSize = 200;
+        
+/*			return $this->renderPartial('ialiste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider ,
+//		            'plf' => $plf
+        ]);
+*/        $content = $this->renderPartial('ialiste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+		            'schule' => $schule,
+		        ]); 
+
+				$pdf = new Pdf([
+						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+						// set to use core fonts only
+						'mode' => Pdf::MODE_BLANK,
+						// A4 paper format
+						'format' => Pdf::FORMAT_A4,
+						// portrait orientation
+						'orientation' => Pdf::ORIENT_LANDSCAPE,
+						// stream to browser inline
+						'destination' => Pdf::DEST_BROWSER,
+						// format content from your own css file if needed or use the
+						// enhanced bootstrap css built by Krajee for mPDF formatting
+						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+//						'cssFile' => 'css/kv-mpdf-bootstrap.css',
+						// any css to be embedded if required
+						'cssInline' => '.kv-heading-1{font-size:18px}'.
+													'.kv-wrap{padding:20px;}' .
+													'.kv-align-center{text-align:center;}' .
+													'.kv-align-left{text-align:left;}' .
+													'.kv-align-right{text-align:right;}' .
+													'.kv-align-top{vertical-align:top!important;}' .
+													'.kv-align-bottom{vertical-align:bottom!important;}' .
+													'.kv-align-middle{vertical-align:middle!important;}' .
+													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
+                          ' table{width: 100%;line-height: inherit;text-align: left; } table, td, th {border: 1px solid black;border-collapse: collapse;}',
+            'marginTop' => 10,
+            'marginLeft' => 0,
+            'marginRight' => 5,
+						'content' => $content,
+						'options' => [
+								'title' => 'InfoAbend-Liste',
+								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy',
+						],
+						'methods' => [
+							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
+							'SetFooter' => ['|Seite {PAGENO}| '.Yii::$app->formatter->asDate(date('d.m.Y'), 'dd.MM.YYYY')],
+						]
+			]);
+			return $pdf->render();
+/*			return $this->renderPartial('pruefungsliste', [
+		            'searchModel' => $searchModel,
+		            'dataProvider' => $dataProvider,
+		            'plf' => $plf]);
+*/		}
 }
+

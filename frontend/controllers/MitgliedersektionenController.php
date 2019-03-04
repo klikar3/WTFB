@@ -9,13 +9,16 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
 
+use frontend\models\AuswertungenForm;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
 use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
+use frontend\models\Schulen;
 use frontend\models\Sektionen;
 use frontend\models\SektionenSearch;
 
@@ -213,12 +216,32 @@ class MitgliedersektionenController extends Controller
         }
     }
     
+		public function actionSektionsauswahl() {
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            return $this->render('/site/auswahl', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('/site/auswahl', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
     /**
 		* THE CONTROLLER ACTION
 		*/
 		// Privacy statement output demo
 		public function actionSektionsliste() {
 
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
+            $schule = implode(', ', ArrayHelper::map($schulen,'Schulname','Schulname'));
+        }
+        
 //				$plf->load(Yii::$app->request->get(0));
 //				Yii::info(Vardumper::dumpAsString(Yii::$app->request->get(0)));
         //Yii::info("-----test");
@@ -228,7 +251,24 @@ class MitgliedersektionenController extends Controller
         //Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
 
         $searchModel = new MitgliedersektionenSearch();
-        $query = Mitgliedersektionen::findBySql('select c.msekt_id, c.mitglied_id, c.sektion_id, c.vdatum, c.vermittler_id, c.pdatum, c.pruefer_id, max(c.m) as m from ( select a.msekt_id, a.mitglied_id, a.sektion_id, a.vdatum, a.vermittler_id, a.pdatum, a.pruefer_id, count(*) as rn, max(a.sektion_id) as m FROM mitgliedersektionen a join mitgliedersektionen b on a.mitglied_id = b.mitglied_id and a.sektion_id >= b.sektion_id group by a.mitglied_id, a.sektion_id order by sektion_id desc)c group by c.mitglied_id order by sektion_id desc ');
+        $subquery =  (new \yii\db\Query())->select('1')->from('mitgliederschulen ms')
+        ->where('ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null')
+                      ->andWhere(['ms.SchulId' => $model->schule]);
+        $query = Mitgliedersektionen::findBySql('
+        select c.msekt_id, c.mitglied_id, c.sektion_id, c.vdatum, c.vermittler_id, c.pdatum, c.pruefer_id, max(c.m) as m, m.Vorname, m.Name as Nachname 
+        from ( select a.msekt_id, a.mitglied_id, a.sektion_id, a.vdatum, a.vermittler_id, a.pdatum, a.pruefer_id, count(*) as rn, max(a.sektion_id) as m 
+                FROM mitgliedersektionen a join mitgliedersektionen b on a.mitglied_id = b.mitglied_id and a.sektion_id >= b.sektion_id group by a.mitglied_id, a.sektion_id order by sektion_id desc
+                ) c 
+              inner join mitglieder m on m.MitgliederId = c.mitglied_id group by c.mitglied_id order by c.sektion_id desc'
+//                WHERE EXISTS (SELECT 1 FROM mitgliederschulen ms where ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null)
+//                    and ms.SchulId = :schule) 
+//                group by c.mitglied_id order by c.sektion_id desc '                
+//        [ 'schule' => $model->schule]
+        )
+//        ->innerJoin('mitglieder m','m.MitgliederId = c.mitgliedId') //->on('m.MitgliederId' = c.mitgliedId')
+        ->andWhere(['EXISTS', $subquery])
+  //      ->groupBy('c.mitglied_id')
+        ->orderBy('c.sektion_id desc');
 //        $query = Mitgliedersektionen::find();
 //                 ->where(['sektionen.kurz' => $grads] );
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
@@ -236,12 +276,15 @@ class MitgliedersektionenController extends Controller
         $d = new ActiveDataProvider([
 				     'query' => $query,
 				]);
+        $c = $query->count();
+        Yii::warning("-----d: ".Vardumper::dumpAsString($d));
 				$zz = 32;
 				$r = $zz-($d->count % $zz);
+        Yii::warning("-----r: ".Vardumper::dumpAsString($r));
 				
         $query2 = (new \yii\db\Query())
 //        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
-        ->select('m.*')
+        ->select('m.*', 'NULL')
     		->from('mitgliedersektionen m')
     		->join('RIGHT JOIN', 'tally','m.msekt_id = null')
     		->limit($r);
@@ -277,11 +320,14 @@ class MitgliedersektionenController extends Controller
 													'.kv-align-middle{vertical-align:middle!important;}' .
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
+                          ' p, td,div { font-family: helvetica, verdana, sansserif;  font-size: 10pt !important;}; body, p { font-family: helvetica, verdana, sansserif; font-size: 12pt; };' .
+                          ' table{width: 100%;line-height: inherit;text-align: left; } table, td, th {border: 1px solid black;border-collapse: collapse;}'
+            ,
 						'content' => $this->renderPartial('sektionsliste', [
-		            'searchModel' => $searchModel,
+//		            'searchModel' => $searchModel,
 		            'dataProvider' => $dataProvider,
-//		            'plf' => $plf,
+		            'schule' => $schule,
 		        ]),
 						'options' => [
 								'title' => 'Sektionsliste',

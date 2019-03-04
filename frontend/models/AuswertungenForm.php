@@ -21,7 +21,7 @@ class AuswertungenForm extends Model
     public function rules()
     {
         return [
-            [['schule','von','bis'], 'required'],
+            [['schule'], 'required'],
             [['von','bis'], 'date'],
             
 //            ['disp', 'required'],
@@ -37,24 +37,5 @@ class AuswertungenForm extends Model
             '$bis' => Yii::t('app', 'Disziplin'),
         ];
     }
-    /**
-     * Signs user up.
-     *
-     * @return User|null the saved model or null if saving fails
-     */
-/*    public function signup()
-    {
-        if ($this->validate()) {
-            $user = new User();
-            $user->username = $this->username;
-            $user->email = $this->email;
-            $user->setPassword($this->password);
-            $user->generateAuthKey();
-            $user->save();
-            return $user;
-        }
-
-        return null;
-    }
-*/    
+   
 }

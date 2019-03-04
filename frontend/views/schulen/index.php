@@ -30,8 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'SchulId',
             'Schulname',
             'sort',
-            'Disziplin',
-
+            [ 'attribute' => 'Disziplin',
+             'value'=>function ($data) {
+                        return empty($data->disziplinen->DispName) ? "-" : $data->disziplinen->DispName;
+                      },
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

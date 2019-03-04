@@ -44,14 +44,14 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 		
     public static function find()
     { 
-			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+			if ((!Yii::$app->user->identity->isAdmin /*role == 10*/) and (Yii::$app->controller->action->id != 'schuelerzahlen')) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
     	    $schulids =  Schulleiterschulen::find()->select(['SchulId'])->where(['LeiterId' => Yii::$app->user->identity->LeiterId]);
           $schulen = Schulen::find()->select(['Schulname'])->where( ['in', 'SchulId', $schulids]);
-					Yii::Warning($schulids);
+//					Yii::Warning(VarDumper::dumpAsString($schulen),'application');
 //		    	return parent::find()->where( ['LeiterName' => $schulleiter->LeiterName]);
 //		    	return parent::find()->where( ['in', 'SchulId', $schulids]);
-		    	return parent::find()->where( ['in', 'Schulname', $schulen]);
+		    	return parent::find()->andWhere( ['or',['in', 'Schulname', $schulen]]);
 		  }
 		  return parent::find();
     }

@@ -84,10 +84,15 @@ AppAsset::register($this);
                 }							
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
                 $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
-                                    ['label' => 'InfoAbend-Liste', 'url' => ['/site/info-abendliste']],
-																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen']],
-																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsliste'],
-																  	 'linkOptions' => ['target' => '_blank']]
+                                    ['label' => 'Interessenten-Liste', 'url' => ['/site/interessentenauswahl'],],
+                                    ['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
+//																  	 'linkOptions' => ['target' => '_blank']
+                                    ],
+																  	['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlen'],
+																  	 'linkOptions' => ['target' => '_blank']],
+																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
+																  	 'linkOptions' => ['target' => '_blank']],
+																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],]
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[

@@ -7,6 +7,7 @@ use yii\helpers\VarDumper;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
+use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
 
 use dosamigos\chartjs\ChartJs;
@@ -38,10 +39,20 @@ $this->params['breadcrumbs'][] = $this->title;
 																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
 																		 ]	); 
 			?>
-			<?= $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
-							['style'=>'width:200px']
-							)										
+			<?php // $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+//							['style'=>'width:200px']
+//							)										
 //									->label('Textauswahl'); 
+			?>
+      <?= $form->field($model, 'schule')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+          'language' => 'de',
+          'options' => ['multiple' => true, 'placeholder' => 'Schule auswählen ...'],
+          'pluginOptions' => [
+              'allowClear' => true,
+              'style' => 'width:200px;',
+          ],
+      ])->label(false);
 			?>
 			<?= $form->field($model, 'von')->widget(DatePicker::classname(), [
 							'value' => $model->von, 
@@ -218,7 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'labelsAbove' => true,
                 'labelsAboveSize' => 10,
                 'labelsAboveOffset' => -14,
-		            'title' => 'WT-Eintritte / WT-Austritte',
+		            'title' => 'WT-Eintritte', //'WT-Eintritte / WT-Austritte',
 		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
 //                'numxticks' => 10,
 	              'textAngle' => 45,
@@ -226,7 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
                 'outofbonds' => true,
 	              'titleSize' => 12,
-                'xaxispos' => 'center',
+//                'xaxispos' => 'center',
 				    ],
 				    'htmlOptions' => [
               'height' =>  '400px',
@@ -248,24 +259,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'labelsAbove' => true,
                 'labelsAboveSize' => 10,
                 'labelsAboveOffset' => -14,
-                'ylabels' => false,
-                'ymin' => -10,
-		            'title' => '',
-		            'labels' => !empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
+//                'ylabels' => false,
+//                'ymax' => 10,
+//                'ymin' => -10,
+		            'title' => 'WT-Austritte',
+		            'labels' => false, //!empty($labels) ? ArrayHelper::getColumn($labels,'l') : [ 'No Data' ],
 //                'numxticks' => 10,
 	              'textAngle' => 45,
 	              'textSize' => 8,
 	              'gutter' => ['left' => 45, 'bottom' => 50, 'top' => 50],
                 'outofbonds' => true,
 	              'titleSize' => 12,
-                'xaxispos' => 'center',
-                'backgroundGrid' => false,
+                'xaxispos' => 'top',
+//                'backgroundGrid' => false,
 				    ],
 				    'htmlOptions' => [
-              'height' =>  '0px',
-              'width' => '0px',
+              'height' =>  '400px',
+              'width' => '800px',
           ],
-          'id' => 'ea',
+          'id' => 'eb',
 				 ]);  
 
 				 echo 

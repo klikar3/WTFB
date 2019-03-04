@@ -44,6 +44,13 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $Nachname;
+    public $Vorname;
+    public $Name;
+    public $Grad;
+    public $Schulname;
+    public $Vertrag;
+     
     public static function tableName()
     {
         return 'mitgliederschulen';
@@ -51,14 +58,18 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 
     public static function find()
     { 
-			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+//	  	Yii::info('-----action: '.VarDumper::dumpAsString(Yii::$app->controller->action->id),'application');
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/)  {
 //		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
 		    	
 					// VarDumper::dump($schulleiter);
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 					// Yii::info('-----$schulleiterschulen: '.VarDumper::dumpAsString($schulleiterschulen),'application');
-					$si = array_map(function ($v) { return $v->SchulId; },$schulleiterschulen );
-					// Yii::info('-----$s: '.VarDumper::dumpAsString($si));
+					$si = array_map(function ($v) { return $v->SchulId; }, $schulleiterschulen );
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionensliste'))) {
+            if (!in_array(18, $si)) $si = [18] + $si;
+          }
+//					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
 					
 //					if (empty($schulleiterschulen)) return [];
 //					$schulen = Schulen::findAll(['SchulId' => $si]);
@@ -67,7 +78,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
 //					return parent::find()->where( ['SchulId' => $si]);
-					$r = parent::find()->where( ['mitgliederschulen.SchulId' => $si]);
+					$r = parent::find()->andWhere( ['or', ['mitgliederschulen.SchulId' => $si]]);
 					// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
 					
 		    	return (!empty($r)) ? $r : [] ;
@@ -150,7 +161,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return [
            [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'KFristMonate'], 'required'],
-	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate', 'WtfbOk'], 'integer'],
+	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate', 'WtfbOk', 'VerlaengerungMonate'], 'integer'],
 	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
@@ -202,6 +213,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'KuendigungGrund' => Yii::t('app', 'KuendigungGrund'),
             'KFristMonate' => Yii::t('app', 'Kündigungsfrist'),
             'WtfbOk' => Yii::t('app', 'WTFB'),
+            'VerlaengerungMonate' => Yii::t('app', 'V-Verlängerung'),
         ];
     }
 
@@ -237,10 +249,13 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return $this->hasOne(Vertrag::className(), ['VertragId' => 'VertragId']);
     }
     
-	   public function getNameLink() {
-		    $url = Url::to(['/mitglieder/view', 'id'=>$this->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
-		    $options = []; // any HTML attributes for your link
-		    return Html::a($this->mitglieder->Name . ', ' . $this->mitglieder->Vorname, $url, $options); // assuming you have a relation called profile
+
+    public function getNameLink() {
+		    return $this->mitglieder->Name . ', ' . $this->mitglieder->Vorname; // assuming you have a relation called profile
 		}
 
+    public function extraFields()
+    {
+        return ['mgl'];
+    }
 }

@@ -208,7 +208,8 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 				}
         if ($datamodel == 'grad') {
 					$model = Mitgliedergrade::findOne($dataid);
@@ -230,6 +231,8 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDate($model->pdatum, 'php:d.m.Y'), $textmodel->txt );
 				}
+				
+        $textmodel->txt = str_replace ( 'Stuttgart Neu' , 'Stuttgart', $textmodel->txt );
 							
 				$pdf = new Pdf([
 //						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
@@ -350,6 +353,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
           $email = $modelv->mitglieder->Email;
 				}

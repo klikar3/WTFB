@@ -19,6 +19,9 @@ use Yii;
  */
 class Mitgliedersektionen extends \yii\db\ActiveRecord
 {
+     public $Vorname;
+     public $Nachname;
+
     /**
      * @inheritdoc
      */

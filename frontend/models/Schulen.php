@@ -30,13 +30,20 @@ class Schulen extends \yii\db\ActiveRecord
 
     public static function find()
     { 
-			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+			if ((!Yii::$app->user->identity->isAdmin /*role == 10*/) /*and (Yii::$app->controller->action->id != 'schuelerzahlen')*/) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
     	    $schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => $schulleiter->LeiterId])->all();
+          $schulen = array_map(function ($v) { return $v->SchulId; },$schulleiterschulen );
+          if ((Yii::$app->controller->action->id == 'schuelerzahlen') and (Yii::$app->user->identity->username == 'evastgt')) {
+            $schulen = [18 => "Stuttgart K"] + $schulen;
+          }
+          if ((Yii::$app->controller->action->id == 'sektionsliste') and (Yii::$app->user->identity->username == 'evastgt')) {
+            $schulen = [18 => "Stuttgart"] + $schulen;
+          }
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
-		    	return parent::find()->where( ['schulen.SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )]);
+		    	return parent::find()->where( ['schulen.SchulId' => $schulen]);
 		  }
 		  return parent::find();
     }

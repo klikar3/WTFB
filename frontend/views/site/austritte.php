@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
         'filterModel' => false,
+        'showPageSummary' => true,
 //        'emptyCell'=>'-',
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
@@ -69,6 +70,14 @@ $this->params['breadcrumbs'][] = $this->title;
                   return \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
             ], 
+            ['attribute' => 'MonatsBeitrag',
+//             'enableSorting' => ($print == 1) ? false : true,
+             'width' => '100px',
+             'pageSummary' => true,
+             'pageSummaryOptions' => [
+                'append' => '.00',
+             ],
+            ],
 //            'VertragId',
 
 //            ['class' => '\kartik\grid\ActionColumn', 'width' => '60px'],
