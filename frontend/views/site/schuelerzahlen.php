@@ -25,6 +25,7 @@ $schulen = ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' );
 $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 //Yii::warning(VarDumper::dumpAsString($schulen),'application');
 //Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');
+ if (1==0){
 ?>
 <div class="row">
   <div class="col-md-3"> </div>   
@@ -66,28 +67,32 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
   </div>
   </div>
   </div> 
-</div> 
+</div>
+<?php } ?> 
+<?php
+ //echo VarDumper::dumpAsString($dataProvider->query->createCommand()->getRawSql())
+?>
 <div class="row">
  
  
     <?php if (!empty($dataProvider)) echo GridView::widget([
         'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
 //        'filterModel' => false,
         'layout'=>"{items}",
         'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => ''],
-         'showPageSummary' => true,
+        'showPageSummary' => true,
         'tableOptions' => [
             'style' => 'font-size: 11pt!important;font-weight:normal;',
         ],
 //        'emptyCell'=>'-',
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
-            ['attribute' => 'mitgliederliste.Nachname',
+            ['attribute' => 'Name',
              'format' => 'raw', 
              'width' => '200px',
-            'label' => 'Name',
-            'value' => function ($data) {
+              'label' => 'Name',
+              'value' => function ($data) {
 //                  Yii::warning(VarDumper::dumpAsString($data),'application');
           		    $url = Url::to(['/mitglieder/view', 'id'=>$data->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
           		    $options = ['target' => '_blank']; // any HTML attributes for your link
@@ -95,22 +100,24 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //                  return $data->Nachname.', '.$data->Vorname;
 //                  return empty($data->NameLink) ? $data->NameLink : '-';
                   },
-        		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
+          		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],
 //            'mitglieder.Vorname',
 //            'mitglieder.Name',
             [ 'attribute' => 'Vertrag',
               'label' => 'Schule',
-//              'value' => function ($data) {
-//                  return !empty($data->Schulname) ? $data->Schulname . $data->schul->dispKurz : '-';
-//                  },
-//            'SchulId',
+              'value' => function ($data) {
+                  return !empty($data->mgl->Vertrag) ? $data->mgl->Vertrag /*. $data->schul->dispKurz*/ : '-';
+                  },
         		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],
-            [ 'attribute' => 'mgl.Grad',
-              'label' => 'Grade',
+            [ 'attribute' => 'SchulId',
+//              'visible' => false,
+            ],
+            [ 'attribute' => 'Grad',
+              'label' => 'Grad',
               'value' => function ($data) {
-                  return !empty($data->Grad) ? $data->Grad : '-';
+                  return !empty($data->mgl->Grad) ? $data->mgl->Grad : '-';
                   },
             ],
             ['attribute' => 'Von',

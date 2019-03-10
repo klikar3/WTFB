@@ -314,7 +314,7 @@ class MitgliederController extends Controller
 
     public function actionSwm($id)
     {
-        $url = 'http://swm.wingtzun.de/nl.php?' . http_build_query ( [ 'param' => 12 ] );
+        $url = 'http://nl.wtfb.de/nl.php?' . http_build_query ( [ 'param' => 12 ] );
         $script = <<<JS
                 function openInNewTab(url) {
                   var win = window.open(url, '_blank');

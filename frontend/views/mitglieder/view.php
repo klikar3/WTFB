@@ -68,7 +68,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 4?true:false,
 				],
 */				[
-				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Grad',
 						'content'=>$this->render('_view_grade_index', array(
 		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
 																		'tabnum' => 5, 'openv' => $openv, 

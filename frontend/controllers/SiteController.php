@@ -143,41 +143,68 @@ class SiteController extends Controller
         return $this->render('about');
     }
  
+		public function actionSchuelerzahlenauswahl() {
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
     public function actionSchuelerzahlen()
     {
 				$model = new AuswertungenForm();
-				$model->schule = 10;
-//				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
-				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
-				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)/*-"1d"*/);
-//        VarDumper::dump($model);
 
-        if ($model->load(Yii::$app->request->post() )) {
-        } else {
+        $params = Yii::$app->request->queryParams;
+//        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
+
+    if (count($params) <= 2) {
+      $params = Yii::$app->session['customerparams'];
+      if(isset(Yii::$app->session['customerparams']['page']))
+        $_GET['page'] = Yii::$app->session['customerparams']['page'];
+      } else {
+        Yii::$app->session['customerparams'] = $params;
+    }
+
+//        $model->load(Yii::$app->request->post());
+//        Yii::warning(VarDumper::dumpAsString($model),'application');
+        if (!$model->load(Yii::$app->request->post() )) {
+            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->search($params);
+     //   Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
+//        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+//        $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',  
+//											[':von'=> date('Y-m-d'), ]);
             $dataProvider->pagination = false;
             return $this->render('schuelerzahlen', [
-                'model' => $model,
-//                'dataProvider' => $dataProvider,
-                                                
+//            return $this->redirect(['/site/schuelerzahlenauswahl', 
+//                'model' => $model,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,                                               
             ]);
+        } else {
+            $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
+                                                'groesserVon' => date('Y-m-d'),
+                                                'kleinerBis' => date('Y-m-d'), ];
+            Yii::$app->session['customerparams'] = $params;
+    //        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         }
         
-//        VarDumper::dump($model);
-/*        $query = (new \yii\db\Query())
-            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
-            ->from('mitgliederzahl1 mz')
-            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
-											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
-														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
-														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
-														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
-														'schule' => (int)$model->schule));
-*/
-//        $searchModel = new MitgliederschulenSearch();
-        $query = Mitgliederschulen::find()->joinWith('mgl')
-            ->select(['mitgliederliste.Name', 'mitgliederliste.Grad', 'mitgliederliste.Schulname', 'mitgliederliste.Vertrag', 'Von', 'Bis', 'mitgliederschulen.SchulId', 'KuendigungAm', 'mitgliederschulen.MonatsBeitrag', 'mitgliederschulen.MitgliederId'])            
+        $searchModel = new MitgliederschulenSearch();
+        $dataProvider = $searchModel->search($params);
+        $dataProvider->pagination = false;
+//        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+/*         $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
+											[':von'=> date('Y-m-d'), ]);
+       $query = Mitgliederschulen::find()->joinWith('mgl')
+            ->select(['NameLink', 'mitgliederliste.Grad', 'mitgliederliste.Schulname', 'mitgliederliste.Vertrag', 'Von', 'Bis', 'mitgliederschulen.SchulId', 'KuendigungAm', 'mitgliederschulen.MonatsBeitrag', 'mitgliederschulen.MitgliederId'])            
             ->where('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
 											[':von'=> date('Y-m-d'), //\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
 //													':schule' => $model->schule
@@ -190,10 +217,26 @@ class SiteController extends Controller
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['Von' => SORT_DESC],],
+            'sort' => ['defaultOrder' => ['Von' => SORT_DESC],
+            		        'attributes' => [
+            		            'Von',
+            		            'Bis',
+            		            'Vertrag',
+                            'VDatum',
+                            'mgl.Grad',
+                            'Name',
+            		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',		            
+                            'mitgliederliste.Name' => [
+            		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+            		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+            		                'label' => 'Name',
+            		                'default' => SORT_ASC,
+            		            ],  
+            		          ],
+                       ], 
             'pagination' => false,
         ]);
-
+*/
 //           Yii::warning(Vardumper::dumpAsString($dataProvider),'application');
                    
 //        $datasets = $query
@@ -203,6 +246,7 @@ class SiteController extends Controller
 //           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
         return $this->render('schuelerzahlen',['model' => $model, 
                                                 'dataProvider' => $dataProvider,
+                                                'searchModel' => $searchModel,
                                                 'von' => $model->von,
                                                 'bis' => $model->bis, 
                                                 'schule' => $model->schule]);

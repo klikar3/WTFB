@@ -147,6 +147,7 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
             ['attribute' => 'Schulname',
 //            	'visible' => false,
 //							'format' => 'raw',
+              'label' => 'Schulort',
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',

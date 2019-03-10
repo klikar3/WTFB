@@ -88,8 +88,7 @@ AppAsset::register($this);
                                     ['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
 //																  	 'linkOptions' => ['target' => '_blank']
                                     ],
-																  	['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlen'],
-																  	 'linkOptions' => ['target' => '_blank']],
+																  	['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlenauswahl'],],
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
 																  	 'linkOptions' => ['target' => '_blank']],
 																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],]
