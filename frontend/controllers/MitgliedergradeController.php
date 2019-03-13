@@ -194,7 +194,7 @@ class MitgliedergradeController extends Controller
         $modelp->GradId = $grad;
         $modelp->Datum = $pruefung->datum;
         $modelp->PrueferId = $pruefung->prueferId;
-        $modelp->print = true;
+        $modelp->print = false;
 //				Yii::Error( 'test');
         if ($modelp->load(Yii::$app->request->post())) {
         		$model = new Mitgliedergrade();

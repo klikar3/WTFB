@@ -273,7 +273,7 @@ class MitgliedersektionenController extends Controller
         inner join mitglieder m on m.MitgliederId = c.mitglied_id 
         WHERE EXISTS (SELECT 1 FROM mitgliederschulen ms where ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null)
                     and ms.SchulId in (:schule)) 
-        group by c.mitglied_id order by c.sektion_id desc ',                
+        group by c.mitglied_id order by c.sektion_id asc ',                
         [ 'schule' => $schulids]
         );
 /*        
@@ -353,7 +353,8 @@ class MitgliedersektionenController extends Controller
 						],
 						'methods' => [
 							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
-							'SetFooter' => ['|Seite {PAGENO}|'],
+//							'SetFooter' => ['|Seite {PAGENO}|'],
+							'SetFooter' => [''],
 						]
 			]);
 			return $pdf->render();

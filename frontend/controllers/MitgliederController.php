@@ -96,7 +96,8 @@ class MitgliederController extends Controller
 				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
-     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
+          'pagination' => false,
 				]);
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
@@ -108,7 +109,8 @@ class MitgliederController extends Controller
 				$squery->andWhere(['=', 'mitglied_id', $id]);
 				$msdataProvider = new ActiveDataProvider([
 			    'query' => $squery,
-     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC]]
+     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC],],
+          'pagination' => false,
 				]);
   	
   	    // Verträge
