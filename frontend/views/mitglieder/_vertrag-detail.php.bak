@@ -124,7 +124,7 @@ use frontend\models\SearchVertrag;
               'id' => 'dv_vkf_a_'.$model->msID,
             ],
             [ 'attribute' => 'VerlaengerungMonate',
-            	'label' => 'Vertragsdauer',
+//            	'label' => 'Vertragsdauer',
               'id' => 'dv_vv_a_'.$model->msID,
             ],
             [
@@ -614,17 +614,17 @@ use frontend\models\SearchVertrag;
 
 			]);
 */      
-          echo Html::beginForm('http://swm.wingtzun.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->msID]);
+          echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->msID]);
           echo Html::hiddenInput('MailingListId', 3);
           echo Html::hiddenInput('FormId', 2);
           echo Html::hiddenInput('FormEncoding', 'utf-8');
           echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
-          echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'g',['id' => "u_Gender_f"]);
+          echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
           echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
           echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
           echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
           echo Html::hiddenInput('Action', 'subscribe');
-          echo Html::submitButton('In SWM eintragen', ['class' => 'btn btn-sm btn-default']);
+          echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>In NL eintragen', ['class' => 'btn btn-sm btn-default']);
           echo Html::endForm(); 
 									
 		 } ?>                 

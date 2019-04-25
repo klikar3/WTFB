@@ -294,7 +294,12 @@ class MitgliederController extends Controller
     {
         $model = $this->findModel($id);
         $model->RecDeleted = 1;
-        $model->save();
+        if ($model->save()) {
+          Yii::info("----- RecDeleted 1 gespeichert");
+        } else {
+          $errors = $model->errors;
+          Yii::warning("----- RecDeleted 1 konnte nicht gespeichert werden!".Vardumper::dumpAsString($errors));
+        }  
 
         return $this->redirect(['mitgliederliste/index']);
     }

@@ -92,7 +92,7 @@ AppAsset::register($this);
 																  	 'linkOptions' => ['target' => '_blank']],
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
 																  	 'linkOptions' => ['target' => '_blank']],
-																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsliste'],]
+																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],]
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[

@@ -96,7 +96,8 @@ class MitgliederController extends Controller
 				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
-     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
+          'pagination' => false,
 				]);
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
@@ -108,7 +109,8 @@ class MitgliederController extends Controller
 				$squery->andWhere(['=', 'mitglied_id', $id]);
 				$msdataProvider = new ActiveDataProvider([
 			    'query' => $squery,
-     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC]]
+     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC],],
+          'pagination' => false,
 				]);
   	
   	    // Verträge
@@ -228,9 +230,9 @@ class MitgliederController extends Controller
 		        $model->BeitrittDatum = $datum;
 		        $model->MitgliedsNr = Yii::$app->db->createCommand('SELECT MAX(MitgliedsNr) FROM mitglieder')->queryScalar() + 1;
 		        $model->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
-            if ((empty($mitglied->mandatNr)) and (!empty($model->MitgliedsNr))) {
-              $mitglied->mandatNr = $model->MitgliedsNr;
-            }
+//            if ((empty($mitglied->mandatNr)) and (!empty($model->MitgliedsNr))) {
+//              $mitglied->mandatNr = $model->MitgliedsNr;
+//            }
 		//        $grade = new Grade();
 //        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
             return $this->render('create', [
@@ -292,7 +294,12 @@ class MitgliederController extends Controller
     {
         $model = $this->findModel($id);
         $model->RecDeleted = 1;
-        $model->save();
+        if ($model->save()) {
+          Yii::info("----- RecDeleted 1 gespeichert");
+        } else {
+          $errors = $model->errors;
+          Yii::warning("----- RecDeleted 1 konnte nicht gespeichert werden!".$errors);
+        }  
 
         return $this->redirect(['mitgliederliste/index']);
     }
@@ -314,7 +321,7 @@ class MitgliederController extends Controller
 
     public function actionSwm($id)
     {
-        $url = 'http://swm.wingtzun.de/nl.php?' . http_build_query ( [ 'param' => 12 ] );
+        $url = 'http://nl.wtfb.de/nl.php?' . http_build_query ( [ 'param' => 12 ] );
         $script = <<<JS
                 function openInNewTab(url) {
                   var win = window.open(url, '_blank');

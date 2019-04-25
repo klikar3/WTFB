@@ -22,13 +22,18 @@ if (Yii::$app->controller->action->id == 'sektionsauswahl') {
   $ziel = ['/mitgliedersektionen/sektionsliste',];
   $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [10 => "Stuttgart WT"] + $schulen : $schulen;
 }  
-if ((Yii::$app->controller->action->id == 'infoabendauswahl') or Yii::$app->controller->action->id == 'info-abendliste')){
+if ((Yii::$app->controller->action->id == 'infoabendauswahl') or (Yii::$app->controller->action->id == 'info-abendliste')){
   $this->title = 'InfoAbend-Liste';
   $ziel = ['/site/info-abendliste',];
   $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 }                                   
 if (Yii::$app->controller->action->id == 'interessentenauswahl') {
   $this->title = 'Interessenten-Liste';
+  $ziel = ['/site/interessentenliste',];
+  $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
+}  
+if (Yii::$app->controller->action->id == 'schuelerzahlenauswahl') {
+  $this->title = 'Schülerzahlen-Liste';
   $ziel = ['/site/interessentenliste',];
   $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 }  

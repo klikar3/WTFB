@@ -175,10 +175,6 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           ],
-   		    [ 'attribute' => 'PruefungZum',
-            'valueColOptions'=>['style'=>'width:30%'], 
-            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-          ],   
     ],]); ?>
   
 </div>
@@ -270,6 +266,20 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
   							    ],
 						],
           ],
+          [ 'attribute'=>'IABest', 
+          'valueColOptions'=>['style'=>'width:30%'], 
+          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+					  'type'=>DetailView::INPUT_CHECKBOX_X,    
+						'value' => $model->showTriState($model->IABest),
+  					'autoLabel' => true,
+  					'label' => 'IA best',
+						'widgetOptions' => [
+									'id' => 'wziabe',				
+									'pluginOptions'=>[  
+										'threeState' => true, 
+									],
+						],
+					],
           [ 'attribute'=>'WarZumIAda', 
           'valueColOptions'=>['style'=>'width:30%'], 
           'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -280,12 +290,12 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [
 									'id' => 'wziad',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					],
           [ 'attribute' => 'ProbetrainingAm',
-          	'format' => ['date', 'php:d.m.Y'],
+//          	'format' => ['date', 'php:d.m.Y'],
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
@@ -308,7 +318,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 							'widgetOptions' => [
 									'id' => 'ptwd',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],                         
@@ -320,7 +330,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [				
 									'id' => 'vack',
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],
@@ -331,7 +341,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [				
 									'id' => 'vmck',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],
@@ -344,6 +354,27 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'label' => 'Gutschein von',
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+           ['attribute'=>'letzteDvd',
+            'label' => 'Letzte Dvd',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+           ['attribute'=>'DVDgesendetAm',
+            'label' => 'DVD am',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+          	'ajaxConversion' => true,
+         	  'widgetOptions' => [
+          			'class' => DateControl::classname(),
+								'type' => DateControl::FORMAT_DATE,
+						    'displayFormat' => 'php:d.m.Y',
+						    'saveFormat' => 'php:Y-m-d',
+                'options' => [
+										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+  							    ],
+             ],       
            ], 
             [
                 'group'=>true,
@@ -360,6 +391,21 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 
         ],
     ]) ?>
+    <?php 
+          echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->MitgliederId]);
+          echo Html::hiddenInput('MailingListId', 1);
+          echo Html::hiddenInput('FormId', 2);
+          echo Html::hiddenInput('FormEncoding', 'utf-8');
+//          echo Html::hiddenInput('HTMLForm', 'subform');
+          echo Html::hiddenInput('u_EMail', $model->Email,['id' => "u_EMail"]);
+          echo Html::hiddenInput('u_Gender', ($model->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+          echo Html::hiddenInput('u_FirstName', $model->Vorname,['id' => "u_FirstName"]);
+          echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
+          echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
+          echo Html::hiddenInput('Action', 'subscribe');
+          echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
+          echo Html::endForm(); 
+    ?>
 
 </div>
 </div>
@@ -522,16 +568,17 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                    'groupOptions'=>['style'=>'background: #d9edf7;'],
                   ],
                   [ 'attribute'=>'WarZumIAda', 
-                  'valueColOptions'=>['style'=>'width:30%'], 
-                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+                    'valueColOptions'=>['style'=>'width:30%'], 
+                    'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
        						  'type'=>DetailView::INPUT_CHECKBOX_X,    
       							'value' => $model->showTriState($model->WarZumIAda),
+                    'name' => 'wziad',
           					'autoLabel' => true,
           					'label' => 'War zum IA da',
       							'widgetOptions' => [
       										'id' => 'wziad',				
       										'pluginOptions'=>[  
-      											'threeState' => false, 
+      											'threeState' => true, 
       										],
       							],
       						],
@@ -553,23 +600,20 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
                  'groupOptions'=>['style'=>'background: #d9edf7;'],
                 ],
-                [ 'attribute' => 'ProbetrainingAm',
-                	'format' => ['date', 'php:d.m.Y'],
+                  [ 'attribute'=>'IABest', 
                   'valueColOptions'=>['style'=>'width:30%'], 
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-                	'type' => DetailView::INPUT_WIDGET,
-                  'label' => 'Probetr. am',
-                	'ajaxConversion' => true,
-                	'widgetOptions' => [
-                			'class' => DateControl::classname(),
-    									'type' => DateControl::FORMAT_DATE,
-    							    'displayFormat' => 'php:d.m.Y',
-    							    'saveFormat' => 'php:Y-m-d',
-    							    'options' => [
-    											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-    									],
-    							],
-                ],
+       						  'type'=>DetailView::INPUT_CHECKBOX_X,    
+      							'value' => $model->showTriState($model->IABest),
+          					'autoLabel' => true,
+          					'label' => 'IA best.',
+      							'widgetOptions' => [
+      										'id' => 'wziabe',				
+      										'pluginOptions'=>[  
+      											'threeState' => false, 
+      										],
+      							],
+      						],
              ],
           ],   
           [     
@@ -593,17 +637,23 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                    'valueColOptions'=>['style'=>'width:5%;'],
                    'groupOptions'=>['style'=>'background: #d9edf7;'],
                   ],
-                 ['attribute'=>'PTwarDa','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
-    							'value' => $model->showTriState($model->PTwarDa),
+                [ 'attribute' => 'ProbetrainingAm',
+                	'format' => ['date', 'php:d.m.Y'],
                   'valueColOptions'=>['style'=>'width:30%'], 
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-      							'widgetOptions' => [
-    										'id' => 'ptwd',				
-    										'pluginOptions'=>[  
-    											'threeState' => false, 
-    										],
+                	'type' => DetailView::INPUT_WIDGET,
+                  'label' => 'Probetr. am',
+                	'ajaxConversion' => true,
+                	'widgetOptions' => [
+                			'class' => DateControl::classname(),
+    									'type' => DateControl::FORMAT_DATE,
+    							    'displayFormat' => 'php:d.m.Y',
+    							    'saveFormat' => 'php:Y-m-d',
+    							    'options' => [
+    											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+    									],
     							],
-    						 ],                         
+                ],
               ],
           ],   
           [     
@@ -616,6 +666,29 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                    'valueColOptions'=>['style'=>'width:5%;'],
                    'groupOptions'=>['style'=>'background: #d9edf7;'],
                   ],
+                 ['attribute'=>'PTwarDa','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
+    							'value' => $model->showTriState($model->PTwarDa),
+                  'valueColOptions'=>['style'=>'width:30%'], 
+                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+      							'widgetOptions' => [
+    										'id' => 'ptwd',				
+    										'pluginOptions'=>[  
+    											'threeState' => false, 
+    										],
+    							],
+    						 ],                         
+             ],
+          ],   
+          [     
+              'columns' => [ 
+                [ 'attribute' => 'PLZ',
+                  'valueColOptions'=>['style'=>'width:30%'], 
+                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+                ],
+                ['group'=>true,
+                 'valueColOptions'=>['style'=>'width:5%;'],
+                 'groupOptions'=>['style'=>'background: #d9edf7;'],
+                ],
                    ['attribute'=>'VertragAbgeschlossen','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
       							'value' => $model->showTriState($model->VertragAbgeschlossen),
                     'label'	=> 'Vertrag',			
@@ -632,10 +705,10 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
           ],   
           [     
               'columns' => [ 
-                [ 'attribute' => 'PLZ',
-                  'valueColOptions'=>['style'=>'width:30%'], 
+                [ 'attribute' => 'Wohnort',
+                   'valueColOptions'=>['style'=>'width:30%'], 
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-                ],
+               ],
                 ['group'=>true,
                  'valueColOptions'=>['style'=>'width:5%;'],
                  'groupOptions'=>['style'=>'background: #d9edf7;'],
@@ -655,23 +728,6 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
           ],   
           [     
               'columns' => [ 
-                [ 'attribute' => 'Wohnort',
-                   'valueColOptions'=>['style'=>'width:30%'], 
-                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-               ],
-                ['group'=>true,
-                 'valueColOptions'=>['style'=>'width:5%;'],
-                 'groupOptions'=>['style'=>'background: #d9edf7;'],
-                ],
-                 ['attribute'=>'Bemerkung2',
-                  'label' => 'Bemerkung',
-                  'valueColOptions'=>['style'=>'width:30%'], 
-                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-                 ], 
-             ],
-          ],   
-          [     
-              'columns' => [ 
                 [ 'attribute' => 'Nationalitaet',
                   'valueColOptions'=>['style'=>'width:30%'], 
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -680,8 +736,8 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                  'valueColOptions'=>['style'=>'width:5%;'],
                  'groupOptions'=>['style'=>'background: #d9edf7;'],
                 ],
-                 ['attribute'=>'GutscheinVon',
-                  'label' => 'Gutschein Von',
+                 ['attribute'=>'Bemerkung2',
+                  'label' => 'Bemerkung',
                   'valueColOptions'=>['style'=>'width:30%'], 
                   'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
                  ], 
@@ -697,6 +753,11 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                  'valueColOptions'=>['style'=>'width:5%;'],
                  'groupOptions'=>['style'=>'background: #d9edf7;'],
                 ],
+                 ['attribute'=>'GutscheinVon',
+                  'label' => 'Gutschein Von',
+                  'valueColOptions'=>['style'=>'width:30%'], 
+                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+                 ], 
              ],
           ],   
           [     
@@ -1105,6 +1166,22 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 
         ],
     ]) ?>
+    
+    <?php 
+          echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm2'.$model->MitgliederId]);
+          echo Html::hiddenInput('MailingListId', 1);
+          echo Html::hiddenInput('FormId', 2);
+          echo Html::hiddenInput('FormEncoding', 'utf-8');
+          echo Html::hiddenInput('u_EMail', $model->Email,['id' => "u_EMail"]);
+          echo Html::hiddenInput('u_Gender', ($model->Geschlecht == 'männlich') ? 'm' : 'g',['id' => "u_Gender_f"]);
+          echo Html::hiddenInput('u_FirstName', $model->Vorname,['id' => "u_FirstName"]);
+          echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
+          echo Html::hiddenInput('u_Salutation', $model->Anrede,['id' => "u_Salutation"]);
+//          echo Html::hiddenInput('u_Birthday', $model->GeburtsDatum,['id' => "u_Birthday"]);
+          echo Html::hiddenInput('Action', 'subscribe');
+          echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
+          echo Html::endForm(); 
+    ?>
 </div>
 
 <?php }?>

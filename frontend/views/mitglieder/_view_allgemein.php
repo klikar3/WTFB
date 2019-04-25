@@ -251,8 +251,8 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
           ],
           [ 'attribute' => 'EinladungIAzum',
           	'format' => ['date', 'php:d.m.Y'],
-          'valueColOptions'=>['style'=>'width:30%'], 
-          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
           	'ajaxConversion' => true,
    					'label' => 'Info-Abend am',
@@ -276,7 +276,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [
 									'id' => 'wziabe',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					],
@@ -290,12 +290,12 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [
 									'id' => 'wziad',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					],
           [ 'attribute' => 'ProbetrainingAm',
-          	'format' => ['date', 'php:d.m.Y'],
+//          	'format' => ['date', 'php:d.m.Y'],
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
@@ -318,7 +318,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 							'widgetOptions' => [
 									'id' => 'ptwd',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],                         
@@ -330,7 +330,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [				
 									'id' => 'vack',
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],
@@ -341,7 +341,7 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 						'widgetOptions' => [				
 									'id' => 'vmck',				
 									'pluginOptions'=>[  
-										'threeState' => false, 
+										'threeState' => true, 
 									],
 						],
 					 ],
@@ -354,6 +354,27 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
             'label' => 'Gutschein von',
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+           ['attribute'=>'letzteDvd',
+            'label' => 'Letzte Dvd',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+           ], 
+           ['attribute'=>'DVDgesendetAm',
+            'label' => 'DVD am',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+          	'ajaxConversion' => true,
+         	  'widgetOptions' => [
+          			'class' => DateControl::classname(),
+								'type' => DateControl::FORMAT_DATE,
+						    'displayFormat' => 'php:d.m.Y',
+						    'saveFormat' => 'php:Y-m-d',
+                'options' => [
+										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
+  							    ],
+             ],       
            ], 
             [
                 'group'=>true,
@@ -547,16 +568,17 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
                    'groupOptions'=>['style'=>'background: #d9edf7;'],
                   ],
                   [ 'attribute'=>'WarZumIAda', 
-                  'valueColOptions'=>['style'=>'width:30%'], 
-                  'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+                    'valueColOptions'=>['style'=>'width:30%'], 
+                    'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
        						  'type'=>DetailView::INPUT_CHECKBOX_X,    
       							'value' => $model->showTriState($model->WarZumIAda),
+                    'name' => 'wziad',
           					'autoLabel' => true,
           					'label' => 'War zum IA da',
       							'widgetOptions' => [
       										'id' => 'wziad',				
       										'pluginOptions'=>[  
-      											'threeState' => false, 
+      											'threeState' => true, 
       										],
       							],
       						],

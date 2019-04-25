@@ -44,9 +44,22 @@ class Mitgliederliste extends \yii\db\ActiveRecord
 		
     public static function find()
     { 
-			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+			if ((!Yii::$app->user->identity->isAdmin /*role == 10*/) and (Yii::$app->controller->action->id != 'schuelerzahlen')) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+//            }  
     	    $schulids =  Schulleiterschulen::find()->select(['SchulId'])->where(['LeiterId' => Yii::$app->user->identity->LeiterId]);
+					Yii::Warning(VarDumper::dumpAsString($schulids),'application');
+/*          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+            if (!in_array(18, $schulids)) {
+              $schulids = array_merge([18], $schulids);
+              Yii::warning("-----eva:18 ");
+            }  
+            if (!in_array(33, $schulids)) {
+              $schulids = [33] + $schulids;
+              Yii::warning("-----eva:33 ");
+            } 
+            } 
+*/
           $schulen = Schulen::find()->select(['Schulname'])->where( ['in', 'SchulId', $schulids]);
 //					Yii::Warning(VarDumper::dumpAsString($schulen),'application');
 //		    	return parent::find()->where( ['LeiterName' => $schulleiter->LeiterName]);

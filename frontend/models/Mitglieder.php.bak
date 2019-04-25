@@ -196,19 +196,32 @@ class Mitglieder extends \yii\db\ActiveRecord
     public static function find()
     { 
 			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
-		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
+		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 		    	
 					// VarDumper::dump($schulleiter);
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
-					// VarDumper::dump($schulleiterschulen);
-					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+//					 Yii::warning('-----$s: '.VarDumper::dump($schulleiterschulen));
+//					$schule = Schulen::find()->all(); //where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
+					$schule = Schulen::find()->where(['schulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all();
           $si = array_map(function ($v) { return $v->Schulname; }, $schule);
-          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionensliste'))) {
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
             if (!in_array('Stuttgart', $si)) $si = ['Stuttgart'] + $si;
           }
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schule));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
+
+/*					$si = array_map(function ($v) { return $v->SchulId; }, $schulleiterschulen );
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+            if (!in_array(18, $si)) $si = [18] + $si;
+            if (!in_array(33, $si)) $si = [33] + $si;
+          }
+*/          
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
 		    	return parent::find()->where( ['Schulort' => $si]);
+//					return parent::find()->andWhere( ['or', ['mitglieder.SchulId' => $si]]);
 		  }
 		  return parent::find();
     }
@@ -289,18 +302,18 @@ class Mitglieder extends \yii\db\ActiveRecord
         return [
             [['MitgliederId', 'Vorname', 'Name', 'Schulort', 'Funktion'], 'required'],
             [['MitgliederId'], 'unique'],
-		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
-		        [['IBAN'], 'generateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
-		        [['KontoNr', 'BLZ'], 'string', 'min' => 5, 'max' => 10, 'skipOnEmpty' => true],
-		        [['KontoNr', 'BLZ'], 'generateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
-		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
-            [['WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
-            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
+//		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+//		        [['IBAN'], 'generateIban', 'skipOnEmpty' => false, 'skipOnError' => false],
+//		        [['KontoNr', 'BLZ'], 'string', 'min' => 5, 'max' => 10, 'skipOnEmpty' => true],
+//		        [['KontoNr', 'BLZ'], 'generateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+//		        [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
+            [['IABest', 'WarZumIAda', 'PTwarDa', 'VertragMit', 'VertragAbgeschlossen', 'MitgliederId', 'MitgliedsNr', 'VertragMit', 'SFirm', 'BListe', 'PruefungZum'], 'integer'],
+            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'ProbetrainingAm', 'KontaktAm', 'mandatDatum', 'DVDgesendetAm'],'date', 'format' => 'php:Y-m-d'],
             [['LetzteAenderung','LetztAendSifu'],'date', 'format' => 'Y-m-d H:m:s'],
 //            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum', 'ProbetrainingAm', 'KontaktAm'], 'default', 'allowEmpty'=>true, 'value' => null],
-           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung','LetztAendSifu'], 'safe'],
+           	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung','LetztAendSifu','RecDeleted'], 'safe'],
            	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'Status', 'Schulort', 
-						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
+						 	'Disziplin', 'Funktion', 'Graduierung', 'letzteDvd'], 'string', 'max' => 20],
             [['Name', 'Betreff', 'mandatNr'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
@@ -404,6 +417,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'KontaktArt' => Yii::t('app', 'Kontakt-Art'),
             'Bemerkung1' => Yii::t('app', 'Bemerkung1'),
             'EinladungIAzum' => Yii::t('app', 'Einladung IA zum'),
+            'IABest' => Yii::t('app', 'IA best.'),
             'warZumIAda' => Yii::t('app', 'War zum IA da'),
             'zumIAnichtDa' => Yii::t('app', 'Zum Ianicht Da'),
             'ProbetrainingAm' => Yii::t('app', 'Probetraining am'),

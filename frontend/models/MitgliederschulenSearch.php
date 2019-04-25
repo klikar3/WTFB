@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use frontend\models\Mitgliederschulen;
@@ -24,7 +25,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     {
         return [
             [['msID', 'MitgliederId', 'VertragId'], 'integer'],
-            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis'], 'safe'],
         ];
     }
 
@@ -95,10 +96,13 @@ class MitgliederschulenSearch extends Mitgliederschulen
         if (!empty($this->groesserVon)) {
             $query->andWhere(['<', 'Von', $this->groesserVon]);
             $query->andWhere(['OR', ['>', 'Bis', $this->groesserVon],
-                                    ['is','Bis', new \yii\db\Expression('null')]]);
+                                    ['is','Bis', new \yii\db\Expression('null')],
+                                    ['=','Bis', '0000-00-00'],
+                             ]);
         }
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
+					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
         if (!empty($this->SchulId)) {
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
         }

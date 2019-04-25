@@ -240,6 +240,10 @@ class MitgliedersektionenController extends Controller
         if ($model->load(Yii::$app->request->post() )) {
             $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
             $schule = implode(', ', ArrayHelper::map($schulen,'Schulname','Schulname'));
+            $schulids = implode(', ', ArrayHelper::map($schulen,'SchulId','SchulId'));
+            Yii::warning("----load: ".Vardumper::dumpAsString($schulids));
+        } else  {
+            Yii::warning("----noload: ");
         }
         
 //				$plf->load(Yii::$app->request->get(0));
@@ -251,36 +255,47 @@ class MitgliedersektionenController extends Controller
         //Yii::info("-----grads: ".Vardumper::dumpAsString($grads));
 
         $searchModel = new MitgliedersektionenSearch();
-        $subquery =  (new \yii\db\Query())->select('1')->from('mitgliederschulen ms')
-        ->where('ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null')
-                      ->andWhere(['ms.SchulId' => $model->schule]);
+/*        $subquery =  (new \yii\db\Query())->select([new \yii\db\Expression('1')])
+          ->from('mitgliederschulen ms')
+          ->where('ms.MitgliederId = c.mitglied_id')
+          ->andWhere('ms.Von <= CURDATE()')
+          ->andWhere('(ms.Bis >= CURDATE()) or (ms.Bis is null)');
+//          ->andWhere(['ms.SchulId' => $model->schule]);
+        $command = $subquery->createCommand();
+        Yii::warning("----subquery: ".Vardumper::dumpAsString($command->sql));
+        Yii::warning("----model->schule: ".Vardumper::dumpAsString($model->schule));
+*/    
         $query = Mitgliedersektionen::findBySql('
         select c.msekt_id, c.mitglied_id, c.sektion_id, c.vdatum, c.vermittler_id, c.pdatum, c.pruefer_id, max(c.m) as m, m.Vorname, m.Name as Nachname 
         from ( select a.msekt_id, a.mitglied_id, a.sektion_id, a.vdatum, a.vermittler_id, a.pdatum, a.pruefer_id, count(*) as rn, max(a.sektion_id) as m 
                 FROM mitgliedersektionen a join mitgliedersektionen b on a.mitglied_id = b.mitglied_id and a.sektion_id >= b.sektion_id group by a.mitglied_id, a.sektion_id order by sektion_id desc
                 ) c 
-              inner join mitglieder m on m.MitgliederId = c.mitglied_id group by c.mitglied_id order by c.sektion_id desc'
-//                WHERE EXISTS (SELECT 1 FROM mitgliederschulen ms where ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null)
-//                    and ms.SchulId = :schule) 
-//                group by c.mitglied_id order by c.sektion_id desc '                
-//        [ 'schule' => $model->schule]
-        )
+        inner join mitglieder m on m.MitgliederId = c.mitglied_id 
+        WHERE EXISTS (SELECT 1 FROM mitgliederschulen ms where ms.MitgliederId = c.mitglied_id and ms.Von <= CURDATE() and (ms.Bis >= CURDATE() or ms.Bis is null)
+                    and ms.SchulId in (:schule)) 
+        group by c.mitglied_id order by c.sektion_id asc ',                
+        [ 'schule' => $schulids]
+        );
+/*        
 //        ->innerJoin('mitglieder m','m.MitgliederId = c.mitgliedId') //->on('m.MitgliederId' = c.mitgliedId')
-        ->andWhere(['EXISTS', $subquery])
-  --      ->groupBy('c.mitglied_id')
+        ->where(['EXISTS', $subquery])
+  //      ->groupBy('c.mitglied_id')
         ->orderBy('c.sektion_id desc');
 //        $query = Mitgliedersektionen::find();
 //                 ->where(['sektionen.kurz' => $grads] );
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+*/
+        $command = $query->createCommand();
+        Yii::warning("----query: ".Vardumper::dumpAsString($command->sql));
         
         $d = new ActiveDataProvider([
 				     'query' => $query,
 				]);
         $c = $query->count();
-        Yii::warning("-----d: ".Vardumper::dumpAsString($d));
+//        Yii::warning("-----d: ".Vardumper::dumpAsString($d));
 				$zz = 32;
 				$r = $zz-($d->count % $zz);
-        Yii::warning("-----r: ".Vardumper::dumpAsString($r));
+//        Yii::warning("-----r: ".Vardumper::dumpAsString($r));
 				
         $query2 = (new \yii\db\Query())
 //        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
@@ -308,7 +323,7 @@ class MitgliedersektionenController extends Controller
 						'destination' => Pdf::DEST_BROWSER,
 						// format content from your own css file if needed or use the
 						// enhanced bootstrap css built by Krajee for mPDF formatting
-						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+//						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
 						// any css to be embedded if required
 						'cssInline' => '.kv-heading-1{font-size:18px}'.
 													'.kv-wrap{padding:20px;}' .
@@ -321,8 +336,11 @@ class MitgliedersektionenController extends Controller
 													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
 													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
-                          ' p, td,div { font-family: helvetica, verdana, sansserif;  font-size: 10pt !important;}; body, p { font-family: helvetica, verdana, sansserif; font-size: 12pt; };' .
-                          ' table{width: 100%;line-height: inherit;text-align: left; } table, td, th {border: 1px solid black;border-collapse: collapse;}'
+                          ' p, td,div { font-family: helvetica, verdana, sansserif;  font-size: 10pt !important;}' .
+                          ' body, p { font-family: helvetica, verdana, sansserif; font-size: 12pt; };' .
+                          ' table{width: 100%;line-height: inherit;text-align: left; } ' .
+                          ' table, td, th {font-size: 10pt;font-family: helvetica, verdana, sansserif; border: 1px solid black;border-collapse: collapse;}' .
+                          ' th{font-size: 12pt;} td{line-height: 0.5em; }'
             ,
 						'content' => $this->renderPartial('sektionsliste', [
 //		            'searchModel' => $searchModel,

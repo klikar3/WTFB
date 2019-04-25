@@ -67,9 +67,10 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 					// Yii::info('-----$schulleiterschulen: '.VarDumper::dumpAsString($schulleiterschulen),'application');
 					$si = array_map(function ($v) { return $v->SchulId; }, $schulleiterschulen );
           if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
-            if (!in_array(18, $si)) $si = [18] + $si;
+            if (!in_array(18, $si)) $si = array_merge([18], $si);
+            if (!in_array(33, $si)) $si = [33] + $si;
           }
-//					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
+					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
 					
 //					if (empty($schulleiterschulen)) return [];
 //					$schulen = Schulen::findAll(['SchulId' => $si]);
@@ -162,7 +163,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return [
            [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'KFristMonate'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate', 'WtfbOk', 'VerlaengerungMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK'], 'safe'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK', 'kleinerBis'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 					 [['Bank'], 'string', 'max' => 100],

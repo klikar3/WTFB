@@ -73,6 +73,11 @@ $this->title = (Yii::$app->controller->action->id == 'info-abendliste') ? Yii::t
             ],
 						['format' => 'raw',
              'attribute' => 'Telefon1',
+             'value' => function ($data) { 
+                        return ((empty($data->Telefon1) ? "" : $data->Telefon1 ) . 
+                               (empty($data->Telefon2) ? "" : " " . $data->Telefon2) . 
+                               (empty($data->HandyNr) ? "" : " " . $data->HandyNr)) ;
+                      },
              'enableSorting' => false,
         		 'contentOptions' => ['style' => 'width: 100px;text-align:left;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
@@ -92,9 +97,9 @@ $this->title = (Yii::$app->controller->action->id == 'info-abendliste') ? Yii::t
              'format' => 'raw',
              'enableSorting' => false,
              'value'=>function ($data) {
-                        return Yii::t('app', ' ');
+                        return ($data->IABest) ? "X" : "";
                       },
-        		 'contentOptions' => ['style' => 'font-size: 13pt;width: 40px;text-align:right;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
+        		 'contentOptions' => ['style' => 'font-size: 13pt;width: 40px;text-align:center;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
              ],
 						['format' => 'raw',

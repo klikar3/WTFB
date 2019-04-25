@@ -112,7 +112,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
         		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],
             [ 'attribute' => 'SchulId',
-//              'visible' => false,
+              'visible' => false,
             ],
             [ 'attribute' => 'Grad',
               'label' => 'Grad',
@@ -129,13 +129,13 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
             ['attribute' => 'KuendigungAm',
               'label' => 'Kündigung',
              'value' => function ($data) {
-                  return empty($data->KuendigungAm) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
+                  return (($data->KuendigungAm == '0000-00-00') or empty($data->KuendigungAm)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Bis',
               'label' => 'Austritt',
              'value' => function ($data) {
-                  return empty($data->Bis) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
+                  return (($data->Bis == '0000-00-00') or empty($data->Bis)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'MonatsBeitrag',

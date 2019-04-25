@@ -216,7 +216,7 @@ class MitgliedergradeController extends Controller
 		        $mitglied = $model->mitglied;
 		        date_default_timezone_set('Europe/Berlin');
 		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-            $mitglied->PruefungZum = $grad->gradId;
+            $mitglied->PruefungZum = $modelp->GradId;
 				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		

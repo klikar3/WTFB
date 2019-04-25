@@ -50,7 +50,7 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . $schule . ' am ' . date('d.
              'attribute' => 'mitglied.Name',
               'value' => function ($data) {
                   Yii::warning(VarDumper::dumpAsString($data),'application');
-                  return $data->mitglied->Vorname . ' ' .$data->mitglied->Name;
+                  return $data->Vorname . ' ' .$data->Nachname;
                   },
 //        		 'contentOptions' => ['style' => 'font-family: helvetica, verdana, sansserif;font-size: 12pt;width: 200px;border: 1px solid black;border-top:0px;border-left: 0px;'],
             ],
@@ -65,7 +65,7 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . $schule . ' am ' . date('d.
 						['format' => 'raw',
              'attribute' => 'sektion.name',
              'label' => 'Programm',
-        		 'contentOptions' => ['style' => 'text-align:right;'],
+        		 'contentOptions' => ['style' => 'text-align:left;'],
             ],
 //						['format' => ['date', 'php:d.m.Y'],
 //             'attribute' => 'vdatum',
@@ -74,7 +74,7 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . $schule . ' am ' . date('d.
 //            ],
 						['format' => ['date', 'php:d.m.Y'],
              'attribute' => 'pdatum',
-             'label' => 'Geprüft',
+             'label' => 'Abgenommen',
         		 'contentOptions' => ['style' => 'text-align:center;'],
             ],
         ],

@@ -175,7 +175,7 @@ class SiteController extends Controller
 //        $model->load(Yii::$app->request->post());
 //        Yii::warning(VarDumper::dumpAsString($model),'application');
         if (!$model->load(Yii::$app->request->post() )) {
-            Yii::warning('----- noload','application');
+//            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
             $dataProvider = $searchModel->search($params);
      //   Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
@@ -193,7 +193,7 @@ class SiteController extends Controller
             $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
                                                 'groesserVon' => date('Y-m-d'),
                                                 'kleinerBis' => date('Y-m-d'), ];
-            Yii::$app->session['customerparams'] = $params;
+//            Yii::$app->session['customerparams'] = $params;
     //        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         }
         
@@ -349,6 +349,7 @@ class SiteController extends Controller
             'query' => $query,
             'sort' => ['defaultOrder' => ['KuendigungAm' => SORT_DESC],]
         ]);
+        $dataProvider->pagination = false;
 
         return $this->render('kuendigungen', [
 //            'searchModel' => $searchModel,
@@ -375,6 +376,7 @@ class SiteController extends Controller
             'query' => $query,
             'sort' => ['defaultOrder' => ['Von' => SORT_DESC],]
         ]);
+        $dataProvider->pagination = false;
 
         return $this->render('eintritte', [
             'searchModel' => $searchModel,
@@ -408,6 +410,7 @@ class SiteController extends Controller
 //                        'attributes' => ['Bis' => SORT_DESC]
                       ]
         ]);
+        $dataProvider->pagination = false;
 
         return $this->render('austritte', [
             'searchModel' => $searchModel,
@@ -666,7 +669,7 @@ class SiteController extends Controller
         
         $searchModel = new MitgliederSearch();
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
-                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['Schulort' => $schulnamen]);
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
@@ -681,7 +684,7 @@ class SiteController extends Controller
 				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
-        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
 //        ->select('m.*')
     		->from('mitglieder m')
     		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')

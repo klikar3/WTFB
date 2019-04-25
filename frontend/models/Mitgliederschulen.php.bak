@@ -66,10 +66,11 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 					// Yii::info('-----$schulleiterschulen: '.VarDumper::dumpAsString($schulleiterschulen),'application');
 					$si = array_map(function ($v) { return $v->SchulId; }, $schulleiterschulen );
-          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionensliste'))) {
-            if (!in_array(18, $si)) $si = [18] + $si;
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+            if (!in_array(18, $si)) $si = array_merge([18], $si);
+            if (!in_array(33, $si)) $si = [33] + $si;
           }
-//					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
+					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
 					
 //					if (empty($schulleiterschulen)) return [];
 //					$schulen = Schulen::findAll(['SchulId' => $si]);

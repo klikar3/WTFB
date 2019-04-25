@@ -32,12 +32,25 @@ class Schulen extends \yii\db\ActiveRecord
     { 
 			if ((!Yii::$app->user->identity->isAdmin /*role == 10*/) /*and (Yii::$app->controller->action->id != 'schuelerzahlen')*/) {
     			$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
-    	    $schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => $schulleiter->LeiterId])->all();
+    	    $schulleiterschulen = Schulleiterschulen::find()->select('SchulId')->where(['LeiterId' => $schulleiter->LeiterId])->all();
+//					Yii::warning( Vardumper::dumpAsString($schulleiterschulen));
           $schulen = array_map(function ($v) { return $v->SchulId; },$schulleiterschulen );
-          if ((Yii::$app->controller->action->id == 'schuelerzahlen') and (Yii::$app->user->identity->username == 'evastgt')) {
-            $schulen = [18 => "Stuttgart K"] + $schulen;
+//					Yii::warning("-----schulen: ". Vardumper::dumpAsString($schulen));
+          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+            if (!in_array(18, $schulen)) {
+              $schulen = array_merge([18], $schulen);
+//              Yii::warning("-----eva:18 ");
+            }  
+            if (!in_array(33, $schulen)) {
+              $schulen = [33] + $schulen;
+//              Yii::warning("-----eva:33 ");
+            }  
+
+//            $schulen = [18 => "Stuttgart K"] + $schulen;
+//Vardumper::dumpAsString($schulen);
           }
-//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+//					Yii::warning("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+					Yii::warning("-----PRINT: ". Vardumper::dumpAsString($schulen));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )));
 //					Yii::error("-----PRINT: ". Vardumper::dumpAsString(parent::find()->where( ['SchulId' => array_map(function ($v) { return $v->SchulId; },$schulleiterschulen )])->all()));
 		    	return parent::find()->where( ['schulen.SchulId' => $schulen]);
