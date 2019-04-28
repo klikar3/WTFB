@@ -398,6 +398,8 @@ JS;
     
     public function actionCheck()
     {
+        $session = Yii::$app->session;
+        $session->set('checkPercent', 0);
 //        Yii::$app->response->headers->set('Content-Type', 'text/event-stream');
 //        Yii::$app->response->format = Response::FORMAT_JSON;
 //        header('Content-Type: text/event-stream');
@@ -405,7 +407,8 @@ JS;
 //        header('Cache-Control: no-cache'); 
 //        ob_start();
           return $this->render('check', [
-                'percent' => 0, 
+                'percent' => 0,
+                'result' => '-' 
             ]);
 //        $this->actionRuncheck();    
     }
@@ -413,6 +416,8 @@ JS;
     public function actionRuncheck()
     {
         set_time_limit(300);
+        $session = Yii::$app->session;
+        $session->set('checkPercent', 0);
         
 //        header('Content-Type: text/event-stream');
         // recommended to prevent caching of event data.
@@ -424,13 +429,13 @@ JS;
 //        ob_start();
         foreach($tables as $tbl)
         {
-            echo $tbl, ':<br/>';
+//            echo $tbl, ':<br/>';
         }
         
         $max = Mitglieder::find()->count();
         $i = $percent = 0;
         
-        $this->send_message(0, 'start 0 of ' . $max , 0);
+        $this->send_message(0, 'start 0 of ' . $max , 10);
         
         $errors[] = 'Gefundene Fehler: ';
         foreach (Mitglieder::find()->each(10) as $model) {
@@ -440,12 +445,20 @@ JS;
               $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.json_encode($model->errors).'<br>';
             }
             $percent = ($i * 100) / $max;
-            if ($i %10 == 0) $this->send_message($i, 'on iteration ' . $i . ' of ' . $max , $percent);
- //           if ($i %10 == 0) $this->renderAjax('progBar', ['percent' => $percent,]);
+            $session->set('checkPercent', $percent);
+//            if ($i %10 == 0) $this->send_message($i, 'on iteration ' . $i . ' of ' . $max , $percent);
+//            if ($i %10 == 0) $this->renderAjax('progBar', ['percent' => $percent,]);
         }
 //         VarDumper::dump($errors);
-        $this->send_message('CLOSE', 'Process complete',100);
+        Yii::warning("----- Validation Errors:".Vardumper::dumpAsString($errors));
+//        $this->send_message($i, 'on iteration ' . $i . ' of ' . $max ,100);
         //return //ob_get_clean();
+          return $this->render('check', [
+                'percent' => 100,
+                'result' => Vardumper::dumpAsString($errors) 
+            ]);
+//        $this->actionRuncheck();    
+//        return '<html><body>'.Vardumper::dumpAsString($errors).'</body></html>';
     }
     
     public function actionDisplay($percent) {
@@ -471,13 +484,32 @@ JS;
     
     private function send_message($id, $message, $progress) {
         $d = array('message' => $message , 'progress' => $progress);
+          Yii::warning("----- ProgBar Percent:".Vardumper::dumpAsString($progress));
           
-        echo "id: $id" . PHP_EOL;
-        echo "data: " . json_encode($d) . PHP_EOL;
-        echo PHP_EOL;
+//        echo "id: $id" . PHP_EOL;
+//        echo "data: " . json_encode($d) . PHP_EOL;
+//        echo PHP_EOL;
           
-        ob_flush();
-        flush();
+//        ob_flush();
+//        flush();
+        return $this->renderPartial('progbar',['percent' => $progress], false, true);
+//        Yii::$app->end();
     }
-  
+    
+    public function actionPercentage($id) {
+    if (Yii::app()->request->isAjaxRequest) {
+           $item = Mitglieder::model()->findByPk($id); //obtain instance of object containing your function
+           echo $item->getBuildPercentage(); //to return value in ajax, simply echo it   
+        }
+    }
+
+
+    public function getBuildPercentage() {
+        $session = Yii::$app->session;
+        $progress = $session->get('checkPercent');
+      Yii::warning("----- getBuildPercentage Percent:".Vardumper::dumpAsString($progress));
+        return $progress; 
+    }
+
+   
 }

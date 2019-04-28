@@ -2,10 +2,6 @@
 
 use yii\bootstrap\Progress;
 
-    header('Content-Type: text/event-stream');
-    // recommended to prevent caching of event data.
-    header('Cache-Control: no-cache'); 
-      
 
 ?>
 <div id="showOnlyProgbar">

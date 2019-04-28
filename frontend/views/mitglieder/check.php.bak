@@ -27,27 +27,63 @@ use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Texte;
-
+/*
+$this->registerJs('jquery');
+$this->registerJs('ajax-percentage','
+$(document).ready(function() {   var interval = 500;
+   var refreshId = setInterval(function() { $.ajax(
+        type: "GET",
+        url: '.Yii::$app->urlManager->createUrl('mitglieder/getBuildPercentage').',
+        success: function (percents) {
+            // you have got your percents, so you can now assign it to progressbar value here
+            $( "#progressbar" ).progressbar({
+                value: = percents
+        }
+ )}, interval);
+ alert(1);
+}');
+*/
 ?>
 Seite
        <br />
         <input type="button" onclick="startTask();"  value="Start Long Task" />
         <input type="button" onclick="stopTask();"  value="Stop Task" />
         <br />
-        <br />
         <p>Results</p>
+         
         <br />
-        <div id="results" style="border:1px solid #000; padding:10px; width:300px; height:250px; overflow:auto; background:#eee;"></div>
+<?php // Pjax::begin(['id'=>'pjaxGridView_']); ?>
+        <div id="results" style="border:1px solid #000; padding:10px; width:1200px; height:250px; overflow:auto; background:#eee;"><?= $result ?></div>
+<?php // Pjax::end(); ?>
         <br />
-        <progress id='progressor' value="0" max='100' style=""></progress>  
+<?php  /*
+echo Progress::widget([
+    'percent' => Mitglieder::getBuildPercentage(),
+    'barOptions' => ['class' => 'progress-bar-danger'],
+    'id' => 'progressbar'
+]);  */
+/*    $this->widget(
+        'bootstrap.widgets.TbProgress',
+        array(    
+            'type' => 'success', 
+            'percent' => Mitglieder::getBuildPercentage(),
+            'htmlOptions' => array(
+                'data-toggle' => 'tooltip',
+                'title' => 'Approximately ...to go.'
+                )                                
+            )
+        )*/
+/* 
+      <progress id='progressor' value="0" max='100' style=""></progress>  
         <span id="percentage" style="text-align:right; display:block; margin-top:5px;">0</span>
-
-<div class="progress-bar-show" style="font-family: Arial, Helvetica, sans-serif;">
+*/        
+?> 
+<div name="progBar" id="ajaxprogbar" class="progress-bar-show" style="font-family: Arial, Helvetica, sans-serif;">
 <?php // Pjax::begin(['id'=>'pjaxGridView_']); ?>
 <?php
-    // echo $this->renderAjax('progBar',['percent' => $percent]);
-    ?>
+     echo $this->renderAjax('progbar',['percent' => $percent]);  ?>
 <?php // Pjax::end(); ?>
+   
     <div id="app" style="display:none" data-done="<?= Yii::t('app', 'DONE') ?>" data-skipped="<?= Yii::t('app', 'SKIPPED') ?>" data-failed="<?= Yii::t('app', 'FAILED') ?>" ></div>
 
     <div id="info-panel" class="panel panel-info" style="display: none;">
@@ -87,8 +123,9 @@ Seite
             </div>
          
             <div class="col-sm-3"><br>
-                <?php echo Html::button(Yii::t('app', 'Start'), [ 'class' => 'btn btn-info', 'onClick' => 'send();', 'id'=> 'post-submit-btn']);
-                //echo Html::a(Yii::t('app', 'Start'), ['/mitglieder/runCheck'], ['class'=>'btn btn-primary']) 
+                <?php //echo Html::button(Yii::t('app', 'Start'), [ 'class' => 'btn btn-info', 'id'=> 'post-submit-btn']);
+                //echo Html::button(Yii::t('app', 'Start'), [ 'class' => 'btn btn-info', 'onClick' => 'send();', 'id'=> 'post-submit-btn']);
+                echo Html::a(Yii::t('app', 'Start'), ['/mitglieder/runcheck'], ['class'=>'btn btn-primary']) 
                 ?>
             </div>
         </div>
@@ -100,25 +137,31 @@ Seite
 <script type="text/javascript">
 
 function send() {
-	var data= '1';//$("#post-form").serialize();
-   alert(data);
+	var data= null; //$("#post-form").serialize();
+//   alert(data);
 		$.ajax({
 			type: 'POST',
 			url: '<?php echo Yii::$app->urlManager->createUrl("mitglieder/runcheck"); ?>',
 			data:data,
 			success:function(data) {
 				// $("#list-of-post").append(data);
-        $("#post-submit-btn").attr("disabled", "disabled");
+        $("#post-submit-btn").attr("disabled", false);
+//        $("#results").append();
+    //    addLog("...fertig");
+//        $("progBar").percent = 5;
 //				jQuery("#progbar").load("<?php echo Yii::$app->urlManager->createUrl("mitglieder/runcheck"); ?>");
 //				$("#ForumPost_content").val('');
 			},
 			error: function(data) { // if error occured
 				alert("Error occured.please try again");
-				 alert(data);
+				// alert(data);
 			},
 			dataType:'html'
 		});
-
+  $("#post-submit-btn").attr("disabled", "disabled");
+  addLog("Starte...");
+//  setintVal();
+  return false;
 }
 
 /*$(document).ready(function() {
@@ -136,9 +179,21 @@ function enableBtn(val) {
 		$("#post-submit-btn").removeAttr("disabled");
 	}
 }
-
-
-
+/*
+function setintVal(){
+    setInterval(function() { $.ajax(
+            type: "GET",
+            url: '<?php echo Yii::$app->urlManager->createUrl('mitglieder/getBuildPercentage')?>',
+            success: function (percents) {
+                // you have got your percents, so you can now assign it to progressbar value here
+                $( "#progressbar" ).progressbar({
+                    value: = percents
+            }
+     )}, 500);
+     alert("1");
+    }
+}
+*/
 </script>
 
 <?php
@@ -149,7 +204,7 @@ $js = <<< JS
     var es;
   
 function startTask() {
-    es = new EventSource("$url1");
+    es = new EventSource('$url1');
       
     //a message is received
     es.addEventListener("message", function(e) {
@@ -204,6 +259,7 @@ function addLog(message) {
     r.innerHTML += message + "<br>";
     r.scrollTop = r.scrollHeight;
 }
+
 JS;
 $this->registerJs($js,View::POS_END);
 

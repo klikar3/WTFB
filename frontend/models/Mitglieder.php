@@ -334,11 +334,11 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['BeitragAussetzenGrund'], 'string', 'max' => 37],
             [['AufnahmegebuehrBezahlt', 'WTPruefungZum'], 'string', 'max' => 14], 
 		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'WTPruefungAm', 'KPruefungAm', 
-							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm', 'DVDgesendetAm'], 'string', 'max' => 19],            
+							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm'], 'string', 'max' => 19],            
 						[['Bemerkungen'], 'string', 'max' => 294],
             [['Text'], 'string', 'max' => 426],
             [['DM2Schule'], 'string', 'max' => 5],
-            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
+//            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],
 //		        [['MitgliedsNr'], 'unique']
 		        ];
@@ -542,6 +542,11 @@ class Mitglieder extends \yii\db\ActiveRecord
 														if ($data == 1) return 'Ja';
 		}
 			
+    public static function getBuildPercentage() {
+        $session = Yii::$app->session;
+        return $session->get('checkPercent'); 
+    }
+
 		public function beforeValidate() {
 		    if (parent::beforeValidate()) {
 //		    		$jetzt = new \yii\db\Expression('NOW();');

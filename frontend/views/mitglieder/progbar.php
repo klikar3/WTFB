@@ -9,7 +9,8 @@ use yii\bootstrap\Progress;
 echo Progress::widget([
         'percent' => $percent,
         'barOptions' => ['class' => 'progress-bar-info',],
-        'options' => ['id' => 'progBar', 'class' => 'active progress-striped', 'style' => '#display: none;']
+        'options' => ['id' => 'progBar', 'class' => 'active progress-striped']
+//        'options' => ['id' => 'progBar', 'class' => 'active progress-striped', 'style' => '#display: none;']
     ]);
 ?>
 </div>
