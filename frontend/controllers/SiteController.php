@@ -672,7 +672,8 @@ class SiteController extends Controller
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
                  ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
-                 ->andWhere(['Schulort' => $schulnamen]);
+                 ->andWhere(['Schulort' => $schulnamen])
+                 ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')]);
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
 //        $sql = $query->createCommand()->getRawSql($query);
