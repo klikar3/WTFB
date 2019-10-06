@@ -331,7 +331,99 @@ class SiteController extends Controller
                                                 'schule' => $model->schule]);
     }
 
-    public function actionKuendigungen($von,$bis,$schule)
+        public function actionGeburtstagsliste($print = 0)
+    {
+				$model = new AuswertungenForm();
+				$model->schule = 10;
+				$model->von = date("d.m.Y", mktime(0,0,0,date("n", time()),date("j",time()) -7 ,date("Y", time())));
+				$model->bis = date('d.m.Y', mktime(0,0,0,date("n", time()),date("j",time()) +7 ,date("Y", time())));
+//        VarDumper::dump($model);
+
+        if ($model->load(Yii::$app->request->post() )) {
+        } else {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+        
+        Yii::warning($model->von);
+        $query = (new \yii\db\Query())
+            ->select(['concat_ws(" ",m.Vorname,m.Name) as name', 'm.GeburtsDatum', 's.Schulname', 's.Disziplin'])
+            ->from('mitglieder m')
+            ->leftJoin('mitgliederschulen ms', 'm.MitgliederId = ms.MitgliederId')
+            ->leftJoin('schulen s', 's.SchulId = ms.SchulId')
+            ->where(['ms.SchulId'=> $model->schule,'(GeburtsDatum>=:von and GeburtsDatum<=:bis)'], 
+											[':von' => $model->von,
+														':bis' => $model->bis,
+														':schule' => $model->schule]) 
+            ->orderBy('m.GeburtsDatum');
+        $sql = $query->createCommand()->getRawSql($query);
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+/*            'sort' => ['defaultOrder' => ['GeburtsDatum' => SORT_DESC],
+            		        'attributes' => [
+            		            'Name',
+                            'mitgliederliste.Name' => [
+            		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+            		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+            		                'label' => 'Name',
+            		                'default' => SORT_ASC,
+            		            ],  
+            		          ],
+                       ],*/ 
+            'pagination' => false,
+        ]);
+        $datasets = $dataProvider;
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+/*				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahl1 mz')
+            ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
+														'schule' => (int)$model->schule))
+						->orderBy('jahr,monat')
+						->all();
+*/            
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+/*        $datasets = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
+            ->from('mitgliederzahlen mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahlen mz')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+*/            
+        return $this->render('geburtstagsliste',['model' => $model, 
+                                                'dataProvider' => $dataProvider, 
+//                                                'labels' => $labels,
+                                                'von' => $model->von,
+                                                'bis' => $model->bis, 
+                                                'schule' => $model->schule,
+                                                'print' => $print,]);
+    }
+
+    public function actionKuendigungen($von,$bis,$schule,$print = 0)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
         $searchModel = new MitgliederschulenSearch();
@@ -355,6 +447,10 @@ class SiteController extends Controller
         return $this->render('kuendigungen', [
 //            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'von' => $von,
+            'bis' => $bis, 
+            'schule' => $schule,
+            'print' => $print,
         ]);
     }
 
@@ -389,7 +485,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionAustritte($von,$bis,$schule)
+    public function actionAustritte($von,$bis,$schule,$print = 0)
     {
 //        Yii::warning(Vardumper::dumpAsString($model),'application');
         $searchModel = new MitgliederschulenSearch();
@@ -416,6 +512,10 @@ class SiteController extends Controller
         return $this->render('austritte', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'von' => $von,
+            'bis' => $bis, 
+            'schule' => $schule,
+            'print' => $print,
         ]);
 
 //        VarDumper::dump($model);
@@ -674,10 +774,34 @@ class SiteController extends Controller
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['Schulort' => $schulnamen])
                  ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')]);
+        if ($model->fon)  {
+            $query->andWhere(['is not', 'mitglieder.Telefon1', new \yii\db\Expression('null')]);
+            $query->andWhere(['or',
+                                  ['<>', 'mitglieder.Telefon1', ''],
+                                  ['<>', 'mitglieder.Telefon2', ''],
+                                  ['<>', 'mitglieder.HandyNr', '']
+            ]);
+        }
+        if ($model->ia)  {
+            $query->andWhere(['is', 'mitglieder.ProbetrainingAm', new \yii\db\Expression('null')]);
+            $query->andWhere(['is not', 'mitglieder.WarZumIAda', new \yii\db\Expression('true')]);
+            $query->andWhere(['or',
+                                  ['is not', 'mitglieder.EinladungIAzum', new \yii\db\Expression('null')],
+                                  ['<=', 'EinladungIAzum', new \yii\db\Expression('CURRENT_DATE')]
+                            ]);
+        }
+        if ($model->pt)  {
+//            $query->andWhere(['is', 'mitglieder.ProbetrainingAm', new \yii\db\Expression('null')]);
+            $query->andWhere(['is', 'mitglieder.WarZumIAda', new \yii\db\Expression('true')]);
+/*            $query->andWhere(['or',
+                                  ['is not', 'mitglieder.EinladungIAzum', new \yii\db\Expression('null')],
+                                  ['EinladungIAzum <= CURRENT_DATE']
+                            ]);
+*/        }
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
-//        $sql = $query->createCommand()->getRawSql($query);
-//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $d = new ActiveDataProvider([
 				     'query' => $query,
@@ -692,7 +816,7 @@ class SiteController extends Controller
     		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')
         ->andWhere(['is', 'm.MitgliederId', new \yii\db\Expression('null')])
     		->limit($r);
-				
+
 				$query->union($query2, true);//false is UNION, true is UNION ALL
 
 				$dataProvider = new ActiveDataProvider([

@@ -11,6 +11,7 @@ use \dektrium\user\Module;
 
 use kartik\widgets\Alert; 
 use kartik\widgets\AlertBlock;
+use kartik\widgets\Growl;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -18,6 +19,7 @@ use kartik\widgets\AlertBlock;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
+
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -35,8 +37,9 @@ AppAsset::register($this);
             NavBar::begin([
                 'brandLabel' => 'WTFB-Data',
                 'brandUrl' => Yii::$app->homeUrl,
+                'innerContainerOptions' => ['class' => 'container-fluid'],
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => 'navbar navbar-inverse navbar-fixed-top',
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
@@ -91,7 +94,8 @@ AppAsset::register($this);
 																  	['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlenauswahl'],],
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
 																  	 'linkOptions' => ['target' => '_blank']],
-																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],]
+																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],],
+																  	['label' => 'Geburtstagsliste', 'url' => ['/site/geburtstagsliste'],],
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[

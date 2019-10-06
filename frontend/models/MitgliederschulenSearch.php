@@ -94,8 +94,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'Name' => $this->Name,
         ]);
         if (!empty($this->groesserVon)) {
-            $query->andWhere(['<', 'Von', $this->groesserVon]);
-            $query->andWhere(['OR', ['>', 'Bis', $this->groesserVon],
+            $query->andWhere(['<=', 'Von', $this->groesserVon]);
+            $query->andWhere(['OR', ['>=', 'Bis', $this->groesserVon],
                                     ['is','Bis', new \yii\db\Expression('null')],
                                     ['=','Bis', '0000-00-00'],
                              ]);

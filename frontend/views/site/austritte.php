@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 
@@ -24,10 +25,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'lastPageLabel' => 'Last'
 ]);  
 ?>
-<div class="maustritte-index">
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#btnPrint").live("click", function () {
+            window.print();
+        });
+    </script>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<div class="maustritte-index">
+   <div class="row"> 
+      <div class="col-md-6">
+          <h1><?= Html::encode($this->title) ?></h1>
+      </div>  
+      <div class="col-md-6" style="text-align:right">    
+   <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/austritte','von' => $von, 'bis' => $bis, 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary']) : '' ?>
+        <?php
+          if ($print == 1) {
+        ?>
+          <form id="form1">
+            <input type="button" value="Drucken" id="btnPrint" class="btn btn-primary"/>
+          </form>
+        <?php
+          }
+        ?> 
+      </div>
+   </div>
+   <?php if (!empty($print)) {$dataProvider->sort = false; $dataProvider->pagination = false;} ?>
 
 
     <?= GridView::widget([
@@ -40,11 +63,14 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ['attribute' => 'msID', 'width' => '60px'],
             ['attribute' => 'NameLink',
              'format' => 'raw', 
+             'label' => 'Name',
              'width' => '200px'
             ],
 //            'mitglieder.Vorname',
 //            'mitglieder.Name',
-            'schul.SchulDisp',
+            ['attribute' => 'schul.SchulDisp',
+             'label' => 'Schule',
+            ],
 //            'SchulId',
             [ 'attribute' => 'mgl.Grad',
               'label' => 'Grade',

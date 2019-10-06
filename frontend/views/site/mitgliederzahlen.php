@@ -29,8 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //RGraphAsset::register($this);
 ?>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
   <div class="row">    
+  <div class="col-md-3"> </div> 
+  <div class="panel panel-info col-md-5"> 
+    <div class="panel-heading" style="margin: 5px;padding:5px;">   
+      <h4><?= Html::encode($this->title) ?></h4>
+    </div>
+    <div class="panel-body" >   
 			<?php 
 //					$schulname = 
 //					$von = '01.01.2016';
@@ -64,7 +69,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			?>		
 			<?= $form->field($model, 'bis')->widget(DatePicker::classname(), [
 							'value' => $model->bis, 
-							'options'=>['placeholder'=>'Bis'], 
+							'options'=>['placeholder'=>'Bis',
+//                  'style' => 'z-index: 1151 !important; '
+              ], 
 							'pluginOptions'=>['autoclose'=>true, 'format' => 'dd.mm.yyyy', 'convertFormat' => true,
 									'todayHighlight' => true, 'todayBtn' => true, 
 							]
@@ -79,7 +86,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?php 
 				$form = ActiveForm::end();
 		 	?>
-
+    </div>
+   </div> 
   </div> <h4> 
 <?php if (!empty($datasets)) {  echo Schulen::findOne($model->schule)->SchulDisp;
 				$Esum = $Asum = $Ksum = 0;
@@ -90,8 +98,8 @@ $this->params['breadcrumbs'][] = $this->title;
         }
 ?>       </h4> <table> 
           <tr><td>Eintritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Esum,Url::toRoute(['site/eintritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule, 'print' => 0]),['target' => '_blank'])?></td> </tr>
-          <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Asum,Url::toRoute(['site/austritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
-          <tr><td>Kündigungen gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Ksum,Url::toRoute(['site/kuendigungen','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule]),['target' => '_blank'])?></td> </tr>
+          <tr><td>Austritte gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Asum,Url::toRoute(['site/austritte','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule, 'print' => 0]),['target' => '_blank'])?></td> </tr>
+          <tr><td>Kündigungen gesamt</td> <td style="text-align:right;width: 2em;"><?=Html::a($Ksum,Url::toRoute(['site/kuendigungen','von' => $model->von, 'bis' => $model->bis, 'schule' => $model->schule, 'print' => 0]),['target' => '_blank'])?></td> </tr>
         </table>
     
     <table>
@@ -308,7 +316,9 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
   
 				 ]);
-}		?>
+}	else {	?>
+<p>&nbsp;<br><br><br><br><br><br><br><br><br><br><br><br></p>
+<?php } ?>
 			</td>
 		</tr>
 		</table>

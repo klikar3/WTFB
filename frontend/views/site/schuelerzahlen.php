@@ -120,6 +120,12 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                   return !empty($data->mgl->Grad) ? $data->mgl->Grad : '-';
                   },
             ],
+            ['attribute' => 'VDatum',
+              'label' => 'Vertrag',
+             'value' => function ($data) {
+                  return \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
+                  }
+            ], 
             ['attribute' => 'Von',
               'label' => 'Eintritt',
              'value' => function ($data) {
