@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'EndeEsckrima',
 
             ['class' => 'yii\grid\ActionColumn',
-    						'template' => '{view}  {update}  {delete}',
+    						'template' => '{view}  {update}  {delete}  {restore}',
 //								'controller' => 'texte',
 								'header' => '<center>Aktion</center>',
                  'options' => [
@@ -202,7 +202,7 @@ $this->params['breadcrumbs'][] = $this->title;
 											'title' => Yii::t('app', 'Datensatz wirklich aus der DB löschen'),
 								        ])  . '';
 								    },
-									'delete' => function ($url, $model) {
+									'restore' => function ($url, $model) {
 										return ''.Html::a('<span class="glyphicon glyphicon-new-window"></span>', 
 																	Url::toRoute(['/mitglieder/restore', 'id' => $model->MitgliederId ] ), [
       			          'data' => [

@@ -34,6 +34,7 @@ use frontend\models\Texte;
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
 				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
+//                                        'intensiv' => $intensiv
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]

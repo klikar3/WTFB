@@ -12,6 +12,7 @@ use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
 
+use frontend\models\Intensiv;
 use frontend\models\Schulen;
 
 
@@ -534,6 +535,11 @@ class Mitglieder extends \yii\db\ActiveRecord
 	   public function getMitgliederschulens() 
 	   { 
 	       return $this->hasMany(Mitgliederschulen::className(), ['MitgliederId' => 'MitgliederId']); 
+			}
+			
+	   public function getMitgliederIntensiv() 
+	   { 
+	       return $this->hasOne(Intensiv::className(), ['mitgliederId' => 'MitgliederId']); 
 			}
 			
 		public function showTriState($data) {

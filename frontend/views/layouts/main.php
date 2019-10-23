@@ -54,6 +54,7 @@ AppAsset::register($this);
 																  	['label' => 'Funktionen', 'url' => ['/funktion/index']],
 																  	['label' => 'Disziplinen', 'url' => ['/disziplinen/index']],
 																  	['label' => 'Grade', 'url' => ['/grade/index']],
+																  	['label' => 'Intensiv', 'url' => ['/intensiv/index']],
 																  	['label' => 'Interessent-Vorgaben', 'url' => ['/interessent-vorgaben/index']],
 																  	['label' => 'Prüfer', 'url' => ['/pruefer/index']],
 																  	['label' => 'Schulen', 'url' => ['/schulen/index']],
