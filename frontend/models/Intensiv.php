@@ -9,6 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $mitgliederId
+ * @property string $KontaktAm 
+ * @property string $KontaktArt 
+ * @property string $Woher 
  * @property string $kontaktNachricht
  * @property int $alter
  * @property string $graduierung
@@ -44,8 +47,10 @@ class Intensiv extends \yii\db\ActiveRecord
             [['mitgliederId'], 'required'],
             [['mitgliederId', 'alter'], 'integer'],
             [['kontaktNachricht', 'bemerkung'], 'string'],
-            [['erstTermin'], 'safe'],
-            [['graduierung', 'wieLangeWt', 'ausbQuali', 'unterrichtet', 'eigeneSchule', 'eigeneLehrer', 'organisation', 'ziel', 'wievielZeit', 'trainingsPartner'], 'string', 'max' => 200],
+            [['KontaktAm', 'erstTermin'], 'safe'], 
+            [['KontaktArt'], 'string', 'max' => 50],
+		        [['Woher'], 'string', 'max' => 27],
+		        [['graduierung', 'wieLangeWt', 'ausbQuali', 'unterrichtet', 'eigeneSchule', 'eigeneLehrer', 'organisation', 'ziel', 'wievielZeit', 'trainingsPartner'], 'string', 'max' => 200],
             [['erfAndereStile'], 'string', 'max' => 500],
             [['mitgliederId'], 'unique'],
         ];
@@ -59,7 +64,10 @@ class Intensiv extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'mitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'kontaktNachricht' => Yii::t('app', 'Kontakt Nachricht'),
+            'KontaktAm' => Yii::t('app', 'Kontakt Am'), 
+		        'KontaktArt' => Yii::t('app', 'Kontakt Art'), 
+		        'Woher' => Yii::t('app', 'Woher'), 
+		        'kontaktNachricht' => Yii::t('app', 'Kontakt Nachricht'),
             'alter' => Yii::t('app', 'Alter'),
             'graduierung' => Yii::t('app', 'Graduierung'),
             'wieLangeWt' => Yii::t('app', 'Wie Lange Wt'),

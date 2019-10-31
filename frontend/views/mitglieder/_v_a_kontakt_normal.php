@@ -2,28 +2,14 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
-//use yii\widgets\DetailView;
 use yii\helpers\Url;
-//use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
-use kartik\popover\PopoverX;
 
-use frontend\models\Anrede;
-use frontend\models\Funktion;
 use frontend\models\Disziplinen;
-use frontend\models\DisziplinenSearch;
-use frontend\models\Grade;
-use frontend\models\GradeSearch;
 use frontend\models\InteressentVorgaben;
-use frontend\models\Mitglieder;
-use frontend\models\Mitgliedergrade;
-use frontend\models\Pruefer;
-use frontend\models\Schulen;
-use frontend\models\Sifu;
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
@@ -31,7 +17,7 @@ use frontend\models\Sifu;
 ?>
 <div class="col-md-6">
        <?= DetailView::widget([
-    		'id' => 'dv_vb',
+    		'id' => 'dv_vb_n',
         'model' => $model,
 				'condensed'=>true,
 //				'container' => ['style' => 'font-size:0.9em'],

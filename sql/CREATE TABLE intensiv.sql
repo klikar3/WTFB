@@ -65,3 +65,11 @@ ADD COLUMN `kontaktNachricht` MEDIUMTEXT NULL COMMENT '' AFTER `mitgliederId`,
 ADD COLUMN `wieLangeWt` VARCHAR(200) NULL COMMENT '' AFTER `graduierung`,
 ADD COLUMN `bemerkung` MEDIUMTEXT NULL COMMENT '' AFTER `erstTermin`;
 
+ALTER TABLE `intensiv` 
+ADD COLUMN `KontaktAm` date DEFAULT NULL COMMENT '' AFTER `mitgliederId`;
+
+ALTER TABLE `intensiv` 
+ADD COLUMN   `KontaktArt` varchar(50) DEFAULT NULL COMMENT '' AFTER `KontaktAm`;
+
+ALTER TABLE `intensiv` 
+ADD COLUMN   `Woher` varchar(27) DEFAULT NULL COMMENT '' AFTER `KontaktArt`;

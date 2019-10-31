@@ -35,13 +35,13 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
         echo $this->render('_v_a_person_intensiv', [ 'model' => $model, 'newnr' => $newnr]);
         echo $this->render('_v_a_kontakt_intensiv', [ 'intensiv' => $model->mitgliederIntensiv, 'newnr' => $newnr]);
       } else {
-        echo $this->renderAjax('_v_a_person_normal', [ 'model' => $model, 'newnr' => $newnr]);
-        echo $this->renderAjax('_v_a_kontakt_normal', [ 'model' => $model, 'newnr' => $newnr]);
+        echo $this->render('_v_a_person_normal', [ 'model' => $model, 'newnr' => $newnr]);
+        echo $this->render('_v_a_kontakt_normal', [ 'model' => $model, 'newnr' => $newnr]);
       }
 ?>
 </div>
 
-<?php if (1==0) {?>
+<?php if (1==0) { ?>
 
 <div class="col-sm-12 hidden-xs"> 
     <?= DetailView::widget([

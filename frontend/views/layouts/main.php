@@ -96,7 +96,7 @@ AppAsset::register($this);
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
 																  	 'linkOptions' => ['target' => '_blank']],
 																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],],
-																  	['label' => 'Geburtstagsliste', 'url' => ['/site/geburtstagsliste'],],
+//																  	['label' => 'Geburtstagsliste', 'url' => ['/site/geburtstagsliste'],],
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
+//use yii\bootstrap\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
 //use kartik\grid\GridView;
@@ -10,17 +10,17 @@ use kartik\widgets\ActiveForm;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
-use kartik\popover\PopoverX;
+//use kartik\popover\PopoverX;
 
 use frontend\models\Anrede;
 use frontend\models\Funktion;
-use frontend\models\Disziplinen;
-use frontend\models\DisziplinenSearch;
-use frontend\models\Grade;
-use frontend\models\GradeSearch;
-use frontend\models\InteressentVorgaben;
+//use frontend\models\Disziplinen;
+//use frontend\models\DisziplinenSearch;
+//use frontend\models\Grade;
+//use frontend\models\GradeSearch;
+//use frontend\models\InteressentVorgaben;
 use frontend\models\Mitglieder;
-use frontend\models\Mitgliedergrade;
+//use frontend\models\Mitgliedergrade;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
 use frontend\models\Sifu;
@@ -30,9 +30,9 @@ use frontend\models\Sifu;
 
 ?>
 
-<div class="col-md-6">   
+<div class="col-md-6" name="va_pn">   
        <?= DetailView::widget([
-    		'id' => 'dv_va',
+    		'id' => 'dv_va_n',
         'model' => $model,
 				'condensed'=>true,
 //				'container' => ['style' => 'font-size:0.9em'],
@@ -74,12 +74,13 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
+									'data' => array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 
 									'Schulname', 'Schulname' )),
 							]
             ],
             [ 'attribute' => 'Anrede',
             	'format' => 'raw',
+              'name' => 'dw_p_anr',
             	'type' => DetailView::INPUT_SELECT2,
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -157,7 +158,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 
 								'inhalt', 'inhalt' )),['style'=>'']),
 						 ]             
           ],
