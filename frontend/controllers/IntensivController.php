@@ -87,6 +87,11 @@ class IntensivController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		        $mitglied = $model->mitglied;
+		        date_default_timezone_set('Europe/Berlin');
+		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+		        $mitglied->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

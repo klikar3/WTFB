@@ -128,6 +128,11 @@ class MitgliederController extends Controller
             $intensiv = $this->getIntensiv($model->MitgliederId);
             if ($intensiv->load(Yii::$app->request->post())) { 
                       $intensiv->save();
+          		        $mitglied = $model;
+          		        date_default_timezone_set('Europe/Berlin');
+          		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+          		        $mitglied->save();
 //								Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($intensiv->errors));
             }           
         } else {
