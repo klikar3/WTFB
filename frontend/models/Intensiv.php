@@ -13,6 +13,7 @@ use Yii;
  * @property string $KontaktArt 
  * @property string $Woher 
  * @property string $kontaktNachricht
+ * @property string $telefonatAm 
  * @property int $alter
  * @property string $graduierung
  * @property string $wieLangeWt
@@ -47,7 +48,7 @@ class Intensiv extends \yii\db\ActiveRecord
             [['mitgliederId'], 'required'],
             [['mitgliederId', 'alter'], 'integer'],
             [['kontaktNachricht', 'bemerkung'], 'string'],
-            [['KontaktAm', 'erstTermin'], 'safe'], 
+            [['KontaktAm', 'erstTermin', 'telefonatAm'], 'safe'], 
             [['KontaktArt'], 'string', 'max' => 50],
 		        [['Woher'], 'string', 'max' => 27],
 		        [['graduierung', 'wieLangeWt', 'ausbQuali', 'unterrichtet', 'eigeneSchule', 'eigeneLehrer', 'organisation', 'ziel', 'wievielZeit', 'trainingsPartner'], 'string', 'max' => 200],
@@ -68,15 +69,16 @@ class Intensiv extends \yii\db\ActiveRecord
 		        'KontaktArt' => Yii::t('app', 'Kontakt Art'), 
 		        'Woher' => Yii::t('app', 'Woher'), 
 		        'kontaktNachricht' => Yii::t('app', 'Kontakt Nachricht'),
+            'telefonatAm' => Yii::t('app', 'Telefonat am'), 
             'alter' => Yii::t('app', 'Alter'),
             'graduierung' => Yii::t('app', 'Graduierung'),
-            'wieLangeWt' => Yii::t('app', 'Wie Lange Wt'),
-            'ausbQuali' => Yii::t('app', 'Ausb Quali'),
+            'wieLangeWt' => Yii::t('app', 'Wie lange WT'),
+            'ausbQuali' => Yii::t('app', 'Ausb.-Qualifizierung'),
             'unterrichtet' => Yii::t('app', 'Unterrichtet'),
             'eigeneSchule' => Yii::t('app', 'Eigene Schule'),
             'eigeneLehrer' => Yii::t('app', 'Eigene Lehrer'),
             'organisation' => Yii::t('app', 'Organisation'),
-            'erfAndereStile' => Yii::t('app', 'Erf Andere Stile'),
+            'erfAndereStile' => Yii::t('app', 'Erfahrung and. Stile'),
             'ziel' => Yii::t('app', 'Ziel'),
             'wievielZeit' => Yii::t('app', 'Wieviel Zeit'),
             'trainingsPartner' => Yii::t('app', 'Trainings Partner'),

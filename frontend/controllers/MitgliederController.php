@@ -128,14 +128,14 @@ class MitgliederController extends Controller
             $intensiv = $this->getIntensiv($model->MitgliederId);
             if ($intensiv->load(Yii::$app->request->post())) { 
                       $intensiv->save();
-								Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($intensiv->errors));
+//								Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($intensiv->errors));
             }           
         } else {
             if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);
         }
 
         if ($model->load(Yii::$app->request->post())) {
-                Yii::warning('----- reqPost: ' . VarDumper::dumpAsString(Yii::$app->request->post()));
+//                Yii::warning('----- reqPost: ' . VarDumper::dumpAsString(Yii::$app->request->post()));
 				        if (!empty($model->KontoNr) and !empty($model->BLZ)) {
 				        	$model->IBAN = IBANGenerator::DE($model->BLZ,$model->KontoNr); 
 //				        Yii::info('----- $KontoNr: '.VarDumper::dumpAsString($model->KontoNr));
@@ -149,11 +149,13 @@ class MitgliederController extends Controller
 //                  $mitglied->mandatNr = $model->MitgliedsNr;
 //                }
                 
-                  if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);
-                  if ($intensiv->load(Yii::$app->request->post())) { 
-                      $intensiv->save();
-								Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($Intensiv->errors));
-                  }           
+                  if ($model->Schulort == 'WT-Intensiv') {
+                      $intensiv = $this->getIntensiv($model->MitgliederId);
+                      if ($intensiv->load(Yii::$app->request->post())) { 
+                          $intensiv->save();
+//                                    Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($Intensiv->errors));
+                      } 
+                  }
 								if ($model->save() and empty($model->errors)) {
             			return $this->redirect(['view', 'id' => $model->MitgliederId, 
 																					'grade' => $mgdataProvider, 
@@ -233,7 +235,7 @@ class MitgliederController extends Controller
             }
         		if ($model->save()){
 //            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));
-                if ($model->Schulort == 'WT-Intensiv') $intensiv = getIntensiv($model->MitgliederId);       
+                if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);       
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } //else {
@@ -242,7 +244,6 @@ class MitgliederController extends Controller
 						$datum = date('Y-m-d');
 		        $model->Geschlecht = 'männlich';
 		        $model->Anrede = 'Lieber';
-		//        $model->Disziplin = 1;
 		        $model->Funktion = 'Schüler/in';
 		        $model->AktivPassiv = "Aktiv";
 		        $model->BeitrittDatum = $datum;

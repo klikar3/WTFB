@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kontaktNachricht')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'telefonatAm')->textInput() ?>
+
     <?= $form->field($model, 'alter')->textInput() ?>
 
     <?= $form->field($model, 'graduierung')->textInput(['maxlength' => true]) ?>

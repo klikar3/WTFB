@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'mitgliederId',
             'kontaktNachricht:ntext',
+            'telefonatAm', 
             'alter',
             'graduierung',
             'wieLangeWt',
