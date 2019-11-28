@@ -20,6 +20,7 @@ use IBAN\Rule\RuleFactory;
 use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederIntensivSearch;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Grade;
@@ -42,16 +43,12 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
 						        [
 						            'actions' => ['delete-admin','restore'],
-						            'allow' => Yii::$app->user->identity->isAdmin ? true : false,
-						            'roles' => ['@'],
-						        ],
-                   [
                         'allow' => false,
                     ],
                 ],
@@ -75,6 +72,20 @@ class MitgliederController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'tabnum' => 1,
+        ]);
+    }
+
+    public function actionIntensivIndex()
+    {
+        $searchModel = new MitgliederIntensivSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+     		$dataProvider->sort = ['defaultOrder' => ['LetztAendSifu' => SORT_DESC],];
+
+
+        return $this->render('indexIntensiv', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'tabnum' => 1,

@@ -17,8 +17,10 @@ use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
 
+use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederIntensivSearch;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Grade;
@@ -41,16 +43,12 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
 						        [
 						            'actions' => ['delete-admin','restore'],
-						            'allow' => Yii::$app->user->identity->isAdmin ? true : false,
-						            'roles' => ['@'],
-						        ],
-                   [
                         'allow' => false,
                     ],
                 ],
@@ -80,12 +78,26 @@ class MitgliederController extends Controller
         ]);
     }
 
+    public function actionIntensivIndex()
+    {
+        $searchModel = new MitgliederIntensivSearch();
+        $dataProvider = $searchModel->searchIntensiv(Yii::$app->request->queryParams);
+     		$dataProvider->sort = ['defaultOrder' => ['LetztAendSifu' => SORT_DESC],];
+
+
+        return $this->render('indexIntensiv', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'tabnum' => 1,
+        ]);
+    }
+
     /**
      * Displays a single Mitglieder model.
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id,$tabnum, $openv = 0)
+    public function actionView($id,$tabnum, $openv = 0, $iId = 0)
     {
         $model = $this->findModel($id);
         
@@ -123,7 +135,23 @@ class MitgliederController extends Controller
 				]);
 				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
   	
+        if ($iId != 0) {
+            $intensiv = $this->getIntensiv($model->MitgliederId);
+            if ($intensiv->load(Yii::$app->request->post())) { 
+                      $intensiv->save();
+          		        $mitglied = $model;
+          		        date_default_timezone_set('Europe/Berlin');
+          		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+          				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+          		        $mitglied->save();
+//								Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($intensiv->errors));
+            }           
+        } else {
+            if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
+//                Yii::warning('----- reqPost: ' . VarDumper::dumpAsString(Yii::$app->request->post()));
 				        if (!empty($model->KontoNr) and !empty($model->BLZ)) {
 				        	$model->IBAN = IBANGenerator::DE($model->BLZ,$model->KontoNr); 
 //				        Yii::info('----- $KontoNr: '.VarDumper::dumpAsString($model->KontoNr));
@@ -137,6 +165,13 @@ class MitgliederController extends Controller
 //                  $mitglied->mandatNr = $model->MitgliedsNr;
 //                }
                 
+                  if ($model->Schulort == 'WT-Intensiv') {
+                      $intensiv = $this->getIntensiv($model->MitgliederId);
+                      if ($intensiv->load(Yii::$app->request->post())) { 
+                          $intensiv->save();
+//                                    Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($Intensiv->errors));
+                      } 
+                  }
 								if ($model->save() and empty($model->errors)) {
             			return $this->redirect(['view', 'id' => $model->MitgliederId, 
 																					'grade' => $mgdataProvider, 
@@ -215,7 +250,8 @@ class MitgliederController extends Controller
               $mitglied->mandatNr = $model->MitgliedsNr;
             }
         		if ($model->save()){
-//            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));       
+//            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));
+                if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);       
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } //else {
@@ -224,7 +260,6 @@ class MitgliederController extends Controller
 						$datum = date('Y-m-d');
 		        $model->Geschlecht = 'männlich';
 		        $model->Anrede = 'Lieber';
-		//        $model->Disziplin = 1;
 		        $model->Funktion = 'Schüler/in';
 		        $model->AktivPassiv = "Aktiv";
 		        $model->BeitrittDatum = $datum;
@@ -261,6 +296,7 @@ class MitgliederController extends Controller
         if (empty($tabnum)) $tabnum = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->Schulort == 'WT-Intensiv') $intensiv = getIntensiv($model->MitgliederId);       
             return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
 						$errors = $model->errors;
@@ -492,7 +528,7 @@ JS;
           
 //        ob_flush();
 //        flush();
-        return $this->renderPartial('progBar',['percent' => $progress], false, true);
+        return $this->renderPartial('progbar',['percent' => $progress], false, true);
 //        Yii::$app->end();
     }
     
@@ -511,5 +547,17 @@ JS;
         return $progress; 
     }
 
+    private function getIntensiv($mId) {
+        if (($intensiv = Intensiv::findOne(['mitgliederId' => $mId])) !== null) {
+//      Yii::warning("----- getIntensiv $intensiv:".Vardumper::dumpAsString($intensiv));
+            return $intensiv;
+        } else {
+            $intensiv = new Intensiv();
+            $intensiv->mitgliederId = $mId;
+            $intensiv->save();
+//      Yii::warning("-----2 getIntensiv $intensiv:".Vardumper::dump($intensiv));
+            return $intensiv;
+        }
    
+    }
 }

@@ -27,6 +27,7 @@ use Yii;
  * @property string $wievielZeit
  * @property string $trainingsPartner
  * @property string $erstTermin
+ * @property string $einstufung 
  * @property string $bemerkung
  */
 class Intensiv extends \yii\db\ActiveRecord
@@ -47,7 +48,7 @@ class Intensiv extends \yii\db\ActiveRecord
         return [
             [['mitgliederId'], 'required'],
             [['mitgliederId', 'alter'], 'integer'],
-            [['kontaktNachricht', 'bemerkung'], 'string'],
+            [['kontaktNachricht', 'bemerkung', 'einstufung'], 'string'],
             [['KontaktAm', 'erstTermin', 'telefonatAm'], 'safe'], 
             [['KontaktArt'], 'string', 'max' => 50],
 		        [['Woher'], 'string', 'max' => 27],
@@ -65,7 +66,7 @@ class Intensiv extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'mitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'KontaktAm' => Yii::t('app', 'Kontakt Am'), 
+            'KontaktAm' => Yii::t('app', 'Kontakt am'), 
 		        'KontaktArt' => Yii::t('app', 'Kontakt Art'), 
 		        'Woher' => Yii::t('app', 'Woher'), 
 		        'kontaktNachricht' => Yii::t('app', 'Kontakt Nachricht'),
@@ -83,6 +84,7 @@ class Intensiv extends \yii\db\ActiveRecord
             'wievielZeit' => Yii::t('app', 'Wieviel Zeit'),
             'trainingsPartner' => Yii::t('app', 'Trainings Partner'),
             'erstTermin' => Yii::t('app', 'Erst Termin'),
+            'einstufung' => Yii::t('app', 'Einstufung'),
             'bemerkung' => Yii::t('app', 'Bemerkung'),
         ];
     }

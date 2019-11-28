@@ -5,6 +5,8 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
+
 use frontend\models\Mitglieder;
 
 /**
@@ -15,6 +17,9 @@ class MitgliederSearch extends Mitglieder
     /**
      * @inheritdoc
      */
+     
+    public $einstufung;
+     
     public function rules()
     {
         return [
@@ -40,7 +45,7 @@ class MitgliederSearch extends Mitglieder
               'datumWtPraktikum', 'datumWtAusbilder1', 'datumWtAusbilder2', 'datumWtAusbilder3', 
               'datumWtSchulleiter', 'AufnGebuehrBetrag', 'DVDgesendetAm', 'datume11tg', 'datume12tg', 
               'datume21tg', 'datume22tg', 'datume31tg', 'datume32tg', 'datume41tg', 'datume42tg', 
-              'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum', 'RecDeleted'], 'safe'],
+              'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum', 'RecDeleted','einstufung'], 'safe'],
         ];
     }
 
@@ -177,4 +182,43 @@ class MitgliederSearch extends Mitglieder
  */
         return $dataProvider;
     }
+
+    public function searchIntensiv($params)
+    {
+//        $query = Mitglieder::find();
+        $query = Mitglieder::find()->innerJoinWith('mitgliederIntensiv', true)
+                  ->select('*, intensiv.*')
+                  ->Where(['=','schulort','WT-Intensiv']);
+
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere(['like','MitgliederId' , $this->MitgliederId]);
+/*            ->andFilterWhere(['like','VertragMit' , $this->VertragMit])
+            ->andFilterWhere(['like','SFirm' , $this->SFirm])
+            ->andFilterWhere(['like','BListe' , $this->BListe]);
+*/
+        $query->andFilterWhere(['like', 'MitgliedsNr', $this->MitgliedsNr]);
+        $query->andFilterWhere(['like', 'Vorname', $this->Vorname]);
+        $query->andFilterWhere(['like', 'Name', $this->Name]);
+        $query->andFilterWhere(['like', 'Geschlecht', $this->Geschlecht]);
+        $query->andFilterWhere(['like', 'RecDeleted', $this->RecDeleted]);
+        $query->andFilterWhere(['like', 'Schulort', $this->Schulort]);
+        $query->andFilterWhere(['like', 'einstufung', $this->einstufung]);
+//    		$query->andWhere('einstufung LIKE "%' . $this->einstufung . '%" '  );
+        $query->joinWith(['mitgliederIntensiv mi' => function ($q) {
+            $q->andWhere('mi.einstufung LIKE "%' . $this->einstufung . '%" ');
+        }]);
+
+        \Yii::warning(Vardumper::dumpAsString($this));
+        return $dataProvider;
+    }
+
 }

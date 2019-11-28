@@ -19,6 +19,7 @@ use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\InteressentVorgaben;
+use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
 use frontend\models\Pruefer;
@@ -190,6 +191,15 @@ use frontend\models\Sifu;
   							    ],
 						],
           ],
+            [ 'attribute' => 'einstufung',
+            	'format' => 'raw',
+              'valueColOptions'=>['style'=>'width:30%'], 
+              'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            	'type' => DetailView::INPUT_SELECT2,
+            	'widgetOptions' => [
+  								'data' => ["" => "", "hoch" => "hoch", "mittel" => "mittel", "niedrig" => "niedrig"],
+  						 ],             
+            ],   
            [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',

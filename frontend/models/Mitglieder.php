@@ -553,6 +553,11 @@ class Mitglieder extends \yii\db\ActiveRecord
         return $session->get('checkPercent'); 
     }
 
+    /* Getter for intensiv einstufung */
+    public function getEinstufung() {
+        return $this->mitgliederIntensiv->einstufung;
+    }
+
 		public function beforeValidate() {
 		    if (parent::beforeValidate()) {
 //		    		$jetzt = new \yii\db\Expression('NOW();');

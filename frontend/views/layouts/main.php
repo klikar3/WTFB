@@ -72,6 +72,7 @@ AppAsset::register($this);
 																  	['label' => 'Prüfungen', 'url' => ['/pruefungen/index']],
 																  	['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']],
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
+																  	['label' => 'IntensivMitglieder', 'url' => ['/mitglieder/intensiv-index']],
 																  	['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']],
 																  	['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']],
 																  	['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']],
@@ -101,7 +102,7 @@ AppAsset::register($this);
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[
 																	['label' => 'Logout', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
-																	['label' => 'Account', 'url' =>[ '/user/settings/account', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
+																	['label' => 'Account', 'url' =>[ '/user/admin/update-profile', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
 																	];
                 $menuItems[] = ['label' => '?', 'url' => ['/site/about']];
 /*                $menuItems[] = [

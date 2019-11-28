@@ -12,6 +12,7 @@ use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
 
+use frontend\models\Intensiv;
 use frontend\models\Schulen;
 
 
@@ -338,7 +339,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 						[['Bemerkungen'], 'string', 'max' => 294],
             [['Text'], 'string', 'max' => 426],
             [['DM2Schule'], 'string', 'max' => 5],
-            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
+//            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],
 //		        [['MitgliedsNr'], 'unique']
 		        ];
@@ -534,6 +535,11 @@ class Mitglieder extends \yii\db\ActiveRecord
 	   public function getMitgliederschulens() 
 	   { 
 	       return $this->hasMany(Mitgliederschulen::className(), ['MitgliederId' => 'MitgliederId']); 
+			}
+			
+	   public function getMitgliederIntensiv() 
+	   { 
+	       return $this->hasOne(Intensiv::className(), ['mitgliederId' => 'MitgliederId']); 
 			}
 			
 		public function showTriState($data) {

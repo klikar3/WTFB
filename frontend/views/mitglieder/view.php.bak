@@ -34,6 +34,7 @@ use frontend\models\Texte;
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
 				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
+                                        'intensiv' => $intensiv
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -68,7 +69,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 4?true:false,
 				],
 */				[
-				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Graduierung',
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Grad',
 						'content'=>$this->render('_view_grade_index', array(
 		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
 																		'tabnum' => 5, 'openv' => $openv, 
