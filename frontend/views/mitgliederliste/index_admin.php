@@ -44,8 +44,21 @@ $mcf->Funktion = 'Schüler/in';
 $mcf->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM mitglieder')->queryScalar() + 1;
 $mcf->MitgliedsNr = 0;
 
+$mcef = new \yii\base\DynamicModel([
+        'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'
+    ]);                             
+$mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
+    ->addRule(['emailInhalt'], 'string',['max'=>128])
+    ->addRule('Funktion', 'string',['max'=>32])
+    ->addRule('Schulort', 'string',['max'=>32])
+    ->addRule('MitgliederId', 'integer');
+$mcef->MitgliederId = $mcf->MitgliederId;
+$mcef->Funktion = 'Schüler/in';
+
 $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //$dataProvider->pagination->LinkPager->firstPageLabel = 'first';
+
+$content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 
 // Set LinkPager defaults
 \Yii::$container->set('yii\widgets\LinkPager', [
@@ -88,6 +101,8 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
         		'responsive' => true,
 						'toolbar' => [
 										 	['content'=>$content_mcf  
+											],
+										 	['content'=>$content_mecf  
 											],
 										 	['content'=>
 													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [

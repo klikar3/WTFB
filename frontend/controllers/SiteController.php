@@ -253,6 +253,83 @@ class SiteController extends Controller
                                                 'schule' => $model->schule]);
     }
 
+    public function actionAnwesenheit()
+    {
+				$model = new AuswertungenForm();
+				$model->schule = 10;
+//				$model->von = date('d.m.Y',mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+				$model->von = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")));
+				$model->bis = date('d.m.Y',mktime(0, 0, 0, 1, 1, date("Y")+1)/*-"1d"*/);
+//        VarDumper::dump($model);
+
+        if ($model->load(Yii::$app->request->post() )) {
+        } else {
+            return $this->render('anwesenheit', [
+                'model' => $model,
+            ]);
+        }
+//        VarDumper::dump($model);
+        $query = (new \yii\db\Query())
+            ->select('trainingsid, datum, anzahl')
+            ->from('anwesenheit a')
+            ->join('LEFT OUTER JOIN', 'trainings t', 't.id=a.trainingsId')
+            ->where('SchulId=:schule and (datum>=:vondatum and datum<=:bisdatum) ', 
+											array(':vondatum' => \DateTime::createFromFormat('d.m.Y', $model->von)->format('Y-m-d'),
+														':bisdatum' => \DateTime::createFromFormat('d.m.Y', $model->bis)->format('Y-m-d'),
+														'schule' => $model->schule));
+        $sql = $query->createCommand()->getRawSql($query);
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        
+        $datasets = $query
+            ->groupBy(['trainingsId', 'datum'])
+						->orderBy('datum desc')
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('datum')
+            ->from('anwesenheit a')
+            ->join('LEFT OUTER JOIN', 'trainings t', 't.id=a.trainingsId')
+            ->where('SchulId=:schule and (datum>=:vondatum and datum<=:bisdatum) ', 
+											array(':vondatum' => \DateTime::createFromFormat('d.m.Y', $model->von)->format('Y-m-d'),
+														':bisdatum' => \DateTime::createFromFormat('d.m.Y', $model->bis)->format('Y-m-d'),
+														'schule' => $model->schule))
+						->orderBy('datum desc')
+            ->distinct()
+						->all();
+        Yii::warning("-----gt: ".Vardumper::dumpAsString($datasets));
+        Yii::warning("-----gt: ".Vardumper::dumpAsString($labels));
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+/*        $datasets = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
+            ->from('mitgliederzahlen mz')
+//            ->join('tbl_profile p', 'u.id=p.user_id')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+				$labels = (new \yii\db\Query())
+            ->select('concat_ws(".",`monat`,`jahr`) as l')
+            ->from('mitgliederzahlen mz')
+            ->where('(jahr=:vonjahr and monat >=:vonmonat) or (jahr>:vonjahr and jahr<:bisjahr) or (jahr=:bisjahr and monat <=:bismonat)', 
+											array(':vonjahr'=>date_parse_from_format("j.n.Y H:iP", $model->von)['year'],
+														':vonmonat'=>date_parse_from_format("j.n.Y H:iP", $model->von)['month'], 
+														':bisjahr'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['year'],
+														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],))
+						->all();
+//        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
+*/            
+        return $this->render('anwesenheit',['model' => $model, 
+                                                'datasets' => $datasets, 
+                                                'labels' => $labels,
+                                                'von' => $model->von,
+                                                'bis' => $model->bis, 
+                                                'schule' => $model->schule]);
+    }
+        
     public function actionMitgliederzahlen()
     {
 				$model = new AuswertungenForm();
@@ -770,7 +847,7 @@ class SiteController extends Controller
         
         $searchModel = new MitgliederSearch();
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
-                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['Schulort' => $schulnamen])
                  ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')]);
@@ -810,7 +887,7 @@ class SiteController extends Controller
 				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
-        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
 //        ->select('m.*')
     		->from('mitglieder m')
     		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')

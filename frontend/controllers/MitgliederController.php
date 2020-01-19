@@ -43,7 +43,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index','createfromemail'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -275,7 +275,66 @@ class MitgliederController extends Controller
             ]);
 //        }
     }
+    public function actionCreatefromemail()
+    {
+		    $model = new Mitglieder();
+        $mcef = new \yii\base\DynamicModel([
+                    'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId'
+                ]);                             
+        $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
+            ->addRule(['emailInhalt'], 'string',['max'=>128])
+            ->addRule('Funktion', 'string',['max'=>32])
+            ->addRule('Schulort', 'string',['max'=>32])
+            ->addRule('MitgliederId', 'integer');
 
+				// Graduierungen
+				$query = Mitgliedergrade::find();
+				$query->where(['=', 'mgID', '-1']);
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+				]);
+  	
+  	    // Verträge
+				$vquery = Mitgliederschulen::find();
+				$vquery->where(['=', 'msID', '-1']);
+				$vdataProvider = new ActiveDataProvider([
+			    'query' => $vquery,
+     			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
+				]);
+				
+        if ($mcef->load(Yii::$app->request->post()) ) {
+//        		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($mcef));
+            $val = array_map('trim', explode("\n", $mcef->emailInhalt));
+        		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($val));
+            foreach($val as $v){
+              if (strpos($v, 'Anrede: ') !== false ) $model->Geschlecht = (str_replace('Anrede: ',"",$v)=='Herr') ? 'männlich' : 'weiblich';
+              if (strpos($v, 'Vorname: ') !== false ) $model->Vorname = str_replace('Vorname: ',"",$v);
+              if (strpos($v, 'Name: ') !== false ) $model->Name = str_replace('Name: ',"",$v);
+              if (strpos($v, 'Email: ') !== false ) $model->Email = str_replace('Email: ',"",$v);
+            }
+            $model->Schulort = $mcef->Schulort;
+            $model->Funktion = $mcef->Funktion;
+            $model->MitgliederId = $mcef->MitgliederId;
+						$model->Kontoinhaber = $model->Name.', '.$model->Vorname; 
+						$model->validate();      
+						$errors = $model->errors;
+        		Yii::trace($errors);
+            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
+              $mitglied->mandatNr = $model->MitgliedsNr;
+            }
+						$errors = $model->errors;
+        		Yii::trace($errors);
+						$datum = date('Y-m-d');
+		        ;
+		        $model->Anrede = ($model->Geschlecht == 'männlich') ? 'Lieber' : 'Liebe';
+		        $model->AktivPassiv = "Aktiv";
+//        		Yii::info("----------------else model not loaded: ".Vardumper::dumpAsString($model));       
+            return $this->render('create', [
+                'model' => $model, 'errors' => $errors, 'grade' => $mgdataProvider, 'contracts' => $vdataProvider, 'mcf' => $model
+            ]);
+        }
+    }
     /**
      * Updates an existing Mitglieder model.
      * If update is successful, the browser will be redirected to the 'view' page.

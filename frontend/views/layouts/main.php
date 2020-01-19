@@ -28,14 +28,15 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
+    <link rel="shortcut icon" href="<?= Yii::$app->homeUrl ?>/../favicon3.ico">
 </head>
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'WTFB-Data',
+                'brandLabel' => '<img src="favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data',
+//                'brandLabel' => 'WTFB-Data',
                 'brandUrl' => Yii::$app->homeUrl,
                 'innerContainerOptions' => ['class' => 'container-fluid'],
                 'options' => [
@@ -63,12 +64,14 @@ AppAsset::register($this);
 																  	['label' => 'Sektionen', 'url' => ['/sektionen/index']],
 																  	['label' => 'Sifus', 'url' => ['/sifu/index']],
 																  	['label' => 'Texte', 'url' => ['/texte/index']],
+																  	['label' => 'Trainings', 'url' => ['/trainings/index']],
 																  	['label' => 'User', 'url' => ['/user/admin/index']],
 																  	'<li role="presentation" class="divider"></li>',
 																  	['label' => 'DB-Backup', 'url' => ['/backup']],
 //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
 																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']],
 																  	['label' => 'Prüfungen', 'url' => ['/pruefungen/index']],
 																  	['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']],
 																  	['label' => 'Mitglieder', 'url' => ['/mitglieder/index']],
@@ -83,12 +86,17 @@ AppAsset::register($this);
 																  	['label' => 'DB-Backup', 'url' => ['/backup']],
 																]];
 */							}	else {
+                $menuItems[] = ['label' => 'Stammdaten', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'Trainings', 'url' => ['/trainings/index']],
+																]];
                 $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => [
+																  	['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']],
 																  	['label' => 'Prüfungen', 'url' => ['/pruefungen/index']],
 																]];
                 }							
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
                 $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => [
+                                    ['label' => 'Anwesenheit', 'url' => ['/site/anwesenheit'],],
                                     ['label' => 'Interessenten-Liste', 'url' => ['/site/interessentenauswahl'],],
                                     ['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
 //																  	 'linkOptions' => ['target' => '_blank']

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="js linux gecko ff ff56 page-iacrestart theme-grey iac themegroup-unifiedclub" id="html-tag" lang="de-DE">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><link rel="stylesheet" type="text/css" href="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/normalize-vEr-C4993EF0FA346DF36C229DFCB913BBD3.css" />
+
+<title id="title">WEB.DE - Login</title>
+<script type="text/javascript" id="id493">var ClientProperties = { browser : {"os":"linux","engine":"gecko","classes":"linux gecko ff ff56","family":"ff","version":"56.0"}};</script>
+<script type="text/javascript" id="phx-namespace">var phx = { vars : {"blankUrl":"https://3c.web.de/mail/client/blank","historyCallbackUrl":"./restart;jsessionid=29DB187DCB0DC638C21D5DE52F8E4124-n4.bs11b?3-1.IBehaviorListener.0-&iacResSrc=spf%23861D7922EC83DFC20C04E74117BC2D01-n2.bs11b&origReferrer=https://3c.web.de/mail/client/mailbody/tmai15dba944f836e3e1/true&historyHash=","performance":{"usecase":{"MAILER_INITIALIZED":"nav.mail.folder.inbox","OPEN_HTML_EDITOR":"mail:html.editor.open"}},"iOSDisplayMailTimeout":500,"useExternalAdServerForBanners":true}};</script>
+<meta name="application.version" content="2.122.11"/>
+<meta name="application.host" content="bs11b"/>
+<link rel="shortcut icon" href="//img.web.de/v/web.ico" type="image/x-icon"/>
+<meta name="viewport" content="user-scalable=0, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="robots" content="noindex, nofollow"/>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/de/js/language-vEr-5F4D9D64C8C31EB77712DAD956BBC1F0.js"></script>
+<script type="text/javascript" src="//img.ui-portal.de/nav-cdn/navigator-common/iac/client/5.2.0/iac.client-5.2.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/unified/club-vEr-23EBDAD9BFD83681D66F0C99F4D0B3FE.css" />
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/head-vEr-B9CF44B28647CA3FE158BAEC06142134.js"></script>
+</head>
+<body class="app">
+<h1 class="accessibility" role="contentinfo">
+Wenn Sie ein Bildschirmleseprogramm verwenden, dann empfehlen wir Ihnen, folgende Seite zu verwenden: <a href="https://mm.web.de">https://mm.web.de</a>
+</h1>
+<div class="page js-component" id="id494" data-component="BasePage" data-component-callback-url="./restart;jsessionid=29DB187DCB0DC638C21D5DE52F8E4124-n4.bs11b?3-1.IBehaviorListener.0-page&amp;iacResSrc=spf%23861D7922EC83DFC20C04E74117BC2D01-n2.bs11b&amp;origReferrer=https://3c.web.de/mail/client/mailbody/tmai15dba944f836e3e1/true">
+
+<div id="blocker"></div>
+<div id="system-message" style="display:none"></div>
+
+
+<span class="is-hidden">User pseudo id: -989571927089303319</span>
+<div id="id492" class="dialog-container js-prevent-submit">
+<div class="layer-root bigger" data-webdriver="Dialog:Root:Container">
+<div class="layer-container">
+<div class="layer-content">
+<div class="layer layer-dialog spinner spinner-iac">
+<div class="layer-header">
+
+</div>
+<div class="layer-body">
+<div class="layer-icon"></div>
+
+<div class="widget dialog-text">
+
+<h4>Ihre Sitzung wird wiederhergestellt.</h4>
+<p>Dies sollte in wenigen Sekunden abgeschlossen sein. Wenn die Meldung längere Zeit sichtbar ist, kann dies folgende Ursachen haben:</p>
+<p>
+<strong>Für die Nutzung dieser Funktion sind Cookies notwendig</strong><br>
+Stellen Sie sicher, dass die Nutzung von Cookies in Ihrem Browser erlaubt ist. Prüfen Sie dazu Ihre Browser-Einstellungen und ggf. Browser-Erweiterungen, die Cookies beeinflussen. 
+<span>Wie das geht, erfahren Sie im </span><a class="text-link" id="id490" href="https://hilfe.web.de/startseite/browser/cookies.html" target="_blank" data-webdriver="link">Hilfe-Artikel &quot;Cookies zulassen&quot;.</a>
+
+</p>
+<p>
+<strong>Technische Probleme verhindern die automatische Wiederherstellung</strong><br>
+In diesem Fall können Sie über die Taste F5 oder die 'Seite neu laden'-Funktion Ihres Browsers die Seite neu laden.
+</p>
+<p>
+<span>Wenn das Problem weiter besteht, wenden Sie sich an den </span><a class="text-link" id="id491" href="https://hilfe.web.de/kundenservice/freemail.html" target="_blank" data-webdriver="link">Kundenservice</a>
+</p>
+
+</div>
+
+
+</div>
+<div class="layer-footer">
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<div id="id495">
+<div class="layer-overlay"></div>
+<div id="id496">
+</div>
+<div id="id497" class="dialog-container js-prevent-submit">
+<div class="layer-root" data-webdriver="Dialog:Root:Container">
+<div class="layer-container">
+<div class="layer-content">
+<div class="layer layer-dialog spinner">
+<div class="layer-header">
+
+</div>
+<div class="layer-body">
+<div class="layer-icon"></div>
+
+<div class="widget dialog-text">
+<p id="id498"></p>
+</div>
+
+
+</div>
+<div class="layer-footer">
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="id499">
+</div>
+<div id="id49a">
+</div>
+<div id="flyoutTopLevel" class="ftd-box stem-west" style="display:none;">
+<div class="ftd-box-content">
+<div id="id49b">
+</div>
+</div>
+<div class="ftd-box-stem"></div>
+</div>
+
+</div>
+<div id="uploadContainer"></div>
+<script type="text/javascript" src="//js.ui-portal.de/apps/shared/jquery/1.12.4/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/---/res/js/wicket-event-jquery-vEr-C3754B973B77810139CEB050DAFE9A6A.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/---/res/js/wicket-ajax-jquery-vEr-0609994817998C227219FC6831EDBBCA.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="iac/restart?iacResSrc=spf%23861D7922EC83DFC20C04E74117BC2D01-n2.bs11b&amp;origReferrer=https://3c.web.de/mail/client/mailbody/tmai15dba944f836e3e1/true";
+/*]]>*/
+</script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/core-vEr-DFA6825D6F4B760F2A1C18FDE16E9839.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/jqueryui-vEr-DCEE588D7A13EA7BA2C135D5A438BA64.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/behavior-vEr-ACA4F17FC36D48C8C0FA5C08C9E83897.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/pgp_core-vEr-1E1F035CE3BBED3B50808D25E7354884.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/baseeditor-vEr-B7B9BD8CB457E2820F1D147D8D6E5D03.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/pgp-vEr-2FCF2A9C0698444BF53DA0EA8D08FF49.js"></script>
+<script type="text/javascript" src="https://cdn.webde.de/cdn/mail/client/wicket/resource/static-res/---/js/external-vEr-18853080718D7A958A20A49C2FDFC0E0.js"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"./restart;jsessionid=29DB187DCB0DC638C21D5DE52F8E4124-n4.bs11b?3-1.IBehaviorListener.0-spinner-root~container-container-label-cookieHelp-link&iacResSrc=spf%23861D7922EC83DFC20C04E74117BC2D01-n2.bs11b&origReferrer=https://3c.web.de/mail/client/mailbody/tmai15dba944f836e3e1/true","c":"id490","pre":[function(attrs){phx.statistics.trackEvent('/iacrestart/help/click',{"labels":"{}"});},function(attrs){return false;}],"e":"click"});;
+Wicket.Ajax.ajax({"u":"./restart;jsessionid=29DB187DCB0DC638C21D5DE52F8E4124-n4.bs11b?3-1.IBehaviorListener.0-spinner-root~container-container-label-customerCare-link&iacResSrc=spf%23861D7922EC83DFC20C04E74117BC2D01-n2.bs11b&origReferrer=https://3c.web.de/mail/client/mailbody/tmai15dba944f836e3e1/true","c":"id491","pre":[function(attrs){phx.statistics.trackEvent('/iacrestart/customercare/click',{"labels":"{}"});},function(attrs){return false;}],"e":"click"});;
+phx.showLayerRoot('id492');;
+window.top.location='http://web.de/?status=session-expired&mc=touchdown@session@expired.hp@home@hinweis';;
+phx.iac.notify('monitoring_delete_mark', {"id":"nav.mail.folder.inbox"});phx.iac.notify('monitoring_delete_mark', {"id":"mail:html.editor.open"});;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+
+
+
+
+</body>
+</html>
