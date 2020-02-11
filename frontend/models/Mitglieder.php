@@ -342,6 +342,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 //            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],
 //		        [['MitgliedsNr'], 'unique']
+            [['kontaktNachricht1'], 'string']
 		        ];
     }
 

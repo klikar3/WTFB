@@ -33,6 +33,10 @@ use frontend\models\Schulen;
 //				'footer'=>Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary']) 									
 		]);
 */		?>
+							<div class="row">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 	<div class="modal-content container-fluid" style="color:#337ab7;">
  <center><h5>Neues Mitglied anlegen</h5></center> <hr>
 	
@@ -85,6 +89,15 @@ use frontend\models\Schulen;
 																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
 									'inhalt', 'inhalt' )),['style'=>'']);
 				?>
+				<?= $form->field($mcf, 'Telefon1',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
+																			 ;
+				?>
+				<?= $form->field($mcf, 'kontaktNachricht1',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']])
+                  ->textarea(['rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '])->label('Kontaktnachricht') 
+				?>
 				<?= $form->field($mcf, 'MitgliederId',['labelOptions'=>['style'=>'font-size:0em;height:0em;padding-top:0em;'],
 																			 'inputOptions' => ['style'=>'width:0em;font-size:0em;height:0em;'],
 																			 'options' => ['style'=>'width:0em;font-size:0em;height:0em;'],
@@ -110,4 +123,5 @@ use frontend\models\Schulen;
 		        <?php /*echo Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-primary',
 		        ])*/ ?>
-		
+</div>
+</div>		

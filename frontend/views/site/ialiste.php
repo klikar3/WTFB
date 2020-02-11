@@ -72,6 +72,16 @@ $this->title = (Yii::$app->controller->action->id == 'info-abendliste') ? Yii::t
              'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
             ],
 						['format' => 'raw',
+             'attribute' => 'Disziplin',
+             'label' => 'Disz',
+             'value' => function ($data) { 
+                        return ((empty($data->Disziplin) ? "" : ($data->Disziplin == "WT-Kinder") ? "K" : "W")) ;
+                      },
+             'enableSorting' => false,
+        		 'contentOptions' => ['style' => 'width: 15px;text-align:center;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
+             'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
+            ],
+						['format' => 'raw',
              'attribute' => 'Telefon1',
              'value' => function ($data) { 
                         return ((empty($data->Telefon1) ? "" : $data->Telefon1 ) . 

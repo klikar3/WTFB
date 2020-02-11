@@ -847,7 +847,7 @@ class SiteController extends Controller
         
         $searchModel = new MitgliederSearch();
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
-                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+                 ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Disziplin, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['Schulort' => $schulnamen])
                  ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')]);
@@ -887,7 +887,7 @@ class SiteController extends Controller
 				$r = $zz-($d->count % $zz);
 				
         $query2 = (new \yii\db\Query())
-        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
+        ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Disziplin, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
 //        ->select('m.*')
     		->from('mitglieder m')
     		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')

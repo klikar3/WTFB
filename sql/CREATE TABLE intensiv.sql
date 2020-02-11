@@ -73,3 +73,62 @@ ADD COLUMN   `KontaktArt` varchar(50) DEFAULT NULL COMMENT '' AFTER `KontaktAm`;
 
 ALTER TABLE `intensiv` 
 ADD COLUMN   `Woher` varchar(27) DEFAULT NULL COMMENT '' AFTER `KontaktArt`;
+
+ALTER TABLE `intensiv` 
+ADD COLUMN `telefonatAm` DATE NULL COMMENT '' AFTER `kontaktNachricht`;
+
+ALTER TABLE `intensiv` 
+ADD COLUMN   `einstufung` varchar(20) DEFAULT NULL COMMENT '' AFTER `erstTermin`;
+
+ALTER TABLE `wt-data`.`mitglieder` 
+DROP COLUMN `datume42tg`,
+DROP COLUMN `datume41tg`,
+DROP COLUMN `datume32tg`,
+DROP COLUMN `datume31tg`,
+DROP COLUMN `datume22tg`,
+DROP COLUMN `datume21tg`,
+DROP COLUMN `datume12tg`,
+DROP COLUMN `datume11tg`,
+DROP COLUMN `datume12sg`,
+DROP COLUMN `datume11sg`,
+DROP COLUMN `datume10sg`,
+DROP COLUMN `datume9sg`,
+DROP COLUMN `datume8sg`,
+DROP COLUMN `datume7sg`,
+DROP COLUMN `datume6sg`,
+DROP COLUMN `datume5sg`,
+DROP COLUMN `datume4sg`,
+DROP COLUMN `datume3sg`,
+DROP COLUMN `datume2sg`,
+DROP COLUMN `datume1sg`,
+DROP COLUMN `datumwt12sgk`,
+DROP COLUMN `datumwt11sgk`,
+DROP COLUMN `datumwt10sgk`,
+DROP COLUMN `datumwt9sgk`,
+DROP COLUMN `datumwt8sgk`,
+DROP COLUMN `datumwt7sgk`,
+DROP COLUMN `datumwt6sgk`,
+DROP COLUMN `datumwt5sgk`,
+DROP COLUMN `datumwt4sgk`,
+DROP COLUMN `datumwt3sgk`,
+DROP COLUMN `datumwt2sgk`,
+DROP COLUMN `datumwt1sgk`;
+
+ALTER TABLE `wt-data`.`mitglieder` 
+DROP COLUMN `datumwt5pg`,
+DROP COLUMN `datumwt4tg`,
+DROP COLUMN `datumwt3tg`,
+DROP COLUMN `datumwt2tg`,
+DROP COLUMN `datumwt1tg`,
+DROP COLUMN `datumwt12sg`,
+DROP COLUMN `datumwt11sg`,
+DROP COLUMN `datumwt10sg`,
+DROP COLUMN `datumwt9sg`,
+DROP COLUMN `datumwt8sg`,
+DROP COLUMN `datumwt7sg`,
+DROP COLUMN `datumwt6sg`,
+DROP COLUMN `datumwt5sg`,
+DROP COLUMN `datumwt4sg`,
+DROP COLUMN `datumwt3sg`,
+DROP COLUMN `datumwt2sg`,
+DROP COLUMN `datumwt1sg`;
