@@ -48,7 +48,7 @@ $mcef = new \yii\base\DynamicModel([
         'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'
     ]);                             
 $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
-    ->addRule(['emailInhalt'], 'string',['max'=>128])
+    ->addRule(['emailInhalt'], 'string',['max'=>999])
     ->addRule('Funktion', 'string',['max'=>32])
     ->addRule('Schulort', 'string',['max'=>32])
     ->addRule('MitgliederId', 'integer');

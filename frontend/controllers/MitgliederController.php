@@ -282,7 +282,7 @@ class MitgliederController extends Controller
                     'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId'
                 ]);                             
         $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
-            ->addRule(['emailInhalt'], 'string',['max'=>128])
+            ->addRule(['emailInhalt'], 'string',['max'=>999])
             ->addRule('Funktion', 'string',['max'=>32])
             ->addRule('Schulort', 'string',['max'=>32])
             ->addRule('MitgliederId', 'integer');
@@ -308,11 +308,16 @@ class MitgliederController extends Controller
             $val = array_map('trim', explode("\n", $mcef->emailInhalt));
         		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($val));
             foreach($val as $v){
-              if (strpos($v, 'Anrede: ') !== false ) $model->Geschlecht = (str_replace('Anrede: ',"",$v)=='Herr') ? 'männlich' : 'weiblich';
-              if (strpos($v, 'Vorname: ') !== false ) $model->Vorname = str_replace('Vorname: ',"",$v);
-              if (strpos($v, 'Name: ') !== false ) $model->Name = str_replace('Name: ',"",$v);
-              if (strpos($v, 'Email: ') !== false ) $model->Email = str_replace('Email: ',"",$v);
-            }
+              if (strpos($v, 'Anrede: ') !== false ) {$model->Geschlecht = (str_replace('Anrede: ',"",$v)=='Herr') ? 'männlich' : 'weiblich' ;}
+              else if (strpos($v, 'Vorname: ') !== false ) {$model->Vorname = str_replace('Vorname: ',"",$v) ;}
+              else if (strpos($v, 'Name: ') !== false ) {$model->Name = str_replace('Name: ',"",$v) ;}
+              else if (strpos($v, 'Nachname: ') !== false ) {$model->Name = str_replace('Nachname: ',"",$v) ;}
+              else if (strpos($v, 'Email: ') !== false ) {$model->Email = str_replace('Email: ',"",$v) ;}
+              else if (strpos($v, 'E-Mail: ') !== false ) {$model->Email = str_replace('E-Mail: ',"",$v) ;}
+              else if (strpos($v, 'Telefon: ') !== false ) {$model->Telefon1 = str_replace('Telefon: ',"",$v) ;}
+              else if (strpos($v, 'Nachricht: ') !== false ) {$model->kontaktNachricht1 = str_replace('Nachricht: ',"",$v) ;}
+              else  $model->kontaktNachricht1 = $model->kontaktNachricht1 . "\n" . $v;
+             }
             $model->Schulort = $mcef->Schulort;
             $model->Funktion = $mcef->Funktion;
             $model->MitgliederId = $mcef->MitgliederId;
