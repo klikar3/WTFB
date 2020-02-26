@@ -43,6 +43,10 @@ AppAsset::register($this);
                     'class' => 'navbar navbar-inverse navbar-fixed-top',
                 ],
             ]);
+            if (empty(Yii::$app->user->identity)) {$dvd = '' ;}
+            else {
+              $dvd = Yii::$app->user->identity->isAdmin ? ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl'],] : '';
+            }  
             if (Yii::$app->user->isGuest) {
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
@@ -105,6 +109,7 @@ AppAsset::register($this);
 																  	['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
 																  	 'linkOptions' => ['target' => '_blank']],
 																  	['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl'],],
+																  	$dvd,
 //																  	['label' => 'Geburtstagsliste', 'url' => ['/site/geburtstagsliste'],],
 																]];
 								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],

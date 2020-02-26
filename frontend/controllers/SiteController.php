@@ -253,6 +253,121 @@ class SiteController extends Controller
                                                 'schule' => $model->schule]);
     }
 
+
+		public function actionDvdlistenauswahl() {
+ 				$model = new AuswertungenForm();
+        if ($model->load(Yii::$app->request->post() )) {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('auswahl', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+
+    public function actionDvdliste()
+    {
+				$model = new AuswertungenForm();
+
+        $params = Yii::$app->request->queryParams;
+//        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
+
+    if (count($params) <= 2) {
+      $params = Yii::$app->session['customerparams'];
+      if(isset(Yii::$app->session['customerparams']['page']))
+        $_GET['page'] = Yii::$app->session['customerparams']['page'];
+      } else {
+        Yii::$app->session['customerparams'] = $params;
+    }
+
+//        $model->load(Yii::$app->request->post());
+//        Yii::warning(VarDumper::dumpAsString($model),'application');
+        if (!$model->load(Yii::$app->request->post() )) {
+//            Yii::warning('----- noload','application');
+            $searchModel = new MitgliederschulenSearch();
+            $dataProvider = $searchModel->search($params);
+//        Yii::warning('----params not load: '.VarDumper::dumpAsString($params),'application');
+//        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+//        $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',  
+//											[':von'=> date('Y-m-d'), ]);
+            $dataProvider->pagination = false;
+            return $this->render('dvdliste', [
+//            return $this->redirect(['/site/schuelerzahlenauswahl', 
+//                'model' => $model,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,                                               
+            ]);
+        } else {
+            $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
+//                                                'groesserVon' => date('Y-m-d'),
+//                                                'kleinerBis' => date('Y-m-d'), 
+                                                'DVDgesendetAm' => '0000-00-00'
+                                                ];
+            Yii::$app->session['customerparams'] = $params;
+//            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
+        }
+//        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
+        
+        $searchModel = new MitgliederschulenSearch();
+        $dataProvider = $searchModel->search($params);
+        $dataProvider->pagination = false;
+//        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+/*         $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
+											[':von'=> date('Y-m-d'), ]);
+       $query = Mitgliederschulen::find()->joinWith('mgl')
+            ->select(['NameLink', 'mitgliederliste.Grad', 'mitgliederliste.Schulname', 'mitgliederliste.Vertrag', 'Von', 'Bis', 'mitgliederschulen.SchulId', 'KuendigungAm', 'mitgliederschulen.MonatsBeitrag', 'mitgliederschulen.MitgliederId'])            
+            ->where('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
+											[':von'=> date('Y-m-d'), //\DateTime::createFromFormat('d.m.Y', $von)->format('Y-m-d'),
+//													':schule' => $model->schule
+                            ]
+                    )
+            ->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+            
+//        $sql = $query->createCommand()->getRawSql($query);
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['Von' => SORT_DESC],
+            		        'attributes' => [
+            		            'Von',
+            		            'Bis',
+            		            'Vertrag',
+                            'VDatum',
+                            'mgl.Grad',
+                            'Name',
+            		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',		            
+                            'mitgliederliste.Name' => [
+            		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+            		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+            		                'label' => 'Name',
+            		                'default' => SORT_ASC,
+            		            ],  
+            		          ],
+                       ], 
+            'pagination' => false,
+        ]);
+*/
+//           Yii::warning(Vardumper::dumpAsString($dataProvider),'application');
+                   
+//        $datasets = $query
+//						->orderBy('jahr,monat')
+//            ->all();
+//				$d = $datasets->toArray(['jahr','monat','WT-Eintritt']);
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+        return $this->render('dvdliste',['model' => $model, 
+                                                'dataProvider' => $dataProvider,
+                                                'searchModel' => $searchModel,
+                                                'von' => $model->von,
+                                                'bis' => $model->bis, 
+                                                'schule' => $model->schule]);
+    }
+
+
     public function actionAnwesenheit()
     {
 				$model = new AuswertungenForm();
@@ -425,7 +540,7 @@ class SiteController extends Controller
         
         Yii::warning($model->von);
         $query = (new \yii\db\Query())
-            ->select(['concat_ws(" ",m.Vorname,m.Name) as name', 'm.GeburtsDatum', 's.Schulname', 's.Disziplin'])
+            ->select(['concat_ws(" ",m.Vorname,m.Name) as name', 's.Schulname', 's.Disziplin'])
             ->from('mitglieder m')
             ->leftJoin('mitgliederschulen ms', 'm.MitgliederId = ms.MitgliederId')
             ->leftJoin('schulen s', 's.SchulId = ms.SchulId')
