@@ -20,12 +20,14 @@ class MitgliederschulenSearch extends Mitgliederschulen
 		public $Name;
     public $groesserVon;
     public $kleinerBis;
+    public $DVDgesendetAm;
+    public $letzteDvd;
 
     public function rules()
     {
         return [
             [['msID', 'MitgliederId', 'VertragId'], 'integer'],
-            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd'], 'safe'],
         ];
     }
 
@@ -47,8 +49,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
      */
     public function search($params)
     {
-        $query = Mitgliederschulen::find()->innerJoinWith('mgl', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad');
+        $query = Mitgliederschulen::find()->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -64,7 +66,9 @@ class MitgliederschulenSearch extends Mitgliederschulen
                 'Vertrag',
                 'Grad',
 		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',
-                'Name',		            
+                'Name',
+                'DVDgesendetAm',
+                'letzteDvd',		            
                 'NameLink' => [
 		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
 		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
@@ -92,6 +96,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'Zahlungsweise' => $this->Zahlungsweise,
             'Grad' => $this->Grad,
             'Name' => $this->Name,
+//            'DVDgesendetAm' => $this->DVDgesendetAm,
+            'letzteDvd' => $this->letzteDvd
         ]);
         if (!empty($this->groesserVon)) {
             $query->andWhere(['<=', 'Von', $this->groesserVon]);
@@ -100,6 +106,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                                     ['=','Bis', '0000-00-00'],
                              ]);
         }
+    		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
 					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));

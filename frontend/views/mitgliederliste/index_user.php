@@ -5,6 +5,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
 /*use yii\grid\GridView; */
+use yii\helpers\VarDumper;
+
+
 use kartik\dynagrid\DynaGrid;
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
@@ -45,7 +48,7 @@ $mcf->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM
 $mcf->MitgliedsNr = 0;
 
 $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
-//$dataProvider->pagination->LinkPager->firstPageLabel = 'first';
+$dataProvider2 = $dataProvider;
 
 $mcef = new \yii\base\DynamicModel([
         'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'
@@ -63,33 +66,34 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 // Set LinkPager defaults
 \Yii::$container->set('yii\widgets\LinkPager', [
         'options' => ['class' => 'pagination'],
-        'firstPageCssClass' => 'prev',
+/*        'firstPageCssClass' => 'prev',
         'lastPageCssClass' => 'next',
         'prevPageCssClass' => 'prev',
         'nextPageCssClass' => 'next',
         'activePageCssClass' => 'active',
         'disabledPageCssClass' => 'disabled',
-        'firstPageLabel' => '««',
-        'lastPageLabel' => '»»'
+*/        'firstPageLabel' => '««',
+        'lastPageLabel' => '»»',
+        'maxButtonCount' => 7
 ]);    
 ?>
 
-<div class="mitglieder-index hidden-xs">
+<div id="all-1" class="mitglieder-index hidden-xs">
 
-    <h1><?php /* echo Html::encode($this->title) */ ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            <div id="content" class="col-12 modal-content">
+   <div id="content" class="col-12 modal-content">
 
 
     <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
-				'theme'=>'simple-condensed',
+//				'theme'=>'simple-condensed',
+				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
 						'summary' => '{begin}-{end} von {totalCount}',
+            'options'=>['id'=>'grid-1'], // a unique identifier is important
 				    'formatter' => [
 				        'class' => 'yii\i18n\Formatter',
 				        'nullDisplay' => '',
@@ -99,7 +103,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 				        'heading' => '<b>Mitgliederliste</b>',
 							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
-        		'tableOptions'=>['class'=>'table table-striped table-condensed'],
+//        		'tableOptions'=>['class'=>'table table-striped table-condensed'],
         		'responsive' => true,
 						'toolbar' => [
 										 	['content'=>$content_mcf  
@@ -121,8 +125,12 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 											'{toggleData}',
 									],
 				],
-				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
-        'columns' => [
+/*       'sortableOptions' => [
+          'options'=>[
+            'id'=> '1-dynagrid-widget'
+          ]
+        ],
+*/        'columns' => [
             ['class' => '\kartik\grid\ActionColumn',
             	'template' => '{email}{standard}',
 							'mergeHeader' => false,
@@ -305,47 +313,33 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
      
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div>
+</div> <!-- hidden-xs -->
 
- <?php //echo $content_mcf ?>
+ 
+<div id="all-2" class="visible-xs">
+<?php //echo $content_mcf 
+/* \Yii::$container->set('yii\widgets\LinkPager', [
+        'options' => ['class' => 'pagination'],
+        'firstPageCssClass' => 'prev',
+        'lastPageCssClass' => 'next',
+        'prevPageCssClass' => 'prev',
+        'nextPageCssClass' => 'next',
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+       'firstPageLabel' => '««',
+        'lastPageLabel' => '»»',
+        'maxButtonCount' => 3
+]); */ 
 
-<div class="visible-xs">
-
-    <h1><?php /* echo Html::encode($this->title) */ ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-             <div id="content" class="col-12 modal-content">
-
-    <?php echo DynaGrid::widget([
-				'storage'=>DynaGrid::TYPE_DB,
-				'theme'=>'simple-condensed',
-				'gridOptions'=>[
-						'dataProvider'=>$dataProvider,
-						'filterModel'=>$searchModel,
-						'summary' => Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+$summary = Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success', 
 													'style'=>"padding-top:0.1em;margin-top:0em;height:1.8em;",
-//													'target'=>'_blank',
-//													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
 													'data-toggle'=>'tooltip',
 													'title'=>'Neuen Eintrag anlegen'
 												]
-											).'&nbsp;&nbsp;&nbsp;{begin}-{end} von {totalCount}',
-//						'options'=>['id'=>'grid-2',], // a unique identifier is important
-//						'containerOptions' => ['style' => 'min-width: 300px;'],
-//						'emptyCell'=>'-',
-						'panel' => [
-				        'heading' => '<b>Mitgliederliste</b>',
-							 	'before'=>'',
-//								 'class' => 'col-12',
-//								 'theme'=>'panel-condensed',     
-						],
-        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
-//        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
-//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
-//        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
-        		'responsive' => true,
-						'responsiveWrap' => false,
-						'toolbar' => false, /*[
+											).'&nbsp;&nbsp;&nbsp;{begin}-{end} von {totalCount}'; 
+                      
+$toolbar = [
 //										 	['content'=>$content_mcf,  
 //											],
 										 	['content'=>
@@ -357,10 +351,51 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 													'title'=>'Neuen Eintrag anlegen'
 												]
 											)]
-									], */
-				],				
-				'options'=>['id'=>'dynagrid-2'], // a unique identifier is important
-        'columns' => [
+									]; 
+                  
+            
+//$dataProvider->pagination->setPageSize(25) ;                                       
+//Yii::warning('----dataprovider: '.VarDumper::dumpAsString($dataProvider->pagination),'application');
+?>
+
+  <div id="content2" class="modal-content">
+
+    <?php echo DynaGrid::widget([
+				'storage'=>DynaGrid::TYPE_DB,
+				'theme'=>'simple-condensed',
+				'options' => ['id'=>'dynagrid-2'], // a unique identifier is important
+				'gridOptions'=>[
+						'dataProvider'=>$dataProvider2,
+						'filterModel'=>$searchModel,
+						'summary' => $summary,
+						'options' => ['id' => 'dgrid-2'], // a unique identifier is important
+						'panel' => [
+				        'heading' => '<b>Mitgliederliste</b>',
+							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
+//                'after' => '{pager}',     
+//							 	'before'=>'',
+//								 'class' => 'col-xs-12',
+//								 'theme'=>'panel-condensed',     
+						],
+//						'panelAfterTemplate' => 'aaa{pager}',
+//						'panelFooterTemplate' => '{pager}{toolbar}',
+            'formatter' => [
+				        'class' => 'yii\i18n\Formatter',
+				        'nullDisplay' => '',
+				    ],
+//        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
+//        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
+//        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+        		'responsive' => true,
+						'responsiveWrap' => false,
+//            'pager' => $pager,
+						'toolbar' => false, /*$toolbar, */
+				],
+/*        'sortableOptions' => [
+            'id'=> '2-dynagrid-widget'
+        ],
+*/        'columns' => [
 						['format' => 'raw',
               'attribute' => 'NameLink',
               'width' => '30%',
@@ -423,7 +458,6 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
 </div>
-<?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}   ?>
 
 
   
