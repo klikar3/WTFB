@@ -328,7 +328,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
              <div id="content" class="col-12 modal-content">
 
-    <?php echo DynaGrid::widget([
+    <?php /*echo DynaGrid::widget([
 				'storage'=>DynaGrid::TYPE_DB,
 				'theme'=>'simple-condensed',
 				'gridOptions'=>[
@@ -358,20 +358,10 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
         		'responsive' => true,
 						'responsiveWrap' => false,
-						'toolbar' => false, /*[
-										 	['content'=>$content_mcf,  
-											],
-            ],
-*//*										 	['content'=>
-													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
-													'class'=>'btn btn-success',
-//													'target'=>'_blank',
-//													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
-													'data-toggle'=>'tooltip',
-													'title'=>'Neuen Eintrag anlegen'
-												]
-											)]
-									], */
+						'toolbar' => false, //[
+//										 	['content'=>$content_mcf,  
+//											],
+//            ],
 				],				
 				'options'=>['id'=>'dynagrid-2'], // a unique identifier is important
         'columns' => [
@@ -383,17 +373,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
 							'headerOptions' => ['style' => 'font-size:0.8em;'],															
             ],
-/*            ['attribute' => 'Schulname',
-							'contentOptions' =>['class' => 'col-xs-2', 'style' => 'font-size:1em;'],
-							'filterInputOptions' => [
-								'class' => 'col-xs-2', 'style' => 'font-size:1em;'
-//								'style' => 'width:5em;',
-							],
-							'headerOptions' => [
-								'class' => 'col-xs-2', 'style' => 'font-size:1em;',
-							],															
-						],
-*/ //           ['attribute' => 'LeiterName',
+ //           ['attribute' => 'LeiterName',
 //							'contentOptions' =>['class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
 //							'filterInputOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
 //							'headerOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;', ],								
@@ -429,7 +409,108 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						],
         ], // -- columns
 //        'export' => true,    
-		]); ?>
+		]); */?>
+<?php
+$summary = Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													'class'=>'btn btn-success', 
+													'style'=>"padding-top:0.1em;margin-top:0em;height:1.8em;",
+													'data-toggle'=>'tooltip',
+													'title'=>'Neuen Eintrag anlegen'
+												]
+											).'&nbsp;&nbsp;&nbsp;{begin}-{end} von {totalCount}'; 
+                      
+$toolbar = [
+//										 	['content'=>$content_mcf,  
+//											],
+										 	['content'=>
+													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													'class'=>'btn btn-success',
+//													'target'=>'_blank',
+//													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
+													'data-toggle'=>'tooltip',
+													'title'=>'Neuen Eintrag anlegen'
+												]
+											)]
+									]; 
+                  
+    if (empty(Yii::$app->user->identity)) {$laes = [] ;}
+    else {
+              $laes = Yii::$app->user->identity->isAdmin ?               ['attribute' => 'LetztAendSifu', 'width' => '20%', 
+  							'format' => ['date', 'php:d.m.Y H:i'], 
+  							'label' => 'Letzt.Änd.Sifu', 
+  							'contentOptions' =>[
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:20%;font-size:0.8em;',
+  							],
+  							'filterInputOptions' => [
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:8em;font-size:0.8em;',
+  							],								
+  							'headerOptions' => [
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:20%;font-size:0.8em;',
+  							],								
+  						]
+               : [];
+            }  
+
+
+    echo GridView::widget([
+						'dataProvider'=>$dataProvider,
+						'filterModel'=>$searchModel,
+						'summary' => $summary,
+            'id' => 'dgrid-22',
+						'options' => ['id' => 'dgrid-2',], // a unique identifier is important
+						'panel' => [
+				        'heading' => '<b>Mitgliederliste</b>',
+//							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
+//                'after' => '{pager}',     
+							 	'before'=>'',
+                'id' => 'pgrid-2',
+//								 'class' => 'col-xs-12',
+//								 'theme'=>'panel-condensed',     
+						],
+//						'panelAfterTemplate' => 'aaa{pager}',
+//						'panelFooterTemplate' => '{pager}{toolbar}',
+            'formatter' => [
+				        'class' => 'yii\i18n\Formatter',
+				        'nullDisplay' => '',
+				    ],
+//        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
+//        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
+//        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+        		'responsive' => true,
+						'responsiveWrap' => false,
+//            'pager' => $pager,
+						'toolbar' => false, /*$toolbar, */
+            'hover'=>true,
+            'columns' => [
+  						['format' => 'raw',
+                'attribute' => 'NameLink',
+                'width' => '30%',
+  							'label' => 'Name',
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
+  							'headerOptions' => ['style' => 'font-size:0.8em;'],															
+              ],
+              ['attribute' => 'Vertrag',
+                'width' => '30%',
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => [ 'style' => 'font-size:0.8em;',],								
+  							'headerOptions' => ['style' => 'font-size:0.8em;', ],								
+  						],
+             ['attribute' => 'LetzteAenderung', 
+                'width' => '20%',
+  							'format' => ['date', 'php:d.m.Y H:i'], 
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => ['style' => 'width:8em;font-size:0.8em;',],								
+  							'headerOptions' => ['style' => 'font-size:0.8em;',],								
+  						],
+             $laes, 
+          ], // -- columns
+    ]);
+?>
 
             </div><!-- content -->
 

@@ -78,9 +78,9 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 ]);    
 ?>
 
-<div id="all-1" class="mitglieder-index hidden-xs">
+<div id="all-1" name="all-1" class="mitglieder-index hidden-xs">
 
-   <div id="content" class="col-12 modal-content">
+   <div id="content" name="content" class="col-12 modal-content">
 
 
     <?php echo DynaGrid::widget([
@@ -92,6 +92,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
+            'id' => 'dgrid-11',
 						'summary' => '{begin}-{end} von {totalCount}',
             'options'=>['id'=>'grid-1'], // a unique identifier is important
 				    'formatter' => [
@@ -316,7 +317,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 </div> <!-- hidden-xs -->
 
  
-<div id="all-2" class="visible-xs">
+<div id="all-2" name="all-2" class="visible-xs">
 <?php //echo $content_mcf 
 /* \Yii::$container->set('yii\widgets\LinkPager', [
         'options' => ['class' => 'pagination'],
@@ -358,15 +359,16 @@ $toolbar = [
 //Yii::warning('----dataprovider: '.VarDumper::dumpAsString($dataProvider->pagination),'application');
 ?>
 
-  <div id="content2" class="modal-content">
+  <div id="content2" name="content2" class="col-12 modal-content">
 
-    <?php echo DynaGrid::widget([
+    <?php /*echo  DynaGrid::widget([
 				'storage'=>DynaGrid::TYPE_DB,
 				'theme'=>'simple-condensed',
 				'options' => ['id'=>'dynagrid-2'], // a unique identifier is important
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider2,
 						'filterModel'=>$searchModel,
+            'id' => 'dgrid-22',
 						'summary' => $summary,
 						'options' => ['id' => 'dgrid-2'], // a unique identifier is important
 						'panel' => [
@@ -390,12 +392,12 @@ $toolbar = [
         		'responsive' => true,
 						'responsiveWrap' => false,
 //            'pager' => $pager,
-						'toolbar' => false, /*$toolbar, */
+						'toolbar' => false, //$toolbar, 
 				],
-/*        'sortableOptions' => [
-            'id'=> '2-dynagrid-widget'
-        ],
-*/        'columns' => [
+//        'sortableOptions' => [
+//            'id'=> '2-dynagrid-widget'
+//        ],
+        'columns' => [
 						['format' => 'raw',
               'attribute' => 'NameLink',
               'width' => '30%',
@@ -404,17 +406,7 @@ $toolbar = [
 							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
 							'headerOptions' => ['style' => 'font-size:0.8em;'],															
             ],
-/*            ['attribute' => 'Schulname',
-							'contentOptions' =>['class' => 'col-xs-2', 'style' => 'font-size:1em;'],
-							'filterInputOptions' => [
-								'class' => 'col-xs-2', 'style' => 'font-size:1em;'
-//								'style' => 'width:5em;',
-							],
-							'headerOptions' => [
-								'class' => 'col-xs-2', 'style' => 'font-size:1em;',
-							],															
-						],
-*/ //           ['attribute' => 'LeiterName',
+ //           ['attribute' => 'LeiterName',
 //							'contentOptions' =>['class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
 //							'filterInputOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;'],
 //							'headerOptions' => [ 'class' => 'col-xs-3 col-sm-3', 'style' => 'font-size:1em;', ],								
@@ -450,14 +442,92 @@ $toolbar = [
 						],
         ], // -- columns
 //        'export' => true,    
-		]); ?>
+		]);*/ ?>
+<?php
+    if (empty(Yii::$app->user->identity)) {$laes = [] ;}
+    else {
+              $laes = Yii::$app->user->identity->isAdmin ?               ['attribute' => 'LetztAendSifu', 'width' => '20%', 
+  							'format' => ['date', 'php:d.m.Y H:i'], 
+  							'label' => 'Letzt.Änd.Sifu', 
+  							'contentOptions' =>[
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:20%;font-size:0.8em;',
+  							],
+  							'filterInputOptions' => [
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:8em;font-size:0.8em;',
+  							],								
+  							'headerOptions' => [
+  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+  								'style' => 'width:20%;font-size:0.8em;',
+  							],								
+  						]
+               : [];
+            }  
 
+
+    echo GridView::widget([
+						'dataProvider'=>$dataProvider,
+						'filterModel'=>$searchModel,
+						'summary' => $summary,
+            'id' => 'dgrid-22',
+						'options' => ['id' => 'dgrid-2',], // a unique identifier is important
+						'panel' => [
+				        'heading' => '<b>Mitgliederliste</b>',
+//							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
+//                'after' => '{pager}',     
+							 	'before'=>'',
+                'id' => 'pgrid-2',
+//								 'class' => 'col-xs-12',
+//								 'theme'=>'panel-condensed',     
+						],
+//						'panelAfterTemplate' => 'aaa{pager}',
+//						'panelFooterTemplate' => '{pager}{toolbar}',
+            'formatter' => [
+				        'class' => 'yii\i18n\Formatter',
+				        'nullDisplay' => '',
+				    ],
+//        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
+//        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
+//        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
+        		'responsive' => true,
+						'responsiveWrap' => false,
+//            'pager' => $pager,
+						'toolbar' => false, /*$toolbar, */
+            'hover'=>true,
+            'columns' => [
+  						['format' => 'raw',
+                'attribute' => 'NameLink',
+                'width' => '30%',
+  							'label' => 'Name',
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
+  							'headerOptions' => ['style' => 'font-size:0.8em;'],															
+              ],
+              ['attribute' => 'Vertrag',
+                'width' => '30%',
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => [ 'style' => 'font-size:0.8em;',],								
+  							'headerOptions' => ['style' => 'font-size:0.8em;', ],								
+  						],
+             ['attribute' => 'LetzteAenderung', 
+                'width' => '20%',
+  							'format' => ['date', 'php:d.m.Y H:i'], 
+  							'contentOptions' =>['style' => 'font-size:0.8em;'],
+  							'filterInputOptions' => ['style' => 'width:8em;font-size:0.8em;',],								
+  							'headerOptions' => ['style' => 'font-size:0.8em;',],								
+  						],
+//             $laes, 
+          ], // -- columns
+    ]);
+?>
             </div><!-- content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div>
+</div>   <!-- visible-xs -->
 
 
   
