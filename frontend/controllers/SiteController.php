@@ -269,12 +269,12 @@ class SiteController extends Controller
 
 
 
-    public function actionDvdliste()
+    public function actionDvdliste( $print = 0)
     {
 				$model = new AuswertungenForm();
 
         $params = Yii::$app->request->queryParams;
-//        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
+        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
     if (count($params) <= 2) {
       $params = Yii::$app->session['customerparams'];
@@ -283,9 +283,10 @@ class SiteController extends Controller
       } else {
         Yii::$app->session['customerparams'] = $params;
     }
+            $schule = $params['schule']; //(is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule;
 
 //        $model->load(Yii::$app->request->post());
-//        Yii::warning(VarDumper::dumpAsString($model),'application');
+        Yii::warning(VarDumper::dumpAsString($model),'application');
         if (!$model->load(Yii::$app->request->post() )) {
 //            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
@@ -299,7 +300,9 @@ class SiteController extends Controller
 //            return $this->redirect(['/site/schuelerzahlenauswahl', 
 //                'model' => $model,
                 'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,                                               
+                'searchModel' => $searchModel,
+                'schule' => $schule,
+                'print' => $print                                               
             ]);
         } else {
             $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
@@ -315,6 +318,9 @@ class SiteController extends Controller
         $searchModel = new MitgliederschulenSearch();
         $dataProvider = $searchModel->search($params);
         $dataProvider->pagination = false;
+//        $schule = (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule;
+        Yii::warning('----$schule: '.VarDumper::dumpAsString($schule),'application');
+
 //        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
 /*         $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule
 											[':von'=> date('Y-m-d'), ]);
@@ -362,9 +368,10 @@ class SiteController extends Controller
         return $this->render('dvdliste',['model' => $model, 
                                                 'dataProvider' => $dataProvider,
                                                 'searchModel' => $searchModel,
-                                                'von' => $model->von,
-                                                'bis' => $model->bis, 
-                                                'schule' => $model->schule]);
+//                                                'von' => $model->von,
+//                                                'bis' => $model->bis, 
+                                                'schule' => $schule,
+                                                'print' => $print]);
     }
 
 
@@ -965,7 +972,11 @@ class SiteController extends Controller
                  ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Disziplin, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                  ->andWhere(['Schulort' => $schulnamen])
-                 ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')]);
+                 ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')])
+                 ->andWhere(['or',
+                                  ['is', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('null')],
+                                  ['<=', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('CURRENT_DATE')],
+            ]);
         if ($model->fon)  {
             $query->andWhere(['is not', 'mitglieder.Telefon1', new \yii\db\Expression('null')]);
             $query->andWhere(['or',
