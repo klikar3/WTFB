@@ -39,51 +39,55 @@ $stammdaten[] = ['label' => 'Trainings', 'url' => ['/trainings/index']];
 $bewegungsdaten[] =  ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
 $bewegungsdaten[] =  ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
 										 
-$auswertungen[] =['label' => 'Anwesenheit', 'url' => ['/site/anwesenheit'],];
-$auswertungen[] =['label' => 'Interessenten-Liste', 'url' => ['/site/interessentenauswahl'],];
-$auswertungen[] =['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
+$auswertungen[] = ['label' => 'Anwesenheit', 'url' => ['/site/anwesenheit'],];
+$auswertungen[] = ['label' => 'Interessenten-Liste', 'url' => ['/site/interessentenauswahl'],];
+$auswertungen[] = ['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
   //  							  	 'linkOptions' => ['target' => '_blank']
                       ];
-$auswertungen[] =['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlenauswahl'],];
-$auswertungen[] =['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
+$auswertungen[] = ['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlenauswahl'],];
+$auswertungen[] = ['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
     							  	 'linkOptions' => ['target' => '_blank']];
-$auswertungen[] =['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl']];                                                                
+$auswertungen[] = ['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl']]; 
+
+if (Yii::$app->user->identity->username == 'michael') {
+$auswertungen[] = ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl']];                                                                
+}                                                               
                                 
 if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
 
-$stammdaten[] =  ['label' => 'Anreden', 'url' => ['/anrede/index']];
-$stammdaten[] =  ['label' => 'Funktionen', 'url' => ['/funktion/index']];
-$stammdaten[] =  ['label' => 'Disziplinen', 'url' => ['/disziplinen/index']];
-$stammdaten[] =  ['label' => 'Grade', 'url' => ['/grade/index']];
-$stammdaten[] =  ['label' => 'Intensiv', 'url' => ['/intensiv/index']];
-$stammdaten[] =  ['label' => 'Interessent-Vorgaben', 'url' => ['/interessent-vorgaben/index']];
-$stammdaten[] =  ['label' => 'Prüfer', 'url' => ['/pruefer/index']];
-$stammdaten[] =  ['label' => 'Schulen', 'url' => ['/schulen/index']];
-$stammdaten[] =  ['label' => 'Schulleiter', 'url' => ['/schulleiter/index']];
-$stammdaten[] =  ['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']];
-$stammdaten[] =  ['label' => 'Sektionen', 'url' => ['/sektionen/index']];
-$stammdaten[] =  ['label' => 'Sifus', 'url' => ['/sifu/index']];
-$stammdaten[] =  ['label' => 'Texte', 'url' => ['/texte/index']];
-$stammdaten[] =  ['label' => 'Trainings', 'url' => ['/trainings/index']];
-$stammdaten[] =  ['label' => 'User', 'url' => ['/user/admin/index']];
-$stammdaten[] =  '<li role="presentation" class="divider"></li>';
-$stammdaten[] =  ['label' => 'DB-Backup', 'url' => ['/backup']];
-//																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
-//								];
-                                
-
-$bewegungsdaten[] = ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
-$bewegungsdaten[] = ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
-$bewegungsdaten[] = ['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']];
-$bewegungsdaten[] = ['label' => 'Mitglieder', 'url' => ['/mitglieder/index']];
-$bewegungsdaten[] = ['label' => 'IntensivMitglieder', 'url' => ['/mitglieder/intensiv-index']];
-$bewegungsdaten[] = ['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']];
-$bewegungsdaten[] = ['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']];
-$bewegungsdaten[] = ['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']];
-$bewegungsdaten[] = '<li role="presentation" class="divider"></li>';
-$bewegungsdaten[] = ['label' => 'Alle Mitglieder-Daten Checken', 'url' => ['/mitglieder/check']];
-                          
-$auswertungen[] = ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl']];                                                                
+    $stammdaten[] =  ['label' => 'Anreden', 'url' => ['/anrede/index']];
+    $stammdaten[] =  ['label' => 'Funktionen', 'url' => ['/funktion/index']];
+    $stammdaten[] =  ['label' => 'Disziplinen', 'url' => ['/disziplinen/index']];
+    $stammdaten[] =  ['label' => 'Grade', 'url' => ['/grade/index']];
+    $stammdaten[] =  ['label' => 'Intensiv', 'url' => ['/intensiv/index']];
+    $stammdaten[] =  ['label' => 'Interessent-Vorgaben', 'url' => ['/interessent-vorgaben/index']];
+    $stammdaten[] =  ['label' => 'Prüfer', 'url' => ['/pruefer/index']];
+    $stammdaten[] =  ['label' => 'Schulen', 'url' => ['/schulen/index']];
+    $stammdaten[] =  ['label' => 'Schulleiter', 'url' => ['/schulleiter/index']];
+    $stammdaten[] =  ['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']];
+    $stammdaten[] =  ['label' => 'Sektionen', 'url' => ['/sektionen/index']];
+    $stammdaten[] =  ['label' => 'Sifus', 'url' => ['/sifu/index']];
+    $stammdaten[] =  ['label' => 'Texte', 'url' => ['/texte/index']];
+    $stammdaten[] =  ['label' => 'Trainings', 'url' => ['/trainings/index']];
+    $stammdaten[] =  ['label' => 'User', 'url' => ['/user/admin/index']];
+    $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+    $stammdaten[] =  ['label' => 'DB-Backup', 'url' => ['/backup']];
+    //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
+    //								];
+                                    
+    
+    $bewegungsdaten[] = ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
+    $bewegungsdaten[] = ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
+    $bewegungsdaten[] = ['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']];
+    $bewegungsdaten[] = ['label' => 'Mitglieder', 'url' => ['/mitglieder/index']];
+    $bewegungsdaten[] = ['label' => 'IntensivMitglieder', 'url' => ['/mitglieder/intensiv-index']];
+    $bewegungsdaten[] = ['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']];
+    $bewegungsdaten[] = ['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']];
+    $bewegungsdaten[] = ['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']];
+    $bewegungsdaten[] = '<li role="presentation" class="divider"></li>';
+    $bewegungsdaten[] = ['label' => 'Alle Mitglieder-Daten Checken', 'url' => ['/mitglieder/check']];
+                              
+    $auswertungen[] = ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl']];                                                                
 }
 
                                 
