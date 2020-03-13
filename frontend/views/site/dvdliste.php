@@ -84,7 +84,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
           <h1><?= Html::encode($this->title) ?></h1>
       </div>  
       <div class="col-md-6" style="text-align:right">    
-   <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/dvdliste', 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary']) : '' ?>
+   <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/dvdliste', 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary', 'target' => '_blank']) : '' ?>
         <?php
           if ($print == 1) {
         ?>
@@ -114,6 +114,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //        'emptyCell'=>'-',
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
+            ['class' => 'kartik\grid\SerialColumn'],
             ['attribute' => 'Name',
              'format' => 'raw', 
              'width' => '200px',
@@ -138,7 +139,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
             [ 'attribute' => 'Vertrag',
               'label' => 'Schule',
               'value' => function ($data) {
-                  return !empty($data->mgl->Vertrag) ? $data->mgl->Vertrag /*. $data->schul->dispKurz*/ : '-';
+                  return !empty($data->mgl->Vertrag) ? str_replace(', Verband WTFB','',str_replace('Verband WTFB, ','',$data->mgl->Vertrag)) /*. $data->schul->dispKurz*/ : '-';
                   },
         		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],

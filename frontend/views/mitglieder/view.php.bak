@@ -34,7 +34,7 @@ use frontend\models\Texte;
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
 				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
-                                        'intensiv' => $intensiv
+//                                        'intensiv' => $intensiv
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -108,7 +108,13 @@ use frontend\models\Texte;
     			      ]),                                                      
     						'active' => $tabnum == 9?true:false, 
 		    ],  
+			  [
+				    'label'=>'<div class="btn btn-sm btn-success" onclick="js:history.go(-1);return false;"><i class="glyphicon glyphicon-remove"></i> Zurück</div>',
+						'content'=> '',                                                      
+//    						'active' => $tabnum == 9?true:false, 
+		    ],  
     ];
+
  
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
