@@ -164,13 +164,13 @@ class SiteController extends Controller
         $params = Yii::$app->request->queryParams;
 //        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
-    if (count($params) <= 2) {
-      $params = Yii::$app->session['customerparams'];
-      if(isset(Yii::$app->session['customerparams']['page']))
-        $_GET['page'] = Yii::$app->session['customerparams']['page'];
-      } else {
-        Yii::$app->session['customerparams'] = $params;
-    }
+        if (count($params) <= 2) {
+          $params = Yii::$app->session['customerparams'];
+          if(isset(Yii::$app->session['customerparams']['page']))
+            $_GET['page'] = Yii::$app->session['customerparams']['page'];
+          } else {
+            Yii::$app->session['customerparams'] = $params;
+        }
 
 //        $model->load(Yii::$app->request->post());
 //        Yii::warning(VarDumper::dumpAsString($model),'application');
@@ -276,14 +276,14 @@ class SiteController extends Controller
         $params = Yii::$app->request->queryParams;
         Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
-    if (count($params) <= 2) {
-      $params = Yii::$app->session['customerparams'];
-      if(isset(Yii::$app->session['customerparams']['page']))
-        $_GET['page'] = Yii::$app->session['customerparams']['page'];
-      } else {
-        Yii::$app->session['customerparams'] = $params;
-    }
-            $schule = $params['schule']; //(is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule;
+        if (count($params) <= 2) {
+          $params = Yii::$app->session['customerparams'];
+          if(isset(Yii::$app->session['customerparams']['page']))
+            $_GET['page'] = Yii::$app->session['customerparams']['page'];
+          } else {
+            Yii::$app->session['customerparams'] = $params;
+        }
+            $schule = (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule; //  $params['schule']; 
 
 //        $model->load(Yii::$app->request->post());
         Yii::warning(VarDumper::dumpAsString($model),'application');

@@ -98,9 +98,6 @@ $this->params['breadcrumbs'][] = $this->title;
       ?>
       <?= $form->field($model, 'pt')->widget(CheckboxX::classname(), [
           'initInputType' => CheckboxX::INPUT_CHECKBOX ,
-          'options' => [
-              'style' => 'z-index: 11151 !important; ''
-          ]
           'pluginOptions' => [
               'threeState' => false, 'enclosedLabel' => true
           ],
