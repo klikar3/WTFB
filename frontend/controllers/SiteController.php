@@ -308,7 +308,7 @@ class SiteController extends Controller
             $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
 //                                                'groesserVon' => date('Y-m-d'),
 //                                                'kleinerBis' => date('Y-m-d'), 
-                                                'DVDgesendetAm' => '0000-00-00'
+//                                                'DVDgesendetAm' => '0000-00-00'
                                                 ];
             Yii::$app->session['customerparams'] = $params;
 //            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
