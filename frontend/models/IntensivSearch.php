@@ -76,7 +76,7 @@ class IntensivSearch extends Intensiv
             ->andFilterWhere(['like', 'ziel', $this->ziel])
             ->andFilterWhere(['like', 'wievielZeit', $this->wievielZeit])
             ->andFilterWhere(['like', 'trainingsPartner', $this->trainingsPartner])
-            ->andFilterWhere(['like', 'bemerkung', $this->bemerkung]);
+            ->andFilterWhere(['like', 'bemerkung', $this->bemerkung])
             ->andFilterWhere(['like', 'einstufung', $this->einstufung]);
 
         return $dataProvider;

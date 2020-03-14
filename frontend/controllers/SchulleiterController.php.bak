@@ -26,6 +26,9 @@ class SchulleiterController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                   [
+                        'allow' => false,
+                    ],
                 ],
             ],
             'verbs' => [
@@ -75,11 +78,11 @@ class SchulleiterController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->LeiterId]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+        $model->LeiterId = Schulleiter::find()->max() + 1; 
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

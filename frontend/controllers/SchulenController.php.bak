@@ -82,7 +82,8 @@ class SchulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->SchulId]);
-        } 
+        }
+        $model->SchulId = Schulen::find()->max('SchulId') + 1; 
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -110,8 +111,9 @@ class SchulenController extends Controller
     /**
      * Deletes an existing Schulen model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
-     * @return mixed
+     * @param integer $id
+     * @throws NotFoundHttpException if the model cannot be found 
+		 * @return mixed
      */
     public function actionDelete($id)
     {
@@ -131,8 +133,7 @@ class SchulenController extends Controller
     {
         if (($model = Schulen::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        } 
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -18,7 +18,7 @@ use frontend\models\Sifu;
     <?= $form->field($model, 'prueferId')->textInput(['maxlength' => 10]) ?>
 
     <?= $form->field($model, 'pName')->dropdownList(ArrayHelper::map( Sifu::find()->all(), 'SifuName', 'SifuName' ),
-													[ 'prompt' => 'Prüfer', 'id' => 'field-pid' ])->label(Yii::t('app', 'Prüfer')); ?>
+													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label(Yii::t('app', 'Pruefer')); ?>
 
     <?= $form->field($model, 'sort')->textInput(['maxlength' => 10]) ?>
 

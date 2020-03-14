@@ -78,11 +78,11 @@ class PrueferController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->prueferId]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        } 
+        $model->prueferId = Pruefer::find()->max('prueferId') + 1;
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
