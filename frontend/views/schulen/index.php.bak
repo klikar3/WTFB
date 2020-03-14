@@ -32,11 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'sort',
             [ 'attribute' => 'Disziplin',
              'value'=>function ($data) {
-                        return empty($data->Disziplinen->DispName) ? "-" : $data->Disziplinen->DispName;
+                        return empty($data->disziplinen->DispName) ? "-" : $data->disziplinen->DispName;
                       },
             ],
             ['class' => 'yii\grid\ActionColumn'],
-        ],
+           'swmInteressentenListe',
+           'swmInteressentenForm',
+           'swmMitgliederListe',
+           'swmMitgliederForm',
+           'swmInteressentenListeK',
+           'swmInteressentenFormK',
+           'swmMitgliederListeK',
+           'swmMitgliederFormK',
+	        ],
     ]); ?>
 
 </div>

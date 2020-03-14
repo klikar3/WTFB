@@ -111,7 +111,7 @@ use frontend\models\Texte;
 			  [
 				    'label'=>'<div class="btn btn-sm btn-success" onclick="js:history.go(-1);return false;"><i class="glyphicon glyphicon-remove"></i> Zurück</div>',
 						'content'=> '',                                                      
-//    						'active' => $tabnum == 9?true:false, 
+    						'active' => false, 
 		    ],  
     ];
 

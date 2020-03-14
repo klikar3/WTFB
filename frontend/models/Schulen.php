@@ -8,20 +8,25 @@ use yii\helpers\VarDumper;
 /**
  * This is the model class for table "schulen".
  *
- * @property string $SchulId
+ * @property int $SchulId
  * @property string $Schulname
- * @property integer $sort
- * @property string $Disziplin
+ * @property int $sort
+ * @property int $Disziplin
+ * @property int $swmInteressentenListe
+ * @property int $swmInteressentenForm
+ * @property int $swmMitgliederListe
+ * @property int $swmMitgliederForm
  *
  * @property Disziplinen $disziplin 
- * @property Texte[] $textes 
  * @property Mitgliederschulen[] $mitgliederschulens
  * @property Schulleiterschulen[] $schulleiterschulens
+ * @property Texte[] $textes 
+ * @property Trainings[] $trainings 
  */
 class Schulen extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -59,22 +64,22 @@ class Schulen extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
             [['Schulname', 'sort', 'Disziplin'], 'required'],
-            [['sort', 'Disziplin'], 'integer'],
+            [['sort', 'Disziplin', 'swmInteressentenListe', 'swmInteressentenForm', 'swmMitgliederListe', 'swmMitgliederForm'], 'integer'],
             [['Schulname'], 'string', 'max' => 50],
             [['Disziplin'], 'string', 'max' => 30],
-            [['Disziplin', 'Schulname'], 'unique', 'targetAttribute' => ['Disziplin', 'Schulname'], 'message' => 'The combination of Schulname and Disziplin has already been taken.'],
-		        [['Disziplin'], 'exist', 'skipOnError' => true, 'targetClass' => Disziplinen::className(), 'targetAttribute' => ['Disziplin' => 'DispId']],
+            [['Schulname', 'Disziplin'], 'unique', 'targetAttribute' => ['Schulname', 'Disziplin'], 'message' => 'The combination of Schulname and Disziplin has already been taken.'],
+            [['Disziplin'], 'exist', 'skipOnError' => true, 'targetClass' => Disziplinen::className(), 'targetAttribute' => ['Disziplin' => 'DispId']],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {
@@ -83,7 +88,11 @@ class Schulen extends \yii\db\ActiveRecord
             'Schulname' => Yii::t('app', 'Schulname'),
             'sort' => Yii::t('app', 'Sort'),
             'Disziplin' => Yii::t('app', 'Disziplin'),
-        ];
+            'swmInteressentenListe' => Yii::t('app', 'Swm Interessenten Liste'), 
+            'swmInteressentenForm' => Yii::t('app', 'Swm Interessenten Form'), 
+            'swmMitgliederListe' => Yii::t('app', 'Swm Mitglieder Liste'), 
+            'swmMitgliederForm' => Yii::t('app', 'Swm Mitglieder Form'), 
+	        ];
     }
 
     /**
@@ -123,4 +132,10 @@ class Schulen extends \yii\db\ActiveRecord
 		   {
       		 return $this->hasMany(Texte::className(), ['SchulId' => 'SchulId']);
 		   }
+       
+    public function getTrainings()
+		  {
+		      return $this->hasMany(Trainings::className(), ['schulId' => 'SchulId']);
+		  }
+	   
 }

@@ -215,20 +215,27 @@ use frontend\models\Sifu;
 
         ],
     ]) ?>
-    <?php  /*
-          echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->MitgliederId]);
-          echo Html::hiddenInput('MailingListId', 1);
-          echo Html::hiddenInput('FormId', 2);
-          echo Html::hiddenInput('FormEncoding', 'utf-8');
-//          echo Html::hiddenInput('HTMLForm', 'subform');
-          echo Html::hiddenInput('u_EMail', $model->Email,['id' => "u_EMail"]);
-          echo Html::hiddenInput('u_Gender', ($model->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
-          echo Html::hiddenInput('u_FirstName', $model->Vorname,['id' => "u_FirstName"]);
-          echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
-          echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
-          echo Html::hiddenInput('Action', 'subscribe');
-          echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
-          echo Html::endForm();  */
+    <?php     
+        $disp = Disziplinen::find()->andWhere(['DispName' => $model->Disziplin])->select('DispId')->one();        
+        $schul = Schulen::find()->andWhere(['Schulname' => $model->Schulort, 'Disziplin' => $disp])->one();
+//        \Yii::warning($model);
+//        \Yii::warning($schul);
+        if ((!empty($schul)) && ($schul->swmInteressentenListe != 0 ) && ($schul->swmInteressentenForm != 0 )) {
+            echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->MitgliederId]);
+            echo Html::hiddenInput('MailingListId', $schul->swmInteressentenListe);
+            echo Html::hiddenInput('FormId', $schul->swmInteressentenForm);
+            echo Html::hiddenInput('FormEncoding', 'utf-8');
+  //          echo Html::hiddenInput('HTMLForm', 'subform');
+            echo Html::hiddenInput('u_EMail', $model->Email,['id' => "u_EMail"]);
+            echo Html::hiddenInput('u_Gender', ($model->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+            echo Html::hiddenInput('u_FirstName', $model->Vorname,['id' => "u_FirstName"]);
+            echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
+            echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
+            echo Html::hiddenInput('Action', 'subscribe');
+            echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
+            echo Html::endForm(); 
+        }    
+
     ?>
 
 </div>

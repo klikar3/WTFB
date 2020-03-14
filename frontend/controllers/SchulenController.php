@@ -14,7 +14,10 @@ use yii\filters\AccessControl;
  * SchulenController implements the CRUD actions for Schulen model.
  */
 class SchulenController extends Controller
-{
+{    /** 
+		    * {@inheritdoc} 
+	    */ 
+	
     public function behaviors()
     {
         return [
@@ -34,7 +37,7 @@ class SchulenController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -57,9 +60,10 @@ class SchulenController extends Controller
 
     /**
      * Displays a single Schulen model.
-     * @param string $id
+     * @param integer $id
      * @return mixed
-     */
+     * @throws NotFoundHttpException if the model cannot be found 
+	   */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -78,18 +82,18 @@ class SchulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->SchulId]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        } 
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
      * Updates an existing Schulen model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found 
      */
     public function actionUpdate($id)
     {
@@ -97,18 +101,18 @@ class SchulenController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->SchulId]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        } 
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
      * Deletes an existing Schulen model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
-     * @return mixed
+     * @param integer $id
+     * @throws NotFoundHttpException if the model cannot be found 
+		 * @return mixed
      */
     public function actionDelete($id)
     {
@@ -128,8 +132,7 @@ class SchulenController extends Controller
     {
         if (($model = Schulen::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        } 
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

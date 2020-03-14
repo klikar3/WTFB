@@ -191,7 +191,7 @@ use frontend\models\Sifu;
   							    ],
 						],
           ],
-/*            [ 'attribute' => 'einstufung',
+            [ 'attribute' => 'einstufung',
             	'format' => 'raw',
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -200,7 +200,7 @@ use frontend\models\Sifu;
   								'data' => ["" => "", "hoch" => "hoch", "mittel" => "mittel", "niedrig" => "niedrig"],
   						 ],             
             ],   
-*/           [
+           [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
                 'rowOptions'=>['class'=>'table-info'],
