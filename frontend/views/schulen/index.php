@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SchulenSearch */
@@ -35,11 +36,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         return empty($data->disziplinen->DispName) ? "-" : $data->disziplinen->DispName;
                       },
             ],
-            ['class' => 'yii\grid\ActionColumn'],
-           'swmInteressentenListe',
-           'swmInteressentenForm',
-           'swmMitgliederListe',
-           'swmMitgliederForm',
+            ['class' => 'kartik\grid\ActionColumn', 
+              'width' => '80px',
+            ],
+            [ 'attribute' => 'swmInteressentenListe',
+              'width' => '100px', 'label' => 'Interessenten Liste',
+            ],
+            [ 'attribute' => 'swmInteressentenForm',
+              'width' => '80px', 'label' => 'Interessenten Form',
+            ],
+            [ 'attribute' => 'swmMitgliederListe',
+              'width' => '80px', 'label' => 'Mitglieder Liste',
+            ],
+            [ 'attribute' => 'swmMitgliederForm',
+              'width' => '80px', 'label' => 'Mitglieder Form' ,
+            ],
 	        ],
     ]); ?>
 
