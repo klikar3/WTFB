@@ -36,6 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
            'swmInteressentenForm', 
            'swmMitgliederListe', 
            'swmMitgliederForm', 
+           'swmInteressentenListeK', 
+           'swmInteressentenFormK', 
+           'swmMitgliederListeK', 
+		       'swmMitgliederFormK', 
         ],
     ]) ?>
 

@@ -36,7 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
                       },
             ],
             ['class' => 'yii\grid\ActionColumn'],
-        ],
+           'swmInteressentenListe',
+           'swmInteressentenForm',
+           'swmMitgliederListe',
+           'swmMitgliederForm',
+	        ],
     ]); ?>
 
 </div>
