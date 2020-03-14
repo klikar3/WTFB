@@ -18,7 +18,7 @@ class IntensivSearch extends Intensiv
     {
         return [
             [['id', 'mitgliederId', 'alter'], 'integer'],
-            [['kontaktNachricht', 'graduierung', 'wieLangeWt', 'ausbQuali', 'unterrichtet', 'eigeneSchule', 'eigeneLehrer', 'organisation', 'erfAndereStile', 'ziel', 'wievielZeit', 'trainingsPartner', 'erstTermin', 'bemerkung'], 'safe'],
+            [['kontaktNachricht', 'graduierung', 'wieLangeWt', 'ausbQuali', 'unterrichtet', 'eigeneSchule', 'eigeneLehrer', 'organisation', 'erfAndereStile', 'ziel', 'wievielZeit', 'trainingsPartner', 'erstTermin', 'einstufung', 'bemerkung'], 'safe'],
         ];
     }
 
@@ -77,6 +77,7 @@ class IntensivSearch extends Intensiv
             ->andFilterWhere(['like', 'wievielZeit', $this->wievielZeit])
             ->andFilterWhere(['like', 'trainingsPartner', $this->trainingsPartner])
             ->andFilterWhere(['like', 'bemerkung', $this->bemerkung]);
+            ->andFilterWhere(['like', 'einstufung', $this->einstufung]);
 
         return $dataProvider;
     }
