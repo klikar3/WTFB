@@ -48,7 +48,7 @@ class MitgliederlisteSearch extends Mitgliederliste
      */
     public function search($params)
     {
-        $query = Mitgliederliste::find();
+        $query = Mitgliederliste::find()->with('mitglieder');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

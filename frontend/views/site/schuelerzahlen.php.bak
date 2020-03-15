@@ -121,7 +121,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                   },
             ],
             ['attribute' => 'VDatum',
-              'label' => 'VertragsDatum',
+              'label' => 'Vertrag',
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
                   }

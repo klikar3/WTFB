@@ -97,7 +97,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'Grad' => $this->Grad,
             'Name' => $this->Name,
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
-//            'letzteDVD' => $this->letzteDVD
+            'letzteDvd' => $this->letzteDvd
         ]);
         if (!empty($this->groesserVon)) {
             $query->andWhere(['<=', 'Von', $this->groesserVon]);
@@ -109,7 +109,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
-					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
+//					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
         if (!empty($this->SchulId)) {
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
         }

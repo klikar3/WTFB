@@ -40,7 +40,7 @@ class SchulleiterschulenSearch extends Schulleiterschulen
      */
     public function search($params)
     {
-        $query = Schulleiterschulen::find()->with('disp')->with('schul')->with('leiter');
+        $query = Schulleiterschulen::find()->with('disziplinen');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

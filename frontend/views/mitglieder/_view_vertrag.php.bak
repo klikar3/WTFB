@@ -101,6 +101,9 @@ use frontend\models\Schulen;
     								<?= $form->field($ms, 'KFristMonate')->dropdownList(range( 0, 6, 1 ) ,
 																			[ 'prompt' => 'Kündigungsfrist in Monaten' ]
 																		) ?>
+    								<?= $form->field($ms, 'VerlaengerungMonate')->dropdownList(range( 0, 36, 1 ) ,
+																			[ 'prompt' => 'Vertragsverlängerung in Monaten' ]
+																		) ?>
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
 																			[ 'placeholder' => 'MonatsBeitrag' ]
 																		) ?>

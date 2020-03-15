@@ -16,7 +16,7 @@ use frontend\models\Mitglieder;
 
 
 /* @var $this yii\web\View */
-$schulen = ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' );
+$schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
 
 if (Yii::$app->controller->action->id == 'sektionsauswahl') {
   $this->title = 'Sektionsliste';

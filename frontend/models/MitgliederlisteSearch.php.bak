@@ -52,9 +52,6 @@ class MitgliederlisteSearch extends Mitgliederliste
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pagesize' => 10 // in case you want a default pagesize
-            ]
         ]);
 				
 		    $dataProvider->setSort([

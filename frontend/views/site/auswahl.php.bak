@@ -43,6 +43,11 @@ if (Yii::$app->controller->action->id == 'geburtstagsliste') {
   $ziel = ['/site/geburtstagsliste',];
   $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 }  
+if (Yii::$app->controller->action->id == 'dvdlistenauswahl') {
+  $this->title = 'DVD-Liste';
+  $ziel = ['/site/dvdliste',];
+  $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
+}  
 $this->params['breadcrumbs'][] = $this->title;
 //RGraphAsset::register($this);
 

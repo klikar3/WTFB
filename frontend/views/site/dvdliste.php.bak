@@ -84,7 +84,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
           <h1><?= Html::encode($this->title) ?></h1>
       </div>  
       <div class="col-md-6" style="text-align:right">    
-   <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/dvdliste', 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary']) : '' ?>
+   <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/dvdliste', 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary', 'target' => '_blank']) : '' ?>
         <?php
           if ($print == 1) {
         ?>

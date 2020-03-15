@@ -44,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
 																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
 																		 ]	); 
 			?>
-			<?php echo $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+			<?php echo $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
 							['style'=>'width:200px']
 							)										
 //									->label('Textauswahl'); 
 			?>
       <?php $form->field($model, 'schule')->widget(Select2::classname(), [
-          'data' => ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+          'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
           'language' => 'de',
           'options' => ['multiple' => true, 'placeholder' => 'Schule auswählen ...'],
           'pluginOptions' => [

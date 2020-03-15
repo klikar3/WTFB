@@ -71,7 +71,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
-									'data' => ArrayHelper::map( Schulen::find()->all(), 
+									'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 
 									'SchulId', 'SchulDisp' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											

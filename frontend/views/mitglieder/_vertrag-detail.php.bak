@@ -623,7 +623,7 @@ use frontend\models\SearchVertrag;
             echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
             echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
-            echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe Frau' : 'Liebe Familie' ),['id' => "u_Salutation"]);
+            echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
             echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;In NL eintragen', ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 

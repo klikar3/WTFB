@@ -41,7 +41,7 @@ class SchulenSearch extends Schulen
      */
     public function search($params)
     {
-        $query = Schulen::find();
+        $query = Schulen::find()->with('disziplinen');
 
        // add conditions that should always apply here 
 		 

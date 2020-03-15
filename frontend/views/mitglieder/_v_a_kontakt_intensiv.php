@@ -215,27 +215,30 @@ use frontend\models\Sifu;
 
         ],
     ]) ?>
-    <?php     
-        $disp = Disziplinen::find()->andWhere(['DispName' => $model->Disziplin])->select('DispId')->one();        
-        $schul = Schulen::find()->andWhere(['Schulname' => $model->Schulort, 'Disziplin' => $disp])->one();
-//        \Yii::warning($model);
+    <?php 
+      if ((!empty($intensiv->mitglied->Disziplin))||($intensiv->mitglied->Schulort == 'WT-Intensiv')) {
+        ($intensiv->mitglied->Schulort == 'WT-Intensiv') ? $disp = 1 :   
+        $disp = Disziplinen::find()->andWhere(['DispName' => $intensiv->mitglied->Disziplin])->select('DispId')->one();        
+        $schul = Schulen::find()->andWhere(['Schulname' => $intensiv->mitglied->Schulort, 'Disziplin' => $disp])->one();
+//        \Yii::warning($intensiv->mitglied->Schulort);
+//        \Yii::warning($disp);
 //        \Yii::warning($schul);
         if ((!empty($schul)) && ($schul->swmInteressentenListe != 0 ) && ($schul->swmInteressentenForm != 0 )) {
-            echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->MitgliederId]);
+            echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$intensiv->mitglied->MitgliederId]);
             echo Html::hiddenInput('MailingListId', $schul->swmInteressentenListe);
             echo Html::hiddenInput('FormId', $schul->swmInteressentenForm);
             echo Html::hiddenInput('FormEncoding', 'utf-8');
   //          echo Html::hiddenInput('HTMLForm', 'subform');
-            echo Html::hiddenInput('u_EMail', $model->Email,['id' => "u_EMail"]);
-            echo Html::hiddenInput('u_Gender', ($model->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
-            echo Html::hiddenInput('u_FirstName', $model->Vorname,['id' => "u_FirstName"]);
-            echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
-            echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
+            echo Html::hiddenInput('u_EMail', $intensiv->mitglied->Email,['id' => "u_EMail"]);
+            echo Html::hiddenInput('u_Gender', ($intensiv->mitglied->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+            echo Html::hiddenInput('u_FirstName', $intensiv->mitglied->Vorname,['id' => "u_FirstName"]);
+            echo Html::hiddenInput('u_LastName', $intensiv->mitglied->Name,['id' => "u_LastName"]);
+            echo Html::hiddenInput('u_Salutation', (strpos($intensiv->mitglied->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($intensiv->mitglied->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
             echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
         }    
-
+      }
     ?>
 
 </div>
