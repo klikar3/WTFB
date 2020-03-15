@@ -117,7 +117,7 @@ use frontend\models\Texte;
 													]	); 
 					?>
 						<div class="col-xs-offset-3">
-							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
+							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->with('schul')->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
 //												, ['style'=>'width:200px']											
 		//									[ 'prompt' => 'Text' ]
 											)										

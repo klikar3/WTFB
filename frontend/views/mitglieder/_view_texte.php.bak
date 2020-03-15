@@ -92,6 +92,10 @@ use frontend\models\Texte;
 									],
 							]
             ],
+   		    [ 'attribute' => 'PruefungZum',
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          ],   
       ],
     ]) ?>
 

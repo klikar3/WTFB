@@ -253,6 +253,8 @@ use frontend\models\Schulen;
         ],
     ]) ?>
     <?php 
+      if (!empty($model->Disziplin)||($model->Schulort == 'WT-Intensiv')) {
+        ($model->Schulort == 'WT-Intensiv') ? $disp = 'Wing Tzun' :   
         $disp = Disziplinen::find()->andWhere(['DispName' => $model->Disziplin])->select('DispId')->one();        
         $schul = Schulen::find()->andWhere(['Schulname' => $model->Schulort, 'Disziplin' => $disp])->one();
 //        \Yii::warning($model);
@@ -271,7 +273,8 @@ use frontend\models\Schulen;
             echo Html::hiddenInput('Action', 'subscribe');
             echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
-        }    
+        } 
+      }      
     ?>
 
 </div>

@@ -49,7 +49,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
      */
     public function search($params)
     {
-        $query = Mitgliederschulen::find()->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
+        $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
                   ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm');
 
         $dataProvider = new ActiveDataProvider([
@@ -109,7 +109,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
-					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
+//					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
         if (!empty($this->SchulId)) {
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
         }

@@ -274,7 +274,7 @@ class SiteController extends Controller
 				$model = new AuswertungenForm();
 
         $params = Yii::$app->request->queryParams;
-        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
+//        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
         if (count($params) <= 2) {
           $params = Yii::$app->session['customerparams'];
@@ -286,7 +286,7 @@ class SiteController extends Controller
             $schule = (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule; //  $params['schule']; 
 
 //        $model->load(Yii::$app->request->post());
-        Yii::warning(VarDumper::dumpAsString($model),'application');
+//        Yii::warning(VarDumper::dumpAsString($model),'application');
         if (!$model->load(Yii::$app->request->post() )) {
 //            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
@@ -319,7 +319,7 @@ class SiteController extends Controller
         $dataProvider = $searchModel->search($params);
         $dataProvider->pagination = false;
 //        $schule = (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule;
-        Yii::warning('----$schule: '.VarDumper::dumpAsString($schule),'application');
+//        Yii::warning('----$schule: '.VarDumper::dumpAsString($schule),'application');
 
 //        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
 /*         $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',   // and SchulId = :schule

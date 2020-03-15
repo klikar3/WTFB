@@ -18,7 +18,7 @@ class SchulenSearch extends Schulen
     public function rules()
     {
         return [
-           [['SchulId', 'sort', 'Disziplin', 'swmInteressentenListe', 'swmInteressentenForm', 'swmMitgliederListe', 'swmMitgliederForm', 'swmInteressentenListeK', 'swmInteressentenFormK', 'swmMitgliederListeK', 'swmMitgliederFormK'], 'integer'],
+           [['SchulId', 'sort', 'Disziplin', 'swmInteressentenListe', 'swmInteressentenForm', 'swmMitgliederListe', 'swmMitgliederForm'], 'integer'],
            [['Schulname'], 'safe'],
         ];
     }
@@ -62,10 +62,6 @@ class SchulenSearch extends Schulen
              'swmInteressentenForm' => $this->swmInteressentenForm, 
              'swmMitgliederListe' => $this->swmMitgliederListe, 
              'swmMitgliederForm' => $this->swmMitgliederForm, 
-             'swmInteressentenListeK' => $this->swmInteressentenListeK, 
-             'swmInteressentenFormK' => $this->swmInteressentenFormK, 
-             'swmMitgliederListeK' => $this->swmMitgliederListeK, 
-             'swmMitgliederFormK' => $this->swmMitgliederFormK,
          ]);     
 
         $query->andFilterWhere(['like', 'Schulname', $this->Schulname]);

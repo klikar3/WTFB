@@ -20,7 +20,7 @@ class PruefungenQuery extends \yii\db\ActiveQuery
      */
     public function all($db = null)
     {
-        return parent::all($db);
+        return parent::all($db)->with('disp')->with('pruefer');
     }
 
     /**

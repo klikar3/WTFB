@@ -21,7 +21,7 @@ $this->title = 'DVDListe';
 $this->params['breadcrumbs'][] = $this->title;
 //RGraphAsset::register($this);
 
-$schulen = ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' );
+$schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
 $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 //Yii::warning(VarDumper::dumpAsString($schulen),'application');
 //Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');

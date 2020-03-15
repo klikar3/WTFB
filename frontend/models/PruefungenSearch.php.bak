@@ -2,29 +2,28 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Texte;
+use frontend\models\Pruefungen;
 
 /**
- * TexteSearch represents the model behind the search form about `frontend\models\Texte`.
+ * PruefungenSearch represents the model behind the search form of `frontend\models\Pruefungen`.
  */
-class TexteSearch extends Texte
+class PruefungenSearch extends Pruefungen
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'SchulId', 'quer', 'randLinks'], 'integer'],
-            [['code', 'fuer', 'txt', 'betreff'], 'safe'],
+            [['id', 'dispId', 'prueferId', 'erledigt'], 'integer'],
+            [['datum'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -41,7 +40,7 @@ class TexteSearch extends Texte
      */
     public function search($params)
     {
-        $query = Texte::find()->with('schul')->with('schul.disziplinen');
+        $query = Pruefungen::find();
 
         // add conditions that should always apply here
 
@@ -60,14 +59,11 @@ class TexteSearch extends Texte
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'SchulId' => $this->SchulId,
-            'quer' => $this->quer,
+            'dispId' => $this->dispId,
+            'datum' => $this->datum,
+            'prueferId' => $this->prueferId,
+            'erledigt' => $this->erledigt,
         ]);
-
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'fuer', $this->fuer])
-            ->andFilterWhere(['like', 'txt', $this->txt])
-            ->andFilterWhere(['like', 'betreff', $this->betreff]);
 
         return $dataProvider;
     }

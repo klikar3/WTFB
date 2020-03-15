@@ -40,7 +40,7 @@ class PruefungenSearch extends Pruefungen
      */
     public function search($params)
     {
-        $query = Pruefungen::find();
+        $query = Pruefungen::find()->with('disp')->with('pruefer');
 
         // add conditions that should always apply here
 

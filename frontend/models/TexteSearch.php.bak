@@ -18,7 +18,7 @@ class TexteSearch extends Texte
     public function rules()
     {
         return [
-            [['id', 'SchulId', 'quer'], 'integer'],
+            [['id', 'SchulId', 'quer', 'randLinks'], 'integer'],
             [['code', 'fuer', 'txt', 'betreff'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class TexteSearch extends Texte
      */
     public function search($params)
     {
-        $query = Texte::find();
+        $query = Texte::find()->with('schul');
 
         // add conditions that should always apply here
 
