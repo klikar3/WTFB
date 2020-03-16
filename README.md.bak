@@ -1,6 +1,11 @@
 # WtFB
 ----
-Verwaltungswebseite für Verbandsmitglieder
+Verwaltungswebseite für Verbandsmitglieder im WTFB
+
+- Arbeitet zusammen mit dem SuperWebMailer-Php-Script für Mailinglisten
+- Verwaltet Mitglieder, Schulen und Schulleiter im Verband
+- Deren persönliche Daten, Verträge und Graduierungen
+- Prufungsseminare, Infoabende/Probetrainings, Auswertungen
 
 based on:
 
@@ -19,7 +24,7 @@ html-code hier
 # ![example2.jpg](https://raw.githubusercontent.com/klikar3/yii2-RGraph/master/example2.jpg)
 # ----
 
-    Yii 2 Advanced Application Template
+Based on Yii 2 Advanced Application Template
 ===================================
 
 Yii 2 Advanced Application Template is a skeleton Yii 2 application best for
