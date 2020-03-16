@@ -71,7 +71,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
-									'data' => ArrayHelper::map( Schulen::find()->all(), 
+									'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 
 									'SchulId', 'SchulDisp' ),
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
@@ -520,6 +520,7 @@ use frontend\models\SearchVertrag;
 			    'toggleButton' => [
 			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hoch</span>', 'class'=>'btn btn-default',
 			        		'style' => 'width: 120px; text-align: left;',
+              'title' => 'Vertrags-Pdf ins Data hochladen', 
 			    ],
           'clientOptions' => [
             'backdrop' => 'static',					
@@ -530,7 +531,7 @@ use frontend\models\SearchVertrag;
 			    'options'=>[//'enctype'=>'multipart/form-data', 
                       'action' => Url::toRoute(['/mitgliederschulen/upload', 'id' => $model->msID, 
 													 				'tabnum' => 3]), // important
-                      'target' => '_blank', 
+                      'target' => '_blank',
           ]           
 			]);
 		?>
@@ -543,7 +544,7 @@ use frontend\models\SearchVertrag;
 			    'name' => 'attachment_53'.$model->msID,
           'id' => 'attachment_53'.$model->msID,
 			    'pluginOptions' => [
-			        'showCaption' => false, //'action' => 'get',
+			        'showCaption' => true, //'action' => 'get',
 			        'showRemove' => true,
 			        'showUpload' => true,
               'uploadAsync' => true,
@@ -569,6 +570,7 @@ use frontend\models\SearchVertrag;
 			    ],
 			    'options' => ['accept' => 'image/jpeg,application/pdf',
 			    		'multiple' => false, 'id' => 'attachment_53'.$model->msID,
+              'title' => 'Vertrags-Pdf ins Data hochladen',
 					],
 //          'pluginEvents' => [
 //              'fileuploaded' => 'this.form.submit()',
@@ -625,7 +627,7 @@ use frontend\models\SearchVertrag;
             echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
-            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;In NL eintragen', ['class' => 'btn btn-sm btn-default']);
+            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;In NL eintragen&nbsp;&nbsp;', ['class' => 'btn btn-sm btn-default', 'title' => 'In den Newsletter für Mitglieder eintragen']);
             echo Html::endForm(); 
 					}				
 		 } ?>                 
@@ -636,6 +638,47 @@ use frontend\models\SearchVertrag;
 											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
 											'target' => '_blank'
 							  	]);   ?>
+   </div>						  	
+	</div>
+
+ <div class="row" style="width:300px;margin-bottom:8px;margin-left:width:0px auto;">
+   <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+    <?php  if ($anzeigen) { 
+ 		   	/* echo Html::a('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;WebMailer</div>', Url::to('http://swm.wingtzun.de',true),[
+											'title' => Yii::t('app', 'Mitglied in SWM eintragen'),
+											'target' => '_blank'
+							  	]); */  
+		 //echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+/*			$form6 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formswm'.$model->msID], // important
+			    'id' => 'formswm'.$model->msID,
+          'action'=>['http://swm.wingtzun.de/nl.php'],
+//			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+*/        if (($model->schul->swmMitgliederListe != 0 ) && ($model->schul->swmMitgliederForm != 0 )) {
+            echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->msID]);
+            echo Html::hiddenInput('MailingListId', $model->schul->swmMitgliederListe);
+            echo Html::hiddenInput('FormId', $model->schul->swmMitgliederForm);
+            echo Html::hiddenInput('FormEncoding', 'utf-8');
+            echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
+            echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+            echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
+            echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
+            echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
+            echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
+            echo Html::hiddenInput('Action', 'subscribe');
+            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Aus NL-Int. raus', ['class' => 'btn btn-sm btn-default', 'title' => 'Aus dem Newsletter für Interessenten rausnehmen']);
+            echo Html::endForm(); 
+					}				
+		 } ?>                 
+	 </div>
+	
+   <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
+   	<?php	/*echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+											'target' => '_blank'
+							  	]);*/   ?>  &nbsp;
    </div>						  	
 	</div>
 		        	
