@@ -5,7 +5,7 @@ Verwaltungswebseite für Verbandsmitglieder im WTFB
 - Arbeitet zusammen mit dem SuperWebMailer-Php-Script für Mailinglisten
 - Verwaltet Mitglieder, Schulen und Schulleiter im Verband
 - Deren persönliche Daten, Verträge und Graduierungen
-- Prufungsseminare, Infoabende/Probetrainings, Auswertungen
+- Prüfungsseminare, Infoabende/Probetrainings, Auswertungen
 
 based on:
 
