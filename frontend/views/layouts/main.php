@@ -72,10 +72,13 @@ if (!empty(Yii::$app->user->identity)) {
         $stammdaten[] =  ['label' => 'Trainings', 'url' => ['/trainings/index']];
         $stammdaten[] =  ['label' => 'User', 'url' => ['/user/admin/index']];
         $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+        $stammdaten[] =  ['label' => 'Woo-SWM Abgleich', 'url' => ['/site/woo-swm-abgleich']];
+        $stammdaten[] =  ['label' => 'SWM blocked Emails', 'url' => ['/swm-blocked-emails/index']];
+        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
         $stammdaten[] =  ['label' => 'DB-Backup', 'url' => ['/backup']];
         //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
         //								];
-                                        
+                                       
         
         $bewegungsdaten[] = ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
         $bewegungsdaten[] = ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
