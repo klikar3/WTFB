@@ -403,7 +403,7 @@ class SiteController extends Controller
 														':bisdatum' => \DateTime::createFromFormat('d.m.Y', $model->bis)->format('Y-m-d'),
 														'schule' => $model->schule));
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         
         $datasets = $query
@@ -422,8 +422,8 @@ class SiteController extends Controller
 						->orderBy('datum desc')
             ->distinct()
 						->all();
-        Yii::warning("-----gt: ".Vardumper::dumpAsString($datasets));
-        Yii::warning("-----gt: ".Vardumper::dumpAsString($labels));
+//        Yii::warning("-----gt: ".Vardumper::dumpAsString($datasets));
+//        Yii::warning("-----gt: ".Vardumper::dumpAsString($labels));
 //           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
 /*        $datasets = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
@@ -548,7 +548,7 @@ class SiteController extends Controller
             ]);
         }
         
-        Yii::warning($model->von);
+//        Yii::warning($model->von);
         $query = (new \yii\db\Query())
             ->select(['concat_ws(" ",m.Vorname,m.Name) as name', 's.Schulname', 's.Disziplin'])
             ->from('mitglieder m')
@@ -638,7 +638,7 @@ class SiteController extends Controller
                     );
 //            ->orderBy('KuendigungAm desc')
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
             
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -732,7 +732,7 @@ class SiteController extends Controller
 														':bismonat'=>date_parse_from_format("j.n.Y H:iP", $model->bis)['month'],
 														'schule' => (int)$model->schule));
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         
         $datasets = $query
@@ -751,7 +751,7 @@ class SiteController extends Controller
 						->orderBy('jahr,monat')
 						->all();
 //        Yii::info("-----gt: ".Vardumper::dumpAsString($datasets));
-           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
+//           Yii::warning(Vardumper::dumpAsString($datasets),'application'); 
 /*        $datasets = (new \yii\db\Query())
             ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, WT-Eintritt, WT-Austritt, WT-Kuendigung, E-Eintritt, E-Austritt, E-Kuendigung')
             ->from('mitgliederzahlen mz')
@@ -867,7 +867,7 @@ class SiteController extends Controller
             $schulnamen = ArrayHelper::getColumn($schulen,'Schulname');
             $schule = implode(', ', $schulnamen);
         } else {
-            Yii::warning('else','application');
+//            Yii::warning('else','application');
             return $this->render('auswahl', [
                 'model' => $model,
             ]);
@@ -1007,7 +1007,7 @@ class SiteController extends Controller
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $d = new ActiveDataProvider([
 				     'query' => $query,
@@ -1100,7 +1100,7 @@ class SiteController extends Controller
             ->where('swmreceiver.email is null ')
             ->andWhere('woocustomer.email NOT IN (SELECT EMAIL FROM swm_blocked_emails)');
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -1135,7 +1135,7 @@ class SiteController extends Controller
 
       public function actionBlock($email){
           $da = SwmBlockedEmails::find()->select('email')->where(['email' => $email])->one();
-          Yii::warning($da);
+//          Yii::warning($da);
           if (empty($da)) {
               $model = new SwmBlockedEmails;
               $model->email = $email;

@@ -73,13 +73,13 @@ $this->params['breadcrumbs'][] = $this->title;
       //							'label' => 'Aktion',
       							'buttons' => [ 
       								'eintragen' => function ($url, $model) {
-      									return  Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->email]) 
+      									return  Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model['email']]) 
                               . Html::hiddenInput('MailingListId', 14)
                               . Html::hiddenInput('FormId', 4)
                               . Html::hiddenInput('FormEncoding', 'utf-8')
-                              . Html::hiddenInput('u_EMail', $model->email,['id' => "u_EMail"])
-                              . Html::hiddenInput('u_FirstName', $model->vorname,['id' => "u_FirstName"])
-                              . Html::hiddenInput('u_LastName', $model->nachname,['id' => "u_LastName"])
+                              . Html::hiddenInput('u_EMail', $model['email'],['id' => "u_EMail"])
+                              . Html::hiddenInput('u_FirstName', $model['vorname'],['id' => "u_FirstName"])
+                              . Html::hiddenInput('u_LastName', $model['nachname'],['id' => "u_LastName"])
                               . Html::hiddenInput('Action', 'subscribe')
                               . Html::submitButton('<span class="glyphicon glyphicon-envelope"></span>&nbsp;NL eintragen', 
                                                         ['class' => 'btn btn-sm btn-success', 
