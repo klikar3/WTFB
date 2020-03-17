@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   
       							    },
       								'blockieren' => function ($url, $model) {
-                          Yii::warning($model['email']) ;
+//                          Yii::warning($model['email']) ;
       									return Html::a('<span class="glyphicon glyphicon-remove" style="color:red"></span>&nbsp;Blockieren',
                             Url::to(['site/block', 'email' => $model['email'] ]), [
                 					'target'=>'_blank',
