@@ -51,12 +51,13 @@ $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 $dataProvider2 = $dataProvider;
 
 $mcef = new \yii\base\DynamicModel([
-        'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'
+        'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId', 'KontaktAm'
     ]);                             
 $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
     ->addRule(['emailInhalt'], 'string',['max'=>999])
     ->addRule('Funktion', 'string',['max'=>32])
     ->addRule('Schulort', 'string',['max'=>32])
+    ->addRule('KontaktAm' ,'date', ['format' => 'php:Y-m-d'])
     ->addRule('MitgliederId', 'integer');
 $mcef->MitgliederId = $mcf->MitgliederId;
 $mcef->Funktion = 'Schüler/in';

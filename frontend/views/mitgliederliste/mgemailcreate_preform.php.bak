@@ -57,9 +57,7 @@ use frontend\models\Schulen;
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 				<?= $form->field($mcf, 'emailInhalt',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']])
-                  ->textarea(['encode'=>false,'rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '.chr(13).chr(10).'Anrede: Herr'.chr(13).chr(10).'
-                  Vorname: Hans'.chr(13).'Name: Müller'.chr(13).'Email: email@web.de
-'])->label('EmailInhalt') 
+                  ->textarea(['rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '])->label('EmailInhalt') 
 				?>
 			
 				<?php /* echo $form->field($mcf, 'BeitrittDatum')->widget(DatePicker::classname(),   width:16em;
@@ -75,6 +73,22 @@ use frontend\models\Schulen;
 									'Schulname', 'Schulname' )),['style'=>'']);
 				?>
 
+        <?= $form->field($mcf, 'KontaktAm',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])->widget(DateControl::classname(), [
+    							'type'=>DateControl::FORMAT_DATE,
+    							'ajaxConversion'=>true,
+     							'displayFormat' => 'php:d.m.Y',
+     							'saveFormat' => 'php:Y-m-d',
+    							'value' => 'KontaktAm',
+    							'options' => [
+    //							'placeholder' => 'Graduierungsdatum ...'],
+    								'pluginOptions' => [	
+    										'autoclose'=>true
+    								] 
+    							]
+    						]) 
+    		?>
         <?= $form->field($mcf, 'Funktion',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
 																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
