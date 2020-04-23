@@ -251,7 +251,10 @@ class MitgliederController extends Controller
             }
         		if ($model->save()){
 //            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));
-                if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);       
+                if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);
+                $intensiv->kontaktNachricht = $model->kontaktNachricht1;
+                $intensiv->KontaktAm = $model->KontaktAm;
+                $intensiv->save();       
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } //else {
@@ -279,12 +282,13 @@ class MitgliederController extends Controller
     {
 		    $model = new Mitglieder();
         $mcef = new \yii\base\DynamicModel([
-                    'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId'
+                    'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId', 'KontaktAm'
                 ]);                             
         $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
             ->addRule(['emailInhalt'], 'string',['max'=>999])
             ->addRule('Funktion', 'string',['max'=>32])
             ->addRule('Schulort', 'string',['max'=>32])
+            ->addRule('KontaktAm' ,'date', ['format' => 'php:Y-m-d'])
             ->addRule('MitgliederId', 'integer');
 
 				// Graduierungen
@@ -321,7 +325,8 @@ class MitgliederController extends Controller
             $model->Schulort = $mcef->Schulort;
             $model->Funktion = $mcef->Funktion;
             $model->MitgliederId = $mcef->MitgliederId;
-						$model->Kontoinhaber = $model->Name.', '.$model->Vorname; 
+						$model->Kontoinhaber = $model->Name.', '.$model->Vorname;
+            $model->KontaktAm = $mcef->KontaktAm; 
 						$model->validate();      
 						$errors = $model->errors;
         		Yii::trace($errors);

@@ -101,6 +101,22 @@ use frontend\models\Schulen;
 																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
 																			 ;
 				?>
+        <?= $form->field($mcf, 'KontaktAm',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])->widget(DateControl::classname(), [
+    							'type'=>DateControl::FORMAT_DATE,
+    							'ajaxConversion'=>true,
+     							'displayFormat' => 'php:d.m.Y',
+     							'saveFormat' => 'php:Y-m-d',
+    							'value' => 'KontaktAm',
+    							'options' => [
+    //							'placeholder' => 'Graduierungsdatum ...'],
+    								'pluginOptions' => [	
+    										'autoclose'=>true
+    								] 
+    							]
+    						]) 
+    		?>
 				<?= $form->field($mcf, 'kontaktNachricht1',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']])
                   ->textarea(['rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '])->label('Kontaktnachricht') 

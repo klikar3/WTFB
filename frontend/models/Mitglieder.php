@@ -313,10 +313,11 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['LetzteAenderung','LetztAendSifu'],'date', 'format' => 'Y-m-d H:m:s'],
 //            [['BeitrittDatum','GeburtsDatum', 'KuendigungDatum', 'AustrittDatum', 'ProbetrainingAm', 'KontaktAm'], 'default', 'allowEmpty'=>true, 'value' => null],
            	[['MitgliederId', 'MitgliedsNr', 'SFirm', 'BListe', 'PruefungZum','LetzteAenderung','LetztAendSifu','RecDeleted'], 'safe'],
-           	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'Status', 'Schulort', 
+           	[['Vorname', 'Geschlecht', 'Telefon1', 'Telefon2', 'HandyNr', 'Fax', 'Status', 
 						 	'Disziplin', 'Funktion', 'Graduierung', 'letzteDvd'], 'string', 'max' => 20],
-            [['Name', 'Betreff', 'mandatNr'], 'string', 'max' => 30],
+            [['Name', 'Betreff', 'mandatNr', 'Schulort'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
+		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],            
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 100],
@@ -340,7 +341,6 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['Text'], 'string', 'max' => 426],
             [['DM2Schule'], 'string', 'max' => 5],
 //            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
-		        [['KontaktArt', 'RechnungsNr'], 'string', 'max' => 50],
 //		        [['MitgliedsNr'], 'unique']
             [['kontaktNachricht1'], 'string']
 		        ];
