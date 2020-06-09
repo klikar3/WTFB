@@ -251,10 +251,12 @@ class MitgliederController extends Controller
             }
         		if ($model->save()){
 //            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));
-                if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);
-                $intensiv->kontaktNachricht = $model->kontaktNachricht1;
-                $intensiv->KontaktAm = $model->KontaktAm;
-                $intensiv->save();       
+                if ($model->Schulort == 'WT-Intensiv') {
+                  $intensiv = $this->getIntensiv($model->MitgliederId);
+                  $intensiv->kontaktNachricht = $model->kontaktNachricht1;
+                  $intensiv->KontaktAm = $model->KontaktAm;
+                  $intensiv->save(); 
+                }        
         				return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1]);
             }
         } //else {
