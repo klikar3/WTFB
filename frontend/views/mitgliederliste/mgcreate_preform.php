@@ -84,6 +84,13 @@ use frontend\models\Schulen;
 									'Schulname', 'Schulname' )),['style'=>'']);
 				?>
 
+
+        <?= $form->field($mcf, 'Disziplin',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+									'DispName', 'DispName' )),['style'=>'']);
+				?>
+
 				<?= $form->field($mcf, 'Email',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
 																			 ])

@@ -965,21 +965,40 @@ class SiteController extends Controller
  
  				$model = new AuswertungenForm();
         if ($model->load(Yii::$app->request->post() )) {
-            $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
-            $schulnamen = ArrayHelper::map($schulen,'Schulname','Schulname');
-            $schule = implode(', ', $schulnamen);
+            $schulen = Schulen::find()->innerJoinWith('disziplin',true)->where(['SchulId' => $model->schule])->all();
+//        Yii::warning(VarDumper::dumpAsString($schulen),'application');
+            $schulnamen = ArrayHelper::getColumn($schulen, function ($element) {
+                              return ['Schulname'=>$element['Schulname'],'Disziplin' => $element['disziplinen']->DispName];
+                              } 
+                          );
+//        Yii::warning('Schulnamen: '.VarDumper::dumpAsString($schulnamen),'application');
+            $schule = implode(', ', ArrayHelper::getColumn($schulen,function ($element) {
+                              return $element['Schulname'].' '.$element['disziplinen']->DispName;
+                              }));
         }
         
         $searchModel = new MitgliederSearch();
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
                  ->select('MitgliedsNr, Vorname, Name, KontaktAm, Schulort, Email, Disziplin, Telefon1, Telefon2, HandyNr, Woher, EinladungIAzum, IABest, WarZumIAda, ProbetrainingAm, PTwarDa, Bemerkung1')
                  ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
-                 ->andWhere(['Schulort' => $schulnamen])
                  ->andWhere(['is not', 'mitglieder.RecDeleted', new \yii\db\Expression('true')])
                  ->andWhere(['or',
                                   ['is', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('null')],
                                   ['<=', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('CURRENT_DATE')],
             ]);
+        $wre = '';    
+        foreach( $schulnamen as $s )
+        {                		
+/*            $query->orWhere(['and',  
+                                  ['Schulort' => $s['Schulname']], 
+                                  ['Disziplin' => $s['Disziplin']]
+                                 
+                            ]);
+*/            $wre = $wre.'(Schulort =\''.$s['Schulname'].'\' AND Disziplin = \''.$s['Disziplin'].'\') OR ';
+        }
+        $wre = substr($wre, 0, -3);
+        $query->andWhere($wre);    
+
         if ($model->fon)  {
             $query->andWhere(['is not', 'mitglieder.Telefon1', new \yii\db\Expression('null')]);
             $query->andWhere(['or',
@@ -1006,6 +1025,7 @@ class SiteController extends Controller
 */        }
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
+        $query->orderBy('Schulort,Disziplin');
         $sql = $query->createCommand()->getRawSql($query);
 //        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
