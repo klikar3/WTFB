@@ -49,6 +49,11 @@ class MitgliederController extends Controller
                     ],
 						        [
 						            'actions' => ['delete-admin','restore'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+						        [
+						            'actions' => ['delete-admin','restore'],
                         'allow' => false,
                     ],
                 ],
@@ -97,7 +102,7 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id,$tabnum, $openv = 0, $iId = 0)
+    public function actionView($id,$tabnum = 1, $openv = 0, $iId = 0)
     {
         $model = $this->findModel($id);
         
@@ -284,12 +289,13 @@ class MitgliederController extends Controller
     {
 		    $model = new Mitglieder();
         $mcef = new \yii\base\DynamicModel([
-                    'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId', 'KontaktAm'
+                    'emailInhalt', 'Funktion', 'Schulort', 'MitgliederId', 'KontaktAm', 'Disziplin'
                 ]);                             
-        $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
+        $mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId', 'Disziplin'], 'required')
             ->addRule(['emailInhalt'], 'string',['max'=>999])
             ->addRule('Funktion', 'string',['max'=>32])
             ->addRule('Schulort', 'string',['max'=>32])
+            ->addRule('Disziplin', 'string',['max'=>32])
             ->addRule('KontaktAm' ,'date', ['format' => 'php:Y-m-d'])
             ->addRule('MitgliederId', 'integer');
 
@@ -326,6 +332,7 @@ class MitgliederController extends Controller
              }
             $model->Schulort = $mcef->Schulort;
             $model->Funktion = $mcef->Funktion;
+            $model->Disziplin = $mcef->Disziplin;
             $model->MitgliederId = $mcef->MitgliederId;
 						$model->Kontoinhaber = $model->Name.', '.$model->Vorname;
             $model->KontaktAm = $mcef->KontaktAm; 
@@ -353,7 +360,7 @@ class MitgliederController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id, $tabnum)  
+    public function actionUpdate($id, $tabnum = 1)  
     {
 				$query = Mitgliedergrade::find();
 				$query->where(['=', 'MitgliedId', $id]);

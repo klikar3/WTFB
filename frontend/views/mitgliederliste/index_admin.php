@@ -45,12 +45,13 @@ $mcf->MitgliederId = Yii::$app->db->createCommand('SELECT MAX(MitgliederId) FROM
 $mcf->MitgliedsNr = 0;
 
 $mcef = new \yii\base\DynamicModel([
-        'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId', 'KontaktAm'
+        'emailInhalt', 'Schulort', 'Funktion', 'MitgliederId', 'KontaktAm', 'Disziplin'
     ]);                             
-$mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId'], 'required')
+$mcef->addRule(['emailInhalt', 'Schulort', 'Funktion', 'MitgliederId', 'Disziplin'], 'required')
     ->addRule(['emailInhalt'], 'string',['max'=>999])
     ->addRule('Funktion', 'string',['max'=>32])
     ->addRule('Schulort', 'string',['max'=>32])
+    ->addRule('Disziplin', 'string',['max'=>32])
     ->addRule('KontaktAm' ,'date', ['format' => 'php:Y-m-d'])
     ->addRule('MitgliederId', 'integer');
 $mcef->MitgliederId = $mcf->MitgliederId;
