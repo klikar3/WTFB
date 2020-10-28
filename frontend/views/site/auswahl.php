@@ -109,6 +109,20 @@ $this->params['breadcrumbs'][] = $this->title;
       ])->label(false);
       ?>
 <?php } ?>          
+<?php if (Yii::$app->controller->action->id == 'schuelerzahlenauswahl') { ?>
+<br><br>
+<?= $form->field($model, 'von')->widget(DatePicker::classname(), [
+                    'options' => ['placeholder' => Yii::t('app', 'Month')],
+                    'attribute2'=>'to_date',
+//                    'type' => DatePicker::TYPE_RANGE,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+//                        'viewMode'=>'Month',
+                        'minViewMode'=>'months',
+                        'format' => 'yyyy-mm-dd'
+                    ]
+                ]) ?>
+<?php } ?>          
 					<div style="text-align: right;padding-bottom:5px;">
 					<?= Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary', 'formTarget' => '_blank']);
 					?>

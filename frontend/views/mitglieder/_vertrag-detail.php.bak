@@ -252,7 +252,7 @@ use frontend\models\SearchVertrag;
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
+							    'saveFormat' => 'php:U',
 							    'options' => [
 				            	'id' => 'dv_vv_bab_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
@@ -428,7 +428,7 @@ use frontend\models\SearchVertrag;
 //												'value' => $model->OK, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'OK',
+												'label' => 'Ausweis',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
@@ -656,10 +656,10 @@ use frontend\models\SearchVertrag;
 //			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
 
 			]);
-*/        if (($model->schul->swmMitgliederListe != 0 ) && ($model->schul->swmMitgliederForm != 0 )) {
+*/        if (($model->schul->swmInteressentenListe != 0 ) && ($model->schul->swmInteressentenForm != 0 )) {
             echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model->msID]);
-            echo Html::hiddenInput('MailingListId', $model->schul->swmMitgliederListe);
-            echo Html::hiddenInput('FormId', $model->schul->swmMitgliederForm);
+            echo Html::hiddenInput('MailingListId', $model->schul->swmInteressentenListe);
+            echo Html::hiddenInput('FormId', $model->schul->swmInteressentenForm);
             echo Html::hiddenInput('FormEncoding', 'utf-8');
             echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
             echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
@@ -667,7 +667,7 @@ use frontend\models\SearchVertrag;
             echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
-            echo Html::hiddenInput('Action', 'subscribe');
+            echo Html::hiddenInput('Action', 'unsubscribe');
             echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Aus NL-Int. raus', ['class' => 'btn btn-sm btn-default', 'title' => 'Aus dem Newsletter für Interessenten rausnehmen']);
             echo Html::endForm(); 
 					}				

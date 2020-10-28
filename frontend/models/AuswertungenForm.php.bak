@@ -16,6 +16,8 @@ class AuswertungenForm extends Model
     public $fon;
     public $ia;
     public $pt;
+    public $monat;
+    public $jahr;
     
     /**
      * @inheritdoc
@@ -25,7 +27,7 @@ class AuswertungenForm extends Model
         return [
             [['schule'], 'required'],
             [['von','bis'], 'date'],
-            [['fon', 'iada'], 'integer'],
+            [['fon', 'ia', 'pt'], 'integer'],
 //            ['disp', 'string', 'max' => 30],
         ];
     }

@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'Status',
             // 'AktivPassiv',
             // 'Kontoinhaber',
-            // 'Schulort',
+            'Schulort',
             // 'Disziplin',
             // 'Funktion',
             // 'Sifu',

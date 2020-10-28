@@ -165,7 +165,7 @@ class SiteController extends Controller
 				$model = new AuswertungenForm();
 
         $params = Yii::$app->request->queryParams;
-//        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
+        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
         if (count($params) <= 2) {
           $params = Yii::$app->session['customerparams'];
@@ -174,13 +174,15 @@ class SiteController extends Controller
           } else {
             Yii::$app->session['customerparams'] = $params;
         }
+        Yii::warning('----customerparams: '.VarDumper::dumpAsString($params),'application');
 
 //        $model->load(Yii::$app->request->post());
 //        Yii::warning(VarDumper::dumpAsString($model),'application');
         if (!$model->load(Yii::$app->request->post() )) {
-//            Yii::warning('----- noload','application');
+            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
             $dataProvider = $searchModel->search($params);
+            $model->von = $params['MitgliederschulenSearch']['groesserVon'];
 //        Yii::warning('----params not load: '.VarDumper::dumpAsString($params),'application');
 //        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
 //        $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',  
@@ -188,16 +190,16 @@ class SiteController extends Controller
             $dataProvider->pagination = false;
             return $this->render('schuelerzahlen', [
 //            return $this->redirect(['/site/schuelerzahlenauswahl', 
-//                'model' => $model,
+                'model' => $model,
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,                                               
             ]);
         } else {
             $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
-                                                'groesserVon' => date('Y-m-d'),
-                                                'kleinerBis' => date('Y-m-d'), ];
+                                                'groesserVon' => $model->von, //date('Y-m-d'),
+                                                'kleinerBis' => $model->von, ];
             Yii::$app->session['customerparams'] = $params;
-//            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
+            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
         }
 //        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         

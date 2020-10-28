@@ -14,7 +14,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7.2.0",
         "yiisoft/yii2": ">=2.0.9",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
@@ -39,7 +39,7 @@
 				"klikar3/yii2-backup": "*",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
-        "eddmash/yii2-clipboard": "@dev"
+        "eddmash/yii2-clipboard": "@dev"          
     },
     "require-dev": {
         "codeception/codeception": "*",
