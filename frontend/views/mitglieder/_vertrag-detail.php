@@ -428,7 +428,7 @@ use frontend\models\SearchVertrag;
 //												'value' => $model->OK, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'OK',
+												'label' => 'Ausweis',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);

@@ -16,6 +16,8 @@ class AuswertungenForm extends Model
     public $fon;
     public $ia;
     public $pt;
+    public $monat;
+    public $jahr;
     
     /**
      * @inheritdoc
@@ -25,7 +27,7 @@ class AuswertungenForm extends Model
         return [
             [['schule'], 'required'],
             [['von','bis'], 'date'],
-            [['fon', 'ia', 'pt'], 'integer'],
+            [['fon', 'ia', 'pt', 'monat', 'jahr'], 'integer'],
 //            ['disp', 'string', 'max' => 30],
         ];
     }
@@ -39,6 +41,8 @@ class AuswertungenForm extends Model
             '$fon' => Yii::t('app', 'TelefonNr vorh.'),
             '$ia' => Yii::t('app', 'Infoabend'),
             '$pt' => Yii::t('app', 'Probetraining'),
+            '$monat' => Yii::t('app', 'Monat'),
+            '$jahr' => Yii::t('app', 'Jahr'),
         ];
     }
    

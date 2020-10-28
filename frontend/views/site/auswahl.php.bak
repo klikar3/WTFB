@@ -16,7 +16,7 @@ use frontend\models\Mitglieder;
 
 
 /* @var $this yii\web\View */
-$schulen = ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp' );
+$schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
 
 if (Yii::$app->controller->action->id == 'sektionsauswahl') {
   $this->title = 'Sektionsliste';
@@ -108,6 +108,20 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
       ])->label(false);
       ?>
+<?php } ?>          
+<?php if (Yii::$app->controller->action->id == 'schuelerzahlenauswahl') { ?>
+<br><br>
+<?= $form->field($model, 'von')->widget(DatePicker::classname(), [
+                    'options' => ['placeholder' => Yii::t('app', 'Month')],
+                    'attribute2'=>'to_date',
+//                    'type' => DatePicker::TYPE_RANGE,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+//                        'viewMode'=>'Month',
+                        'minViewMode'=>'months',
+                        'format' => 'yyyy-mm'
+                    ]
+                ]) ?>
 <?php } ?>          
 					<div style="text-align: right;padding-bottom:5px;">
 					<?= Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary', 'formTarget' => '_blank']);

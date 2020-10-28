@@ -22,6 +22,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public $kleinerBis;
     public $DVDgesendetAm;
     public $letzteDvd;
+    public $von;
 
     public function rules()
     {
@@ -99,20 +100,26 @@ class MitgliederschulenSearch extends Mitgliederschulen
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
             'letzteDvd' => $this->letzteDvd
         ]);
+        if (!empty($this->SchulId)) {
+    		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
+        }
         if (!empty($this->groesserVon)) {
-            $query->andWhere(['<=', 'Von', $this->groesserVon]);
-            $query->andWhere(['OR', ['>=', 'Bis', $this->groesserVon],
-                                    ['is','Bis', new \yii\db\Expression('null')],
-                                    ['=','Bis', '0000-00-00'],
-                             ]);
+            $query->andWhere(['OR', ['AND', ['<=', 'Von', $this->groesserVon],
+                                            ['OR', ['>=', 'Bis', $this->groesserVon],
+                                                  ['is','Bis', new \yii\db\Expression('null')],
+                                                  ['=','Bis', '0000-00-00'],
+                                            ],
+                                    ],
+                                    ['AND', ['>=', 'VDatum', $this->groesserVon],                                      
+                                            ['<=', 'VDatum', \DateTime::createFromFormat('Y-m-d', $this->groesserVon)->format('Y-m-t')],
+//                                             ]       
+                                      ],      
+                              ]);  
         }
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
 //					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
-        if (!empty($this->SchulId)) {
-    		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
-        }
 //        $query->andFilterCompare('von', $this->Von,'='  );
 
 /*        foreach (Mitgliederschulen::getSearchColumns() as $columnname){

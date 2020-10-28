@@ -18,59 +18,17 @@ use frontend\models\Mitglieder;
 
 /* @var $this yii\web\View */
 $this->title = 'Schülerzahlen';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title.' für '.$model->von;
 //RGraphAsset::register($this);
 
 $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
 $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 //Yii::warning(VarDumper::dumpAsString($schulen),'application');
 //Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');
- if (1==0){
-?>
-<div class="row">
-  <div class="col-md-3"> </div>   
-  <div class="col-md-4"> 
-  <div class="panel panel-info"> 
-    <div class="panel-heading" style="margin: 5px;padding:5px;">   
-    <h4><?= Html::encode($this->title.' für') ?></h4>
-    </div>
-    <div class="panel-body" style="margin: 5px;padding:5px;">   
-			<?php 
-		 			$form = ActiveForm::begin( ['method' => 'post',
-					 														'action' => Url::to(['site/schuelerzahlen',]),
-																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
-																		 ]	); 
-			?>
-			<?php /*$form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
-							['multiple'=>'multiple',
-//							'style'=>'width:200px'
-                ])										
-									->label(false); 
-*/			?>
-      <?= $form->field($model, 'schule')->widget(Select2::classname(), [
-          'data' => $schulauswahl,
-          'language' => 'de',
-          'options' => ['multiple' => true, 'placeholder' => 'Schule auswählen ...'],
-          'pluginOptions' => [
-              'allowClear' => true
-          ],
-      ])->label(false);
-			?>
-					<div style="text-align: right;padding-bottom:5px;">
-					<?= Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']);
-					?>
-					</div>
-			<?php 
-				$form = ActiveForm::end();
-		 	?>
 
-  </div>
-  </div>
-  </div> 
-</div>
-<?php } ?> 
-<?php
  //echo VarDumper::dumpAsString($dataProvider->query->createCommand()->getRawSql())
+ $diesesJahr = \DateTime::createFromFormat('Y-m-d', $model->von)->format('Y');
+ $dieserMonat = \DateTime::createFromFormat('Y-m-d', $model->von)->format('m');
 ?>
 <div class="row">
  
@@ -148,6 +106,49 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //             'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',
              'pageSummary' => true,
+            ],
+            ['attribute' => 'Anteilig',
+             'format' => 'raw', 
+             'width' => '80px',
+             'pageSummary' => true,
+              'label' => 'Anteilig',
+              'value' => function ($data) use ($diesesJahr, $dieserMonat) {
+//                  Yii::warning(VarDumper::dumpAsString($data),'application');
+                  //von und bis nicht in diesem Jahr
+                  $vonJahr = \DateTime::createFromFormat('Y-m-d', $data->Von)->format('Y');
+                  $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');
+                  if (($vonJahr != $diesesJahr ) and 
+                      ($bisJahr != $diesesJahr)) { 
+                    return $data->MonatsBeitrag; }
+                  
+                  // von ist in diesem Jahr  
+                  if ($vonJahr == $diesesJahr) {
+                    if (\DateTime::createFromFormat('Y-m-d', $data->Von)->format('m') == $dieserMonat) {
+            		      return number_format($data->MonatsBeitrag * ((\DateTime::createFromFormat('Y-m-d', $data->Von)->format('t')-\DateTime::createFromFormat('Y-m-d', $data->Von)->format('j')+1) / \DateTime::createFromFormat('Y-m-d', $data->Von)->format('t')),2); 
+                    }
+                    else { if (\DateTime::createFromFormat('Y-m-d', $data->Von)->format('m') > $dieserMonat) {
+                             return 0.00; 
+                           }
+                           else {
+                             return $data->MonatsBeitrag;
+                           }
+                         }
+                  }
+                  
+                  // bis ist in diesem Jahr
+                  if ($bisJahr == $diesesJahr) {
+                    if (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('m') == $dieserMonat) {
+            		       return number_format($data->MonatsBeitrag * (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('j')/\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('t')),2); 
+                    } else {
+                       if (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('m') < $dieserMonat) {
+                         return 0.00;
+                       } else {
+                         return $data->MonatsBeitrag;
+                       }
+                    }   
+                  }
+                },
+          		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],
 //            'VertragId',
 

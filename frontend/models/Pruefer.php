@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "pruefer".
@@ -35,6 +36,18 @@ class Pruefer extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function find()
+    { 
+			if (!Yii::$app->user->identity->isAdmin /*role == 10*/) {
+		    	$schulleiter = Schulleiter::find()->select('LeiterName')->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->orWhere(['LeiterName' => 'Sifu Niko'])->all();
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiter));
+					// VarDumper::dump($schulleiter);
+//					Yii::error("-----PRINT: ". Vardumper::dumpAsString($schulleiterschulen));
+		    	return parent::find()->where( ['pName' => array_map(function ($v) { return $v->LeiterName; },$schulleiter )]);
+//					return parent::find()->andWhere( ['or', ['mitglieder.SchulId' => $si]]);
+		  }
+		  return parent::find();
+    }
     /**
      * @inheritdoc
      */

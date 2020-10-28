@@ -98,17 +98,19 @@ use frontend\models\Sifu;
               'type' => DetailView::INPUT_TEXTAREA,
             ],
             [ 'attribute' => 'telefonatAm',
-            	'format' => ['date', 'php:d.m.Y'],
+            	'format' => ['date', 'php:d.m.Y H:i'],
               'valueColOptions'=>['style'=>'width:30%;'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
+            	'ajaxConversion' => false,
   //        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
-  								'type' => DateControl::FORMAT_DATE,
-  						    'displayFormat' => 'php:d.m.Y',
-  						    'saveFormat' => 'php:Y-m-d',
+  								'type' => DateControl::FORMAT_DATETIME,
+						    'displayFormat' => 'php:d.m.Y H:i',
+						    'saveFormat' => 'php:Y-m-d H:i:s',
+                'displayTimezone' => 'Europe/Berlin', 
+                'saveTimezone' => 'UTC',
   						    'options' => [
   										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
   								],
@@ -175,17 +177,19 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
           [ 'attribute' => 'erstTermin',
-          	'format' => ['date', 'php:d.m.Y'],
+          	'format' => ['date', 'php:d.m.Y H:i'],
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
-          	'ajaxConversion' => true,
+          	'ajaxConversion' => false,
    					'label' => 'Ersttermin am',
          	  'widgetOptions' => [
           			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
-						    'displayFormat' => 'php:d.m.Y',
-						    'saveFormat' => 'php:Y-m-d',
+								'type' => DateControl::FORMAT_DATETIME,
+						    'displayFormat' => 'php:d.m.Y H:i',
+						    'saveFormat' => 'php:Y-m-d H:i:s',
+                'displayTimezone' => 'Europe/Berlin',
+                'saveTimezone' => 'UTC',
                 'options' => [
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
   							    ],
@@ -220,9 +224,9 @@ use frontend\models\Sifu;
         ($intensiv->mitglied->Schulort == 'WT-Intensiv') ? $disp = 1 :   
         $disp = Disziplinen::find()->andWhere(['DispName' => $intensiv->mitglied->Disziplin])->select('DispId')->one();        
         $schul = Schulen::find()->andWhere(['Schulname' => $intensiv->mitglied->Schulort, 'Disziplin' => $disp])->one();
-        \Yii::warning($intensiv->mitglied->Schulort);
-        \Yii::warning($disp);
-        \Yii::warning($schul);
+//        \Yii::warning($intensiv->mitglied->Schulort);
+//        \Yii::warning($disp);
+//        \Yii::warning($schul);
         if ((!empty($schul)) && ($schul->swmInteressentenListe != 0 ) && ($schul->swmInteressentenForm != 0 )) {
             echo Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$intensiv->mitglied->MitgliederId]);
             echo Html::hiddenInput('MailingListId', $schul->swmInteressentenListe);
