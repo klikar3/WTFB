@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $searchModel frontend\models\SchulenSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Schulen');
+$this->title = Yii::t('app', 'Schools');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="schulen-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
+        <?= Html::a(Yii::t('app', 'Create School', [
     'modelClass' => 'Schulen',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -40,16 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
               'width' => '80px',
             ],
             [ 'attribute' => 'swmInteressentenListe',
-              'width' => '100px', 'label' => 'Interessenten Liste',
+              'width' => '100px', 'label' => Yii::t('app', 'Interessent List'),
             ],
             [ 'attribute' => 'swmInteressentenForm',
-              'width' => '80px', 'label' => 'Interessenten Form',
+              'width' => '80px', 'label' => Yii::t('app', 'Interessent Form'),
             ],
             [ 'attribute' => 'swmMitgliederListe',
-              'width' => '80px', 'label' => 'Mitglieder Liste',
+              'width' => '80px', 'label' => Yii::t('app', 'Member List'),
             ],
             [ 'attribute' => 'swmMitgliederForm',
-              'width' => '80px', 'label' => 'Mitglieder Form' ,
+              'width' => '80px', 'label' => Yii::t('app', 'Member Form') ,
             ],
 	        ],
     ]); ?>

@@ -39,10 +39,11 @@
 				"klikar3/yii2-backup": "*",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
-        "eddmash/yii2-clipboard": "@dev"          
+        "eddmash/yii2-clipboard": "@dev",
+        "codemix/yii2-localeurls": "*",
+        "soap/yii2-language-switcher": "*"          
     },
     "require-dev": {
-        "codeception/codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*",
