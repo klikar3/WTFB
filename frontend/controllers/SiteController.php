@@ -6,6 +6,7 @@ use common\models\LoginForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\Cookie;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -41,7 +42,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup', 'mitgliederliste'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'language'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -92,6 +93,10 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'page' => [
+                'class' => \yii\web\ViewAction::className(),
+                'viewPrefix' => 'pages/' . \Yii::$app->language
+            ],
         ];
     }
 
@@ -108,6 +113,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);   // go last page or home
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -1166,5 +1172,30 @@ class SiteController extends Controller
           }
           return 'Email wurde nicht in SwmBlockedEmails eingetragen!';
       }
+
+    /**
+     * Set language for site.
+     * 
+     * @return view 'site/index'
+     */
+    function actionLanguage()
+    {
+//        Yii::warning(VarDumper::dumpAsString($lang),'application');
+        $oldLang = Yii::$app->language;
+        $language = Yii::$app->request->post('language');
+        Yii::$app->language = $language;
+ 
+        $languageCookie = new Cookie([
+            'name' => 'language',
+            'value' => $language,
+            'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+        ]);
+        Yii::$app->response->cookies->add($languageCookie);
+ 
+        // return $this->render('index');  // go home always
+        //$this->redirect(Yii::$app->homeUrl);   // go last page or home
+        $this->redirect(str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->request->referrer) ?: str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->homeUrl));   // go last page or home
+    }
+
 }
 

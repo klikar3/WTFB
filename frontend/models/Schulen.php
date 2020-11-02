@@ -84,14 +84,14 @@ class Schulen extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'SchulId' => Yii::t('app', 'Schul ID'),
-            'Schulname' => Yii::t('app', 'Schulname'),
+            'SchulId' => Yii::t('app', 'School ID'),
+            'Schulname' => Yii::t('app', 'School name'),
             'sort' => Yii::t('app', 'Sort'),
-            'Disziplin' => Yii::t('app', 'Disziplin'),
-            'swmInteressentenListe' => Yii::t('app', 'Swm Interessenten Liste'), 
-            'swmInteressentenForm' => Yii::t('app', 'Swm Interessenten Form'), 
-            'swmMitgliederListe' => Yii::t('app', 'Swm Mitglieder Liste'), 
-            'swmMitgliederForm' => Yii::t('app', 'Swm Mitglieder Form'), 
+            'Disziplin' => Yii::t('app', 'Disciplin'),
+            'swmInteressentenListe' => Yii::t('app', 'Swm Interessent List'), 
+            'swmInteressentenForm' => Yii::t('app', 'Swm Interessent Form'), 
+            'swmMitgliederListe' => Yii::t('app', 'Swm Member Liste'), 
+            'swmMitgliederForm' => Yii::t('app', 'Swm Member Form'), 
 	        ];
     }
 

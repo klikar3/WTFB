@@ -33,8 +33,29 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-        <?php
-        
+          
+<?php
+ $this->beginBlock('login', true);
+
+    echo Html::beginForm(['site/language','class' => 'navbar-nav navbar-right',]). 
+    Html::dropDownList('language', Yii::$app->language, 
+        [
+            'en'    => 'English',
+            'de'    => 'Deutsch',    // 'Spanish',
+            'el'    => 'Greek',   // 'French',
+        ], 
+        [
+//            'class' => 'form-control',
+            'class' => 'navbar-nav navbar-right',
+            'onchange' => "this.form.submit()"
+        ]
+    )
+    .Html::endForm(); 
+
+ $this->endBlock(); 
+?>
+
+<?php       
 $stammdaten[] = ['label' => 'Trainings', 'url' => ['/trainings/index']];      
 $bewegungsdaten[] =  ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
 $bewegungsdaten[] =  ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
@@ -98,7 +119,7 @@ if (!empty(Yii::$app->user->identity)) {
                                 
 
             NavBar::begin([
-                'brandLabel' => '<img src="favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data',
+                'brandLabel' => '<img src="/frontend/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data',
 //                'brandLabel' => 'WTFB-Data',
                 'brandUrl' => Yii::$app->homeUrl,
                 'innerContainerOptions' => ['class' => 'container-fluid'],
@@ -129,10 +150,20 @@ if (!empty(Yii::$app->user->identity)) {
 									 ]],
                 ];
 */            }
+/*            $menuItems[] = $this->blocks['login']; [
+              'label' => Yii::$app->language, 
+							 'items' => $this->blocks['login'],
+                  ['label' => 'English', 'url' => [ '/site/language', 'language' => 'en'], 'linkOptions' => ['data-method' => 'post']],
+                  ['label' => 'Deutsch', 'url' => [ '/site/language', 'language' => 'de'], 'linkOptions' => ['data-method' => 'post']],
+                  ['label' => 'Greek', 'url' => [ Url::to(['/site/language', 'language' => 'el'])]],
+							 ]
+            ];
+*/          echo $this->blocks['login'];
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
+                'options' => ['class' => 'navbar-nav navbar-right', 'style' => 'margin-right:0px;'],
                 'items' => $menuItems,
-            ]);            
+            ]);   ?>
+<?php                        
             NavBar::end();
         ?>
 

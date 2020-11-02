@@ -29,7 +29,7 @@ use frontend\models\Texte;
 /* @var $searchModel frontend\models\MitgliederSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Mitgliederliste');
+$this->title = Yii::t('app', 'Member List');
 $this->params['breadcrumbs'][] = $this->title;
 
 $plf = new PruefungslisteForm();
@@ -95,7 +95,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
             'id' => 'dgrid-11',
-						'summary' => '{begin}-{end} von {totalCount}',
+						'summary' => '{begin}-{end} '.Yii::t('app', 'of').' {totalCount}',
             'options'=>['id'=>'grid-1'], // a unique identifier is important
 				    'formatter' => [
 				        'class' => 'yii\i18n\Formatter',

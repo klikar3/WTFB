@@ -26,7 +26,7 @@ use frontend\models\Texte;
 /* @var $searchModel frontend\models\MitgliederSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Mitgliederliste');
+$this->title = Yii::t('app', 'Member List');
 $this->params['breadcrumbs'][] = $this->title;
 
 $plf = new PruefungslisteForm();
@@ -90,14 +90,14 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
 						'filterModel'=>$searchModel,
-						'summary' => '{begin}-{end} von {totalCount}',
+						'summary' => '{begin}-{end} '.Yii::t('app', 'of').' {totalCount}',
 				    'formatter' => [
 				        'class' => 'yii\i18n\Formatter',
 				        'nullDisplay' => '',
 				    ],
 //						'emptyCell'=>'-',
 						'panel' => [
-				        'heading' => '<b>Mitgliederliste</b>',
+				        'heading' => '<b>'.Yii::t('app', 'Member List').'</b>',
 							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
         		'tableOptions'=>['class'=>'table table-striped table-condensed'],
@@ -165,7 +165,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
             ['attribute' => 'Schulname',
 //            	'visible' => false,
 //							'format' => 'raw',
-              'label' => 'Schulort',
+              'label' => Yii::t('app', 'Location'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -176,6 +176,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 							],															
 						],
             ['attribute' => 'LeiterName',
+              'label' => Yii::t('app', 'Headmaster'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -197,6 +198,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						],
 						['attribute' => 'Funktion', 
 							'width' => '5em',							
+              'label' => Yii::t('app', 'Function'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -208,6 +210,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						], 
             ['attribute' => 'Vertrag',
             	'width' => '7em',
+              'label' => Yii::t('app', 'Contract'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -218,6 +221,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 							],								
 						],
             ['attribute' => 'Grad', 'width' => '5em',
+              'label' => Yii::t('app', 'Level'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -229,6 +233,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						 ],
             ['attribute' => 'LetzteAenderung', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y H:i'], 
+              'label' => Yii::t('app', 'Last Change'),
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -240,7 +245,8 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						],
             ['attribute' => 'GeburtsDatum', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y'],
-							'label' => 'Geb.Datum', 
+              'label' => Yii::t('app', 'B.Day'),
+//							'label' => 'Geb.Datum', 
 							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
 							'filterInputOptions' => [
 								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
