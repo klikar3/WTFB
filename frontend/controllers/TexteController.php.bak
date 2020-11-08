@@ -208,7 +208,8 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
+					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
 				}
         if ($datamodel == 'grad') {
 					$model = Mitgliedergrade::findOne($dataid);
@@ -352,6 +353,7 @@ class TexteController extends Controller
 					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
 					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
+					$textmodel->txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
           $email = $modelv->mitglieder->Email;
 				}
@@ -368,12 +370,12 @@ class TexteController extends Controller
 				}
 
 				if ($txtcode == 'EmailBegruessung') 
-					$link = "Begr.-Email";
+					$link = Yii::t('app', "Greet.-Email");
 				else if ($txtcode == 'EmailAussetzen') 
-					$link = "Auss.-Email";
+					$link = Yii::t('app', "Susp.-Email");
 				else if ($txtcode == 'EmailKuendigung') 
-					$link = "Künd.-Email";
-				else $link = "per Email";						
+					$link = Yii::t('app', "Term.-Email");
+				else $link = Yii::t('app', "by Email");						
 				
 				// Linefeed für Outlook ersetzen
 				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );

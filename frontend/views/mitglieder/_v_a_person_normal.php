@@ -52,6 +52,11 @@ use frontend\models\Sifu;
 	        'class' => 'yii\i18n\Formatter',
 	        'nullDisplay' => '',
 		    ],
+        'i18n' => [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@kvdetail/messages',
+            'forceTranslation' => true,
+        ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
         'valueColOptions'=>['style'=>'width:30%'], 
@@ -102,7 +107,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ['männlich'=>'männlich','weiblich'=>'weiblich']),
+									'data' => array_merge(["" => ""], ['männlich'=> Yii::t('app', 'male'), 'weiblich' => Yii::t('app', 'female')]),
 							]
             ],
             [ 'attribute' => 'GeburtsDatum',

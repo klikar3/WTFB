@@ -56,63 +56,63 @@ AppAsset::register($this);
 ?>
 
 <?php       
-$stammdaten[] = ['label' => 'Trainings', 'url' => ['/trainings/index']];      
-$bewegungsdaten[] =  ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
-$bewegungsdaten[] =  ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
+$stammdaten[] = ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];      
+$bewegungsdaten[] =  ['label' => Yii::t('app', 'Presence'), 'url' => ['/anwesenheit/index']];
+$bewegungsdaten[] =  ['label' => Yii::t('app', 'Exams'), 'url' => ['/pruefungen/index']];
 										 
-$auswertungen[] = ['label' => 'Anwesenheit', 'url' => ['/site/anwesenheit'],];
-$auswertungen[] = ['label' => 'Interessenten-Liste', 'url' => ['/site/interessentenauswahl'],];
-$auswertungen[] = ['label' => 'InfoAbend-Liste', 'url' => ['/site/infoabendauswahl'],
+$auswertungen[] = ['label' => Yii::t('app', 'Presence'), 'url' => ['/site/anwesenheit'],];
+$auswertungen[] = ['label' => Yii::t('app', 'Interessent.-List'), 'url' => ['/site/interessentenauswahl'],];
+$auswertungen[] = ['label' => Yii::t('app', 'EvalEvening-List'), 'url' => ['/site/infoabendauswahl'],
   //  							  	 'linkOptions' => ['target' => '_blank']
                       ];
-$auswertungen[] = ['label' => 'SchülerZahlen', 'url' => ['/site/schuelerzahlenauswahl'],];
-$auswertungen[] = ['label' => 'MitgliederZahlen', 'url' => ['/site/mitgliederzahlen'],
+$auswertungen[] = ['label' => Yii::t('app', 'StudentNumbers'), 'url' => ['/site/schuelerzahlenauswahl'],];
+$auswertungen[] = ['label' => Yii::t('app', 'MemberNumbers'), 'url' => ['/site/mitgliederzahlen'],
     							  	 'linkOptions' => ['target' => '_blank']];
-$auswertungen[] = ['label' => 'Sektionsliste', 'url' => ['/mitgliedersektionen/sektionsauswahl']]; 
+$auswertungen[] = ['label' => Yii::t('app', 'SektionsList'), 'url' => ['/mitgliedersektionen/sektionsauswahl']]; 
 
 if (!empty(Yii::$app->user->identity)) {
     if (Yii::$app->user->identity->username == 'michael') {
-    $auswertungen[] = ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl']];                                                                
+    $auswertungen[] = ['label' => Yii::t('app', 'DVD-Liste'), 'url' => ['/site/dvdlistenauswahl']];                                                                
     }                                                               
                                 
     if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
     
-        $stammdaten[] =  ['label' => 'Anreden', 'url' => ['/anrede/index']];
-        $stammdaten[] =  ['label' => 'Funktionen', 'url' => ['/funktion/index']];
-        $stammdaten[] =  ['label' => 'Disziplinen', 'url' => ['/disziplinen/index']];
-        $stammdaten[] =  ['label' => 'Grade', 'url' => ['/grade/index']];
-        $stammdaten[] =  ['label' => 'Intensiv', 'url' => ['/intensiv/index']];
-        $stammdaten[] =  ['label' => 'Interessent-Vorgaben', 'url' => ['/interessent-vorgaben/index']];
-        $stammdaten[] =  ['label' => 'Prüfer', 'url' => ['/pruefer/index']];
-        $stammdaten[] =  ['label' => 'Schulen', 'url' => ['/schulen/index']];
-        $stammdaten[] =  ['label' => 'Schulleiter', 'url' => ['/schulleiter/index']];
-        $stammdaten[] =  ['label' => 'Schulleiter-Schulen', 'url' => ['/schulleiterschulen/index']];
-        $stammdaten[] =  ['label' => 'Sektionen', 'url' => ['/sektionen/index']];
-        $stammdaten[] =  ['label' => 'Sifus', 'url' => ['/sifu/index']];
-        $stammdaten[] =  ['label' => 'Texte', 'url' => ['/texte/index']];
-        $stammdaten[] =  ['label' => 'Trainings', 'url' => ['/trainings/index']];
-        $stammdaten[] =  ['label' => 'User', 'url' => ['/user/admin/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Salutations'), 'url' => ['/anrede/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Functions'), 'url' => ['/funktion/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Disciplins'), 'url' => ['/disziplinen/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Levels'), 'url' => ['/grade/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Intensiv'), 'url' => ['/intensiv/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Interessent-Defaults'), 'url' => ['/interessent-vorgaben/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Examiner'), 'url' => ['/pruefer/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Schools'), 'url' => ['/schulen/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Head Master'), 'url' => ['/schulleiter/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Head Master-Schools'), 'url' => ['/schulleiterschulen/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Sektions'), 'url' => ['/sektionen/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Sifus'), 'url' => ['/sifu/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Texts'), 'url' => ['/texte/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'User'), 'url' => ['/user/admin/index']];
         $stammdaten[] =  '<li role="presentation" class="divider"></li>';
-        $stammdaten[] =  ['label' => 'Woo-SWM Abgleich', 'url' => ['/site/woo-swm-abgleich']];
-        $stammdaten[] =  ['label' => 'SWM blocked Emails', 'url' => ['/swm-blocked-emails/index']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
         $stammdaten[] =  '<li role="presentation" class="divider"></li>';
-        $stammdaten[] =  ['label' => 'DB-Backup', 'url' => ['/backup']];
+        $stammdaten[] =  ['label' => Yii::t('app', 'DB-Backup'), 'url' => ['/backup']];
         //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
         //								];
                                        
         
-        $bewegungsdaten[] = ['label' => 'Anwesenheit', 'url' => ['/anwesenheit/index']];
-        $bewegungsdaten[] = ['label' => 'Prüfungen', 'url' => ['/pruefungen/index']];
-        $bewegungsdaten[] = ['label' => 'Mitgliederliste', 'url' => ['/mitgliederliste/index']];
-        $bewegungsdaten[] = ['label' => 'Mitglieder', 'url' => ['/mitglieder/index']];
-        $bewegungsdaten[] = ['label' => 'IntensivMitglieder', 'url' => ['/mitglieder/intensiv-index']];
-        $bewegungsdaten[] = ['label' => 'Mitglieder Grade', 'url' => ['/mitgliedergrade/index']];
-        $bewegungsdaten[] = ['label' => 'Mitglieder Schulen', 'url' => ['/mitgliederschulen/index']];
-        $bewegungsdaten[] = ['label' => 'Mitglieder Sektionen', 'url' => ['/mitgliedersektionen/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Presence'), 'url' => ['/anwesenheit/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Exams'), 'url' => ['/pruefungen/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Member List'), 'url' => ['/mitgliederliste/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Members'), 'url' => ['/mitglieder/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'IntensivMembers'), 'url' => ['/mitglieder/intensiv-index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Levels'), 'url' => ['/mitgliedergrade/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Schools'), 'url' => ['/mitgliederschulen/index']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Sektions'), 'url' => ['/mitgliedersektionen/index']];
         $bewegungsdaten[] = '<li role="presentation" class="divider"></li>';
-        $bewegungsdaten[] = ['label' => 'Alle Mitglieder-Daten Checken', 'url' => ['/mitglieder/check']];
+        $bewegungsdaten[] = ['label' => Yii::t('app', 'Check all Member Data'), 'url' => ['/mitglieder/check']];
                                   
-        $auswertungen[] = ['label' => 'DVD-Liste', 'url' => ['/site/dvdlistenauswahl']];                                                                
+        $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];                                                                
     }
 
 }                                
@@ -133,13 +133,13 @@ if (!empty(Yii::$app->user->identity)) {
 //                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
                 $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
             } else {
-                $menuItems[] = ['label' => 'Stammdaten', 'url' => ['/site/index'], 'items' => $stammdaten ]; 
-                $menuItems[] = ['label' => 'Bewegungsdaten', 'url' => ['/site/index'], 'items' => $bewegungsdaten];
- 					 		  $menuItems[] = ['label' => 'Auswertungen', 'url' => ['/site/index'], 'items' => $auswertungen];
-								$menuItems[] = ['label' => 'Account ('. Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
+                $menuItems[] = ['label' => Yii::t('app', 'Base data'), 'url' => ['/site/index'], 'items' => $stammdaten ]; 
+                $menuItems[] = ['label' => Yii::t('app', 'Moving data'), 'url' => ['/site/index'], 'items' => $bewegungsdaten];
+ 					 		  $menuItems[] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/site/index'], 'items' => $auswertungen];
+								$menuItems[] = ['label' => Yii::t('app', 'Account ('). Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[
-																	['label' => 'Logout', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
-																	['label' => 'Account', 'url' =>[ '/user/admin/update-profile', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
+																	['label' => Yii::t('app', 'Logout'), 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
+																	['label' => Yii::t('app', 'Account'), 'url' =>[ '/user/admin/update-profile', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
 																	];
                 $menuItems[] = ['label' => '?', 'url' => ['/site/about']];
 /*                $menuItems[] = [

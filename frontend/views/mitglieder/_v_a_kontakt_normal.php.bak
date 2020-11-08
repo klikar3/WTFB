@@ -27,7 +27,7 @@ use frontend\models\Schulen;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=> 'Kontakt', //$model->Name . ', ' . $model->Vorname,
+					'heading'=> Yii::t('app', 'Contact'), //$model->Name . ', ' . $model->Vorname,
 					'headingOptions' => ['style' => 'font-size:1em'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
@@ -44,6 +44,7 @@ use frontend\models\Schulen;
         'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
         'attributes' => [
           [ 'attribute' => 'KontaktAm',
+          	'label' => Yii::t('app', 'Contact On'),
           	'format' => ['date', 'php:d.m.Y'],
             'valueColOptions'=>['style'=>'width:30%;'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -79,14 +80,14 @@ use frontend\models\Schulen;
 						 ],             
           ],   
           [ 'attribute' => 'kontaktNachricht1',
-          	'label' => 'Kontakt-Nachricht',
+          	'label' => Yii::t('app', 'Contact-Message'),
             'format' => 'raw',
             'type' => DetailView::INPUT_TEXTAREA,
           ],
           [ 'attribute' => 'Disziplin',
           	'format' => 'raw',
-          'valueColOptions'=>['style'=>'width:30%'], 
-          'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
 								'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' )),
@@ -98,7 +99,7 @@ use frontend\models\Schulen;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
           	'ajaxConversion' => true,
-   					'label' => 'Info-Abend am',
+   					'label' => Yii::t('app', 'Info Evening on'),
          	  'widgetOptions' => [
           			'class' => DateControl::classname(),
 								'type' => DateControl::FORMAT_DATE,
@@ -115,7 +116,7 @@ use frontend\models\Schulen;
 					  'type'=>DetailView::INPUT_CHECKBOX_X,    
 						'value' => $model->showTriState($model->IABest),
   					'autoLabel' => true,
-  					'label' => 'IA best',
+  					'label' => Yii::t('app', 'IA confirmed'),
 						'widgetOptions' => [
 									'id' => 'wziabe',				
 									'pluginOptions'=>[  
@@ -129,7 +130,7 @@ use frontend\models\Schulen;
 					  'type'=>DetailView::INPUT_CHECKBOX_X,    
 						'value' => $model->showTriState($model->WarZumIAda),
   					'autoLabel' => true,
-  					'label' => 'War zum IA da',
+  					'label' => Yii::t('app', 'IA present'),
 						'widgetOptions' => [
 									'id' => 'wziad',				
 									'pluginOptions'=>[  
@@ -142,7 +143,7 @@ use frontend\models\Schulen;
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
-            'label' => 'Probetraining am',
+            'label' => Yii::t('app', 'Trial training on'),
           	'ajaxConversion' => true,
           	'widgetOptions' => [
           			'class' => DateControl::classname(),
@@ -167,7 +168,7 @@ use frontend\models\Schulen;
 					 ],                         
            ['attribute'=>'VertragAbgeschlossen','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
 						'value' => $model->showTriState($model->VertragAbgeschlossen),
-            'label'	=> 'Vertrag',			
+            'label'	=> Yii::t('app', 'Contract'),			
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 						'widgetOptions' => [				
@@ -194,7 +195,7 @@ use frontend\models\Schulen;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
           	'ajaxConversion' => true,
-   					'label' => 'Wiedervorlage am',
+   					'label' => Yii::t('app', 'Resubmission on'),
          	  'widgetOptions' => [
           			'class' => DateControl::classname(),
 								'type' => DateControl::FORMAT_DATE,
@@ -211,18 +212,18 @@ use frontend\models\Schulen;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
 */           ['attribute'=>'GutscheinVon',
-            'label' => 'Gutschein von',
+            'label' => Yii::t('app', 'Voucher from'),
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
            ['attribute'=>'letzteDvd',
-            'label' => 'Letzte DVD',
+            'label' => Yii::t('app', 'Last DVD'),
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
            ['attribute'=>'DVDgesendetAm',
             'format' => ['date', 'php:d.m.Y'],
-            'label' => 'DVD am',
+            'label' => Yii::t('app', 'DVD On'),
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_WIDGET,
@@ -245,7 +246,7 @@ use frontend\models\Schulen;
                 'groupOptions'=>['style'=>'background: #d9edf7;height:2em;'],
             ],
             [ 'attribute' => 'Bemerkung1',
-            	'label' => 'Bemerkung',
+            	'label' => Yii::t('app', 'Notice'),
               'format' => 'raw',
               'type' => DetailView::INPUT_TEXTAREA,
             ],
@@ -254,7 +255,7 @@ use frontend\models\Schulen;
     ]) ?>
     <?php 
       if (!empty($model->Disziplin)||($model->Schulort == 'WT-Intensiv')) {
-        if ($model->Schulort == 'WT-Intensiv'): $model->Disziplin = 'Wing Tzun';   
+        ($model->Schulort == 'WT-Intensiv') ? $disp = 'Wing Tzun' :   
         $disp = Disziplinen::find()->andWhere(['DispName' => $model->Disziplin])->select('DispId')->one();        
         $schul = Schulen::find()->andWhere(['Schulname' => $model->Schulort, 'Disziplin' => $disp])->one();
 //        \Yii::warning($model);
@@ -271,7 +272,7 @@ use frontend\models\Schulen;
             echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
-            echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
+            echo Html::submitButton(Yii::t('app', 'Enter into Newsletter for Interested Persons'), ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
         } 
       }      

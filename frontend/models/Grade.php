@@ -57,7 +57,7 @@ class Grade extends \yii\db\ActiveRecord
             'gKurz' => Yii::t('app', 'G Kurz'),
             'Gebuehr' => Yii::t('app', 'Gebühr'),
             'textcode' => Yii::t('app', 'TextCode'),
-            'print' => Yii::t('app', 'Ausdruck'),
+            'print' => Yii::t('app', 'Print'),
         ];
     }
 

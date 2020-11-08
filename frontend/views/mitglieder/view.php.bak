@@ -30,7 +30,7 @@ use frontend\models\Texte;
 <?php
     $items = [
 		    [
-				    'label'=>'<i class="glyphicon glyphicon-user"></i> Person',
+				    'label'=>'<i class="glyphicon glyphicon-user"></i> '.Yii::t('app', 'Person'),
 				    'content'=>$this->render('_view_allgemein', array(
 				//                                'form' => $form, 
 				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
@@ -55,7 +55,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 2?true:false,
 				],
 */		    [
-				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Vertrag',
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Contract'),
 				    'content'=>$this->render('_view_vertrag', array(
 				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 
 				                        ) ),
@@ -69,7 +69,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 4?true:false,
 				],
 */				[
-				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> Grad',
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Grad'),
 						'content'=>$this->render('_view_grade_index', array(
 		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
 																		'tabnum' => 5, 'openv' => $openv, 
@@ -87,7 +87,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 6?true:false, 
 				],
 */			  [
-				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Texte',
+				    'label'=>'<i class="glyphicon glyphicon-list-alt"></i> '.Yii::t('app', 'Texts'),
 						'content'=>$this->render('_view_texte', array(
 		                                'model'=>$model, 'tabnum' => 8, 
 		                        ) ),
@@ -96,11 +96,11 @@ use frontend\models\Texte;
 						
 		    ],  
 			  [
-				    'label'=>'<div class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> Löschen</div>',
-						'content'=> Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> Dieses Mitglied löschen'), ['delete', 'id' => $model->MitgliederId], [
+				    'label'=>'<div class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i> '.Yii::t('app', 'Delete').'</div>',
+						'content'=> Html::a(Yii::t('app', '<i class="glyphicon glyphicon-remove"></i> '.Yii::t('app', 'Delete this Member')), ['delete', 'id' => $model->MitgliederId], [
 			          'class' => 'btn btn-sm btn-danger',
 			          'data' => [
-			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?'),
+			              'confirm' => Yii::t('app', 'Do you really want to delete this Record?'),
 			              'method' => 'post',
     			          ],
 //			          'style' => 'width: 80px; text-align: left;',
@@ -108,11 +108,12 @@ use frontend\models\Texte;
     			      ]),                                                      
     						'active' => $tabnum == 9?true:false, 
 		    ],  
-			  [
+/*			  [
 				    'label'=>'<div class="btn btn-sm btn-success" onclick="js:history.go(-1);return false;"><i class="glyphicon glyphicon-remove"></i> Zurück</div>',
 						'content'=> '',                                                      
     						'active' => false, 
-		    ],  
+		    ],
+*/          
     ];
 
  
