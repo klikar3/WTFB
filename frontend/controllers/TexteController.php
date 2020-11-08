@@ -370,12 +370,12 @@ class TexteController extends Controller
 				}
 
 				if ($txtcode == 'EmailBegruessung') 
-					$link = "Begr.-Email";
+					$link = Yii::t('app', "Greet.-Email");
 				else if ($txtcode == 'EmailAussetzen') 
-					$link = "Auss.-Email";
+					$link = Yii::t('app', "Susp.-Email");
 				else if ($txtcode == 'EmailKuendigung') 
-					$link = "Künd.-Email";
-				else $link = "per Email";						
+					$link = Yii::t('app', "Term.-Email");
+				else $link = Yii::t('app', "by Email");						
 				
 				// Linefeed für Outlook ersetzen
 				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );
@@ -384,7 +384,7 @@ class TexteController extends Controller
 
 				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
 									"?subject=".$textmodel->betreff."&from="."verwaltung@wingtzun.de"."&body=".$textmodel->txt,[
-											'title' => Yii::t('app', 'Email an Mitglied senden'),
+											'title' => Yii::t('app', 'Send Email to Member'),
 							  	]);							
 			return $pdf;
     }

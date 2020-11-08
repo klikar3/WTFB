@@ -73,7 +73,7 @@ use frontend\models\Schulen;
 														'id' => 'vd_feld',
 														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
                             'options' => [
-                                'placeholder' => 'Vertrags-Abschlussdatum',
+                                'placeholder' => Yii::t('app', 'Contract Conclusion Date'),
                             ],														
 												],
 											]); ?>
@@ -87,37 +87,37 @@ use frontend\models\Schulen;
 														'id' => 'von_feld',
 														'pluginOptions'=>[ 'autoclose'=>true, 'todayHighlight' => false, 'todayBtn' => true],														
                             'options' => [
-                                'placeholder' => 'Eintrittsdatum',
+                                'placeholder' => Yii::t('app', 'Entry Date'),
                             ],
 												],
 											]); ?>
 
     								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->with('disziplinen')->orderBy('sort')->all(), 'SchulId', 'SchulDisp' ),
-																			[ 'prompt' => 'Schule' ]
+																			[ 'prompt' => Yii::t('app', 'School') ]
 																		) ?>
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
-																			[ 'prompt' => 'Vertragsdauer in Monaten' ]
+																			[ 'prompt' => Yii::t('app', 'Contract Duration in Months') ]
 																		) ?>
     								<?= $form->field($ms, 'KFristMonate')->dropdownList(range( 0, 6, 1 ) ,
-																			[ 'prompt' => 'Kündigungsfrist in Monaten' ]
+																			[ 'prompt' => Yii::t('app', 'Kündigungsfrist in Monaten') ]
 																		) ?>
     								<?= $form->field($ms, 'VerlaengerungMonate')->dropdownList(range( 0, 36, 1 ) ,
-																			[ 'prompt' => 'Vertragsverlängerung in Monaten' ]
+																			[ 'prompt' => Yii::t('app', 'Contract Extension (months)') ]
 																		) ?>
     								<?= $form->field($ms, 'MonatsBeitrag')->textInput(
-																			[ 'placeholder' => 'MonatsBeitrag' ]
+																			[ 'placeholder' => Yii::t('app', 'Monthly contribution') ]
 																		) ?>
     								<?= $form->field($ms, 'AGebuehr')->textInput(
-																			[ 'placeholder' => 'Aufnahmegebühr' ]
+																			[ 'placeholder' => Yii::t('app', 'Monthly Fee') ]
 																		) ?>
-    								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung']) ,
-																			[ 'prompt' => 'Zahlungsart' ]
+    								<?= $form->field($ms, 'ZahlungsArt')->dropdownList(array_merge(["" => ""], ['Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')]) ,
+																			[ 'prompt' => Yii::t('app', 'Payment Method') ]
 																		) ?>
-    								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich']) ,
-																			[ 'prompt' => 'Zahlungsweise' ]
+    								<?= $form->field($ms, 'Zahlungsweise')->dropdownList(array_merge(["" => ""], ['monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')]) ,
+																			[ 'prompt' => Yii::t('app', 'Payment Type') ]
 																		) ?>
 										<div style="text-align:right;"> <br>
-										<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "   " .Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
+										<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "   " .Html::submitButton(Yii::t('app', 'Speichern'), ['class'=>'btn btn-sm btn-primary'])."</a>"
 										?>
 										</div>
 								</div>										
@@ -157,25 +157,26 @@ use frontend\models\Schulen;
             		'enableRowClick' => true,
                 'hidden' => false,
 							],
-							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname' ],
-							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => 'Disziplin' ],
+							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname', 'label' => Yii::t('app', 'School') ],
+							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => Yii::t('app', 'Discipline') ],
 							[ 'attribute' => 'VDatum', 'value' => 'VDatum', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Von', 'value' => 'Von', 'format' => ['date', 'php:d.m.Y'] ],
 							[ 'attribute' => 'Bis', 'value' => 'Bis', 'format' => ['date', 'php:d.m.Y'] ],
             	[ 'class' => 'yii\grid\ActionColumn',
-            						'template' => '{delete}',
-												'controller' => 'mitgliederschulen',
-												'header' => '<center>Aktion</center>',
-												'buttons' => [ 
-													'delete' => function ($url, $model) {
-														return '<center>'.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
-																					Url::toRoute(['mitgliederschulen/deletefast', 'id' => $model->msID] ), [
-				//	          					'target'=>'_blank',
-															'data-confirm' => 'Soll der Vertrag wirklich gelöscht werden?',
-															'title' => Yii::t('app', 'Vertrag löschen'),
-												        ]) . '</center>';
-												    },
-												],
+    						'template' => '{delete}',
+								'controller' => 'mitgliederschulen',
+								'header' => '<center>Aktion</center>',
+                'header' => Yii::t('app', 'Actions'),
+								'buttons' => [ 
+									'delete' => function ($url, $model) {
+										return '<center>'.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+																	Url::toRoute(['mitgliederschulen/deletefast', 'id' => $model->msID] ), [
+//	          					'target'=>'_blank',
+											'data-confirm' => 'Soll der Vertrag wirklich gelöscht werden?',
+											'title' => Yii::t('app', 'Vertrag löschen'),
+								        ]) . '</center>';
+								    },
+								],
 							],
 
 				],

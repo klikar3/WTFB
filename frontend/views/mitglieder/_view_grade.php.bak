@@ -31,12 +31,12 @@ use frontend\models\Pruefer;
   $mg->MitgliedId = $model->MitgliederId;
   $mg->GradId = null;
   $mg->PrueferId = null; 
-	$header = '<center><h5>Neue Graduierung für '.$model->Name.', '.$model->Vorname.'</h5></center>';         
+	$header = '<center><h5>'.Yii::t('app', 'New Level for ').$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
 				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
 					<div class="panel-heading" style="height:3em;margin-bottom: 0px;">
 					<?php //'<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-              echo '<h5 style="padding-top:0em;margin-top:0em;clear: both;">Prüfungen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+              echo '<h5 style="padding-top:0em;margin-top:0em;clear: both;">'.Yii::t('app', 'Exams').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
           ?>
 					<?php Modal::begin([ 'id' => 'mg-ag-modal',
 						'header' => $header,
@@ -66,11 +66,11 @@ use frontend\models\Pruefer;
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label('') ; ?>
+							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label(false) ; ?>
     				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
-														[ 'prompt' => 'Grad', 'id' => 'field-gid' ])->label('Grad');  ?>
+														[ 'prompt' => Yii::t('app', 'Level'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Level'));  ?>
 				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
-													[ 'prompt' => 'Pruefer', 'id' => 'field-pid' ])->label('Prüfer');  ?>
+													[ 'prompt' => Yii::t('app', 'Examiner'), 'id' => 'field-pid' ])->label(Yii::t('app', 'Examiner'));  ?>
 							<?php  echo $form->field($mg, 'Datum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,
@@ -84,11 +84,11 @@ use frontend\models\Pruefer;
 //										'placeholder'=>'Graduierungsdatum', 
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
-								]); ?>
+								])->label(Yii::t('app', 'Date'); ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
 						<div style="text-align:right;">  <br>
-						<?= Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . "    " . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>"
+						<?= Html::resetButton(Yii::t('app', 'Reset'), ['class'=>'btn btn-sm btn-default']) . "    " . Html::submitButton(Yii::t('app', 'Save'), ['class'=>'btn btn-sm btn-primary'])."</a>"
 						?>
 						</div>
 					</div>
@@ -115,14 +115,14 @@ use frontend\models\Pruefer;
 	        'columns' => [
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{print}',
-												'header' => '<span style="text-align-left;">Aktion</span>',
+												'header' => '<span style="text-align-left;">'.Yii::t('app', 'Actions').'</span>',
 												'controller' => 'mitgliedergrade',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
         										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
 																			Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [ 'data-pjax' => 0, 
                     					'target'=>"_blank",
-															'title' => Yii::t('app', 'Urkunde drucken'),
+															'title' => Yii::t('app', 'Print certificate'),
 												        ]);
 												    }
 												],
@@ -140,17 +140,17 @@ use frontend\models\Pruefer;
             		'enableRowClick' => true,
                 'hidden' => true,
 							],
-							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz' ],
-							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz' ],
+							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz', 'label' => Yii::t('app', 'Level') ],
+							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz', 'label' => Yii::t('app', 'Discipline') ],
 							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
 //							 'PrueferId',	        
-							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => 'Prüfer' ],
+							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => Yii::t('app', 'Examiner') ],
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{delete}',
-												'header' => '<span style="text-align-left;">Aktion</span>',
+												'header' => '<span style="text-align-left;">'.Yii::t('app', 'Actions').'</span>',
 												'controller' => 'mitgliedergrade',
 												'deleteOptions' => [
-														'data-confirm' => 'Soll der Grad wirklich gelöscht werden?',
+														'data-confirm' => Yii::t('app', 'Really delete this Level?'),
 												],
 //												'width' => '30px',
 							],

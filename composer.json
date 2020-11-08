@@ -34,7 +34,6 @@
 				"2amigos/yii2-ckeditor-widget": "*",
 				"2amigos/yii2-chartjs-widget" : "*",
         "2amigos/yii2-tinymce-widget" : "~1.1",
-				"spanjeta/yii2-backup": "*",
 				"klikar3/rgraph" : "1.0.0-alpha4",
 				"klikar3/yii2-backup": "*",
 				"moonlandsoft/yii2-tinymce": "*",

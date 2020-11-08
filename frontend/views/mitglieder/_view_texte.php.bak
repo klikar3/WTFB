@@ -58,7 +58,7 @@ use frontend\models\Texte;
 							],
 						],	
             [ 'attribute' => 'LetzteAenderung',
-            	'label' => 'Letzte Änderung',
+            	'label' => Yii::t('app', 'Last Change'),
             	'format' => ['date', 'php:d.m.Y H:i:s'],
             	'type' => DetailView::INPUT_WIDGET,
             	'widgetOptions' => [
@@ -75,7 +75,7 @@ use frontend\models\Texte;
 							]
             ],
             [ 'attribute' => 'LetztAendSifu',
-            	'label' => 'Letzte Änderung Sifu',
+            	'label' => Yii::t('app', 'Last Change Sifu'),
             	'format' => ['date', 'php:d.m.Y H:i:s'],
             	'type' => DetailView::INPUT_WIDGET,
             	'widgetOptions' => [
@@ -116,16 +116,16 @@ use frontend\models\Texte;
 		//															[	$id = 'mg-pr-txt'
 													]	); 
 					?>
-						<div class="col-xs-offset-3">
-							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
+						<div class="col-xs-offset-6">
+							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->with('schul')->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
 //												, ['style'=>'width:200px']											
 		//									[ 'prompt' => 'Text' ]
 											)										
-									->label('Textauswahl'); 
+									->label(Yii::t('app', 'Select Text')); 
 							?>
 							<div style="text-align: right;">  <br>
-							<?= Html::resetButton('Rücksetzen', ['class'=>'btn btn-sm btn-default']) . '  ' . 
-										Html::submitButton('Auswählen', ['class'=>'btn btn-sm btn-primary']);
+							<?= Html::resetButton(Yii::t('app', 'Reset'), ['class'=>'btn btn-sm btn-default']) . '  ' . 
+										Html::submitButton(Yii::t('app', 'Select'), ['class'=>'btn btn-sm btn-primary']);
 							?>
 							</div>
 						</div>	

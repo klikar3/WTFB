@@ -32,8 +32,9 @@ use IBAN\Rule\RuleFactory;
  * @property string $BeitragAussetzenGrund 
  * @property string $KuendigungAm 
  * @property string $kFristMonate
-* @property integer $WtfbOk
-*
+ * @property integer $WtfbOk
+ * @property string $Bemerkung
+ *
  * @property Mitglieder $mitglieder 
  * @property Schulen $schul
  * @property Mitglieder $mitglieder
@@ -163,7 +164,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
         return [
            [['MitgliederId', 'SchulId', 'VDatum', 'Von', 'VDauerMonate', 'MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'KFristMonate'], 'required'],
 	         [['MitgliederId', 'SchulId', 'VertragId', 'VDauerMonate', 'KFristMonate', 'WtfbOk', 'VerlaengerungMonate'], 'integer'],
-	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK', 'kleinerBis'], 'safe'],
+	         [['Von', 'Bis', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'KuendigungAm', 'AGbezahltAm', 'VertragId', 'VDatum', 'WtfbOk', 'SF', 'BV', 'BL', 'OK', 'kleinerBis', 'Bemerkung'], 'safe'],
            [['VDatum', 'KuendigungAm', 'AGbezahltAm', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'mandatDatum'],'date', 'format' => 'php:Y-m-d'],
 		       [['IBAN'], 'validateIban', 'skipOnEmpty' => true, 'skipOnError' => false],
 					 [['Bank'], 'string', 'max' => 100],
@@ -175,6 +176,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 	         [['ZahlungsArt', 'Zahlungsweise'], 'string', 'max' => 20],
 	         [['BeitragAussetzenGrund'], 'string', 'max' => 45],
 	         [['KuendigungGrund'], 'string', 'max' => 500],
+           [['Bemerkung'], 'string', 'max' => 2000],
 	         [['MitgliederId'], 'exist', 'skipOnError' => true, 'targetClass' => Mitglieder::className(), 'targetAttribute' => ['MitgliederId' => 'MitgliederId']],
 	         [['SchulId'], 'exist', 'skipOnError' => true, 'targetClass' => Schulen::className(), 'targetAttribute' => ['SchulId' => 'SchulId']],
 	         [['VertragId'], 'exist', 'skipOnError' => true, 'targetClass' => Vertrag::className(), 'targetAttribute' => ['VertragId' => 'VertragId']],
@@ -188,33 +190,34 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     {
         return [
             'msID' => Yii::t('app', 'a'),
-            'MitgliederId' => Yii::t('app', 'Mitglieder ID'),
-            'SchulId' => Yii::t('app', 'Schule'),
-						'VDatum' => Yii::t('app', 'V-Datum'),
-            'Von' => Yii::t('app', 'Eintritt'),
-            'Bis' => Yii::t('app', 'Austritt'),
-            'VertragId' => Yii::t('app', 'Vertrag (.pdf)'),
-						'KuendigungAm' => Yii::t('app', 'Kündigung'),
-						'VDauerMonate' => Yii::t('app', 'V-Dauer'),
-						'MonatsBeitrag' => Yii::t('app', 'Beitrag'),
-						'ZahlungsArt' => Yii::t('app', 'Z-Art'), 
-						'Zahlungsweise' => Yii::t('app', 'Z-Weise'),
-						'BeitragAussetzenVon' => Yii::t('app', 'Aussetzen ab'), 
-						'BeitragAussetzenBis' => Yii::t('app', 'Aussetzen bis'), 
-						'BeitragAussetzenGrund' => Yii::t('app', 'Aussetzen Grund'),
-						'AGebuehr' => Yii::t('app', 'Aufnahmegebühr'),
-						'AGbezahltAm' => Yii::t('app', 'AG bezahlt am'),
+            'MitgliederId' => Yii::t('app', 'Member ID'),
+            'SchulId' => Yii::t('app', 'School'),
+						'VDatum' => Yii::t('app', 'C-Date'),
+            'Von' => Yii::t('app', 'Admission Date'),
+            'Bis' => Yii::t('app', 'Exit Date'),
+            'VertragId' => Yii::t('app', 'Contract (.pdf)'),
+						'KuendigungAm' => Yii::t('app', 'Termination'),
+						'VDauerMonate' => Yii::t('app', 'C-Duration'),
+						'MonatsBeitrag' => Yii::t('app', 'Monthly Fee'),
+						'ZahlungsArt' => Yii::t('app', 'P-Method'), 
+						'Zahlungsweise' => Yii::t('app', 'P-Type'),
+						'BeitragAussetzenVon' => Yii::t('app', 'Suspend From'), 
+						'BeitragAussetzenBis' => Yii::t('app', 'Suspend To'), 
+						'BeitragAussetzenGrund' => Yii::t('app', 'Suspension Reason'),
+						'AGebuehr' => Yii::t('app', 'Admission Fee'),
+						'AGbezahltAm' => Yii::t('app', 'AF Payed On'),
 						'BV' => Yii::t('app', 'BE'),
 						'Bank' => Yii::t('app', 'Bank'),
 						'IBAN' => Yii::t('app', 'IBAN'),
 						'BIC' => Yii::t('app', 'BIC'),
-						'Kontoinhaber' => Yii::t('app', 'Kontoinhaber'),
-						'mandatNr' => Yii::t('app', 'Mandat-Nr'),
-						'mandatDatum' => Yii::t('app', 'Mandat-Datum'),
-            'KuendigungGrund' => Yii::t('app', 'KuendigungGrund'),
-            'KFristMonate' => Yii::t('app', 'Kündigungsfrist'),
+						'Kontoinhaber' => Yii::t('app', 'Account holder'),
+						'mandatNr' => Yii::t('app', 'Mandat-No'),
+						'mandatDatum' => Yii::t('app', 'Mandat-Date'),
+            'KuendigungGrund' => Yii::t('app', 'Termination Reason'),
+            'KFristMonate' => Yii::t('app', 'Notice Period'),
             'WtfbOk' => Yii::t('app', 'WTFB'),
-            'VerlaengerungMonate' => Yii::t('app', 'V-Verlängerung'),
+            'VerlaengerungMonate' => Yii::t('app', 'C-Extension'),
+            'Bemerkung' => Yii::t('app', 'Notice'),
         ];
     }
 

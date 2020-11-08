@@ -83,7 +83,7 @@ use frontend\models\SearchVertrag;
             ],    
             [ 'attribute' => 'VDatum',
             	'format' => ['date', 'php:d.m.Y'],
-            	'label' => 'Vertragsdatum',
+            	'label' => Yii::t('app', 'Contract Date'),
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
             	'widgetOptions' => [
@@ -99,7 +99,7 @@ use frontend\models\SearchVertrag;
 							]
             ],
             [ 'attribute' => 'Von',
-              'label' => 'Eintrittsdatum',
+              'label' => Yii::t('app', 'Entry Date'),
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
@@ -116,15 +116,15 @@ use frontend\models\SearchVertrag;
 							]
             ],
             [ 'attribute' => 'VDauerMonate',
-            	'label' => 'Vertragsdauer',
+            	'label' => Yii::t('app', 'Contract Duration'),
               'id' => 'dv_vv_a_'.$model->msID,
             ],
             [ 'attribute' => 'KFristMonate',
-//            	'label' => 'Vertragsdauer',
+            	'label' => Yii::t('app', 'Notice Period'),
               'id' => 'dv_vkf_a_'.$model->msID,
             ],
             [ 'attribute' => 'VerlaengerungMonate',
-//            	'label' => 'Vertragsdauer',
+            	'label' => Yii::t('app', 'C-Extension'),
               'id' => 'dv_vv_a_'.$model->msID,
             ],
             [
@@ -141,13 +141,13 @@ use frontend\models\SearchVertrag;
             	'id' => 'dv_vv_mb_'.$model->msID,
             ],
 						[ 'attribute' => 'ZahlungsArt',  
-            	'label' => 'Zahlungsart',
+            	'label' => Yii::t('app', 'Payment Method'),
 				      'id' => 'dv_vv_za_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_za_w_'.$model->msID,											
-									'data' => ['Bankeinzug'=>'Bankeinzug','Bar'=>'Bar', 'Überweisung' => 'Überweisung'],
+									'data' => ['Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')],
 							    'options' => [
 				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -157,13 +157,13 @@ use frontend\models\SearchVertrag;
 							],             
 						],
 						[ 'attribute' => 'Zahlungsweise',  
-            	'label' => 'Zahlungsweise',
+            	'label' => Yii::t('app', 'Payment Type'),
 				      'id' => 'dv_vv_zw_'.$model->msID,											
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_zw_w_'.$model->msID,											
-									'data' => ['monatlich'=>'monatlich','vierteljährlich'=>'vierteljährlich','halbjährlich'=>'halbjährlich','jährlich'=>'jährlich'],
+									'data' => ['monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')],
 							    'options' => [
 				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -174,7 +174,7 @@ use frontend\models\SearchVertrag;
 						],
             [
                 'group'=>true,
-                'label'=>false, //'Teil 2: Aussetzen',
+                'label'=>false, //'Teil 2: Zahlung',
                 'rowOptions'=>['class'=>'table-info'],
                 'groupOptions'=>['style'=>'background: #d9edf7;']
             ],
@@ -183,10 +183,10 @@ use frontend\models\SearchVertrag;
              'Bank',
              'Kontoinhaber',
              [ 'attribute' => 'mandatNr',
-              'label' => 'Mandatsnummer',
+              'label' => Yii::t('app', 'Mandate Number'),
              ], 
              [ 'attribute' => 'mandatDatum',
-              'label' => 'Mandatsdatum',
+              'label' => Yii::t('app', 'Mandate Date'),
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
@@ -225,7 +225,7 @@ use frontend\models\SearchVertrag;
 */            
             [
                 'group'=>true,
-                'label'=> false, //'Teil 4: Zahlungsdaten',
+                'label'=> false, //'Teil 3: Aussetzen',
                 'rowOptions'=>['class'=>'table-info'],
                 'groupOptions'=>['style'=>'background: #d9edf7;']
             ],
@@ -252,7 +252,7 @@ use frontend\models\SearchVertrag;
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:U',
+							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
 				            	'id' => 'dv_vv_bab_'.$model->msID,											
 											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
@@ -261,7 +261,7 @@ use frontend\models\SearchVertrag;
             ],
             [ 'attribute' =>  'BeitragAussetzenGrund',
             	'id' => 'dv_vv_bag_'.$model->msID,
-            	'label' => 'Aussetzgrund',
+            	'label' => Yii::t('app', 'Pause Reason'),
             ],
             [
                 'group'=>true,
@@ -273,7 +273,7 @@ use frontend\models\SearchVertrag;
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
-            	'label' => 'Kündigungsdatum',
+            	'label' => Yii::t('app', 'Termination'),
             	'widgetOptions' => [
             			'class' => DateControl::classname(),
 									'type' => DateControl::FORMAT_DATE,
@@ -287,7 +287,7 @@ use frontend\models\SearchVertrag;
             ],
             [ 'attribute' => 'Bis',
             	'format' => ['date', 'php:d.m.Y'],
-            	'label' => 'Austrittsdatum',
+            	'label' => Yii::t('app', 'Exit Date'),
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
             	'widgetOptions' => [
@@ -303,7 +303,18 @@ use frontend\models\SearchVertrag;
             ],
             [ 'attribute' =>  'KuendigungGrund',
             	'id' => 'dv_vv_bag_'.$model->msID,
-            	'label' => 'Kündigungsgrund',
+            	'label' => Yii::t('app', 'Termination Reason'),
+            ],
+            [
+                'group'=>true,
+                'label'=> false, //'Teil 4: Bemerkung',
+                'rowOptions'=>['class'=>'table-info'],
+                'groupOptions'=>['style'=>'background: #d9edf7;']
+            ],
+            [ 'attribute' => 'Bemerkung',
+            	'label' => Yii::t('app', 'Contract Notice'),
+              'format' => 'raw',
+              'type' => DetailView::INPUT_TEXTAREA,
             ],
 //             'ZahlungsArt',
 //             'Zahlungsweise',
@@ -428,7 +439,7 @@ use frontend\models\SearchVertrag;
 //												'value' => $model->OK, 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'Ausweis',
+												'label' => Yii::t('app', 'Member Card'),
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;']
 												]);
@@ -441,11 +452,11 @@ use frontend\models\SearchVertrag;
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
    <div class="col-sm-2 col-md-2 col-2" id = "wm1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
    <?php  if ($anzeigen) { 
-		echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Ausweis', 
+		echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Member Card'), 
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Ausweis", 'txtid' => 0 ] ), [
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Ausweis'), 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
-															'title' => Yii::t('app', 'Ausweis drucken'),
+															'title' => Yii::t('app', 'Print Member Card'),
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]);
@@ -453,20 +464,20 @@ use frontend\models\SearchVertrag;
 	</div>	
 
   <div class="col-sm-2 col-md-2 col-2" id = "sf3.$model->msID"  style="!float:right;width:130px;">  
- 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Standard-Email</div>', Url::to($model->mitglieder->Email) .
+ 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;'.Yii::t('app', 'Standard Email').'</div>', Url::to($model->mitglieder->Email) .
 									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
-											'title' => Yii::t('app', 'Standard-Email an Mitglied senden'),
+											'title' => Yii::t('app', 'Send Standard Email to Member'),
 							  	]);
 		?>
 		</div>
 	</div>
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;"> 
    		<div class="col-sm-2 col-md-2 col-2" id = "sf1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Begrüßung',  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Greeting'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Begruessung", 'txtid' => 0 ] ), [
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Greeting'), 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
-															'title' => Yii::t('app', 'Begrüßung drucken'),
+															'title' => Yii::t('app', 'Print Greeting'),
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
@@ -478,11 +489,11 @@ use frontend\models\SearchVertrag;
 </div>												        
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0px auto">
    <div class="col-sm-2 col-md-2 col-2" id = "bl1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Aussetzen',  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Suspend'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Aussetzen", 'txtid' => 0 ] ), [
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Suspend'), 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
-															'title' => Yii::t('app', 'Aussetzen drucken'),
+															'title' => Yii::t('app', 'Print Suspend'),
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
@@ -495,12 +506,12 @@ use frontend\models\SearchVertrag;
  </div>												        
  <div class="row" style="width:300px;margin-bottom:8px;margin-left:0 auto;">
    <div class="col-sm-5 col-md-5 col-5" id = "bl3.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;Kündigung',  
+		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Termination'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'class'=>'linksWithTarget btn btn-sm btn-default',
-															'title' => Yii::t('app', 'Kündigung drucken'),
+															'title' => Yii::t('app', 'Print Termination'),
 															'style' => 'width: 120px; text-align: left;',
 												        ]); ?>
 		</div>										        
@@ -515,12 +526,12 @@ use frontend\models\SearchVertrag;
    <div class="col-sm-5 col-md-5 col-5" id = "v1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	
 			Modal::begin([
-			    'header'=>'<center>Vertrag hochladen</center>',
+			    'header'=>'<center>'.Yii::t('app', 'Upload Contract').'</center>',
 					'size'=>'modal-md',
 			    'toggleButton' => [
-			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> Vertrag hoch</span>', 'class'=>'btn btn-default',
+			        'label'=>'<span style="font-size:0.85em"><i class="glyphicon glyphicon-upload"></i> '.Yii::t('app', 'Up Contract').'</span>', 'class'=>'btn btn-default',
 			        		'style' => 'width: 120px; text-align: left;',
-              'title' => 'Vertrags-Pdf ins Data hochladen', 
+              'title' => Yii::t('app', 'Upload Contract-Pdf into WT-Data'), 
 			    ],
           'clientOptions' => [
             'backdrop' => 'static',					
@@ -548,9 +559,9 @@ use frontend\models\SearchVertrag;
 			        'showRemove' => true,
 			        'showUpload' => true,
               'uploadAsync' => true,
-			        'uploadLabel' => "Hochladen",
-			        'browseLabel' =>  'Pdf auswählen',
-			        'msgSizeTooLarge' => "Die Datei '{name}'' ({size} KB) ist größer als die Maximalgröße von {maxSize} KB!",
+			        'uploadLabel' =>  Yii::t('app', 'Upload'),
+			        'browseLabel' =>  Yii::t('app', 'Select Pdf'),
+			        'msgSizeTooLarge' => Yii::t('app', "The File '{name}'' ({size} KB) is bigger than the maximum allowed Size of {maxSize} KB!"),
 //			        'previewClass' => '',
 //			        'mainClass' => '',
 			        'browseClass' => 'btn btn-default btn-sm',
@@ -570,7 +581,7 @@ use frontend\models\SearchVertrag;
 			    ],
 			    'options' => ['accept' => 'image/jpeg,application/pdf',
 			    		'multiple' => false, 'id' => 'attachment_53'.$model->msID,
-              'title' => 'Vertrags-Pdf ins Data hochladen',
+              'title' => Yii::t('app', 'Upload Contract-Pdf into WT-Data'),
 					],
 //          'pluginEvents' => [
 //              'fileuploaded' => 'this.form.submit()',
@@ -587,11 +598,11 @@ use frontend\models\SearchVertrag;
 	 </div>		
    <div class="col-sm-5 col-md-5 col-5" id = "v2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	if (!empty($model->vertrag)) {
-				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Vertrag ansehen',  
+				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;'.Yii::t('app', 'View Contract'),  
 															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
 													 				'tabnum' => 3 ] ), [
                     					'target'=>'_blank',
-															'title' => Yii::t('app', 'Vertrag ansehen'),
+															'title' => Yii::t('app', 'View Contract'),
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]);
@@ -621,21 +632,21 @@ use frontend\models\SearchVertrag;
             echo Html::hiddenInput('FormId', $model->schul->swmMitgliederForm);
             echo Html::hiddenInput('FormEncoding', 'utf-8');
             echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
-            echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+            echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == Yii::t('app', 'male'))) ? 'm' : 'w',['id' => "u_Gender_f"]);
             echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
             echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
-            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;In NL eintragen&nbsp;&nbsp;', ['class' => 'btn btn-sm btn-default', 'title' => 'In den Newsletter für Mitglieder eintragen']);
+            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;'.Yii::t('app', 'Enter into NL').'&nbsp;&nbsp;', ['class' => 'btn btn-sm btn-default', 'title' => 'Enter into Newsletter for Members']);
             echo Html::endForm(); 
 					}				
 		 } ?>                 
 	 </div>
 	
    <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
-											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;'.Yii::t('app', 'IBAN-Calculator').'</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'Calculate / Verify IBAN'),
 											'target' => '_blank'
 							  	]);   ?>
    </div>						  	
@@ -662,13 +673,13 @@ use frontend\models\SearchVertrag;
             echo Html::hiddenInput('FormId', $model->schul->swmInteressentenForm);
             echo Html::hiddenInput('FormEncoding', 'utf-8');
             echo Html::hiddenInput('u_EMail', $model->mitglieder->Email,['id' => "u_EMail"]);
-            echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == 'männlich') ? 'm' : 'w',['id' => "u_Gender_f"]);
+            echo Html::hiddenInput('u_Gender', ($model->mitglieder->Geschlecht == Yii::t('app', 'male')) ? 'm' : 'w',['id' => "u_Gender_f"]);
             echo Html::hiddenInput('u_FirstName', $model->mitglieder->Vorname,['id' => "u_FirstName"]);
             echo Html::hiddenInput('u_LastName', $model->mitglieder->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Birthday', $model->mitglieder->GeburtsDatum,['id' => "u_Birthday"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->mitglieder->Anrede, 'Herr') !== false ) ? 'Lieber' : ((strpos($model->mitglieder->Anrede, 'Frau') !== false ) ? 'Liebe' : 'Liebe Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'unsubscribe');
-            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;Aus NL-Int. raus', ['class' => 'btn btn-sm btn-default', 'title' => 'Aus dem Newsletter für Interessenten rausnehmen']);
+            echo Html::submitButton('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;'.Yii::t('app', 'Exit NL-Int.'), ['class' => 'btn btn-sm btn-default', 'title' => 'Take out of Newsletter for Interested Persons']);
             echo Html::endForm(); 
 					}				
 		 } ?>                 
