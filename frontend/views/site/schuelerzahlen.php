@@ -115,11 +115,18 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
               'value' => function ($data) use ($diesesJahr, $dieserMonat) {
 //                  Yii::warning(VarDumper::dumpAsString($data),'application');
                   //von und bis nicht in diesem Jahr
+                  $aussetzenVon = empty($data->BeitragAussetzenVon)  ? '1900-01-01' : $data->BeitragAussetzenVon;
+                  $aussetzenBis = empty($data->BeitragAussetzenBis)  ? '1900-01-01' : $data->BeitragAussetzenBis;                  
                   $vonJahr = \DateTime::createFromFormat('Y-m-d', $data->Von)->format('Y');
                   $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');
-                  if (($vonJahr != $diesesJahr ) and 
-                      ($bisJahr != $diesesJahr)) { 
-                    return $data->MonatsBeitrag; }
+                  if (($vonJahr != $diesesJahr ) and ($bisJahr != $diesesJahr)) { 
+                    if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
+                        (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
+                       { return 0.00; 
+                    } else {    
+                      return $data->MonatsBeitrag; 
+                    }
+                  }
                   
                   // von ist in diesem Jahr  
                   if ($vonJahr == $diesesJahr) {
@@ -130,7 +137,12 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                              return 0.00; 
                            }
                            else {
-                             return $data->MonatsBeitrag;
+                             if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
+                                (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
+                               { return 0.00; 
+                             } else {    
+                               return $data->MonatsBeitrag; 
+                             }
                            }
                          }
                   }
@@ -143,12 +155,32 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                        if (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('m') < $dieserMonat) {
                          return 0.00;
                        } else {
-                         return $data->MonatsBeitrag;
+                           if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
+                               (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
+                             { return 0.00; 
+                           } else {    
+                             return $data->MonatsBeitrag; 
+                           }
                        }
                     }   
                   }
                 },
           		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
+            ],
+            [
+              'label' => Yii::t('app', 'A'),
+              'value' => function ($data) use ($diesesJahr, $dieserMonat) {
+                          $aussetzenVon = empty($data->BeitragAussetzenVon)  ? '1900-01-01' : $data->BeitragAussetzenVon;
+                          $aussetzenBis = empty($data->BeitragAussetzenBis)  ? '1900-01-01' : $data->BeitragAussetzenBis;                  
+                          $vonJahr = \DateTime::createFromFormat('Y-m-d', $data->Von)->format('Y');
+                          $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');
+                          if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
+                               (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
+                             { return 'A'; 
+                           } else {    
+                             return ''; 
+                           }  
+                          }
             ],
 //            'VertragId',
 

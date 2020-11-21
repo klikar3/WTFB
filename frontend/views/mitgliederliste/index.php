@@ -4,6 +4,8 @@
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pruefung' => $pruefung,
+            'backAchtung' => $backAchtung,
+            'lastDate' => $lastDate,
          ]);
 ?>
 

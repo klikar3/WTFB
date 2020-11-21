@@ -21,7 +21,6 @@ use frontend\models\Disziplinen;
 use frontend\models\Texte;
  
 
-
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MitgliederSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -75,6 +74,14 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
         'firstPageLabel' => '««',
         'lastPageLabel' => '»»'
 ]);    
+
+$this->registerJs(
+    "$(document).ready(function(){
+      if (".$backAchtung." == 1) {
+        $('#mg-back-mod').modal('show');
+        return true;
+      }  
+    });");
 ?>
 
 <span class="mitglieder-index hidden-xs">
@@ -327,6 +334,36 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
      
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
+			<?php Modal::begin([ 'id' => 'mg-back-mod',
+				'header' => '<center><h5>Achtung! Der letzte Backup ist schon älter als eine Woche!</h5></center>',
+//				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i><i class="fa glyphicon glyphicon-envelope"></i>', 'class' => 'btn btn-success', 
+//													'title'=>'Neues Mitglied aus Email anlegen'],
+				'size'=>'modal-md',
+				'clientOptions' => [ 
+            'style' => 'adjust:center;',
+						'backdrop' => true,
+						'keyboard' => true,'tabindex'=>'-1',
+				],					
+        'headerOptions' => ['class' => ' bg-danger',]
+		]);
+		?>
+              Der letzte Backup stammt vom <?php echo $lastDate->format('d.m.Y') ?>. Bitte erstelle einen neuen Backup!
+							<div class="row">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+
+			<div style="float:right;margin-bottom: 8px;"> <br>
+				<?= Html::a('Db Backup erstellen >>', ['/backup'], ['class'=>'btn btn-sm btn-success', 'style'=>"margin-right:5px;"]) . "  &nbsp;" 
+				?>
+			</div>
+     </div> 
+		<?php Modal::end();
+		
+		// class="col-xs-8 col-xs-offset-1 col-sm-8 col-sm-offset-1"                      class="col-md-offset-4 
+		//col-xs-11 col-sm-11 col-md-11 col-lg-11 
+		//    col-md-offset-2"  		   				style="text-align:right;"
+		?>
 </span>
 
  <?php //echo $content_mcf ?>
