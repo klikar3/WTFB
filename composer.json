@@ -35,12 +35,11 @@
 				"2amigos/yii2-chartjs-widget" : "*",
         "2amigos/yii2-tinymce-widget" : "~1.1",
 				"klikar3/rgraph" : "1.0.0-alpha4",
-				"klikar3/yii2-backup": "*",
+				"klikar3/yii2-backup": "@dev",
 				"moonlandsoft/yii2-tinymce": "*",
     	  "sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
         "eddmash/yii2-clipboard": "@dev",
-        "codemix/yii2-localeurls": "*",
-        "soap/yii2-language-switcher": "*"          
+        "codemix/yii2-localeurls": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

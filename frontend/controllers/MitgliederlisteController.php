@@ -11,7 +11,8 @@ use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use kartik\mpdf\Pdf;
-		 
+
+use klikar3\modules\backup\helpers\MysqlBackup;		 
 use frontend\models\Grade;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliedergrade;
@@ -62,11 +63,28 @@ class MitgliederlisteController extends Controller
         $dataProvider->query->andWhere('RecDeleted = 0');
         $pruefung = Pruefungen::find()->where('erledigt = 0')->one();
 
-
+        $myBack = new MysqlBackup();
+        $lastDate = $myBack->getNewestFiledate();
+//        Yii::warning($lastDate);
+        $lastDate = \DateTime::createFromFormat('Y-m-d H:i:s', $lastDate);
+//        Yii::warning($lastDate);
+        $date = new \DateTime();
+        if (!empty($lastDate)) {
+          $backAchtung = (($lastDate->modify('+1 week')) <= $date) ? 1 : 0;
+        } else {
+          $backAchtung = 1;
+          $lastDate = new \DateTime();
+          $lastDate->modify('+1 week');
+        }
+//        Yii::warning($date);
+//        Yii::warning($backAchtung);
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'pruefung' => $pruefung,
+            'backAchtung' => $backAchtung,
+            'lastDate' => $lastDate->modify('-1 week'),
         ]);
     }
 

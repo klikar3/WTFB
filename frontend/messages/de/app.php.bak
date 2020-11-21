@@ -48,7 +48,7 @@ return [
     'Texts' => 'Texte', 
     'Trainings' => 'Trainings',
     'User' => 'User', 
-    'Woo-SWM Abgleich' => 'Woo-SWM Abgleich', 
+    'Woo-SWM Adjustment' => 'Woo-SWM Abgleich', 
 
     // Schulen
     'Schools' => 'Schulen',
@@ -211,9 +211,9 @@ return [
     'Suspend From' => 'Aussetzen ab',
     'Suspend To' => 'Aussetzen bis',
     'Suspension Reason' => 'Aussetzgrund',
-    'Termination' => 'Kündigungsdatum',
+    'Termination' => 'Kündig.-Datum',
     'Exit Date' => 'Austrittsdatum',
-    'Termination Reason' => 'Kündigungsgrund',
+    'Termination Reason' => 'Kündig.-Grund',
     'Admission Date' => 'Von',
     'Exit' => 'Bis',
     'Contract (.pdf)' => 'Vertrag (.pdf)',
@@ -233,6 +233,7 @@ return [
     'Print Greeting' => 'Begrüßung drucken',
     'Suspend' => 'Aussetzen',
     'Print Suspend' => 'Aussetzen Drucken',
+    'Pause Reason' => 'Aussetzgrund',
     'Print Termination' => 'Kündigung drucken',
     'Upload Contract' => 'Vertrag hochladen',
     'Up Contract' => 'Vertrag hoch',
