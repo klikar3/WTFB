@@ -2,6 +2,7 @@
 
 return [
     // Allgemein
+    'Language' => 'Sprache',
     'Save' => 'Speichern',
     'Action' => 'Aktion',
     'Actions' => 'Aktion',
@@ -211,7 +212,8 @@ return [
     'Suspend From' => 'Aussetzen ab',
     'Suspend To' => 'Aussetzen bis',
     'Suspension Reason' => 'Aussetzgrund',
-    'Termination' => 'Künd.-Datum',
+    'Termination' => 'Kündigung',
+    'Term. Date' => 'Künd.-Datum',
     'Exit Date' => 'Austrittsdatum',
     'Termination Reason' => 'Künd.-Grund',
     'Admission Date' => 'Von',

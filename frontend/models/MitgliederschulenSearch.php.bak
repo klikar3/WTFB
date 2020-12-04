@@ -22,13 +22,13 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public $kleinerBis;
     public $DVDgesendetAm;
     public $letzteDvd;
-    publiv $von;
+    public $von;
 
     public function rules()
     {
         return [
             [['msID', 'MitgliederId', 'VertragId'], 'integer'],
-            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 'BeitragAussetzenVon', 'BeitragAussetzenBis'], 'safe'],
         ];
     }
 
@@ -67,7 +67,12 @@ class MitgliederschulenSearch extends Mitgliederschulen
                 'Vertrag',
                 'Grad',
 		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',
-                'Name',
+                'Name'=> [
+		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+		                'label' => 'Name',
+		                'default' => SORT_ASC,
+		            ],
                 'DVDgesendetAm',
                 'letzteDvd',		            
                 'NameLink' => [
@@ -117,7 +122,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                               ]);  
         }
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
-    		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
+    		if (!empty($this->Name)) $query->andWhere('mitgliederliste.NameLink LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
 //					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
 //        $query->andFilterCompare('von', $this->Von,'='  );

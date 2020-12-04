@@ -113,12 +113,17 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
              'pageSummary' => true,
               'label' => 'Anteilig',
               'value' => function ($data) use ($diesesJahr, $dieserMonat) {
-//                  Yii::warning(VarDumper::dumpAsString($data),'application');
+                  Yii::warning(VarDumper::dumpAsString($data),'application');
                   //von und bis nicht in diesem Jahr
                   $aussetzenVon = empty($data->BeitragAussetzenVon)  ? '1900-01-01' : $data->BeitragAussetzenVon;
                   $aussetzenBis = empty($data->BeitragAussetzenBis)  ? '1900-01-01' : $data->BeitragAussetzenBis;                  
-                  $vonJahr = \DateTime::createFromFormat('Y-m-d', $data->Von)->format('Y');
-                  $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');
+                  $vonJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von)->format('Y');
+                  $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis)->format('Y');
+                  Yii::warning('vonjahr '.$vonJahr);
+                  Yii::warning('bisjahr '.$bisJahr);
+                  //Yii::warning('bisjahr '.\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('Y'));
+                  Yii::warning('aussetzenvon '.\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m'));
+                  Yii::warning('$dieserMonat '.$dieserMonat);
                   if (($vonJahr != $diesesJahr ) and ($bisJahr != $diesesJahr)) { 
                     if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
                         (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
@@ -173,7 +178,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                           $aussetzenVon = empty($data->BeitragAussetzenVon)  ? '1900-01-01' : $data->BeitragAussetzenVon;
                           $aussetzenBis = empty($data->BeitragAussetzenBis)  ? '1900-01-01' : $data->BeitragAussetzenBis;                  
                           $vonJahr = \DateTime::createFromFormat('Y-m-d', $data->Von)->format('Y');
-                          $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');
+                          $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '1900-01-01' : $data->Bis)->format('Y');                        
                           if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
                                (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
                              { return 'A'; 
