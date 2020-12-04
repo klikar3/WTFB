@@ -34,26 +34,6 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="wrap">
           
-<?php
- $this->beginBlock('login', true);
-
-    echo Html::beginForm(['site/language','class' => 'navbar-nav navbar-right',]). 
-    Html::dropDownList('language', Yii::$app->language, 
-        [
-            'en'    => 'English',
-            'de'    => 'Deutsch',    // 'Spanish',
-            'el'    => 'Greek',   // 'French',
-        ], 
-        [
-//            'class' => 'form-control',
-            'class' => 'navbar-nav navbar-right',
-            'onchange' => "this.form.submit()"
-        ]
-    )
-    .Html::endForm(); 
-
- $this->endBlock(); 
-?>
 
 <?php       
 $stammdaten[] = ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];      
@@ -121,7 +101,7 @@ if (!empty(Yii::$app->user->identity)) {
             NavBar::begin([
                 'brandLabel' => '<img src="/frontend/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data',
 //                'brandLabel' => 'WTFB-Data',
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandUrl' => Url::to(['/', 'language' => Yii::$app->language]),
                 'innerContainerOptions' => ['class' => 'container-fluid'],
                 'options' => [
                     'class' => 'navbar navbar-inverse navbar-fixed-top',
@@ -131,15 +111,17 @@ if (!empty(Yii::$app->user->identity)) {
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
 //                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
+                $menuItems[] = ['label' => Yii::t('app','Login'), 'url' => ['/user/security/login']];
+                $menuItems[] = ['label' => Yii::t('app', 'Language'), 'url' => ['/site/select-language'], 'linkOptions' => ['data-method' => 'post']];
             } else {
                 $menuItems[] = ['label' => Yii::t('app', 'Base data'), 'url' => ['/site/index'], 'items' => $stammdaten ]; 
                 $menuItems[] = ['label' => Yii::t('app', 'Moving data'), 'url' => ['/site/index'], 'items' => $bewegungsdaten];
  					 		  $menuItems[] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/site/index'], 'items' => $auswertungen];
 								$menuItems[] = ['label' => Yii::t('app', 'Account ('). Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
 																'items' =>[
-																	['label' => Yii::t('app', 'Logout'), 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
-																	['label' => Yii::t('app', 'Account'), 'url' =>[ '/user/admin/update-profile', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']]],
+																	['label' => Yii::t('app', 'Language'), 'url' => ['/site/select-language'], 'linkOptions' => ['data-method' => 'post']],
+																	['label' => Yii::t('app', 'Account'), 'url' =>[ '/user/admin/update-profile', 'id' => Yii::$app->user->identity->id], 'linkOptions' => ['data-method' => 'post']],
+																	['label' => Yii::t('app', 'Logout'), 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']]],
 																	];
                 $menuItems[] = ['label' => '?', 'url' => ['/site/about']];
 /*                $menuItems[] = [
@@ -158,7 +140,7 @@ if (!empty(Yii::$app->user->identity)) {
                   ['label' => 'Greek', 'url' => [ Url::to(['/site/language', 'language' => 'el'])]],
 							 ]
             ];
-*/          echo $this->blocks['login'];
+*/ //         echo $this->blocks['login'];
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right', 'style' => 'margin-right:0px;'],
                 'items' => $menuItems,

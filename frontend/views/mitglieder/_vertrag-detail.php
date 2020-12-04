@@ -475,7 +475,7 @@ use frontend\models\SearchVertrag;
    		<div class="col-sm-2 col-md-2 col-2" id = "sf1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Greeting'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Greeting'), 'txtid' => 0 ] ), [
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => 'Begruessung', 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Print Greeting'),
 															'class'=>'btn btn-sm btn-default',
@@ -491,7 +491,7 @@ use frontend\models\SearchVertrag;
    <div class="col-sm-2 col-md-2 col-2" id = "bl1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Suspend'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Suspend'), 'txtid' => 0 ] ), [
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => 'Aussetzen', 'txtid' => 0 ] ), [
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Print Suspend'),
 															'class'=>'btn btn-sm btn-default',

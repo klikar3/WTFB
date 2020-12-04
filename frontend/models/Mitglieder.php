@@ -61,9 +61,6 @@ use frontend\models\Schulen;
  * @property string $Zahlungsart
  * @property string $Zahlungsweise
  * @property string $EinzugZum
- * @property string $BeitragAussetztenVon
- * @property string $BeitragAussetzenBis
- * @property string $BeitragAussetzenGrund
  * @property string $AufnahmegebuehrBezahlt
  * @property string $EWTONr
  * @property string $EWTOAustritt
@@ -321,7 +318,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
 						[['Bank'], 'string', 'max' => 100],
-            [['AktivPassiv', 'BeitragAussetzenVon', 'BeitragAussetzenBis', 'EWTONr', 'EWTOAustritt', 
+            [['AktivPassiv', 'EWTONr', 'EWTOAustritt', 
 							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'EinladungIAzum', 'Abschlussgespraech', 
 							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],
             [['Kontoinhaber'], 'string', 'max' => 31],
@@ -395,9 +392,6 @@ class Mitglieder extends \yii\db\ActiveRecord
             'Zahlungsart' => Yii::t('app', 'Payment Method'),
             'Zahlungsweise' => Yii::t('app', 'Payment Type'),
             'EinzugZum' => Yii::t('app', 'Bank Collection on'),
-            'BeitragAussetzenVon' => Yii::t('app', 'Suspend From'),
-            'BeitragAussetzenBis' => Yii::t('app', 'Suspend To'),
-            'BeitragAussetzenGrund' => Yii::t('app', 'Suspension Reason'),
             'AufnahmegebuehrBezahlt' => Yii::t('app', 'Admission Fee Payed'),
             'EWTONr' => Yii::t('app', 'Ewtonr'),
             'EWTOAustritt' => Yii::t('app', 'Ewtoaustritt'),

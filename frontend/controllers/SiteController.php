@@ -42,7 +42,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup', 'mitgliederliste'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'language'],
+                        'actions' => ['signup', 'language', 'selectLanguage'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -150,6 +150,11 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+ 
+    public function actionSelectLanguage()
+    {
+        return $this->render('language');
     }
  
 		public function actionSchuelerzahlenauswahl() {

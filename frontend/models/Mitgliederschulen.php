@@ -51,7 +51,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public $Grad;
     public $Schulname;
     public $Vertrag;
-     
+    
+         
     public static function tableName()
     {
         return 'mitgliederschulen';
@@ -195,7 +196,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'Von' => Yii::t('app', 'Admission Date'),
             'Bis' => Yii::t('app', 'Exit Date'),
             'VertragId' => Yii::t('app', 'Contract (.pdf)'),
-						'KuendigungAm' => Yii::t('app', 'Termination'),
+						'KuendigungAm' => Yii::t('app', 'Term. Date'),
 						'VDauerMonate' => Yii::t('app', 'C-Duration'),
 						'MonatsBeitrag' => Yii::t('app', 'Monthly Fee'),
 						'ZahlungsArt' => Yii::t('app', 'P-Method'), 
@@ -259,6 +260,6 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 
     public function extraFields()
     {
-        return ['mgl'];
+        return ['mgl','BeitragAussetzenVon'];
     }
 }
