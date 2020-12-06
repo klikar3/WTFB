@@ -3,16 +3,25 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Mitgliederschulen;
-use frontend\models\MitgliederschulenSearch;
-use frontend\models\Vertrag;
-use frontend\models\VertragSearch;
+use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
-use yii\helpers\VarDumper;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+
+use frontend\models\Grade;
+use frontend\models\Mitglieder;
+use frontend\models\MitgliederGrade;
+use frontend\models\MitgliederSektionen;
+use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederschulenSearch;
+use frontend\models\Pruefer;
+use frontend\models\Sektionen;
+use frontend\models\Vertrag;
+use frontend\models\VertragSearch;
 
 /**
  * MitgliederschulenController implements the CRUD actions for Mitgliederschulen model.
@@ -90,27 +99,72 @@ class MitgliederschulenController extends Controller
     public function actionViewfrommitglied($id, $openv = 0)
     {
         $model = $this->findModel($id);
-//        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
-//              throw new NotFoundHttpException('The requested page does not exist.');
-//        }
+        if (($mgModel = Mitglieder::findOne($model->MitgliederId)) == null) {
+              throw new NotFoundHttpException('The requested page does not exist.');
+        } else { $mgId = $mgModel->MitgliederId;}
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-	        $mitglied = $model->mitglieder;
-	        date_default_timezone_set('Europe/Berlin');
-	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-          if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
-            $mitglied->mandatDatum = $model->VDatum;
-          }
-				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
-	        $mitglied->save();
-        	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
-        ]);
+        if ($model->load(Yii::$app->request->post())) {
+          if ($model->VertragId == 0) { $model->VertragId = null;}
+          if ( $model->save()) {
+    	        $mitglied = $model->mitglieder;
+    	        date_default_timezone_set('Europe/Berlin');
+    	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
+              if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+                $mitglied->mandatDatum = $model->VDatum;
+              }
+    				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+    	        $mitglied->save();
+            	return $this->redirect(['/mitglieder/view', 
+                'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
+            ]);
+            } 
         } else {
-        	return $this->redirect(['/mitglieder/view', 
-            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
-//            return $this->render('/mitglieder/view', [
-//                'model' => $mgModel,
+//        	return $this->redirect(['/mitglieder/view', 
+//            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
+
+				// Graduierungen
+				$query = Mitgliedergrade::find();
+				$query->andWhere(['=', 'MitgliedId', $mgId]);
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
+          'pagination' => false,
+				]);
+				
+				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
+  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+  	
+				// Sektionen
+				$squery = Mitgliedersektionen::find();
+				$squery->andWhere(['=', 'mitglied_id', $mgId]);
+				$msdataProvider = new ActiveDataProvider([
+			    'query' => $squery,
+     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC],],
+          'pagination' => false,
+				]);
+  	
+  	    // Verträge
+				$vquery = Mitgliederschulen::find();
+				$vquery->andWhere(['=', 'MitgliederId', $mgId]);
+				//Yii::info('-----$vquery: '.VarDumper::dumpAsString($vquery));
+				$vdataProvider = new ActiveDataProvider([
+			    'query' => $vquery,
+     			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
+				]);
+				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
+  	    $grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
+  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+
+
+          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
+            return $this->render('/mitglieder/view', [
+                'model' => $mgModel, 'tabnum' => 3, 'openv' => $openv,
+                'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
+								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors
             ]);
         }
     }    
@@ -153,7 +207,7 @@ class MitgliederschulenController extends Controller
               $model->mandatDatum = $model->VDatum;
             }
             if (empty($model->Kontoinhaber)) {
-              $model->Kontoinhaber = $model->mitglieder->Vorname.' '.$model->mitglieder->Name;
+              $model->Kontoinhaber = $model->mitglieder->Name.', '.$model->mitglieder->Vorname;
             }
             if ($model->save()) {
     	        $mitglied = $model->mitglieder;

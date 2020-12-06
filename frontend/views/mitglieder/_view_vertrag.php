@@ -152,7 +152,7 @@ use frontend\models\Schulen;
                     }
 										,
 								'detail' => function ($data, $model, $key, $index) {
-	                return Yii::$app->controller->renderPartial('_vertrag-detail', ['model'=>$data]);
+	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data]);
             		},
             		'enableRowClick' => true,
                 'hidden' => false,

@@ -316,7 +316,7 @@ use frontend\models\SearchVertrag;
               'format' => 'raw',
               'type' => DetailView::INPUT_TEXTAREA,
             ],
-//             'ZahlungsArt',
+             'VertragId',
 //             'Zahlungsweise',
             
 //             'AufnahmegebuehrBezahlt',

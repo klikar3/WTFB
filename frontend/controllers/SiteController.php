@@ -176,7 +176,7 @@ class SiteController extends Controller
 				$model = new AuswertungenForm();
 
         $params = Yii::$app->request->queryParams;
-        Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
+        //Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');
 
         if (count($params) <= 2) {
           $params = Yii::$app->session['customerparams'];
@@ -185,12 +185,12 @@ class SiteController extends Controller
           } else {
             Yii::$app->session['customerparams'] = $params;
         }
-        Yii::warning('----customerparams: '.VarDumper::dumpAsString($params),'application');
+        //Yii::warning('----customerparams: '.VarDumper::dumpAsString($params),'application');
 
 //        $model->load(Yii::$app->request->post());
 //        Yii::warning(VarDumper::dumpAsString($model),'application');
         if (!$model->load(Yii::$app->request->post() )) {
-            Yii::warning('----- noload','application');
+            //Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
             $dataProvider = $searchModel->search($params);
             $model->von = $params['MitgliederschulenSearch']['groesserVon'];
@@ -210,7 +210,7 @@ class SiteController extends Controller
                                                 'groesserVon' => $model->von, //date('Y-m-d'),
                                                 'kleinerBis' => $model->von, ];
             Yii::$app->session['customerparams'] = $params;
-            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
+            //Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
         }
 //        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         
@@ -1202,5 +1202,80 @@ class SiteController extends Controller
         $this->redirect(str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->request->referrer) ?: str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->homeUrl));   // go last page or home
     }
 
+    public static function computeAnteil($data, $diesesJahr, $dieserMonat) {
+        //Yii::warning(VarDumper::dumpAsString($data),'application');
+        //von und bis nicht in diesem Jahr
+        $von = \DateTime::createFromFormat('!Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von);
+        $bis = \DateTime::createFromFormat('!Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis);                  
+        $vonJahr = $von->format('Y');
+        $bisJahr = $bis->format('Y');
+        //Yii::warning('vonjahr '.$vonJahr);
+        //Yii::warning('bisjahr '.$bisJahr);
+        //Yii::warning('bisjahr '.\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('Y'));
+        //Yii::warning('aussetzenVon '.Vardumper::dumpAsString($aussetzenVon));
+        //Yii::warning('aussetzenBis '.Vardumper::dumpAsString($aussetzenBis));
+        //Yii::warning('$dieserMonat '.$dieserMonat);
+        if (($vonJahr < $diesesJahr ) and ($bisJahr > $diesesJahr)) { 
+            $anteil = $data->MonatsBeitrag; 
+        } else {
+            // von ist in diesem Jahr  
+            if ($vonJahr == $diesesJahr) {
+              if ($von->format('m') == $dieserMonat) {
+                $anteil =  number_format($data->MonatsBeitrag * (($von->format('t')-$von->format('j')+1) / $von->format('t')),2); 
+              }
+              else { if ($von->format('m') > $dieserMonat) {
+                       $anteil =  0.00; 
+                     }
+                     else {
+                        $anteil = $data->MonatsBeitrag; 
+                     }
+                   }
+            } else {
+                // bis ist in diesem Jahr
+                if ($bisJahr == $diesesJahr) {
+                  if ($bis->format('m') == $dieserMonat) {
+                     $anteil = number_format($data->MonatsBeitrag * ($bis->format('j')/$bis->format('t')),2); 
+                  } else {
+                     if ($bis->format('m') < $dieserMonat) {
+                       $anteil = 0.00;
+                     } else {
+                       $anteil = $data->MonatsBeitrag; 
+                     }
+                  }   
+                }            
+            }        
+        }
+        
+      // Aussetzen
+      $aussetzenVon = \DateTime::createFromFormat('!Y-m-d', empty($data->BeitragAussetzenVon)  ? '2999-01-01' : substr($data->BeitragAussetzenVon,0,10));
+      $aussetzenBis = \DateTime::createFromFormat('!Y-m-d', empty($data->BeitragAussetzenBis)  ? '1900-01-01' : substr($data->BeitragAussetzenBis,0,10));
+      // Wenn eh schon 0 dann das zurück geben
+      if ($anteil == 0.00) {
+          //Yii::warning('1');
+          return $anteil;
+      }
+      // Wenn Aussetzen vorbei
+      $firstDayThisMonth = \DateTime::createFromFormat('!Y-m-d', date('Y-m-01'));
+      $firstDayNextMonth = \DateTime::createFromFormat('!Y-m-d', date('Y-m-d', mktime(0, 0, 0, date('m')+1, 1, date('Y'))));
+      //Yii::warning('$firstDayThisMonth '.Vardumper::dumpAsString($firstDayThisMonth));
+      //Yii::warning('$firstDayNextMonth '.Vardumper::dumpAsString($firstDayNextMonth));
+      if ($aussetzenBis < $firstDayThisMonth) {
+          //Yii::warning('2');
+          return $anteil;
+      }
+      // wenn Aussetzen noch nicht begonnen hat
+      if ($aussetzenVon >= $firstDayNextMonth) {
+          //Yii::warning('$firstDayNextMonth '.Vardumper::dumpAsString($firstDayNextMonth));
+          //Yii::warning('3');
+          return $anteil;
+      }
+      if (($aussetzenVon <= $firstDayThisMonth) and
+              ($aussetzenBis >= $firstDayNextMonth ))
+             { 
+          //Yii::warning('date(01-m-Y) '.Vardumper::dumpAsString(date('01-m-Y')));
+          return '0.00'; 
+      } 
+          Yii::warning('WTF?');
+   }   
 }
 

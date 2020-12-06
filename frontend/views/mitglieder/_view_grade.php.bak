@@ -84,7 +84,7 @@ use frontend\models\Pruefer;
 //										'placeholder'=>'Graduierungsdatum', 
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
 									]	
-								])->label(Yii::t('app', 'Date'); ?>
+								])->label(Yii::t('app', 'Date')); ?>
     				<?php /*echo $form->field($mg, 'print')->checkBox(
 															[ 'prompt' => 'Print', 'id' => 'field_prid' ] )*/ ?>
 						<div style="text-align:right;">  <br>
