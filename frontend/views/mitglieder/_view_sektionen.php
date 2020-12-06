@@ -164,7 +164,7 @@ use frontend\models\SifuSearch;
                     },
 								'detail' => function ($data, $id) use ($sektionen_zur_auswahl, $pruefer_zur_auswahl){
 									$cont = Mitgliedersektionen::findOne($id);
-	                return Yii::$app->controller->renderPartial('_sektion-detail', ['model'=>$cont, 'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+	                return Yii::$app->controller->renderPartial('/mitglieder/_sektion-detail', ['model'=>$cont, 'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
             		},
             		'enableRowClick' => true,

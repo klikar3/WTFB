@@ -30,7 +30,6 @@ class MitgliederSearch extends Mitglieder
               'Kontoinhaber', 'Schulort', 'Disziplin', 'Funktion', 'Sifu', 'Woher', 'Graduierung', 
               'VDauer', 'Monatsbeitrag', 'BeitrittDatum', 'KuendigungDatum', 'AustrittDatum', 
               'Geburtsort', 'GruppenArt', 'Zahlungsart', 'Zahlungsweise', 'EinzugZum', 
-              'BeitragAussetzenVon', 'BeitragAussetzenBis', 'BeitragAussetzenGrund', 
               'AufnahmegebuehrBezahlt', 'EWTONr', 'EWTOAustritt', 'BeitragOffenAb', 'BeitragOffenEuro', 
               'BeitragOffenBis', 'Mahngebuehren', 'GesamtOffen', 'Mahnung1Am', 'Mahnung2Am', 'Mahnung3Am', 
               'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'Bemerkungen', 'Betreff', 'Text', 'KontaktAm', 
@@ -123,9 +122,6 @@ class MitgliederSearch extends Mitglieder
             ->andFilterWhere(['like', 'Zahlungsart', $this->Zahlungsart])
             ->andFilterWhere(['like', 'Zahlungsweise', $this->Zahlungsweise])
             ->andFilterWhere(['like', 'EinzugZum', $this->EinzugZum])
-            ->andFilterWhere(['like', 'BeitragAussetzenVon', $this->BeitragAussetzenVon])
-            ->andFilterWhere(['like', 'BeitragAussetzenBis', $this->BeitragAussetzenBis])
-            ->andFilterWhere(['like', 'BeitragAussetzenGrund', $this->BeitragAussetzenGrund])
             ->andFilterWhere(['like', 'AufnahmegebuehrBezahlt', $this->AufnahmegebuehrBezahlt])
             ->andFilterWhere(['like', 'EWTONr', $this->EWTONr])
             ->andFilterWhere(['like', 'EWTOAustritt', $this->EWTOAustritt])

@@ -166,7 +166,7 @@ use frontend\models\Schulen;
     						'template' => '{delete}',
 								'controller' => 'mitgliederschulen',
 								'header' => '<center>Aktion</center>',
-                'label' => Yii::t('app', 'Action'),
+                'header' => Yii::t('app', 'Actions'),
 								'buttons' => [ 
 									'delete' => function ($url, $model) {
 										return '<center>'.Html::a('<span class="glyphicon glyphicon-trash"></span>', 

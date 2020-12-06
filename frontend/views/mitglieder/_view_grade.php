@@ -134,7 +134,7 @@ use frontend\models\Pruefer;
                     },
 								'detail' => function ($data, $id) use ($grade_zur_auswahl, $pruefer_zur_auswahl){
 									$cont = Mitgliedergrade::findOne($id);
-	                return Yii::$app->controller->renderPartial('_grad-detail', ['model'=>$cont, 'grade_zur_auswahl' => $grade_zur_auswahl,
+	                return Yii::$app->controller->renderPartial('/mitglieder/_grad-detail', ['model'=>$cont, 'grade_zur_auswahl' => $grade_zur_auswahl,
 																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
             		},
             		'enableRowClick' => true,

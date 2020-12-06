@@ -28,7 +28,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     {
         return [
             [['msID', 'MitgliederId', 'VertragId'], 'integer'],
-            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 'BeitragAussetzenVon', 'BeitragAussetzenBis'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 'mitgliederschulen.BeitragAussetzenVon', 'mitgliederschulen.BeitragAussetzenBis'], 'safe'],
         ];
     }
 
@@ -101,7 +101,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'ZahlungsArt' => $this->ZahlungsArt, 
             'Zahlungsweise' => $this->Zahlungsweise,
             'Grad' => $this->Grad,
-            'Name' => $this->Name,
+//            'Name' => $this->Name,
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
             'letzteDvd' => $this->letzteDvd
         ]);

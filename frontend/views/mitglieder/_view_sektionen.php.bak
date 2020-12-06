@@ -181,7 +181,7 @@ use frontend\models\SifuSearch;
 												'header' => '<span style="text-align-left;">'.Yii::t('app', 'Actions').'</span>',
 												'controller' => 'mitgliedersektionen',
 												'deleteOptions' => [
-														'data-confirm' => 'Really delete this Program?',
+														'data-confirm' => Yii::t('app', 'Really delete this Program?'),
 												],
 //												'width' => '30px',
 							],

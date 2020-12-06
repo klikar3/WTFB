@@ -330,7 +330,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 	          [['BIC'], 'string', 'max' => 11],            
 //						[['Zahlungsweise'], 'string', 'max' => 16], 
 		        [['EinzugZum'], 'string', 'max' => 15],
-            [['BeitragAussetzenGrund'], 'string', 'max' => 37],
+//            [['BeitragAussetzenGrund'], 'string', 'max' => 37],
             [['AufnahmegebuehrBezahlt', 'WTPruefungZum'], 'string', 'max' => 14], 
 		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'WTPruefungAm', 'KPruefungAm', 
 							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm'], 'string', 'max' => 19],            
