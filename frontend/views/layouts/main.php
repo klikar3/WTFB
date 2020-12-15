@@ -97,9 +97,9 @@ if (!empty(Yii::$app->user->identity)) {
 
 }                                
                                 
-
+            $bl = '<img src="'.str_replace('/index.php','',Yii::$app->homeUrl).'/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data';
             NavBar::begin([
-                'brandLabel' => '<img src="/frontend/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data',
+                'brandLabel' => $bl,
 //                'brandLabel' => 'WTFB-Data',
                 'brandUrl' => Url::to(['/', 'language' => Yii::$app->language]),
                 'innerContainerOptions' => ['class' => 'container-fluid'],
@@ -151,7 +151,8 @@ if (!empty(Yii::$app->user->identity)) {
 
         <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'homeLink' =>['url' => Yii::$app->homeUrl.'/'.Yii::$app->language, 'label' => Yii::t('app', 'Home')], 
         ]) ?>
         <?php /*echo Alert::widget()*/ 
 foreach (Yii::$app->session->getAllFlashes() as $key => $message) {

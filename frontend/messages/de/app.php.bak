@@ -2,6 +2,7 @@
 
 return [
     // Allgemein
+    'Language' => 'Sprache',
     'Save' => 'Speichern',
     'Action' => 'Aktion',
     'Actions' => 'Aktion',
@@ -253,6 +254,8 @@ return [
     'male' => 'männlich',
     'female' => 'weiblich',
     'Contact' => 'Kontakt',
+    'Computed' => 'Anteilig',
+    'Exit' => 'Austritt',
     
     // Mitgliedergrade
     'New Level for ' =>'Neue Graduierung für ',

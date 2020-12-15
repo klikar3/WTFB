@@ -10,6 +10,7 @@ use yii\web\Cookie;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\data\ActiveDataProvider;
 
@@ -1189,6 +1190,7 @@ class SiteController extends Controller
         $oldLang = Yii::$app->language;
         $language = Yii::$app->request->post('language');
         Yii::$app->language = $language;
+        Yii::$app->homeUrl = Url::to(['/', 'language' => $language]);
  
         $languageCookie = new Cookie([
             'name' => 'language',

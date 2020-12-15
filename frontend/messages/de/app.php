@@ -10,6 +10,18 @@ return [
     'Reset' => 'Zurücksetzen',
     'Select' => 'Auswählen',
     'Do you really want to delete this Record?' => 'Soll dieser Datensatz wirklich gelöscht werden?',
+    'January' => 'Januar',
+    'February' => 'Februar',
+    'March' => 'März',
+    'April' => 'April',
+    'May' => 'Mai',
+    'June' => 'Juni',
+    'July' => 'Juli',
+    'August' => 'August',
+    'Septembre' => 'September',
+    'October' => 'Oktober',
+    'November' => 'November',
+    'December' => 'Dezember',
 
     // Hauptmenü
     'Account' => 'Account',  
@@ -254,6 +266,10 @@ return [
     'male' => 'männlich',
     'female' => 'weiblich',
     'Contact' => 'Kontakt',
+    'Computed' => 'Anteilig',
+    'Exit' => 'Austritt',
+    'Entry' => 'Eintritt',
+    
     
     // Mitgliedergrade
     'New Level for ' =>'Neue Graduierung für ',
