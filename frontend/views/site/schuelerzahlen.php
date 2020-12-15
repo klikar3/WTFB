@@ -50,7 +50,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
             ['attribute' => 'Name',
              'format' => 'raw', 
              'width' => '200px',
-              'label' => 'Name',
+              'label' => Yii::t('app', 'Name'),
               'value' => function ($data) {
 //                  Yii::warning(VarDumper::dumpAsString($data),'application');
           		    $url = Url::to(['/mitglieder/view', 'id'=>$data->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
@@ -64,7 +64,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //            'mitglieder.Vorname',
 //            'mitglieder.Name',
             [ 'attribute' => 'Vertrag',
-              'label' => 'Schule',
+              'label' => Yii::t('app', 'School'),
               'value' => function ($data) {
                   return !empty($data->mgl->Vertrag) ? $data->mgl->Vertrag /*. $data->schul->dispKurz*/ : '-';
                   },
@@ -74,31 +74,31 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
               'visible' => false,
             ],
             [ 'attribute' => 'Grad',
-              'label' => 'Grad',
+              'label' => Yii::t('app', 'Level'),
               'value' => function ($data) {
                   return !empty($data->mgl->Grad) ? $data->mgl->Grad : '-';
                   },
             ],
             ['attribute' => 'VDatum',
-              'label' => 'Vertrag',
+              'label' => Yii::t('app', 'Contract'),
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Von',
-              'label' => 'Eintritt',
+              'label' => Yii::t('app', 'Entry'),
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'KuendigungAm',
-              'label' => 'Kündigung',
+              'label' => Yii::t('app', 'Termination'),
              'value' => function ($data) {
                   return (($data->KuendigungAm == '0000-00-00') or empty($data->KuendigungAm)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Bis',
-              'label' => 'Austritt',
+              'label' => Yii::t('app', 'Exit'),
              'value' => function ($data) {
                   return (($data->Bis == '0000-00-00') or empty($data->Bis)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
@@ -108,11 +108,13 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
              'width' => '100px',
              'pageSummary' => true,
             ],
+//            'BeitragAussetzenVon',
+//            'BeitragAussetzenBis',
             ['attribute' => 'Anteilig',
              'format' => 'raw', 
              'width' => '80px',
              'pageSummary' => true,
-              'label' => 'Anteilig',
+              'label' => Yii::t('app', 'Computed'),
               'value' => function ($data) use ($diesesJahr, $dieserMonat)  {
                   return SiteController::computeAnteil  ($data, $diesesJahr, $dieserMonat);
                 },

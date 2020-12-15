@@ -4,12 +4,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 $this->title = Yii::t('app','Language');
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs']['homeLink'] = '/'.Yii::$app->language;
+Yii::warning($this->params['breadcrumbs']);
 ?>
 <div class="site-about">
 
 
 <br>
-<div class="col-md-4 ">
+<div class="col-md-5 ">
   <div class="panel panel-info">
     <div class="panel-heading">
         <h1><?= Html::encode($this->title) ?></h1>

@@ -344,20 +344,21 @@ $this->registerJs(
 						'backdrop' => true,
 						'keyboard' => true,'tabindex'=>'-1',
 				],					
-        'headerOptions' => ['class' => ' bg-danger',]
+        'headerOptions' => ['class' => ' bg-danger hidden-xs',]
 		]);
 		?>
               Der letzte Backup stammt vom <?php echo $lastDate->format('d.m.Y') ?>. Bitte erstelle einen neuen Backup!
-							<div class="row">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="row hidden-xs">																	
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 hidden-xs">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 hidden-xs">
 
-			<div style="float:right;margin-bottom: 8px;"> <br>
+			<div style="float:right;margin-bottom: 8px;" class="hidden-xs"> <br>
 				<?= Html::a('Db Backup erstellen >>', ['/backup'], ['class'=>'btn btn-sm btn-success', 'style'=>"margin-right:5px;"]) . "  &nbsp;" 
 				?>
 			</div>
      </div> 
+     </div>
 		<?php Modal::end();
 		
 		// class="col-xs-8 col-xs-offset-1 col-sm-8 col-sm-offset-1"                      class="col-md-offset-4 

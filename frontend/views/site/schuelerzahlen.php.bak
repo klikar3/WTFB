@@ -50,7 +50,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
             ['attribute' => 'Name',
              'format' => 'raw', 
              'width' => '200px',
-              'label' => 'Name',
+              'label' => Yii::t('app', 'Name'),
               'value' => function ($data) {
 //                  Yii::warning(VarDumper::dumpAsString($data),'application');
           		    $url = Url::to(['/mitglieder/view', 'id'=>$data->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
@@ -64,7 +64,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //            'mitglieder.Vorname',
 //            'mitglieder.Name',
             [ 'attribute' => 'Vertrag',
-              'label' => 'Schule',
+              'label' => Yii::t('app', 'School'),
               'value' => function ($data) {
                   return !empty($data->mgl->Vertrag) ? $data->mgl->Vertrag /*. $data->schul->dispKurz*/ : '-';
                   },
@@ -74,31 +74,31 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
               'visible' => false,
             ],
             [ 'attribute' => 'Grad',
-              'label' => 'Grad',
+              'label' => Yii::t('app', 'Level'),
               'value' => function ($data) {
                   return !empty($data->mgl->Grad) ? $data->mgl->Grad : '-';
                   },
             ],
             ['attribute' => 'VDatum',
-              'label' => 'Vertrag',
+              'label' => Yii::t('app', 'Contract'),
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Von',
-              'label' => 'Eintritt',
+              'label' => Yii::t('app', 'Entry'),
              'value' => function ($data) {
                   return \DateTime::createFromFormat('Y-m-d', $data->Von)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'KuendigungAm',
-              'label' => 'Kündigung',
+              'label' => Yii::t('app', 'Termination'),
              'value' => function ($data) {
                   return (($data->KuendigungAm == '0000-00-00') or empty($data->KuendigungAm)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Bis',
-              'label' => 'Austritt',
+              'label' => Yii::t('app', 'Exit'),
              'value' => function ($data) {
                   return (($data->Bis == '0000-00-00') or empty($data->Bis)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
@@ -108,69 +108,15 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
              'width' => '100px',
              'pageSummary' => true,
             ],
+            'BeitragAussetzenVon',
+            'BeitragAussetzenBis',
             ['attribute' => 'Anteilig',
              'format' => 'raw', 
              'width' => '80px',
              'pageSummary' => true,
-              'label' => 'Anteilig',
+              'label' => Yii::t('app', 'Computed'),
               'value' => function ($data) use ($diesesJahr, $dieserMonat)  {
                   return SiteController::computeAnteil  ($data, $diesesJahr, $dieserMonat);
-                  /*Yii::warning(VarDumper::dumpAsString($data),'application');
-                  //von und bis nicht in diesem Jahr
-                  $aussetzenVon = empty($data->BeitragAussetzenVon)  ? '1900-01-01' : $data->BeitragAussetzenVon;
-                  $aussetzenBis = empty($data->BeitragAussetzenBis)  ? '1900-01-01' : $data->BeitragAussetzenBis;                  
-                  $vonJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von)->format('Y');
-                  $bisJahr = \DateTime::createFromFormat('Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis)->format('Y');
-                  Yii::warning('vonjahr '.$vonJahr);
-                  Yii::warning('bisjahr '.$bisJahr);
-                  //Yii::warning('bisjahr '.\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('Y'));
-                  Yii::warning('aussetzenvon '.\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m'));
-                  Yii::warning('$dieserMonat '.$dieserMonat);
-                  if (($vonJahr != $diesesJahr ) and ($bisJahr != $diesesJahr)) { 
-                    if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
-                        (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
-                       { return 0.00; 
-                    } else {    
-                      return $data->MonatsBeitrag; 
-                    }
-                  }
-                  
-                  // von ist in diesem Jahr  
-                  if ($vonJahr == $diesesJahr) {
-                    if (\DateTime::createFromFormat('Y-m-d', $data->Von)->format('m') == $dieserMonat) {
-            		      return number_format($data->MonatsBeitrag * ((\DateTime::createFromFormat('Y-m-d', $data->Von)->format('t')-\DateTime::createFromFormat('Y-m-d', $data->Von)->format('j')+1) / \DateTime::createFromFormat('Y-m-d', $data->Von)->format('t')),2); 
-                    }
-                    else { if (\DateTime::createFromFormat('Y-m-d', $data->Von)->format('m') > $dieserMonat) {
-                             return 0.00; 
-                           }
-                           else {
-                             if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
-                                (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
-                               { return 0.00; 
-                             } else {    
-                               return $data->MonatsBeitrag; 
-                             }
-                           }
-                         }
-                  }
-                  
-                  // bis ist in diesem Jahr
-                  if ($bisJahr == $diesesJahr) {
-                    if (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('m') == $dieserMonat) {
-            		       return number_format($data->MonatsBeitrag * (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('j')/\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('t')),2); 
-                    } else {
-                       if (\DateTime::createFromFormat('Y-m-d', $data->Bis)->format('m') < $dieserMonat) {
-                         return 0.00;
-                       } else {
-                           if ((\DateTime::createFromFormat('Y-m-d', $aussetzenVon)->format('m') <= $dieserMonat) and
-                               (\DateTime::createFromFormat('Y-m-d', $aussetzenBis)->format('m') >= $dieserMonat) )
-                             { return 0.00; 
-                           } else {    
-                             return $data->MonatsBeitrag; 
-                           }
-                       }
-                    }   
-                  }*/
                 },
           		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],
