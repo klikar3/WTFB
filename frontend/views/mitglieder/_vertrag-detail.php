@@ -569,8 +569,9 @@ use frontend\models\SearchVertrag;
 			        'maxFileSize' => 1024,
 			        'maxFileCount' => 1,
 			        'allowedFileExtensions' => ['jpg','gif','png','pdf'],
-              'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp'. DIRECTORY_SEPARATOR .'tmp',
-              'uploadUrl' => \Yii::$app->request->BaseUrl.'/index.php?r=mitgliederschulen/upload',
+              'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp64'. DIRECTORY_SEPARATOR .'tmp',
+              'uploadUrl' => Url::toRoute(['/mitgliederschulen/upload', 'id' => $model->msID, 
+													 				'tabnum' => 3]),//\Yii::$app->request->BaseUrl.'/index.php?r=mitgliederschulen/upload',
               'uploadExtraData' => [
                   'id' => 'attachment_53'.$model->msID,
                   'tabnum' => 3,

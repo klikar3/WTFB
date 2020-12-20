@@ -106,14 +106,14 @@ class MitgliederschulenController extends Controller
         if ($model->load(Yii::$app->request->post())) {
           if ($model->VertragId == 0) { $model->VertragId = null;}
           if ( $model->save()) {
-    	        $mitglied = $model->mitglieder;
+    	        //$mitglied = $model->mitglieder;
     	        date_default_timezone_set('Europe/Berlin');
-    	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-              if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
-                $mitglied->mandatDatum = $model->VDatum;
+    	        $mgModel->LetzteAenderung = date('Y-m-d H:i:s');
+              if (empty($mgModel->mandatDatum) and !empty($model->VDatum)) {
+                $mgModel->mandatDatum = $model->VDatum;
               }
-    				  if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
-    	        $mitglied->save();
+    				  if (Yii::$app->user->identity->isAdmin) { $mgModel->LetztAendSifu = $mgModel->LetzteAenderung; }
+    	        $mgModel->save();
             	return $this->redirect(['/mitglieder/view', 
                 'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
             ]);
@@ -213,10 +213,10 @@ class MitgliederschulenController extends Controller
     	        $mitglied = $model->mitglieder;
     	        date_default_timezone_set('Europe/Berlin');
     	        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-/*              if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
-                $mitglied->mandatDatum = $model->VDatum;
-              }
-*/    				  
+  //              if (empty($mitglied->mandatDatum) and !empty($model->VDatum)) {
+//                $mitglied->mandatDatum = $model->VDatum;
+//              }
+      				  
             if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
     	        $mitglied->save();
                 return $this->redirect(['/mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 3]);
@@ -319,15 +319,15 @@ class MitgliederschulenController extends Controller
     
     public function actionUpload($id = 0, $tabnum = 0)
     {
-        //Yii::warning("-----actionUpload");
+        Yii::warning("-----actionUpload");
         $id = $_POST['id'];
         $tabnum = $_POST['tabnum'];
         $model = $this->findModel($_POST['modelId']);
 //        $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
         
         if (empty($_FILES[$id])) {
-            echo json_encode(['error'=>'No files found for upload.']); 
-            return; // terminate
+            $output = json_encode(['error'=>'No files found for upload.']); 
+            return $output; // terminate
         }				
         
         $fileData = $_FILES[$id];
@@ -339,8 +339,8 @@ class MitgliederschulenController extends Controller
 				//$image = UploadedFile::getInstanceByName($fileData['tmp_name']);
 				$file_blob = file_get_contents($fileData['tmp_name']);
         if (!$file_blob) {
-            echo json_encode(['error'=>'Datei nicht gefunden.']); 
-            return; // terminate
+            $output = json_encode(['error'=>'Datei nicht gefunden.']); 
+            return $output; // terminate
         }
 				if (!empty($file_blob)) {
 	        if (!empty($model->VertragId)) {
@@ -354,8 +354,8 @@ class MitgliederschulenController extends Controller
 				  $vertrag->name = $fileData['name'];
 				  $vertrag->typ = $fileData['type'];
           if (!$vertrag->validate()) {
-            echo json_encode(['error'=>'Vertrag nicht validiert.']); 
-            return; // terminate
+            $output = json_encode(['error'=>'Vertrag nicht validiert.']); 
+            return $output; // terminate
           }
 				  if ($vertrag->save()) {
 //            Yii::warning("-----vertrag gesichert");
@@ -363,48 +363,37 @@ class MitgliederschulenController extends Controller
 						$model->VertragId = $vertrag->VertragId;
             if (!$model->Validate()) {
 //                Yii::warning("-----model nicht gesichert");
-                echo json_encode(['error'=>'Konnte MitgliederSchulen nicht validieren.']); 
+                $output = json_encode(['error'=>'Konnte MitgliederSchulen nicht validieren.']); 
                 // or you can throw an exception 
-                return; // terminate
-            }						
+                return $output; // terminate
+            }	else {
+//                Yii::warning("-----model gesichert");
+                $output = json_encode(['success' => 'Mitgliederschule validiert']);
+                return $output;
+            }                   
+					
             if (!$model->save()) {
 //                Yii::warning("-----model nicht gesichert");
-                echo json_encode(['error'=>'Konnte MitgliederSchulen nicht speichern.']); 
+                $output = json_encode(['error'=>'Konnte MitgliederSchulen nicht speichern.']); 
                 // or you can throw an exception 
-                return; // terminate
+                return $output; // terminate
             } else {
 //                Yii::warning("-----model gesichert");
+                $output = json_encode(['success' => 'Mitgliederschule gesichert']);
+                return $output;
             }                   
 					}	else {
 //            Yii::warning("-----vertrag nicht gesichert");
             $model->addError('Vertrag konnte nicht gesichert werden!');
             $output = json_encode(['error' => 'Vertrag konnte nicht gesichert werden!']);
+            return $output;
           }
 				}
         
         $output = json_encode(['success' => 'Datei hochgeladen']);
-/*        return json_encode(
-                  'error' => 'An error exception message if applicable',
-                  initialPreview  [
-                      // initial preview thumbnails for server uploaded files if you want it displayed immediately after upload
-                  ],
-                  initialPreviewConfig: [
-                      // configuration for each item in initial preview 
-                  ],
-                  initialPreviewThumbTags: [
-                      // initial preview thumbnail tags configuration that will be replaced dynamically while rendering
-                  ],
-                  append: true // whether to append content to the initial preview (or set false to overwrite)
-              });  */
 				return $output;
 //				return $this->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$model]);
-/*        if (isset($_POST['expandRowKey'])) {
-            $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
-            return $this->renderPartial('_vertrag-details', ['model'=>$model]);
-        } else {
-            return '<div class="alert alert-danger">No data found</div>';
-        }
-*/        
+ //        if (isset($_POST['expandRowKey'])) {
     }
 
     public function actionVertrag($id,$tabnum)
@@ -414,7 +403,7 @@ class MitgliederschulenController extends Controller
         
 				$image =  $model->vertrag->pdf;
 				$typ = $model->vertrag->typ;
-/*				
+/**				
 				Yii::$app->response->format = yii\web\Response::FORMAT_RAW;	
 				$headers = Yii::$app->response->headers;
 				$headers->add('Content-Type',$typ);
