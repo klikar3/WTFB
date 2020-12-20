@@ -58,7 +58,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
         ]);
         
         $dataProvider->setSort([
-		    		'defaultOrder' => ['Bis'=>SORT_DESC],
+		    		'defaultOrder' => ['Name'=>SORT_ASC],
 		        'attributes' => [
 		            'Von',
 		            'Bis',

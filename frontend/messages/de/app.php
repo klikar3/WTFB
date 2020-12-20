@@ -51,6 +51,7 @@ return [
     'Exams' => 'Prüfungen',
     'Examiner' => 'Prüfer',  
     'StudentNumbers' => 'SchülerZahlen',
+    'Student numbers' => 'Schülerzahlen',
     'Head Master' => 'Schulleiter',
     'Head Master-Schools' => 'Schulleiter-Schulen', 
     'Sektions' => 'Sektionen', 
@@ -269,6 +270,9 @@ return [
     'Computed' => 'Anteilig',
     'Exit' => 'Austritt',
     'Entry' => 'Eintritt',
+    'Susp. from' => 'Pause von',
+    'Susp. to' => 'Pause bis',
+    ' for ' => ' für ',
     
     
     // Mitgliedergrade

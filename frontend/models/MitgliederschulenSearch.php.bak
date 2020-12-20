@@ -122,7 +122,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                               ]);  
         }
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
-    		if (!empty($this->Name)) $query->andWhere('mitgliederliste.NameLink LIKE "%' . $this->Name . '%" '  );
+    		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
 //					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
 //        $query->andFilterCompare('von', $this->Von,'='  );

@@ -30,6 +30,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
  //echo VarDumper::dumpAsString($dataProvider->query->createCommand()->getRawSql())
  $diesesJahr = \DateTime::createFromFormat('Y-m-d', $model->von)->format('Y');
  $dieserMonat = \DateTime::createFromFormat('Y-m-d', $model->von)->format('m');
+ $monatsBeginn = $model->von;
 ?>
 <div class="row">
  
@@ -103,20 +104,30 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                   return (($data->Bis == '0000-00-00') or empty($data->Bis)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->Bis)->format('d.m.Y');
                   }
             ], 
+            ['attribute' => 'BeitragAussetzenVon',
+              'label' => Yii::t('app', 'Susp. from'),
+             'value' => function ($data) {
+                  return (($data->BeitragAussetzenVon == '0000-00-00') or empty($data->BeitragAussetzenVon)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->BeitragAussetzenVon)->format('d.m.Y');
+                  }
+            ],
+            ['attribute' => 'BeitragAussetzenBis',
+              'label' => Yii::t('app', 'Susp. to'),
+             'value' => function ($data) {
+                  return (($data->BeitragAussetzenBis == '0000-00-00') or empty($data->BeitragAussetzenBis)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->BeitragAussetzenBis)->format('d.m.Y');
+                  }
+            ],
             ['attribute' => 'MonatsBeitrag',
 //             'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',
              'pageSummary' => true,
             ],
-            'BeitragAussetzenVon',
-            'BeitragAussetzenBis',
             ['attribute' => 'Anteilig',
              'format' => 'raw', 
              'width' => '80px',
              'pageSummary' => true,
               'label' => Yii::t('app', 'Computed'),
-              'value' => function ($data) use ($diesesJahr, $dieserMonat)  {
-                  return SiteController::computeAnteil  ($data, $diesesJahr, $dieserMonat);
+              'value' => function ($data) use ($monatsBeginn, $diesesJahr, $dieserMonat)  {
+                  return SiteController::computeAnteil  ($data, $monatsBeginn, $diesesJahr, $dieserMonat);
                 },
           		 'contentOptions' => ['style' => 'font-size: 11pt!important;font-weight:normal;'],
             ],

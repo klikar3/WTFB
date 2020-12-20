@@ -316,7 +316,7 @@ use frontend\models\SearchVertrag;
               'format' => 'raw',
               'type' => DetailView::INPUT_TEXTAREA,
             ],
-             'VertragId',
+//             'VertragId',
 //             'Zahlungsweise',
             
 //             'AufnahmegebuehrBezahlt',
@@ -569,7 +569,7 @@ use frontend\models\SearchVertrag;
 			        'maxFileSize' => 1024,
 			        'maxFileCount' => 1,
 			        'allowedFileExtensions' => ['jpg','gif','png','pdf'],
-              'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp'. DIRECTORY_SEPARATOR .'tmp',
+              'uploadPath' => 'D:'. DIRECTORY_SEPARATOR .'wamp64'. DIRECTORY_SEPARATOR .'tmp',
               'uploadUrl' => \Yii::$app->request->BaseUrl.'/index.php?r=mitgliederschulen/upload',
               'uploadExtraData' => [
                   'id' => 'attachment_53'.$model->msID,
