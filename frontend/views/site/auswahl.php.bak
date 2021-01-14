@@ -112,14 +112,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php if (Yii::$app->controller->action->id == 'schuelerzahlenauswahl') { ?>
 <br><br>
 <?= $form->field($model, 'von')->widget(DatePicker::classname(), [
-                    'options' => ['placeholder' => Yii::t('app', 'Month')],
+                    'options' => ['placeholder' => Yii::t('app', 'Month'),							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+],
                     'attribute2'=>'to_date',
 //                    'type' => DatePicker::TYPE_RANGE,
                     'pluginOptions' => [
                         'autoclose' => true,
 //                        'viewMode'=>'Month',
                         'minViewMode'=>'months',
-                        'format' => 'yyyy-mm'
+//                        'format' => 'yyyy-mm-dd'
+      							    'displayFormat' => 'php:d.m.Y',
+      							    'saveFormat' => 'php:Y-m-d',
                     ]
                 ]) ?>
 <?php } ?>          

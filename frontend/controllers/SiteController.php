@@ -1208,9 +1208,9 @@ class SiteController extends Controller
     public static function computeAnteil($data, $monatsbeginn, $diesesJahr, $dieserMonat) {
         //Yii::warning(VarDumper::dumpAsString($data),'application');
         //von und bis nicht in diesem Jahr
-        $anfangFenster = \DateTime::createFromFormat('!Y-m-d', $monatsbeginn);
+        $anfangFenster = \DateTime::createFromFormat('!d.m.Y', $monatsbeginn);
         //Yii::warning($monatsbeginn);
-        $endeFenster = \DateTime::createFromFormat('!Y-m-d', \DateTime::createFromFormat('!Y-m-d', $monatsbeginn)->format('Y-m-t'));
+        $endeFenster = \DateTime::createFromFormat('!Y-m-d', \DateTime::createFromFormat('!d.m.Y', $monatsbeginn)->format('Y-m-t'));
         //Yii::warning($endeFenster);
         $von = \DateTime::createFromFormat('!Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von);
         $bis = \DateTime::createFromFormat('!Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis);
@@ -1314,6 +1314,54 @@ class SiteController extends Controller
           return '0.00'; 
       } 
           Yii::warning('WTF?'); */
+   }
+   
+    public static function computeA($data, $monatsbeginn, $diesesJahr, $dieserMonat) {
+        //Yii::warning(VarDumper::dumpAsString($data),'application');
+        //von und bis nicht in diesem Jahr
+        $anfangFenster = \DateTime::createFromFormat('!d.m.Y', $monatsbeginn);
+        //Yii::warning($monatsbeginn);
+        $endeFenster = \DateTime::createFromFormat('!Y-m-d', \DateTime::createFromFormat('!d.m.Y', $monatsbeginn)->format('Y-m-t'));
+        //Yii::warning($endeFenster);
+        $von = \DateTime::createFromFormat('!Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von);
+        $bis = \DateTime::createFromFormat('!Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis);
+        
+        $a = '';
+        if ($von <= $endeFenster) { 
+          $vonResult = max($von,$anfangFenster);
+        } else {
+          $vonResult = $endeFenster;
+        }
+        //Yii::warning($data->BeitragAussetzenVon);
+        if ($bis >= $anfangFenster) {
+          $bisResult = min($bis,$endeFenster); 
+        } else {
+          $bisResult = $endeFenster;
+        }
+        if ( (($vonResult > $anfangFenster) AND ($vonResult < $endeFenster)) OR (($bisResult < $endeFenster) AND ($bisResult > $anfangFenster))) {
+          $a = $a.'T';
+        }
+        //Yii::warning($bisResult);
+        $anteil = number_format($data->MonatsBeitrag * ($vonResult->diff($bisResult)->days / $anfangFenster->diff($endeFenster)->days),2);                 
+        if (!empty($data->BeitragAussetzenVon)) {
+            $aussetzenVon = \DateTime::createFromFormat('!Y-m-d', $data->BeitragAussetzenVon);
+            $aussetzenBis = \DateTime::createFromFormat('!Y-m-d', $data->BeitragAussetzenBis);
+            if ($aussetzenVon <= $endeFenster) {
+              $vonAus = max($aussetzenVon,$anfangFenster);
+              if ($aussetzenBis >= $anfangFenster) {
+                $bisAus = min($aussetzenBis,$endeFenster);
+                if(($vonAus >= $anfangFenster) OR ($bisAus <= $endeFenster)) {
+                  $a = $a.'A';
+                }
+//        Yii::warning($data->NameLink);
+//        Yii::warning($vonResult);
+//        Yii::warning($bisResult);
+//        Yii::warning($vonAus);
+//        Yii::warning($bisAus);
+              } 
+            }
+        }    
+        return $a;                 
    }
    
    public static function datesOverlap($start_one,$end_one,$start_two,$end_two) {

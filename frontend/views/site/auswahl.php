@@ -119,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'autoclose' => true,
 //                        'viewMode'=>'Month',
                         'minViewMode'=>'months',
-                        'format' => 'yyyy-mm-dd'
+                        'format' => 'dd.mm.yyyy'
                     ]
                 ]) ?>
 <?php } ?>          

@@ -20,6 +20,7 @@ use frontend\models\Schulen;
        <?= DetailView::widget([
     		'id' => 'dv_vb_n',
         'model' => $model,
+        'fadeDelay' => 50,
 				'condensed'=>true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,

@@ -178,6 +178,7 @@ class MitgliederController extends Controller
                       } 
                   }
 								if ($model->save() and empty($model->errors)) {
+								  //Yii::info('-----save $model: ');
             			return $this->redirect(['view', 'id' => $model->MitgliederId, 
 																					'grade' => $mgdataProvider, 
 																					'sektionen' => $msdataProvider, 
@@ -190,7 +191,7 @@ class MitgliederController extends Controller
 																					]);
         				} else {
 								$errors = $model->errors;
-//								Yii::info('-----$save model: '.VarDumper::dumpAsString($errors));
+								//Yii::info('-----not save $model: '.VarDumper::dumpAsString($errors));
 		           	return $this->render('view', [
 		                'model' => $model, 'errors' => $errors, 
 										'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 

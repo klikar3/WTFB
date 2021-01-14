@@ -19,7 +19,7 @@ use frontend\controllers\SiteController;
 
 /* @var $this yii\web\View */
 $this->title = Yii::t('app', 'Student numbers');
-$this->params['breadcrumbs'][] = $this->title.Yii::t('app', ' for ').Yii::t('app', \DateTime::createFromFormat('Y-m-d',$model->von)->format('F')).' '.\DateTime::createFromFormat('Y-m-d',$model->von)->format('Y');
+$this->params['breadcrumbs'][] = $this->title.Yii::t('app', ' for ').Yii::t('app', \DateTime::createFromFormat('d.m.Y',$model->von)->format('F')).' '.\DateTime::createFromFormat('d.m.Y',$model->von)->format('Y');
 //RGraphAsset::register($this);
 
 $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
@@ -28,8 +28,8 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');
 
  //echo VarDumper::dumpAsString($dataProvider->query->createCommand()->getRawSql())
- $diesesJahr = \DateTime::createFromFormat('Y-m-d', $model->von)->format('Y');
- $dieserMonat = \DateTime::createFromFormat('Y-m-d', $model->von)->format('m');
+ $diesesJahr = \DateTime::createFromFormat('d.m.Y', $model->von)->format('Y');
+ $dieserMonat = \DateTime::createFromFormat('d.m.Y', $model->von)->format('m');
  $monatsBeginn = $model->von;
 ?>
 <div class="row">
@@ -133,7 +133,10 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
             ],
             [
               'label' => Yii::t('app', 'A'),
-              'value' => function ($data) use ($diesesJahr, $dieserMonat) {
+              'value' => function ($data) use ($monatsBeginn, $diesesJahr, $dieserMonat)  {
+                  return SiteController::computeA  ($data, $monatsBeginn, $diesesJahr, $dieserMonat);
+                },
+/*              'value' => function ($data) use ($diesesJahr, $dieserMonat) {
                                 // Aussetzen
                                 $aussetzenVon = \DateTime::createFromFormat('!Y-m-d', empty($data->BeitragAussetzenVon)  ? '2999-01-01' : substr($data->BeitragAussetzenVon,0,10));
                                 $aussetzenBis = \DateTime::createFromFormat('!Y-m-d', empty($data->BeitragAussetzenBis)  ? '1900-01-01' : substr($data->BeitragAussetzenBis,0,10));
@@ -159,7 +162,7 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
                                     return 'A'; 
                                 } 
                                     //Yii::warning('WTF?');
-                          }
+                          }   */
             ],
 //            'VertragId',
 
