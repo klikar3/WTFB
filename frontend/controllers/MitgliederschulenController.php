@@ -319,12 +319,12 @@ class MitgliederschulenController extends Controller
     
     public function actionUpload($id = 0, $tabnum = 0)
     {
-        //Yii::warning("-----actionUpload");
+//        Yii::warning("-----actionUpload".$model);
         $id = $_POST['id'];
         $tabnum = $_POST['tabnum'];
         $model = $this->findModel($_POST['modelId']);
 //        $model = \frontend\models\Mitgliederschulen::findOne($_POST['expandRowKey']);
-        
+        Yii::warning("-----model: ".VarDumper::dumpAsString($model));
         if (empty($_FILES[$id])) {
             $output = json_encode(['error'=>'No files found for upload.']); 
             return $output; // terminate
@@ -358,32 +358,32 @@ class MitgliederschulenController extends Controller
             return $output; // terminate
           }
 				  if ($vertrag->save()) {
-//            Yii::warning("-----vertrag gesichert");
+            Yii::warning("-----vertrag gesichert");
             //Yii::warning($vertrag->pdf);
 						$model->VertragId = $vertrag->VertragId;
             if (!$model->Validate()) {
-//                Yii::warning("-----model nicht gesichert");
+                Yii::warning("-----model nicht validiert");
                 $output = json_encode(['error'=>'Konnte MitgliederSchulen nicht validieren.']); 
                 // or you can throw an exception 
                 return $output; // terminate
             }	else {
-//                Yii::warning("-----model gesichert");
+                Yii::warning("-----model validiert");
                 $output = json_encode(['success' => 'Mitgliederschule validiert']);
-                return $output;
+//                return $output;
             }                   
 					
             if (!$model->save()) {
-//                Yii::warning("-----model nicht gesichert");
+                Yii::warning("-----model nicht gesichert");
                 $output = json_encode(['error'=>'Konnte MitgliederSchulen nicht speichern.']); 
                 // or you can throw an exception 
                 return $output; // terminate
             } else {
-//                Yii::warning("-----model gesichert");
+                Yii::warning("-----model gesichert");
                 $output = json_encode(['success' => 'Mitgliederschule gesichert']);
                 return $output;
             }                   
 					}	else {
-//            Yii::warning("-----vertrag nicht gesichert");
+            Yii::warning("-----vertrag nicht gesichert");
             $model->addError('Vertrag konnte nicht gesichert werden!');
             $output = json_encode(['error' => 'Vertrag konnte nicht gesichert werden!']);
             return $output;

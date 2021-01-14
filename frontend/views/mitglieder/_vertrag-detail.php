@@ -40,6 +40,7 @@ use frontend\models\SearchVertrag;
     		'id' => 'dv_vv_'.$model->msID,
         'model' => $model,
 				'condensed'=>true,
+        'fadeDelay' => 50,
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
 				'mainTemplate' => '{detail}',
@@ -453,8 +454,9 @@ use frontend\models\SearchVertrag;
    <div class="col-sm-2 col-md-2 col-2" id = "wm1.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
    <?php  if ($anzeigen) { 
 		echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Member Card'), 
-															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+															Url::to(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Ausweis'), 'txtid' => 0 ] ), [
+                              'data-pjax' => 0,     
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Print Member Card'),
 															'class'=>'btn btn-sm btn-default',
@@ -476,6 +478,7 @@ use frontend\models\SearchVertrag;
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Greeting'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => 'Begruessung', 'txtid' => 0 ] ), [
+                              'data-pjax' => 0,     
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Print Greeting'),
 															'class'=>'btn btn-sm btn-default',
@@ -492,6 +495,7 @@ use frontend\models\SearchVertrag;
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Suspend'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => 'Aussetzen', 'txtid' => 0 ] ), [
+                              'data-pjax' => 0,     
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Print Suspend'),
 															'class'=>'btn btn-sm btn-default',
@@ -509,6 +513,7 @@ use frontend\models\SearchVertrag;
 		<?php	echo Html::a('<span class="glyphicon glyphicon-print"></span>&nbsp;'.Yii::t('app', 'Termination'),  
 															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
 													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
+                              'data-pjax' => 0,     
                     					'target'=>'_blank',
 															'class'=>'linksWithTarget btn btn-sm btn-default',
 															'title' => Yii::t('app', 'Print Termination'),
@@ -598,12 +603,13 @@ use frontend\models\SearchVertrag;
 		?>
 	 </div>		
    <div class="col-sm-5 col-md-5 col-5" id = "v2.$model->msID" style="!float:left;width:130px;margin-left:0px;margin-right:8px;">  
-		<?php	if (!empty($model->vertrag)) {
+		<?php	if (!empty($model->VertragId)) {
 				echo Html::a('<span class="glyphicon glyphicon-list-alt"></span>&nbsp;'.Yii::t('app', 'View Contract'),  
-															Url::toRoute(['mitgliederschulen/vertrag', 'id' => $model->msID, 
+															Url::to(['mitgliederschulen/vertrag', 'id' => $model->msID, 
 													 				'tabnum' => 3 ] ), [
-                    					'target'=>'_blank',
 															'title' => Yii::t('app', 'View Contract'),
+                              'data-pjax' => 0,     
+                    					'target' => '_blank',
 															'class'=>'btn btn-sm btn-default',
 															'style' => 'width: 120px; text-align: left;',
 												        ]);
@@ -694,4 +700,4 @@ use frontend\models\SearchVertrag;
    </div>						  	
 	</div>
 		        	
-<?php // Pjax::end(); ?>
+<?php // Pjax::end(); ?>    

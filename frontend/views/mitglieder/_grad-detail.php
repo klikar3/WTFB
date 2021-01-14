@@ -28,6 +28,7 @@ use frontend\models\Schulen;
     <?= DetailView::widget([
     		'id' => 'dv_vv_'.$model->mgID,
         'model' => $model,
+        'fadeDelay' => 50,
 				'condensed'=>true,
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,

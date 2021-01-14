@@ -66,22 +66,6 @@ use frontend\models\Schulen;
 									],
 							 ]             
             ],
-            [ 'attribute' => 'Datum',
-            	'format' => ['date', 'php:d.m.Y'],
-            	'type' => DetailView::INPUT_WIDGET,
-            	'ajaxConversion' => true,
-            	'widgetOptions' => [
-            	'id' => 'dv_vv_v_'.$model->mgID,
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
-							    'displayFormat' => 'php:d.m.Y',
-							    'saveFormat' => 'php:Y-m-d',
-							    'options' => [
-				            	'id' => 'dv_vv_v_'.$model->mgID,											
-											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
-									],
-							]
-            ],
             [ 'attribute' => 'PrueferId',
 							'id' => 'prueferid_'.$model->mgID,
             	'value' => $model->pruefer->pName,
@@ -101,6 +85,22 @@ use frontend\models\Schulen;
 									],
 							 ]             
             ],    
+            [ 'attribute' => 'Datum',
+            	'format' => ['date', 'php:d.m.Y'],
+            	'type' => DetailView::INPUT_WIDGET,
+            	'ajaxConversion' => true,
+            	'widgetOptions' => [
+            	'id' => 'dv_vv_v_'.$model->mgID,
+            			'class' => DateControl::classname(),
+									'type' => DateControl::FORMAT_DATE,
+							    'displayFormat' => 'php:d.m.Y',
+							    'saveFormat' => 'php:Y-m-d',
+							    'options' => [
+				            	'id' => 'dv_vv_v_'.$model->mgID,											
+											'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true],
+									],
+							]
+            ],
        ],
     ]);  ?>
 

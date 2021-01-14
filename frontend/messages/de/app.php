@@ -22,6 +22,7 @@ return [
     'October' => 'Oktober',
     'November' => 'November',
     'December' => 'Dezember',
+    'Month' => 'Monat',
 
     // Hauptmenü
     'Account' => 'Account',  

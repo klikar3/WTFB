@@ -44,7 +44,6 @@ use frontend\models\Schulen;
         'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
         'attributes' => [
           [ 'attribute' => 'KontaktAm',
-          	'label' => Yii::t('app', 'Contact On'),
           	'format' => ['date', 'php:d.m.Y'],
             'valueColOptions'=>['style'=>'width:30%;'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 

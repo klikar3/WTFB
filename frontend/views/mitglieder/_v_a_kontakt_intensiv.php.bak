@@ -239,7 +239,7 @@ use frontend\models\Sifu;
             echo Html::hiddenInput('u_LastName', $intensiv->mitglied->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Salutation', (strpos($intensiv->mitglied->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($intensiv->mitglied->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
-            echo Html::submitButton('In NL-Interessent eintragen', ['class' => 'btn btn-sm btn-default']);
+            echo Html::submitButton(Yii::t('app', 'Enter into Newsletter for Interested Persons'), ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
         }    
       }

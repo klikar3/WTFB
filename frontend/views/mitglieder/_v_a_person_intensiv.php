@@ -34,6 +34,7 @@ use frontend\models\Sifu;
        <?= DetailView::widget([
     		'id' => 'dv_va',
         'model' => $model,
+        'fadeDelay' => 50,
 				'condensed'=>true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,

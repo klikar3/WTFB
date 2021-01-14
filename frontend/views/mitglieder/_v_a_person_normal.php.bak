@@ -55,7 +55,7 @@ use frontend\models\Sifu;
         'i18n' => [
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@kvdetail/messages',
-            'forceTranslation' => true
+            'forceTranslation' => true,
         ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],

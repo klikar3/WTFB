@@ -174,41 +174,6 @@ use frontend\models\Sifu;
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           ],
-          [ 'attribute' => 'KontaktAm',
-          	'format' => ['date', 'php:d.m.Y'],
-            'valueColOptions'=>['style'=>'width:30%;'], 
-            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-          	'type' => DetailView::INPUT_WIDGET,
-          	'ajaxConversion' => true,
-//        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
-          	'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
-						    'displayFormat' => 'php:d.m.Y',
-						    'saveFormat' => 'php:Y-m-d',
-						    'options' => [
-										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
-								],
-						],
-          ],
-          [ 'attribute' => 'KontaktArt',
-          	'format' => 'raw',
-            'valueColOptions'=>['style'=>'width:30%'], 
-            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-          	'type' => DetailView::INPUT_SELECT2,
-          	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "KontaktArt"])->orderBy('sort')->all(), 'wert', 'wert' )),
-						 ],             
-          ],
-          [ 'attribute' => 'Woher',
-          	'format' => 'raw',
-            'valueColOptions'=>['style'=>'width:30%'], 
-            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
-          	'type' => DetailView::INPUT_SELECT2,
-          	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( InteressentVorgaben::find()->andWhere(['code' => "Woher"])->orderBy('sort')->all(), 'wert', 'wert' )),
-						 ],             
-          ],   
      ],]); ?>
   
 </div>

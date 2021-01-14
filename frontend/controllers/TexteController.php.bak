@@ -384,7 +384,7 @@ class TexteController extends Controller
 
 				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
 									"?subject=".$textmodel->betreff."&from="."verwaltung@wingtzun.de"."&body=".$textmodel->txt,[
-											'title' => Yii::t('app', 'Email an Mitglied senden'),
+											'title' => Yii::t('app', 'Send Email to Member'),
 							  	]);							
 			return $pdf;
     }

@@ -28,7 +28,9 @@ class MitgliederschulenSearch extends Mitgliederschulen
     {
         return [
             [['msID', 'MitgliederId', 'VertragId'], 'integer'],
-            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink','Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 'mitgliederschulen.BeitragAussetzenVon', 'mitgliederschulen.BeitragAussetzenBis'], 'safe'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink',
+              'Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 
+              'BeitragAussetzenVon', 'BeitragAussetzenBis'], 'safe'],
         ];
     }
 
@@ -67,6 +69,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                 'Vertrag',
                 'Grad',
 		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',
+                'BeitragAussetzenVon', 'BeitragAussetzenBis',
                 'Name'=> [
 		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
 		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
@@ -100,6 +103,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'MonatsBeitrag' => $this->MonatsBeitrag, 
             'ZahlungsArt' => $this->ZahlungsArt, 
             'Zahlungsweise' => $this->Zahlungsweise,
+            'BeitragAussetzenVon' => $this->BeitragAussetzenVon,
+            'BeitragAussetzenBis' => $this->BeitragAussetzenBis,
             'Grad' => $this->Grad,
 //            'Name' => $this->Name,
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
@@ -109,14 +114,15 @@ class MitgliederschulenSearch extends Mitgliederschulen
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
         }
         if (!empty($this->groesserVon)) {
-            $query->andWhere(['OR', ['AND', ['<=', 'Von', $this->groesserVon],
-                                            ['OR', ['>=', 'Bis', $this->groesserVon],
+            $gv = \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-d');
+            $query->andWhere(['OR', ['AND', ['<=', 'Von', $gv],
+                                            ['OR', ['>=', 'Bis', $gv],
                                                   ['is','Bis', new \yii\db\Expression('null')],
                                                   ['=','Bis', '0000-00-00'],
                                             ],
                                     ],
-                                    ['AND', ['>=', 'VDatum', $this->groesserVon],                                      
-                                            ['<=', 'VDatum', \DateTime::createFromFormat('Y-m-d', $this->groesserVon)->format('Y-m-t')],
+                                    ['AND', ['>=', 'VDatum', $gv],                                      
+                                            ['<=', 'VDatum', \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-t')],
 //                                             ]       
                                       ],      
                               ]);  

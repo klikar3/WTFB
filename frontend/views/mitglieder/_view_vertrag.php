@@ -129,6 +129,7 @@ use frontend\models\Schulen;
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'responsiveWrap' => false,
+          'pjax'=>true,
           'options' => ['id' => 'exp_grid_vertrag',
           ], 
 			    'formatter' => [
@@ -143,15 +144,15 @@ use frontend\models\Schulen;
 //	            'msID',
 //							'MitgliederId', 							
 							[ 'class' => '\kartik\grid\ExpandRowColumn', 
-                'value' => function ($data, $model, $key, $index ) use ($openv) { 
-//                				($data->msID == $openv) ? GridView::ROW_EXPANDED : GridView::ROW_COLLAPSED;
-                				if ($data->msID == $openv) 
+                'value' => function ($data, $key, $index, $column ) use ($openv) { 
+                			return	($data->msID == $openv) ? GridView::ROW_EXPANDED : GridView::ROW_COLLAPSED;
+/*                				if ($data->msID == $openv) 
 													return GridView::ROW_EXPANDED;
 												else 	
                         	return GridView::ROW_COLLAPSED;
-                    }
+*/                    }
 										,
-								'detail' => function ($data, $model, $key, $index) {
+								'detail' => function ($data, $key, $index, $column) {
 	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data]);
             		},
             		'enableRowClick' => true,

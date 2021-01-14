@@ -51,6 +51,7 @@ return [
     'Exams' => 'Prüfungen',
     'Examiner' => 'Prüfer',  
     'StudentNumbers' => 'SchülerZahlen',
+    'Student numbers' => 'Schülerzahlen',
     'Head Master' => 'Schulleiter',
     'Head Master-Schools' => 'Schulleiter-Schulen', 
     'Sektions' => 'Sektionen', 
