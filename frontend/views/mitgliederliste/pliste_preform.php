@@ -1,15 +1,16 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+//use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -22,8 +23,8 @@ use frontend\models\Disziplinen;
 																				'type' => ActiveForm::TYPE_VERTICAL,							
 																			]); ?>
 			<?php Modal::begin([ 
-				'header' => '<center><h5>Prüfungsliste erstellen</h5></center>',
-				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-print"></i>', 'class' => 'btn btn-default', 
+				'title' => '<center><h5>Prüfungsliste erstellen</h5></center>',
+				'toggleButton' => ['label' => '<i class="fa fa-file-alt"></i>', 'class' => 'btn btn-default', 
 													'title'=>'Prüfungsliste erstellen','id' => 'mymodal'],
 //				'footer'=> '<div class="col-sm-offset-4">'.Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) .
 //											Html::submitButton('Erstellen', ['class'=>'btn btn-sm btn-primary', 
@@ -51,8 +52,8 @@ use frontend\models\Disziplinen;
 		?>
 				<?= $form->field($plf, 'datum',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;h']
-																			 ])->widget(DateControl::classname(), [
-            							'type'=>DateControl::FORMAT_DATE,
+																			 ])->widget(datecontrol::classname(), [
+            							'type'=>datecontrol::FORMAT_DATE,
             							'ajaxConversion'=>true,
              							'displayFormat' => 'php:d.m.Y',
              							'saveFormat' => 'php:Y-m-d',

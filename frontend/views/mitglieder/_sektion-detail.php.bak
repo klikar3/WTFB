@@ -89,6 +89,7 @@ use frontend\models\Schulen;
             	'format' => ['date', 'php:d.m.Y'],
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
+              'label' => 'Datum',  
             	'widgetOptions' => [
             	'id' => 'dv_vv_v_'.$model->msekt_id,
             			'class' => DateControl::classname(),

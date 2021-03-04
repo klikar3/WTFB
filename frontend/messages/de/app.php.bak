@@ -22,6 +22,7 @@ return [
     'October' => 'Oktober',
     'November' => 'November',
     'December' => 'Dezember',
+    'Month' => 'Monat',
 
     // Hauptmenü
     'Account' => 'Account',  
@@ -192,6 +193,7 @@ return [
     'How much Time' => 'Wieviel Zeit',
     'Training Partner' => 'Trainingspartner',
     'First Appointment On' => 'Ersttermin am',
+    'Experience in other styles' => 'Erfahrung and. Stile',
     
     // Mitgliederschulen -> Verträge
     'Notice' => 'Bemerkung',

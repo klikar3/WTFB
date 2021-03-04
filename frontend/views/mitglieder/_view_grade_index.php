@@ -1,11 +1,14 @@
 <?php
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\BaseHtml;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+//use yii\helpers\BaseHtml;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\BaseHtml;
+use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;

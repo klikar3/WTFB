@@ -1,6 +1,6 @@
 <?php
 
-use yii\bootstrap\Progress;
+use yii\bootstrap4\Progress;
 
 
 ?>

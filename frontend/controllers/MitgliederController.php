@@ -109,7 +109,8 @@ class MitgliederController extends Controller
         if (empty($tabnum)) $tabnum = 1;
 
 				// Graduierungen
-				$query = Mitgliedergrade::find();
+				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('grad.disziplin')->select(['*', 'concat(grade.gKurz," ",disziplinen.DispKurz) as gkdk']);
+//        $query = Mitgliedergrade::find();
 				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
@@ -117,7 +118,7 @@ class MitgliederController extends Controller
           'pagination' => false,
 				]);
 				
-				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
   	

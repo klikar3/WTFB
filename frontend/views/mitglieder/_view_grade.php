@@ -1,15 +1,15 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\popover\PopoverX;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 //use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
@@ -39,9 +39,9 @@ use frontend\models\Pruefer;
               echo '<h5 style="padding-top:0em;margin-top:0em;clear: both;">'.Yii::t('app', 'Exams').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
           ?>
 					<?php Modal::begin([ 'id' => 'mg-ag-modal',
-						'header' => $header,
+						'title' => $header,
 						'size'=>'modal-md',					
-						'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
+						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 /*
                 'class' => 'col-sm-10',
@@ -71,9 +71,9 @@ use frontend\models\Pruefer;
 														[ 'prompt' => Yii::t('app', 'Level'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Level'));  ?>
 				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
 													[ 'prompt' => Yii::t('app', 'Examiner'), 'id' => 'field-pid' ])->label(Yii::t('app', 'Examiner'));  ?>
-							<?php  echo $form->field($mg, 'Datum')->widget(DateControl::classname(),
+							<?php  echo $form->field($mg, 'Datum')->widget(datecontrol::classname(),
 							[ //'value' => date('d.m.Y'), 
-								'type'=>DateControl::FORMAT_DATE,
+								'type'=>datecontrol::FORMAT_DATE,
 								'ajaxConversion'=>true,
 	 							'displayFormat' => 'php:d.m.Y',
 	 							'saveFormat' => 'php:Y-m-d',
@@ -102,6 +102,7 @@ use frontend\models\Pruefer;
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
 	        'responsiveWrap' => false,
+			   	'condensed'=>true,
           'options' => ['id' => 'exp_row_grade',
           ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
@@ -119,7 +120,7 @@ use frontend\models\Pruefer;
 												'controller' => 'mitgliedergrade',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
-        										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
+        										return Html::a('<span class="fa fa-print"></span>', 
 																			Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [ 'data-pjax' => 0, 
                     					'target'=>"_blank",
 															'title' => Yii::t('app', 'Print certificate'),

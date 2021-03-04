@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use kartik\dynagrid\DynaGrid;
 use kartik\grid\GridView;
@@ -11,9 +12,10 @@ use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\checkbox\CheckboxX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
+//use kartik\icons\FontAwesomeAsset;
 
 use frontend\models\Mitglieder;
 use frontend\models\PruefungslisteForm;
@@ -84,18 +86,20 @@ $this->registerJs(
     });");
 ?>
 
-<span class="mitglieder-index hidden-xs">
+<span class="mitglieder-index d-none d-sm-block">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            <div id="content" class="col-12 modal-content">
+    <?php // echo $this->render('_search', ['model' => $searchModel]); <div id="content" class="col-12 modal-content"> ?>
+           
       <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
 				'theme'=>'simple-condensed',
+        'id'=>'dynagrid-1',
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
+            'condensed' => true,
 						'filterModel'=>$searchModel,
 						'summary' => '{begin}-{end} '.Yii::t('app', 'of').' {totalCount}',
 				    'formatter' => [
@@ -115,7 +119,7 @@ $this->registerJs(
 										 	['content'=>$content_mecf  
 											],
 										 	['content'=>
-													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
+													Html::a('<i class="fa fa-minus "></i>', ['/mitgliederliste/resetpliste'], [
 													'class'=>'btn btn-default',
 													'target'=>'_blank',
 													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
@@ -140,7 +144,7 @@ $this->registerJs(
 								'email' => function ($url, $model) {
 //									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 //													 				'txtid' => 5 ] ), [
-									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+									return Html::mailto('<span class="fa fa-envelope"></span>', Url::to($model->Email) .
 									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
 //          					'target'=>'_blank',
 										'title' => Yii::t('app', 'Email an Mitglied senden'),
@@ -150,7 +154,7 @@ $this->registerJs(
 							'width' => '3em',
 							'contentOptions' =>['class' => 'hidden-xs table_class'],
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
 						],
 // 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
@@ -159,9 +163,9 @@ $this->registerJs(
               'attribute' => 'NameLink',
               'width' => '10em',
 							'label' => 'Name',
-							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:10em;',
 							],
             ],
@@ -173,81 +177,81 @@ $this->registerJs(
 //            	'visible' => false,
 //							'format' => 'raw',
               'label' => Yii::t('app', 'Location'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
+//
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],															
 						],
             ['attribute' => 'LeiterName',
               'label' => Yii::t('app', 'Headmaster'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'DispName', //'width' => '5em',
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:4em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
 						['attribute' => 'Funktion', 
 							'width' => '5em',							
               'label' => Yii::t('app', 'Function'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						], 
             ['attribute' => 'Vertrag',
             	'width' => '7em',
               'label' => Yii::t('app', 'Contract'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:7em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'Grad', 'width' => '5em',
               'label' => Yii::t('app', 'Level'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						 ],
             ['attribute' => 'LetzteAenderung', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y H:i'], 
               'label' => Yii::t('app', 'Last Change'),
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'col-2 col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xg-2',
 								'style' => 'width:8em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'GeburtsDatum', 'width' => '8em', 
@@ -260,7 +264,7 @@ $this->registerJs(
 								'style' => 'width:6em;',
 							],								
 							'headerOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
 							],								
 						],
             ['class' => '\kartik\grid\ActionColumn',
@@ -270,15 +274,15 @@ $this->registerJs(
 //							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
-									return Html::a( $model->printed ? '<span class="glyphicon glyphicon-print" style="color:lightgreen"></span>'
-                                                  : '<span class="glyphicon glyphicon-print"></span>'
+									return Html::a( $model->printed ? '<span class="fa fa-print" style="color:lightgreen"></span>'
+                                                  : '<span class="fa fa-print"></span>'
                                   , Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
           					'target'=>'_blank',
 										'title' => Yii::t('app', 'Letzte Prüfungsurkunde nochmals drucken'),
 							        ]);
 							    },
 								'graduieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
+									return Html::a('<span class="fa fa-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
           					'target'=>'_blank',
 										'title' => Yii::t('app', 'Graduierung'),
 							        ]);
@@ -287,7 +291,7 @@ $this->registerJs(
 							],							
 							'contentOptions' =>['class' => 'hidden-xs col-1 table_class','style' => 'font-size:12px;'],
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
 							'width' => '60px',
 						],
@@ -305,7 +309,7 @@ $this->registerJs(
 //							'mergeHeader' => true,
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 								'style' => 'font-size:12px;width:4em !important;text-align:center !important;',
 							],								
 							'headerOptions' => [
@@ -318,42 +322,42 @@ $this->registerJs(
 							'label' => Yii::$app->user->identity->isAdmin ? 'Letzt.Änd.Sifu' : '', 
 							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
 							'filterInputOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
 								'style' => Yii::$app->user->identity->isAdmin ? 'width:8em;' : 'width:0px;',
 							],								
 							'headerOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
 							],								
 						],
         ], // -- columns
 //        'export' => true,    
 		]); ?>
 
-            </div><!-- content -->
-
-     
+            <!--</div> content -->
+</span>
+ <div id="modal" class="d-block">    
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
 			<?php Modal::begin([ 'id' => 'mg-back-mod',
-				'header' => '<center><h5>Achtung! Der letzte Backup ist schon älter als eine Woche!</h5></center>',
+				'title' => '<center><h5>Achtung! Der letzte Backup ist schon älter als eine Woche!</h5></center>',
 //				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i><i class="fa glyphicon glyphicon-envelope"></i>', 'class' => 'btn btn-success', 
 //													'title'=>'Neues Mitglied aus Email anlegen'],
-				'size'=>'modal-md',
+				'size'=>'modal-md', 
 				'clientOptions' => [ 
             'style' => 'adjust:center;',
 						'backdrop' => true,
 						'keyboard' => true,'tabindex'=>'-1',
 				],					
-        'headerOptions' => ['class' => ' bg-danger hidden-xs',]
+        'headerOptions' => ['class' => ' bg-danger',]
 		]);
 		?>
               Der letzte Backup stammt vom <?php echo $lastDate->format('d.m.Y') ?>. Bitte erstelle einen neuen Backup!
-							<div class="row hidden-xs">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 hidden-xs">
+							<div class="row">																	
+							<div class="col-xs-1 col-sm-2 col-md-2 col-lg-2">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 hidden-xs">
+							<div class="col-xs-4 col-sm-8 col-md-8 col-lg-8">
 
-			<div style="float:right;margin-bottom: 8px;" class="hidden-xs"> <br>
+			<div style="float:right;margin-bottom: 8px;" class="row"> <br>
 				<?= Html::a('Db Backup erstellen >>', ['/backup'], ['class'=>'btn btn-sm btn-success', 'style'=>"margin-right:5px;"]) . "  &nbsp;" 
 				?>
 			</div>
@@ -365,15 +369,16 @@ $this->registerJs(
 		//col-xs-11 col-sm-11 col-md-11 col-lg-11 
 		//    col-md-offset-2"  		   				style="text-align:right;"
 		?>
-</span>
+    </div>  <!--- modal -->
+
 
  <?php //echo $content_mcf ?>
 
-<span class="visible-xs">
+<span class="d-block d-sm-none">
 
     <h1><?php /* echo Html::encode($this->title) */ ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-             <div id="content" class="col-12 modal-content">
+    <!---         <div id="content" class="col-12 modal-content">   -->
 
     <?php /*echo DynaGrid::widget([
 				'storage'=>DynaGrid::TYPE_DB,
@@ -458,7 +463,7 @@ $this->registerJs(
 //        'export' => true,    
 		]); */?>
 <?php
-$summary = Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+$summary = Html::a('<i class="fa fa-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success', 
 													'style'=>"padding-top:0.1em;margin-top:0em;height:1.8em;",
 													'data-toggle'=>'tooltip',
@@ -470,7 +475,7 @@ $toolbar = [
 //										 	['content'=>$content_mcf,  
 //											],
 										 	['content'=>
-													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													Html::a('<i class="fa fa-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success',
 //													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
@@ -482,19 +487,20 @@ $toolbar = [
                   
     if (empty(Yii::$app->user->identity)) {$laes = [] ;}
     else {
-              $laes = Yii::$app->user->identity->isAdmin ?               ['attribute' => 'LetztAendSifu', 'width' => '20%', 
+              $laes = Yii::$app->user->identity->isAdmin ?              
+               ['attribute' => 'LetztAendSifu', 'width' => '20%', 
   							'format' => ['date', 'php:d.m.Y H:i'], 
   							'label' => 'Letzt.Änd.Sifu', 
   							'contentOptions' =>[
-  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
   								'style' => 'width:20%;font-size:0.8em;',
   							],
   							'filterInputOptions' => [
-  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
   								'style' => 'width:8em;font-size:0.8em;',
   							],								
   							'headerOptions' => [
-  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//  								'class' => Yii::$app->user->identity->isAdmin ? 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
   								'style' => 'width:20%;font-size:0.8em;',
   							],								
   						]
@@ -507,7 +513,9 @@ $toolbar = [
 						'filterModel'=>$searchModel,
 						'summary' => $summary,
             'id' => 'dgrid-22',
-						'options' => ['id' => 'dgrid-2',], // a unique identifier is important
+            'condensed' => true,
+//            'containerOptions' => ['class' => 'col-xs-12'],
+//						'options' => ['id' => 'dgrid-2', 'class' => 'col-xs-12'], // a unique identifier is important
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
 //							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
@@ -518,14 +526,14 @@ $toolbar = [
 //								 'theme'=>'panel-condensed',     
 						],
 //						'panelAfterTemplate' => 'aaa{pager}',
-//						'panelFooterTemplate' => '{pager}{toolbar}',
+						'panelFooterTemplate' => '{pager}{toolbar}',
             'formatter' => [
 				        'class' => 'yii\i18n\Formatter',
 				        'nullDisplay' => '',
 				    ],
-//        		'tableOptions'=>['class'=>'table table-striped table-condensed','condensed' => true,],
+        		'tableOptions'=>['class'=>'table table-striped table-condensed',],
 //        		'headerRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
-//        		'rowOptions' => ['class' => 'col-xs-12', 'style' => 'min-width: 400px;'],
+       	//	  'rowOptions' => ['class' => 'p-3 h25',],
 //        		'filterRowOptions' => ['class' => 'col-xs-12', 'style' => 'font-size:1em;'],
         		'responsive' => true,
 						'responsiveWrap' => false,
@@ -535,10 +543,10 @@ $toolbar = [
             'columns' => [
   						['format' => 'raw',
                 'attribute' => 'NameLink',
-                'width' => '30%',
+                'width' => '25%',
   							'label' => 'Name',
   							'contentOptions' =>['style' => 'font-size:0.8em;'],
-  							'filterInputOptions' => ['style' => 'font-size:0.8em;',],
+  							'filterInputOptions' => ['style' => 'font-size:0.8em;'],
   							'headerOptions' => ['style' => 'font-size:0.8em;'],															
               ],
               ['attribute' => 'Vertrag',
@@ -559,7 +567,7 @@ $toolbar = [
     ]);
 ?>
 
-            </div><!-- content -->
+         <!--   </div> content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";

@@ -3,15 +3,15 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\BaseHtml;
-use yii\bootstrap\Modal;
-use yii\bootstrap\Progress;
+use yii\bootstrap4\Modal;
+use yii\bootstrap4\Progress;
 use yii\web\View;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use yii\widgets\Pjax;
 use kartik\tabs\TabsX;
@@ -51,7 +51,6 @@ Seite
         <br />
         <p>Results</p>
          
-        <br />
 <?php // Pjax::begin(['id'=>'pjaxGridView_']); ?>
         <div id="results" style="border:1px solid #000; padding:10px; width:1200px; height:250px; overflow:auto; background:#eee;"><?= $result ?></div>
 <?php // Pjax::end(); ?>

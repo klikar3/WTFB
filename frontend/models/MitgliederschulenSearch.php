@@ -53,7 +53,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public function search($params)
     {
         $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -77,7 +77,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
 		                'default' => SORT_ASC,
 		            ],
                 'DVDgesendetAm',
-                'letzteDvd',		            
+                'letzteDvd',
+                'Woher',		            
                 'NameLink' => [
 		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
 		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
@@ -128,6 +129,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                               ]);  
         }
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
+    		if (!empty($this->woher)) $query->andWhere('mitglieder.Woher in (' . $this->woher . ') '  );
     		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
     		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
 //					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));

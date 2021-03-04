@@ -57,14 +57,19 @@ class Grade extends \yii\db\ActiveRecord
             'gKurz' => Yii::t('app', 'G Kurz'),
             'Gebuehr' => Yii::t('app', 'Gebühr'),
             'textcode' => Yii::t('app', 'TextCode'),
-            'print' => Yii::t('app', 'Ausdruck'),
+            'print' => Yii::t('app', 'Print'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDispName()
+/*    public function getDispName()
+    {
+        return $this->hasOne(Disziplinen::className(), ['DispName' => 'DispName']);
+    }
+*/
+    public function getDisziplin()
     {
         return $this->hasOne(Disziplinen::className(), ['DispName' => 'DispName']);
     }

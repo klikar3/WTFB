@@ -1,13 +1,14 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 //use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 use kartik\popover\PopoverX;
@@ -36,6 +37,7 @@ use frontend\models\Sifu;
         'model' => $intensiv,
         'fadeDelay' => 50,
 				'condensed'=>true,
+        'showErrorSummary' => true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
@@ -60,14 +62,15 @@ use frontend\models\Sifu;
         'attributes' => [
             [ 'attribute' => 'KontaktAm',
             	'format' => ['date', 'php:d.m.Y'],
+              'label' => Yii::t('app', 'Contact On'),
               'valueColOptions'=>['style'=>'width:30%;'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'type' => DetailView::INPUT_WIDGET,
             	'ajaxConversion' => true,
   //        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
             	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-  								'type' => DateControl::FORMAT_DATE,
+            			'class' => datecontrol::classname(),
+  								'type' => datecontrol::FORMAT_DATE,
   						    'displayFormat' => 'php:d.m.Y',
   						    'saveFormat' => 'php:Y-m-d',
   						    'options' => [
@@ -77,6 +80,7 @@ use frontend\models\Sifu;
             ],
             [ 'attribute' => 'KontaktArt',
             	'format' => 'raw',
+              'label' => Yii::t('app', 'Contact-Type'),
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'type' => DetailView::INPUT_SELECT2,
@@ -106,8 +110,8 @@ use frontend\models\Sifu;
             	'ajaxConversion' => false,
   //        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
             	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-  								'type' => DateControl::FORMAT_DATETIME,
+            			'class' => datecontrol::classname(),
+  								'type' => datecontrol::FORMAT_DATETIME,
 						    'displayFormat' => 'php:d.m.Y H:i',
 						    'saveFormat' => 'php:Y-m-d H:i:s',
                 'displayTimezone' => 'Europe/Berlin', 
@@ -158,6 +162,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
            ], 
            ['attribute'=>'erfAndereStile',
+            'label' => Yii::t('app', 'Experience in other styles'),
 //            'label' => 'Erfahrung in anderen Stilen',
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -185,8 +190,8 @@ use frontend\models\Sifu;
           	'ajaxConversion' => false,
    					'label' => Yii::t('app', 'First Appointment On'),
          	  'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATETIME,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATETIME,
 						    'displayFormat' => 'php:d.m.Y H:i',
 						    'saveFormat' => 'php:Y-m-d H:i:s',
                 'displayTimezone' => 'Europe/Berlin',

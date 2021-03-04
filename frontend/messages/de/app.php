@@ -193,6 +193,7 @@ return [
     'How much Time' => 'Wieviel Zeit',
     'Training Partner' => 'Trainingspartner',
     'First Appointment On' => 'Ersttermin am',
+    'Experience in other styles' => 'Erfahrung and. Stile',
     
     // Mitgliederschulen -> Verträge
     'Notice' => 'Bemerkung',
@@ -259,7 +260,7 @@ return [
     'Select Pdf' => 'Pdf auswählen',
     'View Contract' => 'Vertrag ansehen',
     'Enter into Newsletter for Interested Persons' => 'In NL-Interessent eintragen',
-    'Enter into NL' => 'In NL eintragen',
+    'Enter into NL' => 'In NL eintr.',
     'Enter into Newsletter for Members' => 'In den Newsletter für Mitglieder eintragen', 
     'Calculate / Verify IBAN' => 'IBAN berechnen / prüfen',
     'IBAN-Calculator' => 'IBAN-Rechner',

@@ -1,17 +1,20 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\BaseHtml;
-use yii\bootstrap\Modal;
-use yii\bootstrap\Progress;
+//use yii\helpers\Html;
+//use yii\helpers\BaseHtml;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\BaseHtml;
+use yii\bootstrap4\Modal;
+use yii\bootstrap4\Progress;
 use yii\web\View;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use yii\widgets\Pjax;
 use kartik\tabs\TabsX;

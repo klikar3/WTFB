@@ -2,9 +2,10 @@
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseHtml;
-use yii\helpers\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
@@ -21,7 +22,7 @@ use frontend\models\Schulen;
 ?>
 							<div class="panel-info" style="color:#337ab7;">																	
 			<?php Modal::begin([ 'id' => 'mg-cr-mod',
-				'header' => '<center><h5>Neues Mitglied anlegen</h5></center>',
+				'title' => '<center><h5>Neues Mitglied anlegen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-success', 
 													'title'=>'Neues Mitglied anlegen'],
 				'size'=>'modal-md',
@@ -82,6 +83,13 @@ use frontend\models\Schulen;
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
 																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
 									'Schulname', 'Schulname' )),['style'=>'']);
+				?>
+
+
+        <?= $form->field($mcf, 'Disziplin',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
+																			 'inputOptions' => ['style'=>'font-size:0.85em;']
+																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+									'DispName', 'DispName' )),['style'=>'']);
 				?>
 
 				<?= $form->field($mcf, 'Email',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
