@@ -64,7 +64,12 @@ class Grade extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDispName()
+/*    public function getDispName()
+    {
+        return $this->hasOne(Disziplinen::className(), ['DispName' => 'DispName']);
+    }
+*/
+    public function getDisziplin()
     {
         return $this->hasOne(Disziplinen::className(), ['DispName' => 'DispName']);
     }
@@ -76,4 +81,10 @@ class Grade extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Mitgliedergrade::className(), ['GradId' => 'gradId']);
     }
+
+    public function getGkdk()
+    {
+        return $this->gKurz." ".$this->disziplin->DispKurz;
+    }
+
 }

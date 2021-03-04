@@ -1,22 +1,24 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 
 use kartik\widgets\ActiveForm;
 use kartik\select2\Select2;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\checkbox\CheckboxX;
 
 use frontend\models\AuswertungenForm;
-use frontend\models\Schulen;
+use frontend\models\InteressentVorgaben;
 use frontend\models\Mitglieder;
+use frontend\models\Schulen;
 
 
 /* @var $this yii\web\View */
 $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' );
+$wohers = ArrayHelper::map( InteressentVorgaben::find()->where(['code' => 'Woher'])->orderBy('sort')->all(), 'wert', 'wert' );
 
 if (Yii::$app->controller->action->id == 'sektionsauswahl') {
   $this->title = 'Sektionsliste';
@@ -83,7 +85,27 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
       ])->label(false);
 			?>
+<?php if (Yii::$app->controller->action->id == 'infoabendauswahl') { ?>
+      <?= $form->field($model, 'woher')->widget(Select2::classname(), [
+          'data' => $wohers,
+          'language' => 'de',
+          'options' => ['multiple' => true, 'placeholder' => 'Woher auswählen ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label(false);
+			?>
+<?php } ?>  
 <?php if (Yii::$app->controller->action->id == 'interessentenauswahl') { ?>
+      <?= $form->field($model, 'woher')->widget(Select2::classname(), [
+          'data' => $wohers,
+          'language' => 'de',
+          'options' => ['multiple' => true, 'placeholder' => 'Woher auswählen ...'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label(false);
+			?>
       <?= $form->field($model, 'fon')->widget(CheckboxX::classname(), [
           'initInputType' => CheckboxX::INPUT_CHECKBOX ,
 //          'language' => 'de',

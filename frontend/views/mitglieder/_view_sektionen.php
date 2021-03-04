@@ -1,10 +1,12 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\popover\PopoverX;
@@ -46,9 +48,9 @@ use frontend\models\SifuSearch;
                 echo '<h5 style="padding-top:0em;margin-top:0em;">'.Yii::t('app', 'Programs').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
           ?>
 					<?php Modal::begin([ 'id' => 'mgs-modal',
-						'header' => $header,
+						'title' => $header,
 						'size'=>'modal-md',					
-						'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
+						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 					]);
 					?>
@@ -121,6 +123,7 @@ use frontend\models\SifuSearch;
  	<?= GridView::widget([
 	        'dataProvider' => $sektionen,
 	        'responsiveWrap' => false,
+		  		'condensed'=>true,          
           'options' => ['id' => 'exp_row_sekts',
           ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',

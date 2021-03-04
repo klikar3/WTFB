@@ -1,15 +1,15 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
@@ -56,7 +56,7 @@ use frontend\models\Schulen;
             ], */
             [ 'attribute' => 'GradId',
             	'id' => 'dv_vv_mg_'.$model->mgID,
-            	'value' => $model->grad->gKurz . " " . $model->grad->DispName,
+            	'value' => $model->gkdk,//Kurz . " " . $model->grad->DispName,
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'label' => 'Grad',
@@ -92,8 +92,8 @@ use frontend\models\Schulen;
             	'ajaxConversion' => true,
             	'widgetOptions' => [
             	'id' => 'dv_vv_v_'.$model->mgID,
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
+            			'class' => datecontrol::classname(),
+									'type' => datecontrol::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [

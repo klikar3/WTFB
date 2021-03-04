@@ -2,15 +2,16 @@
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseHtml;
-use yii\helpers\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 //use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -21,8 +22,8 @@ use frontend\models\Schulen;
 ?>
 							<div class="panel-info" style="color:#337ab7;">																	
 			<?php Modal::begin([ 'id' => 'mg-cr-mod',
-				'header' => '<center><h5>Neues Mitglied anlegen</h5></center>',
-				'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-success', 
+				'title' => '<center><h5>Neues Mitglied anlegen</h5></center>',
+				'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success', 
 													'title'=>'Neues Mitglied anlegen'],
 				'size'=>'modal-md',
 				'clientOptions' => [ 'style' => 'adjust:center;',

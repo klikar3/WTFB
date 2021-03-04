@@ -1,9 +1,9 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use yii\helpers\VarDumper;
 
@@ -14,7 +14,7 @@ use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\checkbox\CheckboxX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -80,9 +80,9 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 ]);    
 ?>
 
-<div id="all-1" name="all-1" class="mitglieder-index hidden-xs">
+<span class="mitglieder-index d-none d-sm-block">
 
-   <div id="content" name="content" class="col-12 modal-content">
+
 
 
     <?php echo DynaGrid::widget([
@@ -93,6 +93,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
+            'condensed' => true,
 						'filterModel'=>$searchModel,
             'id' => 'dgrid-11',
 						'summary' => '{begin}-{end} '.Yii::t('app', 'of').' {totalCount}',
@@ -114,7 +115,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 										 	['content'=>$content_mecf  
 											],
 										 	['content'=>
-													Html::a('<i class="fa glyphicon glyphicon-minus"></i>', ['/mitgliederliste/resetpliste'], [
+													Html::a('<i class="fa fa-minus"></i>', ['/mitgliederliste/resetpliste'], [
 													'class'=>'btn btn-default',
 													'target'=>'_blank',
 													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
@@ -143,7 +144,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 								'email' => function ($url, $model) {
 //									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 //													 				'txtid' => 5 ] ), [
-									return Html::mailto('<span class="glyphicon glyphicon-envelope"></span>', Url::to($model->Email) .
+									return Html::mailto('<span class="fa fa-envelope"></span>', Url::to($model->Email) .
 									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
 //          					'target'=>'_blank',
 										'title' => Yii::t('app', 'Email an Mitglied senden'),
@@ -266,13 +267,13 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
+									return Html::a('<span class="fa fa-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
 //          					'target'=>'_blank',
 										'title' => Yii::t('app', 'Für Prüfung vormerken'),
 							        ]);
 							    },
 								'graduieren' => function ($url, $model) {
-									return Html::a('<span class="glyphicon glyphicon-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
+									return Html::a('<span class="fa fa-plus"></span>', Url::toRoute(['mitgliedergrade/createfast', 'mId' => $model->MitgliederId, 'grad' => $model->PruefungZum ]), [
           					'target'=>'_blank',
 										'title' => Yii::t('app', 'Graduierung'),
 							        ]);
@@ -311,15 +312,12 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //        'export' => true,    
 		]); ?>
 
-            </div><!-- content -->
-
+            <!--</div> content -->
      
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div> <!-- hidden-xs -->
-
- 
-<div id="all-2" name="all-2" class="visible-xs">
+</span>
+<span class="d-block d-sm-none">    
 <?php //echo $content_mcf 
 /* \Yii::$container->set('yii\widgets\LinkPager', [
         'options' => ['class' => 'pagination'],
@@ -334,7 +332,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
         'maxButtonCount' => 3
 ]); */ 
 
-$summary = Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+$summary = Html::a('<i class="fa fa-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success', 
 													'style'=>"padding-top:0.1em;margin-top:0em;height:1.8em;",
 													'data-toggle'=>'tooltip',
@@ -346,7 +344,7 @@ $toolbar = [
 //										 	['content'=>$content_mcf,  
 //											],
 										 	['content'=>
-													Html::a('<i class="fa glyphicon glyphicon-plus"></i>', ['/mitglieder/create'], [
+													Html::a('<i class="fa fa-plus"></i>', ['/mitglieder/create'], [
 													'class'=>'btn btn-success',
 //													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
@@ -524,12 +522,13 @@ $toolbar = [
           ], // -- columns
     ]);
 ?>
-            </div><!-- content -->
+            <!--</div> content -->
 
         
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
-</div>   <!-- visible-xs -->
+</div>
+</span>   <!-- visible-xs -->
 
 
   

@@ -1,15 +1,18 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
+use kartik\tabs\TabsX;
 
 use frontend\models\Mitgliedergrade;
 use frontend\models\Disziplinen;
@@ -17,7 +20,6 @@ use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Pruefer;
-use kartik\tabs\TabsX;
      
 
 $this->title = $model->Vorname . ' ' . $model->Name;

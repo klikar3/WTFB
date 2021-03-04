@@ -41,7 +41,9 @@ class GradeSearch extends Grade
      */
     public function search($params)
     {
-        $query = Grade::find();
+//        $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
+//                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher');
+        $query = Grade::find()->with('disziplin')->select(['*', 'concat(gKurz," ",disziplin.DispKurz) as gkdk']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

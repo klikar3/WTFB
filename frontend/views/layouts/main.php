@@ -1,22 +1,30 @@
 <?php
-use yii\helpers\Html;
+//use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\NavBar;
+
+//use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Breadcrumbs;
 use frontend\assets\AppAsset;
+use yii\bootstrap4\Widgets;
 //use frontend\widgets\Alert;
-use yii\widgets\Menu;
+//use yii\widgets\Menu;
 use \dektrium\user\Module;
 
+
+use kartik\nav\NavX;
 use kartik\widgets\Alert; 
 use kartik\widgets\AlertBlock;
 use kartik\widgets\Growl;
+//use kartik\icons\FontAwesomeAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 AppAsset::register($this);
+//FontAwesomeAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 
@@ -29,13 +37,12 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <link rel="shortcut icon" href="<?= Yii::$app->homeUrl ?>/../favicon3.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div class="wrap">
-          
+   <?php  //    <div class="wrap">  
 
-<?php       
 $stammdaten[] = ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];      
 $bewegungsdaten[] =  ['label' => Yii::t('app', 'Presence'), 'url' => ['/anwesenheit/index']];
 $bewegungsdaten[] =  ['label' => Yii::t('app', 'Exams'), 'url' => ['/pruefungen/index']];
@@ -72,10 +79,12 @@ if (!empty(Yii::$app->user->identity)) {
         $stammdaten[] =  ['label' => Yii::t('app', 'Texts'), 'url' => ['/texte/index']];
         $stammdaten[] =  ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];
         $stammdaten[] =  ['label' => Yii::t('app', 'User'), 'url' => ['/user/admin/index']];
-        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+//        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+        $stammdaten[] =  '<div class="dropdown-divider"></div>';
         $stammdaten[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
         $stammdaten[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
-        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+//        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+        $stammdaten[] =  '<div class="dropdown-divider"></div>';
         $stammdaten[] =  ['label' => Yii::t('app', 'DB-Backup'), 'url' => ['/backup']];
         //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
         //								];
@@ -89,7 +98,8 @@ if (!empty(Yii::$app->user->identity)) {
         $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Levels'), 'url' => ['/mitgliedergrade/index']];
         $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Schools'), 'url' => ['/mitgliederschulen/index']];
         $bewegungsdaten[] = ['label' => Yii::t('app', 'Member Sektions'), 'url' => ['/mitgliedersektionen/index']];
-        $bewegungsdaten[] = '<li role="presentation" class="divider"></li>';
+//        $bewegungsdaten[] = '<li role="presentation" class="divider"></li>';
+        $bewegungsdaten[] = '<div class="dropdown-divider"></div>';
         $bewegungsdaten[] = ['label' => Yii::t('app', 'Check all Member Data'), 'url' => ['/mitglieder/check']];
                                   
         $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];                                                                
@@ -97,16 +107,7 @@ if (!empty(Yii::$app->user->identity)) {
 
 }                                
                                 
-            $bl = '<img src="'.str_replace('/index.php','',Yii::$app->homeUrl).'/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data';
-            NavBar::begin([
-                'brandLabel' => $bl,
-//                'brandLabel' => 'WTFB-Data',
-                'brandUrl' => Url::to(['/', 'language' => Yii::$app->language]),
-                'innerContainerOptions' => ['class' => 'container-fluid'],
-                'options' => [
-                    'class' => 'navbar navbar-inverse navbar-fixed-top',
-                ],
-            ]);
+
             if (Yii::$app->user->isGuest) {
 //                $menuItems[] = ['label' => 'About', 'url' => ['/site/about']];
 //                $menuItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
@@ -114,7 +115,7 @@ if (!empty(Yii::$app->user->identity)) {
                 $menuItems[] = ['label' => Yii::t('app','Login'), 'url' => ['/user/security/login']];
                 $menuItems[] = ['label' => Yii::t('app', 'Language'), 'url' => ['/site/select-language'], 'linkOptions' => ['data-method' => 'post']];
             } else {
-                $menuItems[] = ['label' => Yii::t('app', 'Base data'), 'url' => ['/site/index'], 'items' => $stammdaten ]; 
+                $menuItems[] = ['label' => Yii::t('app', 'Base data'), 'url' => ['/site/index'], 'items' => $stammdaten]; 
                 $menuItems[] = ['label' => Yii::t('app', 'Moving data'), 'url' => ['/site/index'], 'items' => $bewegungsdaten];
  					 		  $menuItems[] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/site/index'], 'items' => $auswertungen];
 								$menuItems[] = ['label' => Yii::t('app', 'Account ('). Yii::$app->user->identity->username. ')', 'url' => ['/site/signup'],
@@ -141,15 +142,31 @@ if (!empty(Yii::$app->user->identity)) {
 							 ]
             ];
 */ //         echo $this->blocks['login'];
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right', 'style' => 'margin-right:0px;'],
+            $bl = '<img src="'.str_replace('/index.php','',Yii::$app->homeUrl).'/favicon3.ico?v=1" class="pull-left" width="16" height="16">&nbsp;WTFB-Data';
+            NavBar::begin([
+                'id' => 'mainNav',
+                'brandLabel' => $bl,
+                'brandUrl' => Url::to(['/', 'language' => Yii::$app->language]),
+                'innerContainerOptions' => ['class' => 'container-fluid'],
+                'options' => [
+                    //'class' => 'navbar-inverse navbar-fixed-top', 
+                    //'class' => 'navbar navbar-expand-lg navbar-light bg-light',
+                    'class' => 'navbar navbar-expand-sm bg-dark',
+                ],
+            ]); ?>
+            <div class="menu-container float-right">
+<?php       echo NavX::widget([
+                'options' => ['class' => 'navbar-nav float-right '/*, 'style' => 'margin-right:0px;'*/],
                 'items' => $menuItems,
+                'activateParents' => true,
+                'encodeLabels' => false,
             ]);   ?>
+            </div>
 <?php                        
             NavBar::end();
         ?>
 
-        <div class="container">
+        <div class="container container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'homeLink' =>['url' => Yii::$app->homeUrl.'/'.Yii::$app->language, 'label' => Yii::t('app', 'Home')], 
@@ -169,19 +186,23 @@ Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYP
 */        ?>
         <?= $content ?>   
 
-        </div>
-    </div>
+        </div>     
+<?php //  </div> ?>
 
     <footer class="footer">
-        <div class="container">
-        <p class="pull-left"><span class="hidden-xs hidden-sm hidden-md hidden-lg"> XL </span>
-<span class="hidden-xs hidden-sm hidden-md hidden-xl">(LG)</span>
-<span class="hidden-xs hidden-sm hidden-lg hidden-xl">(MD)</span>
-<span class="hidden-xs hidden-md hidden-lg hidden-xl">(SM)</span>
-<span class="hidden-sm hidden-md hidden-lg hidden-xl">(XS)</span>
-    &copy; WTFB <?= date('Y') ?></p>
-        <p class="pull-right">Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>&nbsp;<?= Yii::getVersion() ?></p>
+      <div class="container">
+        <div class="col-xs-2 float-left">
+            <span class="d-none d-xl-block font-italic font-weight-light">(XL)    &copy; WTFB <?= date('Y') ?></span>
+            <span class="d-none d-lg-block d-xl-none font-italic font-weight-light">(LG)    &copy; WTFB <?= date('Y') ?></span>
+            <span class="d-none d-md-block d-lg-none font-italic font-weight-light">(MD)    &copy; WTFB <?= date('Y') ?></span>
+            <span class="d-none d-sm-block d-md-none font-italic font-weight-light">(SM)    &copy; WTFB <?= date('Y') ?></span>
+            <span class="d-block d-sm-none font-italic font-weight-light">(XS)    &copy; WTFB <?= date('Y') ?></span>
         </div>
+        <div class="col-xs-10 float-right font-italic font-weight-light">
+          Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>&nbsp;<?= Yii::getVersion() ?>
+         
+        </div>
+      </div>
     </footer>
 
     <?php $this->endBody() ?>

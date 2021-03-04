@@ -1,15 +1,18 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\BaseHtml;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+//use yii\helpers\BaseHtml;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\BaseHtml;
+use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use yii\widgets\Pjax;
 use kartik\tabs\TabsX;
@@ -69,7 +72,7 @@ use frontend\models\Texte;
 						'active' => $tabnum == 4?true:false,
 				],
 */				[
-				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Grad'),
+				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Levels'),
 						'content'=>$this->render('_view_grade_index', array(
 		                                'model'=>$model, 'grade' => $grade, 'sektionen' => $sektionen, 
 																		'tabnum' => 5, 'openv' => $openv, 

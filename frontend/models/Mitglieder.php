@@ -314,6 +314,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 						 	'Disziplin', 'Funktion', 'Graduierung'], 'string', 'max' => 20],
             [['Name', 'Betreff', 'mandatNr', 'Schulort'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
+            [['Email'], 'email'],
 		        [['KontaktArt', 'RechnungsNr', 'letzteDvd'], 'string', 'max' => 50],            
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],

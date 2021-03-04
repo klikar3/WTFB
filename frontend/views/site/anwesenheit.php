@@ -6,7 +6,7 @@ use yii\helpers\VarDumper;
 
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
 

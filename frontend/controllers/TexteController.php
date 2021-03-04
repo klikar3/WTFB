@@ -6,11 +6,13 @@ use Yii;
 use yii\i18n\Formatter;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use kartik\mpdf\Pdf;
 
 use frontend\models\Mitglieder;
@@ -310,7 +312,7 @@ class TexteController extends Controller
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
-				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 120px; text-align: left;background-color:lightgrey;color:grey;"><span class="glyphicon glyphicon-envelope"></span> per Email</div>';
+				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 40em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';
 /*									, Url::to('') .
 									"?subject=&body=",[
 											'class' => 'btn btn-sm btn-default',
@@ -382,7 +384,7 @@ class TexteController extends Controller
 				
 				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
 
-				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
+				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
 									"?subject=".$textmodel->betreff."&from="."verwaltung@wingtzun.de"."&body=".$textmodel->txt,[
 											'title' => Yii::t('app', 'Send Email to Member'),
 							  	]);							

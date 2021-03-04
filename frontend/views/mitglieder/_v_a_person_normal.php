@@ -1,13 +1,13 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
-//use yii\bootstrap\Modal;
+//use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
 //use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 //use kartik\popover\PopoverX;
@@ -28,6 +28,11 @@ use frontend\models\Sifu;
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
+
+$schulen = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
+$anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+$functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+$sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
 ?>
 
 <div class="col-md-6" name="va_pn">   
@@ -36,6 +41,7 @@ use frontend\models\Sifu;
         'model' => $model,
         'fadeDelay' => 50,
 				'condensed'=>true,
+        'showErrorSummary' => true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
@@ -80,8 +86,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 
-									'Schulname', 'Schulname' )),
+									'data' => $schulen,
 							]
             ],
             [ 'attribute' => 'Anrede',
@@ -91,7 +96,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
+									'data' => $anreden,
 							 ]             
             ],
             [ 'attribute' => 'Name',
@@ -117,8 +122,8 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'widgetOptions' => [
-            			'class' => DateControl::classname(),
-									'type' => DateControl::FORMAT_DATE,
+            			'class' => datecontrol::classname(),
+									'type' => datecontrol::FORMAT_DATE,
 							    'displayFormat' => 'php:d.m.Y',
 							    'saveFormat' => 'php:Y-m-d',
 							    'options' => [
@@ -164,8 +169,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 
-								'inhalt', 'inhalt' )),['style'=>'']),
+								'data' => $functions,
 						 ]             
           ],
           [ 'attribute' => 'Sifu',
@@ -174,7 +178,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' )),
+								'data' => $sifus,
 						 ]             
           ],
           [ 'attribute' => 'ErzBerechtigter',

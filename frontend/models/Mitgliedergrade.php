@@ -86,4 +86,8 @@ class Mitgliedergrade extends \yii\db\ActiveRecord
             ->viaTable('grade', ['gradId' => 'GradId']);
     }
     
+    public function getGkdk()
+    {
+        return $this->grad->gkdk;
+    }
 }

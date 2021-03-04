@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'Vorname',
             'Name',
-            'mitgliederIntensiv.einstufung',
+            'einstufung',
             // 'Anrede',
             // 'GeburtsDatum',
             // 'PLZ',

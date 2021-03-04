@@ -1,16 +1,19 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseHtml;
-use yii\helpers\Html;
+//use yii\helpers\BaseHtml;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
+
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 //use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -109,8 +112,8 @@ use frontend\models\Schulen;
 				?>
         <?= $form->field($mcf, 'KontaktAm',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->widget(DateControl::classname(), [
-    							'type'=>DateControl::FORMAT_DATE,
+																			 ])->widget(datecontrol::classname(), [
+    							'type'=>datecontrol::FORMAT_DATE,
     							'ajaxConversion'=>true,
      							'displayFormat' => 'php:d.m.Y',
      							'saveFormat' => 'php:Y-m-d',

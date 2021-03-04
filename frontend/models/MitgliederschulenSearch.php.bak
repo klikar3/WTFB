@@ -53,7 +53,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public function search($params)
     {
         $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -77,7 +77,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
 		                'default' => SORT_ASC,
 		            ],
                 'DVDgesendetAm',
-                'letzteDvd',		            
+                'letzteDvd',
+                'Woher',		            
                 'NameLink' => [
 		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
 		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
@@ -106,6 +107,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'BeitragAussetzenVon' => $this->BeitragAussetzenVon,
             'BeitragAussetzenBis' => $this->BeitragAussetzenBis,
             'Grad' => $this->Grad,
+            'Woher' => $this->Woher,
 //            'Name' => $this->Name,
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
             'letzteDvd' => $this->letzteDvd
@@ -114,7 +116,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
         }
         if (!empty($this->groesserVon)) {
-            $gv = \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-d')
+            $gv = \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-d');
             $query->andWhere(['OR', ['AND', ['<=', 'Von', $gv],
                                             ['OR', ['>=', 'Bis', $gv],
                                                   ['is','Bis', new \yii\db\Expression('null')],

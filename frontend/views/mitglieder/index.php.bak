@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'EndeEsckrima',
 
             ['class' => 'yii\grid\ActionColumn',
-    						'template' => '{view}  {update}  {delete}  {restore}',
+    						'template' => '{view}  {delete}  {restore}  {update} ',
 //								'controller' => 'texte',
 								'header' => '<center>Aktion</center>',
                  'options' => [

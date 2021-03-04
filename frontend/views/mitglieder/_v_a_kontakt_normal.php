@@ -1,10 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 
@@ -22,6 +24,7 @@ use frontend\models\Schulen;
         'model' => $model,
         'fadeDelay' => 50,
 				'condensed'=>true,
+        'showErrorSummary' => true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
@@ -52,8 +55,8 @@ use frontend\models\Schulen;
           	'ajaxConversion' => true,
 //        			'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
           	'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATE,
 						    'displayFormat' => 'php:d.m.Y',
 						    'saveFormat' => 'php:Y-m-d',
 						    'options' => [
@@ -101,8 +104,8 @@ use frontend\models\Schulen;
           	'ajaxConversion' => true,
    					'label' => Yii::t('app', 'Info Evening on'),
          	  'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATE,
 						    'displayFormat' => 'php:d.m.Y',
 						    'saveFormat' => 'php:Y-m-d',
                 'options' => [
@@ -146,8 +149,8 @@ use frontend\models\Schulen;
             'label' => Yii::t('app', 'Trial training on'),
           	'ajaxConversion' => true,
           	'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATE,
 						    'displayFormat' => 'php:d.m.Y',
 						    'saveFormat' => 'php:Y-m-d',
 						    'options' => [
@@ -197,8 +200,8 @@ use frontend\models\Schulen;
           	'ajaxConversion' => true,
    					'label' => Yii::t('app', 'Resubmission on'),
          	  'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATE,
 						    'displayFormat' => 'php:d.m.Y',
 						    'saveFormat' => 'php:Y-m-d',
                 'options' => [
@@ -229,8 +232,8 @@ use frontend\models\Schulen;
           	'type' => DetailView::INPUT_WIDGET,
           	'ajaxConversion' => true,
          	  'widgetOptions' => [
-          			'class' => DateControl::classname(),
-								'type' => DateControl::FORMAT_DATE,
+          			'class' => datecontrol::classname(),
+								'type' => datecontrol::FORMAT_DATE,
 						    'displayFormat' => 'php:d.m.Y',
 						    'saveFormat' => 'php:Y-m-d',
                 'options' => [

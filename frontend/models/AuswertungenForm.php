@@ -11,6 +11,7 @@ class AuswertungenForm extends Model
 {
 //    public $username;
     public $schule;
+    public $woher;
     public $von;
     public $bis;
     public $fon;
@@ -28,7 +29,8 @@ class AuswertungenForm extends Model
             [['schule'], 'required'],
             [['von','bis'], 'date'],
             [['fon', 'ia', 'pt', 'monat', 'jahr'], 'integer'],
-//            ['disp', 'string', 'max' => 30],
+            [['woher'], 'safe'],
+//            [['woher]', 'string', 'max' => 30],
         ];
     }
 
@@ -36,6 +38,7 @@ class AuswertungenForm extends Model
     {
         return [
             '$schule' => Yii::t('app', 'Prüfungsgebühr'),
+            '$woher' => Yii::t('app', 'Woher'),
             '$von' => Yii::t('app', 'Tag der Prüfung'),
             '$bis' => Yii::t('app', 'Disziplin'),
             '$fon' => Yii::t('app', 'TelefonNr vorh.'),

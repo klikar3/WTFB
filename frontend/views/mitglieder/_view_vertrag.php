@@ -1,15 +1,17 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
@@ -42,9 +44,9 @@ use frontend\models\Schulen;
               ?>
 					<?= '<h5 style="padding-top:0em;margin-top:0em;">Verträge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?>
 								 <?php Modal::begin([ 'id' => 'mg-cr-vgv',
-									'header' => $header,
+									'title' => $header,
 //									'headerOptions' => ['style' => 'height:1.5em'],
-									'toggleButton' => ['label' => '<i class="fa glyphicon glyphicon-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
+									'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;"],
 //	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
 									'size'=>'modal-md',					
 							]);
@@ -64,8 +66,8 @@ use frontend\models\Schulen;
 							</div>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 									<?=  $form->field($ms, 'MitgliederId')->hiddenInput()->label(false); ?> 
-									<?= $form->field($ms, 'VDatum')->widget(DateControl::classname(),
-											[ 'type' => DateControl::FORMAT_DATE,
+									<?= $form->field($ms, 'VDatum')->widget(datecontrol::classname(),
+											[ 'type' => datecontrol::FORMAT_DATE,
  												'ajaxConversion'=>true,
         	 							'displayFormat' => 'php:d.m.Y',
         	 							'saveFormat' => 'php:Y-m-d',
@@ -77,8 +79,8 @@ use frontend\models\Schulen;
                             ],														
 												],
 											]); ?>
-									<?= $form->field($ms, 'Von')->widget(DateControl::classname(),
-											[ 'type' => DateControl::FORMAT_DATE,
+									<?= $form->field($ms, 'Von')->widget(datecontrol::classname(),
+											[ 'type' => datecontrol::FORMAT_DATE,
  												'ajaxConversion'=>true,
 // 												'displayTimezone' => 'Europe/Berlin',
         	 							'displayFormat' => 'php:d.m.Y',
@@ -129,6 +131,7 @@ use frontend\models\Schulen;
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'responsiveWrap' => false,
+				  'condensed'=>true,
           'pjax'=>true,
           'options' => ['id' => 'exp_grid_vertrag',
           ], 

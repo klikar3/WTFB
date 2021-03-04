@@ -1,15 +1,18 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\BaseHtml;
-use yii\bootstrap\Modal;
+//use yii\helpers\Html;
+//use yii\helpers\BaseHtml;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\BaseHtml;
+use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 use yii\widgets\Pjax;
 use kartik\tabs\TabsX;
@@ -137,7 +140,7 @@ if($model->hasErrors()){
 		        //]) 
 						?>				
 
-<div class="visible" style="font-size:12pt !important;">
+<div class="d-none d-sm-block" style="font-size:12pt !important;">
 				<?php    // Ajax Tabs top
 				    echo TabsX::widget([
 				    		'id' => 'main-tab',
@@ -150,7 +153,7 @@ if($model->hasErrors()){
 				    ]);
 				?>
 </div>
-<div class="col-xs-12 hidden modal-content">
+<div class="d-block d-sm-none">
 				<?php    // Ajax Tabs Left
 				    echo TabsX::widget([
 				    		'id' => 'main-tab',

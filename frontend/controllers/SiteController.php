@@ -209,7 +209,9 @@ class SiteController extends Controller
         } else {
             $params['MitgliederschulenSearch'] = ['SchulId' => (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule,
                                                 'groesserVon' => $model->von, //date('Y-m-d'),
-                                                'kleinerBis' => $model->von, ];
+                                                'kleinerBis' => $model->von,
+                                                'woher' => (is_array($model->woher)) ? implode(', ', $model->woher) : (empty($model->woher) ? '*' : $model->woher), 
+                                                ];
             Yii::$app->session['customerparams'] = $params;
             //Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
         }
@@ -901,6 +903,10 @@ class SiteController extends Controller
 //        $sql = $query->createCommand()->getRawSql($query);
 //        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
+        if (!empty($model->woher)) {
+          $woherString = (is_array($model->woher)) ? implode(', ', $model->woher) : $model->woher;
+          $query->andWhere(['in','mitglieder.Woher',$model->woher]); 
+        }
         $d = new ActiveDataProvider([
 				     'query' => $query,
 				]);
@@ -979,6 +985,7 @@ class SiteController extends Controller
 		public function actionInteressentenliste() {
  
  				$model = new AuswertungenForm();
+        Yii::warning('>request->post(): '.VarDumper::dumpAsString(Yii::$app->request->post()),'application');
         if ($model->load(Yii::$app->request->post() )) {
             $schulen = Schulen::find()->innerJoinWith('disziplin',true)->where(['SchulId' => $model->schule])->all();
 //        Yii::warning(VarDumper::dumpAsString($schulen),'application');
@@ -990,7 +997,7 @@ class SiteController extends Controller
             $schule = implode(', ', ArrayHelper::getColumn($schulen,function ($element) {
                               return $element['Schulname'].' '.$element['disziplinen']->DispName;
                               }));
-        }
+        } 
         
         $searchModel = new MitgliederSearch();
         $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId = ms.MitgliederId')
@@ -1013,6 +1020,12 @@ class SiteController extends Controller
         }
         $wre = substr($wre, 0, -3);
         $query->andWhere($wre);    
+
+        //Yii::warning(VarDumper::dumpAsString($model),'application');
+        if (!empty($model->woher)) {
+          $woherString = (is_array($model->woher)) ? implode(', ', $model->woher) : $model->woher;
+          $query->andWhere(['in','mitglieder.Woher',$model->woher]); 
+        }
 
         if ($model->fon)  {
             $query->andWhere(['is not', 'mitglieder.Telefon1', new \yii\db\Expression('null')]);
@@ -1042,7 +1055,7 @@ class SiteController extends Controller
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
         $query->orderBy('Schulort,Disziplin');
         $sql = $query->createCommand()->getRawSql($query);
-//        Yii::warning(VarDumper::dumpAsString($sql),'application');
+        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $d = new ActiveDataProvider([
 				     'query' => $query,

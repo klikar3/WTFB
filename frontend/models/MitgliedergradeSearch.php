@@ -41,7 +41,7 @@ class MitgliedergradeSearch extends Mitgliedergrade
      */
     public function search($params)
     {
-        $query = Mitgliedergrade::find();
+        $query = Mitgliedergrade::find()->with('grad')->with('grad.disziplin')->select(['*', 'concat(grad.gKurz," ",grad.disziplin.DispKurz) as gkdk']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
