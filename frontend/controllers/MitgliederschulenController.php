@@ -10,7 +10,10 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\UploadedFile;
+
+use kartik\widgets\ActiveForm;
 
 use frontend\models\Grade;
 use frontend\models\Mitglieder;
@@ -103,9 +106,62 @@ class MitgliederschulenController extends Controller
               throw new NotFoundHttpException('The requested page does not exist.');
         } else { $mgId = $mgModel->MitgliederId;}
 
-        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+           if (!$model->validate()) {
+              return ActiveForm::validate($model); 
+           } else {
+        $model->save();   
+				// Graduierungen
+				$query = Mitgliedergrade::find();
+				$query->andWhere(['=', 'MitgliedId', $mgId]);
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
+          'pagination' => false,
+				]);
+				
+				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
+  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+  	
+				// Sektionen
+				$squery = Mitgliedersektionen::find();
+				$squery->andWhere(['=', 'mitglied_id', $mgId]);
+				$msdataProvider = new ActiveDataProvider([
+			    'query' => $squery,
+     			'sort'=> ['defaultOrder' => ['vdatum' => SORT_ASC],],
+          'pagination' => false,
+				]);
+  	
+  	    // Verträge
+				$vquery = Mitgliederschulen::find();
+				$vquery->andWhere(['=', 'MitgliederId', $mgId]);
+				//Yii::info('-----$vquery: '.VarDumper::dumpAsString($vquery));
+				$vdataProvider = new ActiveDataProvider([
+			    'query' => $vquery,
+     			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
+				]);
+				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
+  	    $grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
+  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+
+
+//          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
+            return $this->render('/mitglieder/view', [
+                'model' => $mgModel, 'tabnum' => 3, 'openv' => $openv,
+                'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
+								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => true,
+            ]);
+           }               
+ //       }
+        } else {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
           if ($model->VertragId == 0) { $model->VertragId = null;}
-          if ( $model->save()) {
+          if ($model->save()) {
     	        //$mitglied = $model->mitglieder;
     	        date_default_timezone_set('Europe/Berlin');
     	        $mgModel->LetzteAenderung = date('Y-m-d H:i:s');
@@ -119,8 +175,10 @@ class MitgliederschulenController extends Controller
             ]);
             } 
         } else {
+//			  Yii::warning('----- Validation Error: $model->$attribute: '.VarDumper::dumpAsString($model->$attribute));
 //        	return $this->redirect(['/mitglieder/view', 
 //            'id' => $model->MitgliederId, 'tabnum' => 3, 'openv' => $openv
+
 
 				// Graduierungen
 				$query = Mitgliedergrade::find();
@@ -158,15 +216,16 @@ class MitgliederschulenController extends Controller
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
 
 
-          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
+//          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
             return $this->render('/mitglieder/view', [
                 'model' => $mgModel, 'tabnum' => 3, 'openv' => $openv,
                 'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
 								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors
+								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => false,
             ]);
-        }
+         }
+      }
     }    
 
     /**

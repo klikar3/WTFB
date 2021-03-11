@@ -155,8 +155,8 @@ use frontend\models\Schulen;
                         	return GridView::ROW_COLLAPSED;
 */                    }
 										,
-								'detail' => function ($data, $key, $index, $column) {
-	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data]);
+								'detail' => function ($data, $key, $index, $column) use ($formedit) {
+	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data, 'formedit' => $formedit,]);
             		},
             		'enableRowClick' => true,
                 'hidden' => false,

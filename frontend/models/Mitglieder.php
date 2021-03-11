@@ -7,11 +7,11 @@ use yii\helpers\VarDumper;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 //use jschaedl\iban\library\IBAN\Validation\IBANValidator;
-use IBAN\Validation\IBANValidator;
+/*use IBAN\Validation\IBANValidator;
 use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
-
+*/
 use frontend\models\Intensiv;
 use frontend\models\Schulen;
 
@@ -224,7 +224,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 		  return parent::find();
     }
 
-
+/*
 		public function checkIBAN($iban) {
 		
 			// Normalize input (remove spaces and make upcase)
@@ -269,6 +269,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 				$this->addError($attribute, 'IBAN is not valid!');
 		}    
 
+
 		public function generateIban($attribute, $params) 
 		{
 				if (empty($attribute)) return;
@@ -292,6 +293,7 @@ class Mitglieder extends \yii\db\ActiveRecord
 				$this->addError($attribute, 'Resulting IBAN is not valid!');
 		}    
 
+*/
     /**
      * @inheritdoc
      */

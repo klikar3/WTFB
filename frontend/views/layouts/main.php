@@ -80,12 +80,6 @@ if (!empty(Yii::$app->user->identity)) {
         $stammdaten[] =  ['label' => Yii::t('app', 'Trainings'), 'url' => ['/trainings/index']];
         $stammdaten[] =  ['label' => Yii::t('app', 'User'), 'url' => ['/user/admin/index']];
 //        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
-        $stammdaten[] =  '<div class="dropdown-divider"></div>';
-        $stammdaten[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
-        $stammdaten[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
-//        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
-        $stammdaten[] =  '<div class="dropdown-divider"></div>';
-        $stammdaten[] =  ['label' => Yii::t('app', 'DB-Backup'), 'url' => ['/backup']];
         //																  	['label' => 'Userprofil', 'url' => ['/user/admin/index']],
         //								];
                                        
@@ -102,7 +96,15 @@ if (!empty(Yii::$app->user->identity)) {
         $bewegungsdaten[] = '<div class="dropdown-divider"></div>';
         $bewegungsdaten[] = ['label' => Yii::t('app', 'Check all Member Data'), 'url' => ['/mitglieder/check']];
                                   
-        $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];                                                                
+        $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];  
+        
+        $aktionen[] =                                                               
+        $aktionen[] =  '<div class="dropdown-divider"></div>';
+        $aktionen[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
+        $aktionen[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
+//        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
+        $aktionen[] =  '<div class="dropdown-divider"></div>';
+        $aktionen[] =  ['label' => Yii::t('app', 'DB-Backup'), 'url' => ['/backup']];
     }
 
 }                                
@@ -115,6 +117,9 @@ if (!empty(Yii::$app->user->identity)) {
                 $menuItems[] = ['label' => Yii::t('app','Login'), 'url' => ['/user/security/login']];
                 $menuItems[] = ['label' => Yii::t('app', 'Language'), 'url' => ['/site/select-language'], 'linkOptions' => ['data-method' => 'post']];
             } else {
+                if (Yii::$app->user->identity->isAdmin /*role == 10*/) {
+                  $menuItems[] = ['label' => Yii::t('app', 'Actions'), 'url' => ['/site/index'], 'items' => $aktionen];
+                }
                 $menuItems[] = ['label' => Yii::t('app', 'Base data'), 'url' => ['/site/index'], 'items' => $stammdaten]; 
                 $menuItems[] = ['label' => Yii::t('app', 'Moving data'), 'url' => ['/site/index'], 'items' => $bewegungsdaten];
  					 		  $menuItems[] = ['label' => Yii::t('app', 'Reports'), 'url' => ['/site/index'], 'items' => $auswertungen];

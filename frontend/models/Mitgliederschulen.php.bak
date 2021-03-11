@@ -8,11 +8,15 @@ use yii\helpers\VarDumper;
 use yii\helpers\Url;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
-
+/*
 use IBAN\Validation\IBANValidator;
 use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
+*/
+use Iban\Validation\Validator;
+use Iban\Validation\Iban;
+
 
 /**
  * This is the model class for table "mitgliederschulen".
@@ -119,22 +123,42 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 			    return false;
 		}
 		
+    public function newValidateIban($model, $attribute, $view)
+    {
+//        $statuses = json_encode(Status::find()->select('id')->asArray()->column());
+        $message = json_encode($this->errors, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return <<<JS
+              if (!IBAN.isValid(value)) {
+                  errors.push($message);
+              }
+              JS;
+    }
 					
-		public function validateIban($model, $attribute) 
+		public function validateIban($attribute, $params) 
 		{
-				if (empty($attribute)) return;
-//				Yii::warning('----- $attribute: '.VarDumper::dumpAsString($attribute));
-//			  Yii::warning('----- $model->$attribute: '.VarDumper::dumpAsString($model->$attribute));
+				if (empty($attribute)) {
+          Yii::warning('----- $attribute is empty!!!');
+          return;
+        }
+				Yii::warning('----- $attribute: '.VarDumper::dumpAsString($attribute));
+			  Yii::warning('----- $model->$attribute: '.VarDumper::dumpAsString($this->$attribute));
 				// validation 
-				$ibanValidator = new IBANValidator();
-				if ($this->checkIBAN($attribute) and $ibanValidator->validate($model->$attribute)) {
+				$ibanValidator = new Validator(); //IBANValidator();
+        if (!$ibanValidator->validate($this->$attribute)) {
+            foreach ($ibanValidator->getViolations() as $violation) {
+                echo $violation;
+                $this->addError($attribute, $violation);
+            }
+        }
+
+/*				if ($this->checkIBAN($attribute) and $ibanValidator->validate($model->$attribute)) {
 //			  		Yii::warning('----- validtate ok: '.VarDumper::dumpAsString($model->$attribute));
 						return;
 				}
 				$this->addError($attribute, 'IBAN is not valid!');
-		}    
+*/		}    
 
-		public function generateIban($attribute, $params) 
+/*		public function generateIban($attribute, $params) 
 		{
 				if (empty($attribute)) return;
 			  if (empty($this->KontoNr) or empty($this->BLZ)) return;
@@ -156,7 +180,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 				}
 				$this->addError($attribute, 'Resulting IBAN is not valid!');
 		}    
-
+*/
     /**
      * @inheritdoc
      */
@@ -196,7 +220,7 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
             'Von' => Yii::t('app', 'Admission Date'),
             'Bis' => Yii::t('app', 'Exit Date'),
             'VertragId' => Yii::t('app', 'Contract (.pdf)'),
-						'KuendigungAm' => Yii::t('app', 'Termination'),
+						'KuendigungAm' => Yii::t('app', 'Term. Date'),
 						'VDauerMonate' => Yii::t('app', 'C-Duration'),
 						'MonatsBeitrag' => Yii::t('app', 'Monthly Fee'),
 						'ZahlungsArt' => Yii::t('app', 'P-Method'), 
