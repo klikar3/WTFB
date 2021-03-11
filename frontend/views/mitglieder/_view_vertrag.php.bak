@@ -131,6 +131,7 @@ use frontend\models\Schulen;
 	<?= GridView::widget([
 	        'dataProvider' => $contracts,
 	        'responsiveWrap' => false,
+				  'condensed'=>true,
           'pjax'=>true,
           'options' => ['id' => 'exp_grid_vertrag',
           ], 

@@ -60,7 +60,7 @@ use frontend\models\Texte;
 */		    [
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Contract'),
 				    'content'=>$this->render('_view_vertrag', array(
-				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 
+				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 'formedit' => $formedit,
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],

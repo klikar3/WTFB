@@ -189,6 +189,7 @@ class MitgliederController extends Controller
 																					'grade_zur_auswahl' => $grade_zur_auswahl,
 																					'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+                                          'formedit' => false,
 																					]);
         				} else {
 								$errors = $model->errors;
@@ -200,6 +201,7 @@ class MitgliederController extends Controller
 										'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
 										'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+                    'formedit' => true,
 		            ]);
 		        }
 				} else {
@@ -212,6 +214,7 @@ class MitgliederController extends Controller
 								'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
 								'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+                'formedit' => true,
             ]);
         }
 

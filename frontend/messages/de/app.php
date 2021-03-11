@@ -27,6 +27,7 @@ return [
     // Hauptmenü
     'Account' => 'Account',  
     'Account ('  => 'Account (',
+    'Actions' => 'Aktionen',
     'Check all Member Data' => 'Alle Mitglieder-Daten Checken',
     'Salutations' => 'Anreden', 
     'Presence' => 'Anwesenheit',

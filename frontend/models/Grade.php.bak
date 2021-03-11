@@ -81,4 +81,10 @@ class Grade extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Mitgliedergrade::className(), ['GradId' => 'gradId']);
     }
+
+/*    public function getGkdk()
+    {
+        return $this->gKurz." ".$this->disziplin->DispKurz;
+    }
+*/
 }

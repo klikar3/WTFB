@@ -28,7 +28,20 @@ use frontend\models\Schulen;
 use frontend\models\Texte;
 use frontend\models\Vertrag;
 use frontend\models\SearchVertrag;
- 
+
+use frontend\assets\AppAsset;
+use frontend\assets\IbanAsset;
+
+AppAsset::register($this);
+IbanAsset::register($this);
+
+/*$this->registerJS("$('#contact-form').on('beforeValidateAttribute', function (e) {
+            $('#form_id').yiiActiveForm('find', '#attribute').validate = function (attribute, value, messages, deferred, $form) {
+                //Custom Validation
+            }
+        return true;
+});")
+*/ 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
@@ -46,7 +59,7 @@ use frontend\models\SearchVertrag;
         'showErrorSummary' => true,
         'fadeDelay' => 50,
 				'hover'=>true,
-				'mode'=>DetailView::MODE_VIEW,
+				'mode'=> /*($formedit) ? DetailView::MODE_EDIT :*/ DetailView::MODE_VIEW,
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
@@ -63,6 +76,8 @@ use frontend\models\SearchVertrag;
 //              'action' => Url::current(['tabnum' => 3, '#' => 'dv_vv_'.$model->msID, 'openv' => $model->msID]),
 		          'options' => ['data-pjax' => true],
 		          'id' => 'frm_update_'.$model->msID,
+              'enableAjaxValidation' => true,
+              'enableClientValidation' => false,
 				],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
@@ -183,7 +198,10 @@ use frontend\models\SearchVertrag;
                 'rowOptions'=>['class'=>'table-info'],
                 'groupOptions'=>['style'=>'background: #d9edf7;']
             ],
-        		  ['attribute' => 'IBAN',['enableAjaxValidation' => true]],
+        		  ['attribute' => 'IBAN',              
+               'id' => 'dv_vv_ibn_'.$model->msID,
+                ['enableAjaxValidation' => true, 'enableClientValidation' => false,  ]
+              ],
         		  ['attribute' => 'BIC',['enableAjaxValidation' => true]],
              'Bank',
              'Kontoinhaber',
