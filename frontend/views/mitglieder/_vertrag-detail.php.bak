@@ -59,7 +59,7 @@ IbanAsset::register($this);
         'showErrorSummary' => true,
         'fadeDelay' => 50,
 				'hover'=>true,
-				'mode'=> ($formedit) ? DetailView::MODE_EDIT : DetailView::MODE_VIEW,
+				'mode'=> /*($formedit) ? DetailView::MODE_EDIT :*/ DetailView::MODE_VIEW,
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
@@ -85,14 +85,13 @@ IbanAsset::register($this);
         'attributes' => [
             [ 'attribute' => 'SchulId',
 							'id' => 'schulid_'.$model->msID,
-            	'value' => $model->schul->SchulDisp,
+            	'value' => $s, //$model->schul->SchulDisp,
             	'format' => 'raw',
             	'ajaxConversion' => true,
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
-									'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 
-									'SchulId', 'SchulDisp' ),
+									'data' => $schulen,
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
 									    'pluginOptions' => [

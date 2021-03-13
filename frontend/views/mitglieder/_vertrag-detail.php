@@ -29,11 +29,11 @@ use frontend\models\Texte;
 use frontend\models\Vertrag;
 use frontend\models\SearchVertrag;
 
-use frontend\assets\AppAsset;
-use frontend\assets\IbanAsset;
+//use frontend\assets\AppAsset;
+//use frontend\assets\IbanAsset;
 
-AppAsset::register($this);
-IbanAsset::register($this);
+//AppAsset::register($this);
+//IbanAsset::register($this);
 
 /*$this->registerJS("$('#contact-form').on('beforeValidateAttribute', function (e) {
             $('#form_id').yiiActiveForm('find', '#attribute').validate = function (attribute, value, messages, deferred, $form) {
@@ -85,14 +85,13 @@ IbanAsset::register($this);
         'attributes' => [
             [ 'attribute' => 'SchulId',
 							'id' => 'schulid_'.$model->msID,
-            	'value' => $model->schul->SchulDisp,
+            	'value' => $s, //$model->schul->SchulDisp,
             	'format' => 'raw',
             	'ajaxConversion' => true,
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 									'name' => 'schulid_w_'.$model->msID,
-									'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 
-									'SchulId', 'SchulDisp' ),
+									'data' => $schulen,
 							    'options' => [ 
 				            	'id' => 'dv_vv_si_o_'.$model->msID,											
 									    'pluginOptions' => [

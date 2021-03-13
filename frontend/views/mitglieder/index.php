@@ -3,7 +3,9 @@
 //use yii\helpers\Html;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\MitgliederSearch */
@@ -185,15 +187,20 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'EndeEsckrima',
 
             ['class' => 'yii\grid\ActionColumn',
-    						'template' => '{view}  {delete}  {restore}  {update} ',
+    						'template' => '{view}  {update}  {delete}  {restore} ',
 //								'controller' => 'texte',
 								'header' => '<center>Aktion</center>',
                  'options' => [
                     'style' => 'width:70px;',
                 ],
 								'buttons' => [ 
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<i class="fa fa-eye"></i>', 
+                           ['view', 'id' => $model->MitgliederId],
+                        );  // view record
+                    },
 									'delete' => function ($url, $model) {
-										return ''.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+										return ''.Html::a('<span class="fa fa-trash"></span>', 
 																	Url::toRoute(['/mitglieder/delete-admin', 'id' => $model->MitgliederId ] ), [
       			          'data' => [
       			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich gelöscht werden?  Wurde vorher ein Backup gemacht? Ein Backup kostet nix!!!'),
@@ -204,7 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								        ])  . '';
 								    },
 									'restore' => function ($url, $model) {
-										return ''.Html::a('<span class="glyphicon glyphicon-new-window"></span>', 
+										return ''.Html::a('<span class="fa fa-external-link-alt"></span>', 
 																	Url::toRoute(['/mitglieder/restore', 'id' => $model->MitgliederId ] ), [
       			          'data' => [
       			              'confirm' => Yii::t('app', 'Soll dieser Datensatz wirklich wiederhergestellt werden?'),
@@ -214,6 +221,11 @@ $this->params['breadcrumbs'][] = $this->title;
 											'title' => Yii::t('app', 'Datensatz wirklich wiederherstellen'),
 								        ])  . '';
 								    },
+                    'update'=> function ($url, $model, $key) {
+                        return Html::a('<i class="fa fa-edit"></i>', 
+                           ['/mitglieder/update_only', 'id' => $model->MitgliederId],
+                        );  // update record
+                    },
 								],
 							],
         ],

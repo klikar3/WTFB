@@ -93,7 +93,7 @@ use frontend\models\Schulen;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' )),
+								'data' => $disziplinen,
 						 ],             
           ],
           [ 'attribute' => 'EinladungIAzum',

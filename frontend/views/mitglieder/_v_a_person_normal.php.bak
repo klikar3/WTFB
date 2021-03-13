@@ -29,9 +29,9 @@ use frontend\models\Sifu;
 /* @var $model app\models\Mitglieder */
 
 
-$schulen = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all();
+$schulen = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
 $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-$functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all();
+$functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
 $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
 ?>
 
@@ -86,8 +86,7 @@ $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')-
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => $schulen, 
-									'Schulname', 'Schulname' )),
+									'data' => $schulen,
 							]
             ],
             [ 'attribute' => 'Anrede',
@@ -170,8 +169,7 @@ $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')-
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => $functions, 
-								'inhalt', 'inhalt' )),['style'=>'']),
+								'data' => $functions,
 						 ]             
           ],
           [ 'attribute' => 'Sifu',

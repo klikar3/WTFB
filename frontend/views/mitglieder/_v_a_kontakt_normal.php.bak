@@ -24,6 +24,7 @@ use frontend\models\Schulen;
         'model' => $model,
         'fadeDelay' => 50,
 				'condensed'=>true,
+        'showErrorSummary' => true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,

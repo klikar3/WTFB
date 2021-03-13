@@ -1,0 +1,23 @@
+<?php
+
+use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $model frontend\models\Mitgliederdisziplinen */
+
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Mitglieder',
+]) . ' ' . $model->MitgliederId;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mitglieder'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->MitgliederId, 'url' => ['view', 'id' => $model->MitgliederId]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+?>
+<div class="mitgliederdisziplinen-update">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
+</div>

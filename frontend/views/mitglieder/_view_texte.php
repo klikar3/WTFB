@@ -14,19 +14,19 @@ use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 
-use frontend\models\Anrede;
+use frontend\models\Numbers;
+use frontend\models\Texte;
+/*use frontend\models\Anrede;
 use frontend\models\Funktion;
 use frontend\models\Disziplinen;
 use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
 use frontend\models\GradeSearch;
 use frontend\models\Mitgliedergrade;
-use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
 use frontend\models\Sifu;
-use frontend\models\Texte;
- 
+*/ 
 /* @var $this yii\web\View */
 /* @var $model app\models\Mitglieder */
 
@@ -118,19 +118,19 @@ use frontend\models\Texte;
 		//															[	$id = 'mg-pr-txt'
 													]	); 
 					?>
-						<div class="col-xs-offset-2">
+						<div class="offset-2 mt-1 card">
 							<?= $form->field($txtid, 'id')->dropDownList( array_merge([0 => ""], ArrayHelper::map( Texte::find()->with('schul')->andWhere('fuer LIKE "mitglieder" ')->all(), 'id', 'code', 'schul.Schulname' ))
-//												, ['style'=>'width:200px']											
+												, ['class'=>'mt-1']											
 		//									[ 'prompt' => 'Text' ]
 											)										
 									->label(Yii::t('app', 'Select Text')); 
 							?>
+						</div>	
 							<div style="text-align: right;">  <br>
 							<?= Html::resetButton(Yii::t('app', 'Reset'), ['class'=>'btn btn-sm btn-default']) . '  ' . 
 										Html::submitButton(Yii::t('app', 'Select'), ['class'=>'btn btn-sm btn-primary']);
 							?>
 							</div>
-						</div>	
 					<?php $form = ActiveForm::end();
 			}  ?>
 

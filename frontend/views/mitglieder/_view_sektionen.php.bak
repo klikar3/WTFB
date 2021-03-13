@@ -72,7 +72,7 @@ use frontend\models\SifuSearch;
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label(false) ; ?>
-    				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList(ArrayHelper::map( Sektionen::find()->all(), 'sekt_id', 'kurz' ),
+    				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList($sektionen_zur_auswahl,
 														[ 'prompt' => Yii::t('app', 'Program'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Program'));  ?>
 							<?php  /* $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
@@ -123,6 +123,7 @@ use frontend\models\SifuSearch;
  	<?= GridView::widget([
 	        'dataProvider' => $sektionen,
 	        'responsiveWrap' => false,
+		  		'condensed'=>true,          
           'options' => ['id' => 'exp_row_sekts',
           ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',

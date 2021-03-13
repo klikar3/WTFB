@@ -306,13 +306,16 @@ class SiteController extends Controller
             $schule = (is_array($model->schule)) ? implode(', ', $model->schule) : $model->schule; //  $params['schule']; 
 
 //        $model->load(Yii::$app->request->post());
-//        Yii::warning(VarDumper::dumpAsString($model),'application');
+        if (!isset($params['MitgliederschulenSearch']['RecDeleted'])){
+          $params['MitgliederschulenSearch']['RecDeleted'] = '0';
+        }
+        Yii::warning(VarDumper::dumpAsString($params),'application');
         if (!$model->load(Yii::$app->request->post() )) {
-//            Yii::warning('----- noload','application');
+            Yii::warning('----- noload','application');
             $searchModel = new MitgliederschulenSearch();
             $dataProvider = $searchModel->search($params);
 //        Yii::warning('----params not load: '.VarDumper::dumpAsString($params),'application');
-//        $dataProvider->query->andWhere(['mitgliederschulen.SchulId'=> $model->schule]);
+//            $dataProvider->query->andWhere('RecDeleted = 0');
 //        $dataProvider->query->andWhere('Von <= :von and ((Bis >= :von) or (Bis is null)) ',  
 //											[':von'=> date('Y-m-d'), ]);
             $dataProvider->pagination = false;
@@ -330,8 +333,9 @@ class SiteController extends Controller
 //                                                'kleinerBis' => date('Y-m-d'), 
 //                                                'DVDgesendetAm' => '0000-00-00'
                                                 ];
-            Yii::$app->session['customerparams'] = $params;
-//            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
+          $params['MitgliederschulenSearch']['RecDeleted'] = '0';
+          Yii::$app->session['customerparams'] = $params;
+            Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
         }
 //        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         

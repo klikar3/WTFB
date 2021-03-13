@@ -14,7 +14,7 @@ use Yii;
  * @property string $gKurz
  * @property string $textcode
  * @property string $print
-*
+ * @property string $dKurz
  * @property Disziplinen $dispName
  * @property Mitgliedergrade[] $mitgliedergrades
  */
@@ -34,12 +34,12 @@ class Grade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['GradName', 'DispName', 'gKurz', 'textcode','print'], 'required'],
+            [['GradName', 'DispName', 'gKurz', 'dKurz', 'textcode','print'], 'required'],
             [['sort'], 'integer'],
             [['Gebuehr'],'number'],
             [['GradName', 'DispName'], 'string', 'max' => 30],
             [['textcode','print'], 'string', 'max' => 50],
-            [['gKurz'], 'string', 'max' => 10],
+            [['gKurz', 'dKurz'], 'string', 'max' => 10],
             [['GradName', 'DispName'], 'unique', 'targetAttribute' => ['GradName', 'DispName'], 'message' => 'The combination of Grad Name and Disp Name has already been taken.']
         ];
     }
@@ -58,6 +58,7 @@ class Grade extends \yii\db\ActiveRecord
             'Gebuehr' => Yii::t('app', 'Gebühr'),
             'textcode' => Yii::t('app', 'TextCode'),
             'print' => Yii::t('app', 'Print'),
+            'dKurz' => Yii::t('app', 'D Kurz'),
         ];
     }
 
@@ -84,7 +85,7 @@ class Grade extends \yii\db\ActiveRecord
 
     public function getGkdk()
     {
-        return $this->gKurz." ".$this->disziplin->DispKurz;
+        return $this->gKurz." ".$this->dKurz;
     }
 
 }

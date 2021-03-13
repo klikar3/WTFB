@@ -17,17 +17,26 @@ use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
 
+use frontend\models\Anrede;
+use frontend\models\Funktion;
+use frontend\models\Disziplinen;
+use frontend\models\DisziplinenSearch;
+use frontend\models\Grade;
+use frontend\models\GradeSearch;
+use frontend\models\InteressentVorgaben;
 use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
 use frontend\models\MitgliederIntensivSearch;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
-use frontend\models\Grade;
 use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Pruefer;
+use frontend\models\Schulen;
 use frontend\models\Sektionen;
+use frontend\models\Sifu;
+
 
 /**
  * MitgliederController implements the CRUD actions for Mitglieder model.
@@ -48,7 +57,7 @@ class MitgliederController extends Controller
                         'roles' => ['@'],
                     ],
 						        [
-						            'actions' => ['delete-admin','restore'],
+						            'actions' => ['delete-admin','restore','update_only'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -109,7 +118,7 @@ class MitgliederController extends Controller
         if (empty($tabnum)) $tabnum = 1;
 
 				// Graduierungen
-				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('grad.disziplin')->select(['*', 'concat(grade.gKurz," ",disziplinen.DispKurz) as gkdk']);
+				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('pruefer')->select(['*','pruefer.pName']);
 //        $query = Mitgliedergrade::find();
 				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
@@ -121,7 +130,13 @@ class MitgliederController extends Controller
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-  	
+
+        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
+
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
 				$squery->andWhere(['=', 'mitglied_id', $id]);
@@ -190,6 +205,11 @@ class MitgliederController extends Controller
 																					'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
                                           'formedit' => false,
+                                          'schulen' => $schulen,
+                                          'anreden' => $anreden,
+                                          'functions' => $functions,
+                                          'sifus' => $sifus,
+                                          'disziplinen' => $disziplinen,
 																					]);
         				} else {
 								$errors = $model->errors;
@@ -202,6 +222,11 @@ class MitgliederController extends Controller
 										'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
                     'formedit' => true,
+                    'schulen' => $schulen,
+                    'anreden' => $anreden,
+                    'functions' => $functions,
+                    'sifus' => $sifus,
+                    'disziplinen' => $disziplinen,
 		            ]);
 		        }
 				} else {
@@ -215,6 +240,11 @@ class MitgliederController extends Controller
 								'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
                 'formedit' => true,
+                'schulen' => $schulen,
+                'anreden' => $anreden,
+                'functions' => $functions,
+                'sifus' => $sifus,
+                'disziplinen' => $disziplinen,
             ]);
         }
 
@@ -385,6 +415,31 @@ class MitgliederController extends Controller
 						$errors = $model->errors;
 						VarDumper::dump($errors);
             return $this->render('update', [
+                'model' => $model, 'grade' => $mgdataProvider, 'tabnum' => $tabnum,
+            ]);
+        }
+    }
+
+    public function actionUpdate_only($id, $tabnum = 1)  
+    {
+				$query = Mitgliedergrade::find();
+				$query->where(['=', 'MitgliedId', $id]);
+
+				$mgdataProvider = new ActiveDataProvider([
+			    'query' => $query,
+     			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC]]
+				]);
+        $model = $this->findModel($id);
+        
+        if (empty($tabnum)) $tabnum = 1;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->Schulort == 'WT-Intensiv') $intensiv = getIntensiv($model->MitgliederId);       
+            return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
+        } else {
+						$errors = $model->errors;
+						VarDumper::dump($errors);
+            return $this->render('update_only', [
                 'model' => $model, 'grade' => $mgdataProvider, 'tabnum' => $tabnum,
             ]);
         }

@@ -76,8 +76,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
-									'Schulname', 'Schulname' )),
+									'data' => $schulen,
 							]
             ],
             [ 'attribute' => 'Anrede',
@@ -86,7 +85,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
+									'data' => $anreden,
 							 ]             
             ],
             [ 'attribute' => 'Name',
@@ -159,7 +158,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+								'data' => $functions, 
 								'inhalt', 'inhalt' )),['style'=>'']),
 						 ]             
           ],
@@ -169,7 +168,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' )),
+								'data' => $sifus,
 						 ]             
           ],
           [ 'attribute' => 'ErzBerechtigter',

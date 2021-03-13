@@ -90,4 +90,9 @@ class Mitgliedergrade extends \yii\db\ActiveRecord
     {
         return $this->grad->gkdk;
     }
+
+    public function getPName()
+    {
+        return $this->pruefer->pName;
+    }
 }

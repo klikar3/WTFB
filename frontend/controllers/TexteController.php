@@ -312,7 +312,7 @@ class TexteController extends Controller
 												->where(['code' => $txtcode, 'SchulId' => $SchulId])
 												->one();
 				}
-				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 40em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';
+				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 10em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';
 /*									, Url::to('') .
 									"?subject=&body=",[
 											'class' => 'btn btn-sm btn-default',
@@ -339,7 +339,7 @@ class TexteController extends Controller
 				
 				
         if ($datamodel == 'vertrag') {
-					$modelv = Mitgliederschulen::findOne($dataid);
+					$modelv = Mitgliederschulen::findOne($dataid); 
 					$textmodel->txt = str_replace ( '#vorname#' , $modelv->mitglieder->Vorname , $textmodel->txt ); 
 					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $modelv->mitglieder->MitgliedsNr , $textmodel->txt );
 					$textmodel->txt = str_replace ( '#nachname#' , $modelv->mitglieder->Name , $textmodel->txt );
