@@ -15,14 +15,25 @@ use yii\web\UploadedFile;
 
 use kartik\widgets\ActiveForm;
 
+use frontend\models\Anrede;
+use frontend\models\Funktion;
+use frontend\models\Disziplinen;
+use frontend\models\DisziplinenSearch;
 use frontend\models\Grade;
+use frontend\models\GradeSearch;
+use frontend\models\InteressentVorgaben;
+use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
-use frontend\models\MitgliederGrade;
-use frontend\models\MitgliederSektionen;
 use frontend\models\Mitgliederschulen;
-use frontend\models\MitgliederschulenSearch;
+use frontend\models\MitgliederIntensivSearch;
+use frontend\models\MitgliederSearch;
+use frontend\models\Mitgliedergrade;
+use frontend\models\Mitgliedersektionen;
+use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Pruefer;
+use frontend\models\Schulen;
 use frontend\models\Sektionen;
+use frontend\models\Sifu;
 use frontend\models\Vertrag;
 use frontend\models\VertragSearch;
 
@@ -124,6 +135,11 @@ class MitgliederschulenController extends Controller
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
   	
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
@@ -143,10 +159,6 @@ class MitgliederschulenController extends Controller
      			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
 				]);
 				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
-  	    $grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
-				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
-  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-
 
 //          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
             return $this->render('/mitglieder/view', [
@@ -155,6 +167,7 @@ class MitgliederschulenController extends Controller
 								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => true,
+                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
             ]);
            }               
  //       }
@@ -181,7 +194,7 @@ class MitgliederschulenController extends Controller
 
 
 				// Graduierungen
-				$query = Mitgliedergrade::find();
+				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('pruefer')->select(['*','pruefer.pName']);
 				$query->andWhere(['=', 'MitgliedId', $mgId]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,
@@ -189,9 +202,14 @@ class MitgliederschulenController extends Controller
           'pagination' => false,
 				]);
 				
-				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
   	
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
@@ -211,10 +229,6 @@ class MitgliederschulenController extends Controller
      			'sort'=> ['defaultOrder' => ['Von' => SORT_ASC]]
 				]);
 				// Yii::info('-----$vdataProvider: '.VarDumper::dumpAsString($vdataProvider));
-  	    $grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
-				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
-  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-
 
 //          Yii::warning('errors '.Vardumper::dumpAsString($model->errors));
             return $this->render('/mitglieder/view', [
@@ -223,6 +237,7 @@ class MitgliederschulenController extends Controller
 								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => false,
+                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
             ]);
          }
       }

@@ -88,6 +88,6 @@ class Mitgliedergrade extends \yii\db\ActiveRecord
     
     public function getGkdk()
     {
-        return $this->grad->gKurz." ".$this->grad->disziplin->DispKurz;
+        return $this->grad->gkdk;
     }
 }

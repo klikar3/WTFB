@@ -72,26 +72,12 @@ use frontend\models\SifuSearch;
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label(false) ; ?>
-    				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList(ArrayHelper::map( Sektionen::find()->all(), 'sekt_id', 'kurz' ),
+    				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList($sektionen_zur_auswahl,
 														[ 'prompt' => Yii::t('app', 'Program'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Program'));  ?>
-							<?php  /* $form->field($mgs, 'vdatum')->widget(DateControl::classname(),
-							[ //'value' => date('d.m.Y'), 
-								'type'=>DateControl::FORMAT_DATE,
-								'ajaxConversion'=>true,
-	 							'displayFormat' => 'php:d.m.Y',
-	 							'saveFormat' => 'php:Y-m-d',
-	 							'autoWidget' => true,
-	 							'id' => 'mgfs_vdatu',
-								'options'=>[
-									'id' => 'mgfs_vdatum',
-//										'placeholder'=>'Graduierungsdatum', 
-										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true]
-									]	
-								]);*/ ?>
-				    <?php /* echo $form->field($mgs, 'vermittler_id')->dropdownList(ArrayHelper::map( Sifu::find()->all(), 'sId', 'SifuName' ),
-													[ 'prompt' => 'Vermittler', 'id' => 'field-pid' ])->label('Vermittler');*/ ?>
-				    <?php  echo $form->field($mgs, 'pruefer_id')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
-													[ 'prompt' => Yii::t('app', 'Examiner'), 'id' => 'field-pid' ])->label(Yii::t('app', 'Examiner'));  ?>
+  				    <?php /* echo $form->field($mgs, 'vermittler_id')->dropdownList(ArrayHelper::map( Sifu::find()->all(), 'sId', 'SifuName' ),
+  													[ 'prompt' => 'Vermittler', 'id' => 'field-pid' ])->label('Vermittler');*/ ?>
+  				    <?php  echo $form->field($mgs, 'pruefer_id')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
+  													[ 'prompt' => Yii::t('app', 'Examiner'), 'id' => 'field-pid' ])->label(Yii::t('app', 'Examiner'));  ?>
 							<?php  echo $form->field($mgs, 'pdatum')->widget(DateControl::classname(),
 							[ //'value' => date('d.m.Y'), 
 								'type'=>DateControl::FORMAT_DATE,

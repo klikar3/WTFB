@@ -56,7 +56,7 @@ use frontend\models\Schulen;
             ], */
             [ 'attribute' => 'GradId',
             	'id' => 'dv_vv_mg_'.$model->mgID,
-            	'value' => $model->grad->gkdk,//Kurz . " " . $model->grad->DispName,
+            	'value' => $model->gkdk,//Kurz . " " . $model->grad->DispName,
             	'format' => 'raw',
             	'type' => DetailView::INPUT_SELECT2,
             	'label' => 'Grad',
@@ -69,7 +69,7 @@ use frontend\models\Schulen;
             ],
             [ 'attribute' => 'PrueferId',
 							'id' => 'prueferid_'.$model->mgID,
-            	'value' => $model->pruefer->pName,
+            	'value' => $p, //$model->pName,
             	'format' => 'raw',
             	'ajaxConversion' => true,
             	'type' => DetailView::INPUT_SELECT2,

@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'Name')->textInput(['maxlength' => 29]) ?>
 
+    <?= $form->field($model, 'RecDeleted')->textInput() ?>
+
     <?= $form->field($model, 'Geschlecht')->textInput(['maxlength' => 9]) ?>
 
     <?= $form->field($model, 'Anrede')->textInput(['maxlength' => 11]) ?>
@@ -95,20 +97,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'Graduierung')->textInput(['maxlength' => 16]) 
 		?>
 
-    <?= $form->field($model, 'VDauer')->textInput(['maxlength' => 13]) 
-		?>
-
-    <?= $form->field($model, 'Monatsbeitrag')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'BeitrittDatum')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'KuendigungDatum')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'AustrittDatum')->textInput(['maxlength' => 19]) 
-		?>
 
     <?= $form->field($model, 'Geburtsort')->textInput(['maxlength' => 26]) 
 		?>
@@ -116,23 +104,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'GruppenArt')->textInput(['maxlength' => 18]) 
 		?>
 
-    <?= $form->field($model, 'Zahlungsart')->textInput(['maxlength' => 12]) 
-		?>
-
-    <?= $form->field($model, 'Zahlungsweise')->textInput(['maxlength' => 16]) 
-		?>
-
-    <?= $form->field($model, 'EinzugZum')->textInput(['maxlength' => 15]) 
-		?>
-
-    <?= $form->field($model, 'BeitragAussetztenVon')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'BeitragAussetzenBis')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'BeitragAussetzenGrund')->textInput(['maxlength' => 37]) 
-		?>
 
     <?= $form->field($model, 'AufnahmegebuehrBezahlt')->textInput(['maxlength' => 14]) 
 		?>
@@ -197,7 +168,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'EinladungIAzum')->textInput(['maxlength' => 10]) 
 		?>
 
-    <?= $form->field($model, 'warZumIAda')->textInput(['maxlength' => 6]) 
+    <?php // $form->field($model, 'warZumIAda')->textInput(['maxlength' => 6]) 
 		?>
 
     <?= $form->field($model, 'zumIAnichtDa')->textInput(['maxlength' => 6]) 
@@ -278,190 +249,17 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'ZahlungsweiseBetrag')->textInput(['maxlength' => 10]) 
 		?>
 
-    <?= $form->field($model, 'datumwt1sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt2sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt3sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt4sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt5sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt6sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt7sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt8sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt9sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt10sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt11sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt12sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt1tg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt2tg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt3tg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt4tg')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datumwt5pg')->textInput(['maxlength' => 10]) 
-		?>
-
     <?= $form->field($model, 'AufnahmegebuehrBezahltAm')->textInput(['maxlength' => 19]) 
 		?>
 
-    <?= $form->field($model, 'datumWtPraktikum')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumWtAusbilder1')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datumWtAusbilder2')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datumWtAusbilder3')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumWtSchulleiter')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'AufnGebuehrBetrag')->textInput(['maxlength' => 9]) 
-		?>
 
     <?= $form->field($model, 'SFirm')->textInput() 
-		?>
-
-    <?= $form->field($model, 'datumwt1sgk')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt2sgk')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt3sgk')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datumwt4sgk')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt5sgk')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt6sgk')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datumwt7sgk')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datumwt8sgk')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumwt9sgk')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumwt10sgk')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumwt11sgk')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datumwt12sgk')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume1sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume2sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume3sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume4sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume5sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume6sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume7sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume8sg')->textInput(['maxlength' => 19]) 
-		?>
-        
-    <?= $form->field($model, 'datume9sg')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datume10sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume11sg')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume12sg')->textInput(['maxlength' => 19]) 
 		?>
 
     <?= $form->field($model, 'BListe')->textInput() 
 		?>
 
     <?= $form->field($model, 'DVDgesendetAm')->textInput(['maxlength' => 19]) 
-		?>
-
-    <?= $form->field($model, 'datume11tg')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'datume12tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume21tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume22tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume31tg')->textInput(['maxlength' => 10]) 
-		?>  
-
-    <?= $form->field($model, 'datume32tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume41tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'datume42tg')->textInput(['maxlength' => 10]) 
-		?>
-
-    <?= $form->field($model, 'EsckrimaGraduierung')->textInput(['maxlength' => 9]) 
-		?>
-
-    <?= $form->field($model, 'BeginnEsckrima')->textInput(['maxlength' => 18]) 
-		?>
-
-    <?= $form->field($model, 'EndeEsckrima')->textInput(['maxlength' => 18]) 
 		?>
 
     <div class="form-group">

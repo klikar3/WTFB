@@ -29,10 +29,6 @@ use frontend\models\Sifu;
 /* @var $model app\models\Mitglieder */
 
 
-$schulen = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
-$anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-$functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
-$sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
 ?>
 
 <div class="col-md-6" name="va_pn">   

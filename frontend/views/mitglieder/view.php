@@ -38,6 +38,7 @@ use frontend\models\Texte;
 				//                                'form' => $form, 
 				                                'model'=>$model,  'tabnum' => 1, 'openv' => $openv, 
 //                                        'intensiv' => $intensiv
+                                        'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
 				                        ) ),
 						'active' => $tabnum == 1?true:false,
 				//    'linkOptions'=>['data-url'=>Url::to(['/site/fetch-tab?tab=1'])]
@@ -61,6 +62,7 @@ use frontend\models\Texte;
 				    'label'=>'<i class="glyphicon glyphicon-ok-sign"></i> '.Yii::t('app', 'Contract'),
 				    'content'=>$this->render('_view_vertrag', array(
 				                                'model'=>$model, 'contracts' => $contracts,  'tabnum' => 3,  'openv' => $openv, 'formedit' => $formedit,
+                                        'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
 				                        ) ),
 						'active' => $tabnum == 3?true:false,
 		    ],
@@ -79,7 +81,7 @@ use frontend\models\Texte;
 																		'grade_zur_auswahl' => $grade_zur_auswahl,
 																		'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
 																		'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-		                        ) ),
+                                    'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,		                        ) ),
 						'active' => $tabnum == 5?true:false,				
 				],
 /*				[

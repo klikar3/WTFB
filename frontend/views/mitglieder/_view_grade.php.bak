@@ -5,6 +5,8 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
+
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
 use kartik\popover\PopoverX;
@@ -67,9 +69,9 @@ use frontend\models\Pruefer;
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 							<?=  $form->field($mg, 'MitgliedId')->hiddenInput()->label(false) ; ?>
-    				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'GradName', 'DispName' )),
+    				<?php  echo $form->field($mg, 'GradId')->dropdownList(array_merge(["" => ""], $grade_zur_auswahl),
 														[ 'prompt' => Yii::t('app', 'Level'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Level'));  ?>
-				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' ),
+				    <?php  echo $form->field($mg, 'PrueferId')->dropdownList( $pruefer_zur_auswahl,
 													[ 'prompt' => Yii::t('app', 'Examiner'), 'id' => 'field-pid' ])->label(Yii::t('app', 'Examiner'));  ?>
 							<?php  echo $form->field($mg, 'Datum')->widget(datecontrol::classname(),
 							[ //'value' => date('d.m.Y'), 
@@ -102,6 +104,7 @@ use frontend\models\Pruefer;
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
 	        'responsiveWrap' => false,
+			   	'condensed'=>true,
           'options' => ['id' => 'exp_row_grade',
           ], 
 					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
@@ -132,16 +135,18 @@ use frontend\models\Pruefer;
                 'value' => function ($data, $model, $key, $index) { 
                         return GridView::ROW_COLLAPSED;
                     },
-								'detail' => function ($data, $id) use ($grade_zur_auswahl, $pruefer_zur_auswahl){
+								'detail' => function ($data, $id, $model) use ($grade_zur_auswahl, $pruefer_zur_auswahl){
+//				Yii::warning('-----$grade: '.VarDumper::dumpAsString($data));
 									$cont = Mitgliedergrade::findOne($id);
-	                return Yii::$app->controller->renderPartial('/mitglieder/_grad-detail', ['model'=>$cont, 'grade_zur_auswahl' => $grade_zur_auswahl,
-																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl,]);
+	                return Yii::$app->controller->renderPartial('/mitglieder/_grad-detail', ['model'=>$data, 'grade_zur_auswahl' => $grade_zur_auswahl,
+																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'p' => $data->pName,
+                                                                              'g' => $data->gkdk]);
             		},
             		'enableRowClick' => true,
                 'hidden' => true,
 							],
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz', 'label' => Yii::t('app', 'Level') ],
-							[ 'attribute' => 'Disziplin', 'value' => 'disziplinen.DispKurz', 'label' => Yii::t('app', 'Discipline') ],
+							[ 'attribute' => 'Disziplin', 'value' => 'grad.dKurz', 'label' => Yii::t('app', 'Discipline') ],
 							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
 //							 'PrueferId',	        
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => Yii::t('app', 'Examiner') ],

@@ -23,14 +23,15 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public $DVDgesendetAm;
     public $letzteDvd;
     public $von;
+    public $RecDeleted;
 
     public function rules()
     {
         return [
-            [['msID', 'MitgliederId', 'VertragId'], 'integer'],
+            [['msID', 'MitgliederId', 'VertragId','RecDeleted'], 'integer'],
             [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink',
               'Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 
-              'BeitragAussetzenVon', 'BeitragAussetzenBis'], 'safe'],
+              'BeitragAussetzenVon', 'BeitragAussetzenBis','RecDeleted'], 'safe'],
         ];
     }
 
@@ -53,7 +54,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public function search($params)
     {
         $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -93,6 +94,9 @@ class MitgliederschulenSearch extends Mitgliederschulen
             return $dataProvider;
         }
 */
+        Yii::warning(VarDumper::dumpAsString($params),'application');
+        Yii::warning(VarDumper::dumpAsString($this),'application');
+
         $query->andFilterWhere([
             'msID' => $this->msID,
             'MitgliederId' => $this->MitgliederId,
@@ -109,7 +113,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
             'Grad' => $this->Grad,
 //            'Name' => $this->Name,
 //            'DVDgesendetAm' => $this->DVDgesendetAm,
-            'letzteDvd' => $this->letzteDvd
+            'letzteDvd' => $this->letzteDvd,
+            'mitglieder.RecDeleted' => $this->RecDeleted
         ]);
         if (!empty($this->SchulId)) {
     		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );

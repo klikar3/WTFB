@@ -36,6 +36,7 @@ use frontend\models\Sifu;
         'model' => $model,
         'fadeDelay' => 50,
 				'condensed'=>true,
+        'showErrorSummary' => true,
 //				'container' => ['style' => 'font-size:0.9em'],
 				'hover'=>true,
 				'mode'=>DetailView::MODE_VIEW,
@@ -75,8 +76,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( schulen::find()->distinct()->orderBy('SchulId')->all(), 
-									'Schulname', 'Schulname' )),
+									'data' => $schulen,
 							]
             ],
             [ 'attribute' => 'Anrede',
@@ -85,7 +85,7 @@ use frontend\models\Sifu;
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
             	'widgetOptions' => [
-									'data' => array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' )),
+									'data' => $anreden,
 							 ]             
             ],
             [ 'attribute' => 'Name',
@@ -158,7 +158,7 @@ use frontend\models\Sifu;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+								'data' => $functions, 
 								'inhalt', 'inhalt' )),['style'=>'']),
 						 ]             
           ],

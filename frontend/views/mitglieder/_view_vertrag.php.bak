@@ -94,7 +94,7 @@ use frontend\models\Schulen;
 												],
 											]); ?>
 
-    								<?= $form->field($ms, 'SchulId')->dropdownList(ArrayHelper::map( Schulen::find()->with('disziplinen')->orderBy('sort')->all(), 'SchulId', 'SchulDisp' ),
+    								<?= $form->field($ms, 'SchulId')->dropdownList($schulen,
 																			[ 'prompt' => Yii::t('app', 'School') ]
 																		) ?>
     								<?= $form->field($ms, 'VDauerMonate')->dropdownList(range( 0, 36, 1 ) ,
@@ -155,8 +155,9 @@ use frontend\models\Schulen;
                         	return GridView::ROW_COLLAPSED;
 */                    }
 										,
-								'detail' => function ($data, $key, $index, $column) {
-	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data]);
+								'detail' => function ($data, $key, $index, $column) use ($formedit, $schulen) {
+	                return Yii::$app->controller->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$data, 'formedit' => $formedit, 'schulen' => $schulen
+                                                                                              's' => $data->schul->SchulDisp]);
             		},
             		'enableRowClick' => true,
                 'hidden' => false,
@@ -173,7 +174,7 @@ use frontend\models\Schulen;
                 'header' => Yii::t('app', 'Actions'),
 								'buttons' => [ 
 									'delete' => function ($url, $model) {
-										return '<center>'.Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+										return '<center>'.Html::a('<span class="fa fa-trash"></span>', 
 																	Url::toRoute(['mitgliederschulen/deletefast', 'id' => $model->msID] ), [
 //	          					'target'=>'_blank',
 											'data-confirm' => 'Soll der Vertrag wirklich gelöscht werden?',

@@ -32,11 +32,11 @@ $newnr = Mitglieder::find()->max('MitgliedsNr') + 1;
 ?>
 <div class="row">
 <?php if ($model->Schulort == 'WT-Intensiv') {
-        echo $this->render('_v_a_person_intensiv', [ 'model' => $model, 'newnr' => $newnr]);
-        echo $this->render('_v_a_kontakt_intensiv', [ 'intensiv' => $model->mitgliederIntensiv, 'newnr' => $newnr]);
+        echo $this->render('_v_a_person_intensiv', [ 'model' => $model, 'newnr' => $newnr, 'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,]);
+        echo $this->render('_v_a_kontakt_intensiv', [ 'intensiv' => $model->mitgliederIntensiv, 'newnr' => $newnr, 'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,]);
       } else {
-        echo $this->render('_v_a_person_normal', [ 'model' => $model, 'newnr' => $newnr]);
-        echo $this->render('_v_a_kontakt_normal', [ 'model' => $model, 'newnr' => $newnr]);
+        echo $this->render('_v_a_person_normal', [ 'model' => $model, 'newnr' => $newnr, 'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,]);
+        echo $this->render('_v_a_kontakt_normal', [ 'model' => $model, 'newnr' => $newnr, 'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,]);
       }
 ?>
 </div>
