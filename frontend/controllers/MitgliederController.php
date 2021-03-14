@@ -57,7 +57,7 @@ class MitgliederController extends Controller
                         'roles' => ['@'],
                     ],
 						        [
-						            'actions' => ['delete-admin','restore','update_only'],
+						            'actions' => ['delete-admin','restore','update_only','mark-really-delete','really-delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -104,6 +104,46 @@ class MitgliederController extends Controller
             'dataProvider' => $dataProvider,
             'tabnum' => 1,
         ]);
+    }
+
+    public function actionMarkReallyDelete()
+    {
+        $searchModel = new MitgliederSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere('RecDeleted = 1');
+
+        return $this->render('reallyDelete', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'tabnum' => 1,
+        ]);
+    }
+
+    public function actionReallyDelete()
+    {
+
+        if (Yii::$app->request->isPost) {
+            $selection = Yii::$app->request->post('selection');
+            Yii::warning('-----$selection: '.VarDumper::dumpAsString($selection));
+            $response['success'] = false;
+
+            $transaction = Yii::$app->db->beginTransaction();
+
+            try {
+                //\frontend\models\Mitglieder::updateAll(['RecDeleted' => '2'], ['IN', 'MitgliederId', $selection]);
+                \frontend\models\Mitglieder::deleteAll(['IN', 'MitgliederId', $selection]);
+                $response['success'] = true;
+                $transaction->commit();
+            } catch (\Exception $ex) {
+                $transaction->rollBack();
+                $response['msg'] = $ex->getMessage();
+            }
+
+            echo \yii\helpers\Json::encode($response);
+
+        }  else {
+            Yii::warning('-----$No Post ');
+        }
     }
 
     /**

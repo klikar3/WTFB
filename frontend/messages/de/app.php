@@ -64,7 +64,9 @@ return [
     'Texts' => 'Texte', 
     'Trainings' => 'Trainings',
     'User' => 'User', 
-    'Woo-SWM Adjustment' => 'Woo-SWM Abgleich', 
+    'Woo-SWM Adjustment' => 'Woo-SWM Abgleich',
+    'Really delete Members' => 'Mitglieder wirklich löschen',
+    'Delete marked records' => 'Markierte Datensätz wirklich löschen', 
 
     // Schulen
     'Schools' => 'Schulen',

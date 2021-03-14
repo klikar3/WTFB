@@ -98,7 +98,7 @@ if (!empty(Yii::$app->user->identity)) {
                                   
         $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];  
         
-        $aktionen[] =                                                               
+        $aktionen[] =  ['label' => Yii::t('app', 'Really delete Members'), 'url' => ['mitglieder/mark-really-delete']];                                                             
         $aktionen[] =  '<div class="dropdown-divider"></div>';
         $aktionen[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
         $aktionen[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
