@@ -27,6 +27,7 @@ return [
     // Hauptmenü
     'Account' => 'Account',  
     'Account ('  => 'Account (',
+    'Actions' => 'Aktionen',
     'Check all Member Data' => 'Alle Mitglieder-Daten Checken',
     'Salutations' => 'Anreden', 
     'Presence' => 'Anwesenheit',
@@ -63,7 +64,9 @@ return [
     'Texts' => 'Texte', 
     'Trainings' => 'Trainings',
     'User' => 'User', 
-    'Woo-SWM Adjustment' => 'Woo-SWM Abgleich', 
+    'Woo-SWM Adjustment' => 'Woo-SWM Abgleich',
+    'Really delete Members' => 'Mitglieder wirklich löschen',
+    'Now delete really' => 'Jetzt wirklich löschen', 
 
     // Schulen
     'Schools' => 'Schulen',
