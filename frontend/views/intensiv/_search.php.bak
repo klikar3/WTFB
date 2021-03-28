@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kontaktNachricht') ?>
 
+    <?= $form->field($model, 'telefonatAm') ?>
+
     <?= $form->field($model, 'alter') ?>
 
     <?= $form->field($model, 'graduierung') ?>

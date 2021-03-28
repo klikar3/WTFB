@@ -8,7 +8,7 @@ use kartik\widgets\ActiveForm;
 use kartik\select2\Select2;
 use kartik\grid\GridView;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\widgets\DatePicker;
 
 use frontend\models\AuswertungenForm;
@@ -28,8 +28,8 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
 //Yii::warning(VarDumper::dumpAsString($schulauswahl),'application');
 
  //echo VarDumper::dumpAsString($dataProvider->query->createCommand()->getRawSql())
- $diesesJahr = \DateTime::createFromFormat('Y-m-d', $model->von)->format('Y');
- $dieserMonat = \DateTime::createFromFormat('Y-m-d', $model->von)->format('m');
+ $diesesJahr = \DateTime::createFromFormat('d.m.Y', $model->von)->format('Y');
+ $dieserMonat = \DateTime::createFromFormat('d.m.Y', $model->von)->format('m');
  $monatsBeginn = $model->von;
 ?>
 <div class="row">

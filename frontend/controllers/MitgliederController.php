@@ -17,6 +17,8 @@ use IBAN\Generation\IBANGenerator;
 use IBAN\Generation\IBANGeneratorDE;
 use IBAN\Rule\RuleFactory;
 
+use klikar3\modules\backup\helpers\MysqlBackup;		 
+
 use frontend\models\Anrede;
 use frontend\models\Funktion;
 use frontend\models\Disziplinen;
@@ -112,9 +114,28 @@ class MitgliederController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere('RecDeleted = 1');
 
+//        \Yii::$app->session->addFlash('error', Yii::t('app', 'No Backup - no Pity!'), false);
+//        \Yii::$app->session->addFlash('error', 'Backup wurde nicht erstellt!', false);
+
+        $myBack = new MysqlBackup();
+        $lastDate = $myBack->getNewestFiledate();
+//        Yii::warning($lastDate);
+        $lastDate = \DateTime::createFromFormat('Y-m-d H:i:s', $lastDate);
+//        Yii::warning($lastDate);
+        $date = new \DateTime();
+        if (!empty($lastDate)) {
+          $backAchtung = (($lastDate->modify('+1 day')) <= $date) ? 1 : 0;
+        } else {
+          $backAchtung = 1;
+          $lastDate = new \DateTime();
+          $lastDate->modify('+1 dayk');
+        }
+
         return $this->render('reallyDelete', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'backAchtung' => $backAchtung,
+            'lastDate' => $lastDate->modify('-1 day'),
             'tabnum' => 1,
         ]);
     }

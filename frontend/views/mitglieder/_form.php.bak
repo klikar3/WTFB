@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'Name')->textInput(['maxlength' => 29]) ?>
 
-    <?= $form->field($model, 'ecDeleted')->textInput() ?>
+    <?= $form->field($model, 'RecDeleted')->textInput() ?>
 
     <?= $form->field($model, 'Geschlecht')->textInput(['maxlength' => 9]) ?>
 

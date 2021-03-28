@@ -1,8 +1,11 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TexteSearch */
@@ -11,8 +14,11 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Texte');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="texte-index">
-
+<div clas="card">
+  <div class="card-header text-white border-primary bg-info">
+    <h5><?= Html::encode($this->title) ?></h5>
+  </div>
+  <div class="card-body border-primary bg-light">
     <p>
         <?= Html::a(Yii::t('app', 'Text erstellen', [
     'modelClass' => 'Texte',

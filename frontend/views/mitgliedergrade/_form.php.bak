@@ -41,6 +41,10 @@ use kartik\grid\GridView;
     
     <?php $form = ActiveForm::begin([
                       'type' => ActiveForm::TYPE_HORIZONTAL,
+                      'id' => 'mgcrea-form-horizontal',
+											'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM,
+												'showErrors' => true,
+											]
           ]); ?>
 
     <?= $form->field($model, 'MitgliedId')->hiddenInput()->label('') ?>

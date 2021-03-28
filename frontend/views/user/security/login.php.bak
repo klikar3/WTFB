@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
-        <?php if (($module->enableConfirmation) && (1==2)) ?>
+        <?php if (($module->enableConfirmation) && (1==2)): ?>
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
             </p>

@@ -18,7 +18,7 @@ use frontend\models\Schulen;
     <?php // $form->field($model, 'schulId')->textInput() ?>
     <?= $form->field($model, 'schulId',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																	 'inputOptions' => ['style'=>'font-size:0.85em;']
-																	 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()'SchulId', 'SchulDisp', 'disziplinen.DispName' )),['style'=>'']);
+																	 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' )),['style'=>'']);
 		?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>

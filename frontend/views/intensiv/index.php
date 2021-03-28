@@ -1,8 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
+//use yii\grid\GridView;
 use yii\widgets\Pjax;
+
+use kartik\grid\GridView;
+
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\IntensivSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -10,10 +14,11 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'Intensiv');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="intensiv-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div clas="card">
+  <div class="card-header text-white border-primary bg-info">
+    <h5><?= Html::encode($this->title) ?></h5>
+  </div>
+  <div class="card-body border-primary bg-light">
     <p>
         <?= Html::a(Yii::t('app', 'Create Intensiv'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -46,7 +51,11 @@ $this->params['breadcrumbs'][] = $this->title;
             //'erstTermin',
             //'bemerkung:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',                 
+             'options' => [
+                    'style' => 'width:6em;',
+                ],
+            ],
         ],
     ]); ?>
 

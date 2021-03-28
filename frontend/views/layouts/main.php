@@ -37,7 +37,8 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <link rel="shortcut icon" href="<?= Yii::$app->homeUrl ?>/../favicon3.ico">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/solid.css" rel="stylesheet">
 </head>
 <body>
     <?php $this->beginBody() ?>
@@ -98,9 +99,10 @@ if (!empty(Yii::$app->user->identity)) {
                                   
         $auswertungen[] = ['label' => Yii::t('app', 'DVD-List'), 'url' => ['/site/dvdlistenauswahl']];  
         
-        $aktionen[] =  ['label' => Yii::t('app', 'Really delete Members'), 'url' => ['mitglieder/mark-really-delete']];                                                             
+        $aktionen[] =  ['label' => Yii::t('app', 'Really delete Members'), 'url' => ['/mitglieder/mark-really-delete']];                                                             
         $aktionen[] =  '<div class="dropdown-divider"></div>';
-        $aktionen[] =  ['label' => Yii::t('app', 'Woo-SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
+        $aktionen[] =  ['label' => Yii::t('app', 'Woo-WT-Shop - SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
+        $aktionen[] =  ['label' => Yii::t('app', 'Woo-OnlAka-Shop - SWM Adjustment'), 'url' => ['/site/woo-aka-swm-abgleich']];
         $aktionen[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
 //        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
         $aktionen[] =  '<div class="dropdown-divider"></div>';
@@ -177,11 +179,11 @@ if (!empty(Yii::$app->user->identity)) {
             'homeLink' =>['url' => Yii::$app->homeUrl.'/'.Yii::$app->language, 'label' => Yii::t('app', 'Home')], 
         ]) ?>
         <?php /*echo Alert::widget()*/ 
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYPE_DANGER,
-													    'icon' => 'glyphicon glyphicon-exclamation-sign', 'body' => "Alert: ".$message ]);
+//foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+//Alert::widget(['delay'=>false, 'options'=>['id'=>'alert-id'], 'type'=>Alert::TYPE_DANGER,
+//													    'icon' => 'fas fa-exclamation', 'body' => "Alert: ".$message ]);
 //echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
-}			
+//}			
 				?>
         <?php echo AlertBlock::widget([
     'useSessionFlash' => true,

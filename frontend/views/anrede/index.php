@@ -1,20 +1,23 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
+//use yii\grid\GridView;
+
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\AnredeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Anredes');
+$this->title = Yii::t('app', 'Salutations');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="anrede-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+<div clas="card">
+  <div class="card-header text-white border-primary bg-info">
+    <h5><?= Html::encode($this->title) ?></h5>
+  </div>
+  <div class="card-body border-primary bg-light">
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Anrede',
@@ -30,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'anrId',
             'inhalt',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',                 
+             'options' => [
+                    'style' => 'width:6em;',
+                ],
+            ],
         ],
     ]); ?>
 

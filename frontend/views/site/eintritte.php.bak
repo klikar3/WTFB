@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
    <?= ($print == 0) ? Html::a('Druckversion',Url::toRoute(['site/eintritte','von' => $von, 'bis' => $bis, 'schule' => $schule, 'print' => 1]),['class' => 'btn btn-primary']) : '' ?>
         <?php
           if ($print == 1) {
-            echo Html::a('<< Zurück',Yii::$app->request->referrer,['class' => 'btn btn-success'])
+            //echo Html::a('<< Zurück',Yii::$app->request->referrer,['class' => 'btn btn-success'])
         ?>
         
           <form id="form1">
