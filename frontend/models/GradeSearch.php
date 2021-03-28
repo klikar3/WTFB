@@ -19,7 +19,7 @@ class GradeSearch extends Grade
     {
         return [
             [['gradId', 'sort'], 'integer'],
-            [['GradName', 'DispName', 'gKurz'], 'safe'],
+            [['GradName', 'DispName', 'gKurz', 'dKurz'], 'safe'],
         ];
     }
 
@@ -43,7 +43,8 @@ class GradeSearch extends Grade
     {
 //        $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
 //                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher');
-        $query = Grade::find()->with('disziplin')->select(['*', 'concat(gKurz," ",disziplin.DispKurz) as gkdks']);
+//        $query = Grade::find()->with('disziplin')->select(['*', 'concat(gKurz," ",disziplin.DispKurz) as gkdks']);
+        $query = Grade::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,7 +61,8 @@ class GradeSearch extends Grade
 
         $query->andFilterWhere(['like', 'GradName', $this->GradName])
             ->andFilterWhere(['like', 'DispName', $this->DispName])
-            ->andFilterWhere(['like', 'gKurz', $this->gKurz]);
+            ->andFilterWhere(['like', 'gKurz', $this->gKurz])
+            ->andFilterWhere(['like', 'dKurz', $this->dKurz]);
 
         return $dataProvider;
     }

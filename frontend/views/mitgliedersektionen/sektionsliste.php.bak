@@ -1,6 +1,7 @@
 <?php
 
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 use yii\helpers\VarDumper;
@@ -49,7 +50,7 @@ $this->title = Yii::t('app', 'Sektionsliste für ' . $schule . ' am ' . date('d.
 						['format' => 'raw',
              'attribute' => 'mitglied.Name',
               'value' => function ($data) {
-                  Yii::warning(VarDumper::dumpAsString($data),'application');
+//                  Yii::warning(VarDumper::dumpAsString($data),'application');
                   return $data->Vorname . ' ' .$data->Nachname;
                   },
 //        		 'contentOptions' => ['style' => 'font-family: helvetica, verdana, sansserif;font-size: 12pt;width: 200px;border: 1px solid black;border-top:0px;border-left: 0px;'],

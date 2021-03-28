@@ -25,8 +25,8 @@ use frontend\models\Schulleiter;
     <?= $form->field($model, 'sort')->textInput(['maxlength' => 10]) ?>
 
     <?= $form->field($model, 'recDeleted')->checkBox(
-[ 'prompt' => 'Deleted' ]
-) ?>
+                      [ 'prompt' => 'Deleted' ]
+    ) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

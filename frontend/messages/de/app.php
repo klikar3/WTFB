@@ -66,8 +66,17 @@ return [
     'User' => 'User', 
     'Woo-SWM Adjustment' => 'Woo-SWM Abgleich',
     'Really delete Members' => 'Mitglieder wirklich löschen',
-    'Delete marked records' => 'Markierte Datensätz wirklich löschen', 
+    'Delete marked records' => 'Markierte Datensätz wirklich löschen',
+    'No Backup - no Pity!' => 'Kein Backup - kein Mitleid!',
+    'Woo-WT-Shop - SWM Adjustment' => 'Woo-WT-Shop - SWM Abgleich',
+    'Woo-OnlAka-Shop - SWM Adjustment' => 'Woo-OnlAka-Shop - SWM Abgleich', 
 
+    // zeug
+    'Salutations' => 'Anreden',
+    'Precence' =>'Anwesenheit',
+    'Create Precence' =>'Anwesenheit anlegen',
+
+    
     // Schulen
     'Schools' => 'Schulen',
     'Create {modelClass}' => '{modelClass} anlegen',

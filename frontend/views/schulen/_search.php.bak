@@ -31,13 +31,6 @@ use yii\widgets\ActiveForm;
 	 
 	   <?php echo $form->field($model, 'swmMitgliederForm') ?> 
 	 
-	   <?php echo $form->field($model, 'swmInteressentenListeK') ?> 
-	 
-	   <?php echo $form->field($model, 'swmInteressentenFormK') ?> 
-	 
-	   <?php echo $form->field($model, 'swmMitgliederListeK') ?> 
-	 
-	   <?php echo $form->field($model, 'swmMitgliederFormK') ?> 
 		 
 	    <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

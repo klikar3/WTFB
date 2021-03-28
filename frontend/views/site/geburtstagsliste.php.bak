@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['attribute' => 'GeburtsDatum',
              'value' => function ($data) {
-                  return empty($data->VDatum) ? '' : \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
+                  return empty($data->GeburtsDatum) ? '' : \DateTime::createFromFormat('Y-m-d', $data->GeburtsDatum)->format('d.m.Y');
                   },
              'enableSorting' => ($print == 1) ? false : true,
              'width' => '100px',

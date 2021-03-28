@@ -1,7 +1,10 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
+//use yii\grid\GridView;
+
+use kartik\grid\GridView;
 
 use frontend\models\Schulleiter;
 use frontend\models\Schulen;
@@ -15,11 +18,11 @@ use frontend\models\Disziplinen;
 $this->title = Yii::t('app', 'Schulleiterschulens');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="schulleiterschulen-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+<div clas="card">
+  <div class="card-header text-white border-primary bg-info">
+    <h5><?= Html::encode($this->title) ?></h5>
+  </div>
+  <div class="card-body border-primary bg-light">
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Schulleiterschulen',
@@ -37,7 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'schul.Schulname',
             'disp.DispName',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',                 
+             'options' => [
+                    'style' => 'width:6em;',
+                ],
+            ],
         ],
     ]); ?>
 

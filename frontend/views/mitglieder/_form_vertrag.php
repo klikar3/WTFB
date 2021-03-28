@@ -1,8 +1,9 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
+use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use kartik\grid\GridView;

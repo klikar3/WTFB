@@ -30,13 +30,7 @@ use frontend\models\Disziplinen;
 
     <?= $form->field($model, 'swmMitgliederForm')->textInput() ?>
 
-    <?= $form->field($model, 'swmInteressentenListeK')->textInput() ?>
 
-    <?= $form->field($model, 'swmInteressentenFormK')->textInput() ?>
-
-    <?= $form->field($model, 'swmMitgliederListeK')->textInput() ?>
-
-   <?= $form->field($model, 'swmMitgliederFormK')->textInput() ?>
 	    <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

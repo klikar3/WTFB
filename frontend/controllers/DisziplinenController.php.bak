@@ -26,6 +26,9 @@ class DisziplinenController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                   [
+                        'allow' => false,
+                    ],
                 ],
             ],
             'verbs' => [
@@ -72,6 +75,7 @@ class DisziplinenController extends Controller
     public function actionCreate()
     {
         $model = new Disziplinen();
+        $model->sort = Disziplinen::find()->select('sort')->max('sort');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->DispId]);

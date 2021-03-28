@@ -75,6 +75,7 @@ class GradeController extends Controller
     public function actionCreate()
     {
         $model = new Grade();
+        $model->sort = Grade::find()->select('sort')->max('sort') + 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->gradId]);

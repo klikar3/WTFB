@@ -75,6 +75,7 @@ class DisziplinenController extends Controller
     public function actionCreate()
     {
         $model = new Disziplinen();
+        $model->sort = Disziplinen::find()->select('sort')->max('sort') + 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->DispId]);

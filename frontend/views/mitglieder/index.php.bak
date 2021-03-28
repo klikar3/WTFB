@@ -223,7 +223,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								    },
                     'update'=> function ($url, $model, $key) {
                         return Html::a('<i class="fa fa-edit"></i>', 
-                           ['/mitglieder/update', 'id' => $model->MitgliederId],
+                           ['/mitglieder/update_only', 'id' => $model->MitgliederId],
                         );  // update record
                     },
 								],

@@ -6,7 +6,7 @@ use yii\helpers\VarDumper;
 
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\DateControl;
+use kartik\datecontrol\datecontrol;
 use kartik\select2\Select2;
 use kartik\widgets\DatePicker;
 
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //									->label('Textauswahl'); 
 			?>
       <?php $form->field($model, 'schule')->widget(Select2::classname(), [
-          'data' => ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
+          'data' => ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
           'language' => 'de',
           'options' => ['multiple' => true, 'placeholder' => 'Schule auswählen ...'],
           'pluginOptions' => [

@@ -36,7 +36,9 @@ use frontend\models\Disziplinen;
 
     <?= $form->field($model, 'prueferId')->dropdownList(ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName')) ?>
 
-    <?= $form->field($model, 'erledigt')->textInput() ?>
+    <?= $form->field($model, 'erledigt')->checkBox(
+	[ 'prompt' => 'Erledigt' ]
+	) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

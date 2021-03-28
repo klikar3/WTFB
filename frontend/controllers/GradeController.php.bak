@@ -26,6 +26,9 @@ class GradeController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                   [
+                        'allow' => false,
+                    ],
                 ],
             ],
             'verbs' => [

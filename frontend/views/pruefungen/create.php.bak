@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Pruefungen */
 
-$this->title = Yii::t('app', 'Create Pruefungen');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pruefungens'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Prüfung anlegen');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Prüfungen'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pruefungen-create">
