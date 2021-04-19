@@ -7,7 +7,7 @@ use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 //use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 use kartik\popover\PopoverX;
@@ -44,7 +44,7 @@ use frontend\models\Sifu;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'Person', //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em'],
+					'headingOptions' => ['style' => 'font-size:1em;background-color: #3c68b1 !important;'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
 				'formOptions' => [
@@ -73,10 +73,11 @@ use frontend\models\Sifu;
             [ 'attribute' => 'Schulort',
 	            'format' => 'raw',
 	            'type' => DetailView::INPUT_SELECT2,
+//              'value' => $schulen[$model->Schulort],
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => $schulen,
+									'data' => $schulorte,
 							]
             ],
             [ 'attribute' => 'Anrede',

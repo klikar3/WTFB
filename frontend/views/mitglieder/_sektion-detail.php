@@ -35,6 +35,9 @@ use frontend\models\Schulen;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'&nbsp;', // Grad # ' . $model->mgID,
+          'headingOptions' => [
+              'class' => 'card-header my-card text-white',
+          ],
 					'type'=>DetailView::TYPE_INFO,
 				],
 		    'formatter' => [
@@ -44,8 +47,23 @@ use frontend\models\Schulen;
 				'formOptions' => [
 							'action' => ['mitgliedersektionen/viewfrommitglied', 'id' => $model->msekt_id, 'tabnum' => 3 ],
 				],
-				'rowOptions' => [ 'style' => 'font-size:0.85em',
-				],
+       'viewOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'updateOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'resetOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'deleteOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'saveOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+//				'rowOptions' => [ 'style' => 'font-size:0.85em',
+//				],
         'attributes' => [
 /*             [ 'attribute' => 'MitgliedId',
             	'id' => 'dv_vv_a_'.$model->mgID,

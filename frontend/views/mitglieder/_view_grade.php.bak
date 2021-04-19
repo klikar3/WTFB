@@ -33,17 +33,20 @@ use frontend\models\Pruefer;
   $mg->MitgliedId = $model->MitgliederId;
   $mg->GradId = null;
   $mg->PrueferId = null; 
-	$header = '<center><h5>'.Yii::t('app', 'New Level for ').$model->Name.', '.$model->Vorname.'</h5></center>';         
+	$header = '<center style="color:black"><h5>'.Yii::t('app', 'New Level for ').$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
-				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
-					<div class="panel-heading" style="height:3em;margin-bottom: 0px;">
+				<div class="card panel panel-info" style="font-size:0.9em;">
+					<div class="card card-header my-card text-white bg-info" style="height:3.5em;margin-bottom: 0px;">
 					<?php //'<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
               echo '<h5 style="padding-top:0em;margin-top:0em;clear: both;">'.Yii::t('app', 'Exams').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
           ?>
-					<?php Modal::begin([ 'id' => 'mg-ag-modal',
-						'title' => $header,
-						'size'=>'modal-md',					
-						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
+					<?php PopoverX::begin([ 'id' => 'mg-ag-modal',
+						'header' => $header,
+            'type' => PopoverX::TYPE_INFO,
+            'placement' => PopoverX::ALIGN_BOTTOM,
+						'size'=>'lg',					
+            'headerOptions' => ['style' => 'color: white;background-color: #E8F0FD !important;'],
+						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success',],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 /*
                 'class' => 'col-sm-10',
@@ -64,7 +67,7 @@ use frontend\models\Pruefer;
 																							'showErrors' => true,
 																						]
 																						]); ?>
-							<div class="row">																	
+							<div class="row" style="color:black;">																	
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							</div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
@@ -96,25 +99,25 @@ use frontend\models\Pruefer;
 					</div>
 					</div>									
 					<?php $form = ActiveForm::end(); ?>
-					<?php Modal::end();?>
+					<?php PopoverX::end();?>
 				</div> </h5>
-			</div>		
-
+        <div class="card-body">
  
  	<?= GridView::widget([
 	        'dataProvider' => $grade,
 	        'responsiveWrap' => false,
 			   	'condensed'=>true,
+				  'hover'=>true,
           'options' => ['id' => 'exp_row_grade',
           ], 
-					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
-					],
+//					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
+//					],
 			    'formatter' => [
 			        'class' => 'yii\i18n\Formatter',
 			        'nullDisplay' => '',
 			    ],
-					'rowOptions' => [ 'style' => 'font-size:0.85em',
-					],
+//					'rowOptions' => [ 'style' => 'font-size:0.85em',
+//					],
 	        'columns' => [
             	[ 'class' => '\kartik\grid\ActionColumn',
             						'template' => '{print}',
@@ -137,7 +140,7 @@ use frontend\models\Pruefer;
                     },
 								'detail' => function ($data, $id, $model) use ($grade_zur_auswahl, $pruefer_zur_auswahl){
 //				Yii::warning('-----$grade: '.VarDumper::dumpAsString($data));
-									$cont = Mitgliedergrade::findOne($id);
+//									$cont = Mitgliedergrade::findOne($id);
 	                return Yii::$app->controller->renderPartial('/mitglieder/_grad-detail', ['model'=>$data, 'grade_zur_auswahl' => $grade_zur_auswahl,
 																																							'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'p' => $data->pName,
                                                                               'g' => $data->gkdk]);
@@ -147,7 +150,7 @@ use frontend\models\Pruefer;
 							],
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz', 'label' => Yii::t('app', 'Level') ],
 							[ 'attribute' => 'Disziplin', 'value' => 'grad.dKurz', 'label' => Yii::t('app', 'Discipline') ],
-							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'] ],
+							[ 'attribute' => 'Datum', 'value' => 'Datum', 'format' => ['date', 'php:d.m.Y'], 'label' => Yii::t('app', 'Date')  ],
 //							 'PrueferId',	        
 							[ 'attribute' => 'Pruefer', 'value' => 'pruefer.pName', 'label' => Yii::t('app', 'Examiner') ],
             	[ 'class' => '\kartik\grid\ActionColumn',
@@ -162,4 +165,5 @@ use frontend\models\Pruefer;
 				],
 	    ]); ?>
 
-
+			</div>		
+  </div>

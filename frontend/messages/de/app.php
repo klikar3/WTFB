@@ -23,6 +23,8 @@ return [
     'November' => 'November',
     'December' => 'Dezember',
     'Month' => 'Monat',
+    'Date' => 'Datum',
+    'Welcome' => 'Willkommen',
 
     // Hauptmenü
     'Account' => 'Account',  
@@ -63,7 +65,7 @@ return [
     'SWM blocked Emails' => 'SWM blocked Emails', 
     'Texts' => 'Texte', 
     'Trainings' => 'Trainings',
-    'User' => 'User', 
+    'User' => 'Benutzer', 
     'Woo-SWM Adjustment' => 'Woo-SWM Abgleich',
     'Really delete Members' => 'Mitglieder wirklich löschen',
     'Delete marked records' => 'Markierte Datensätz wirklich löschen',
@@ -122,6 +124,7 @@ return [
     'Sex' => 'Geschlecht',
     'Salutation' => 'Anrede',
     'Birthday' => 'Geburtsdatum',
+    'B.Day' => 'Geburtstag',
     'Postcode' => 'Plz',
     'Place of Residence' => 'Wohnort',
     'Street' => 'Strasse',
@@ -270,7 +273,7 @@ return [
     "The File '{name}'' ({size} KB) is bigger than the maximum allowed Size of {maxSize} KB!" => "Die Datei '{name}'' ({size} KB) ist größer als die Maximalgröße von {maxSize} KB!",
     'Upload' => 'Hochladen',
     'Select Pdf' => 'Pdf auswählen',
-    'View Contract' => 'Vertrag ansehen',
+    'View Contract' => 'Vertr. ansehen',
     'Enter into Newsletter for Interested Persons' => 'In NL-Interessent eintragen',
     'Enter into NL' => 'In NL eintr.',
     'Enter into Newsletter for Members' => 'In den Newsletter für Mitglieder eintragen', 
@@ -287,6 +290,7 @@ return [
     'Susp. from' => 'Pause von',
     'Susp. to' => 'Pause bis',
     ' for ' => ' für ',
+    'Data' => 'Daten',
     
     
     // Mitgliedergrade

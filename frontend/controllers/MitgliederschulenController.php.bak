@@ -194,7 +194,7 @@ class MitgliederschulenController extends Controller
 
 
 				// Graduierungen
-				$query = Mitgliedergrade::find();
+				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('pruefer')->select(['*','pruefer.pName']);
 				$query->andWhere(['=', 'MitgliedId', $mgId]);
 				$mgdataProvider = new ActiveDataProvider([
 			    'query' => $query,

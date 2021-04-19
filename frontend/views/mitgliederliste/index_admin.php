@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
 use kartik\dynagrid\DynaGrid;
+use kartik\dynagrid\Module;
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
@@ -59,6 +60,7 @@ $mcef->MitgliederId = $mcf->MitgliederId;
 $mcef->Funktion = 'Schüler/in';
 $mcef->KontaktAm = date('Y-m-d');
 
+
 $content_mcf = $this->render('mgcreate_preform',['mcf' => $mcf]);
 //$dataProvider->pagination->LinkPager->firstPageLabel = 'first';
 
@@ -94,8 +96,9 @@ $this->registerJs(
       <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
-				'theme'=>'simple-condensed',
+				'theme'=> 'my-condensed', //'simple-condensed',
         'id'=>'dynagrid-1',
+        'matchPanelStyle' => false,
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
@@ -109,14 +112,19 @@ $this->registerJs(
 //						'emptyCell'=>'-',
 						'panel' => [
 				        'heading' => '<b>'.Yii::t('app', 'Member List').'</b>',
-							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
+                'headingOptions' => [
+                    'class' => 'card-header text-white my-card',
+                ],
+							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',     
 						],
         		'tableOptions'=>['class'=>'table table-striped table-condensed'],
+//  					'headerRowOptions' => [ 'style' => 'font-size:0.9em'],
+//  					'rowOptions' => [ 'style' => 'font-size:0.9em'],
         		'responsive' => true,
 						'toolbar' => [
-										 	['content'=>$content_mcf  
+										 	['content'=>$content_mcf . '&nbsp;' 
 											],
-										 	['content'=>$content_mecf  
+										 	['content'=>$content_mecf . '&nbsp;'  
 											],
 										 	['content'=>
 													Html::a('<i class="fa fa-minus "></i>', ['/mitgliederliste/resetpliste'], [
@@ -125,11 +133,11 @@ $this->registerJs(
 													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
 													'data-toggle'=>'tooltip',
 													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
-													])  
+													]) . '&nbsp;'  
 											],
-										 	['content'=>$content_plf  
+										 	['content'=>$content_plf . '&nbsp;'  
 											],
-											'{export}',
+											'{export}' . '&nbsp;',
 											'{toggleData}',
 									],
 				],
@@ -162,7 +170,7 @@ $this->registerJs(
 						['format' => 'raw',
               'attribute' => 'NameLink',
               'width' => '10em',
-							'label' => 'Name',
+							'label' => Yii::t('app', 'Name'),
 //							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
 //								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
@@ -177,7 +185,10 @@ $this->registerJs(
 //            	'visible' => false,
 //							'format' => 'raw',
               'label' => Yii::t('app', 'Location'),
-//
+						    'value' => function ($model, $index, $widget) {
+						        return is_numeric($model->Schulname) ? '--' : $model->Schulname;
+						    },
+
 							'filterInputOptions' => [
 //								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
@@ -258,9 +269,9 @@ $this->registerJs(
 							'format' => ['date', 'php:d.m.Y'],
               'label' => Yii::t('app', 'B.Day'),
 //							'label' => 'Geb.Datum', 
-							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
+//							'contentOptions' =>['class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden'],
 							'filterInputOptions' => [
-								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
+//								'class' => Yii::$app->user->identity->isAdmin ? 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1' : 'hidden',
 								'style' => 'width:6em;',
 							],								
 							'headerOptions' => [
@@ -268,12 +279,18 @@ $this->registerJs(
 							],								
 						],
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{graduieren} &nbsp;&nbsp; {markieren}',
+            	'template' => '{graduieren} &nbsp;&nbsp; {drucken}',
 							'controller' => 'mitglieder',
 							'mergeHeader' => false,
 //							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
+									return Html::a('<span class="fa fa-check-circle"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
+//          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Für Prüfung vormerken'),
+							        ]);
+							    },
+								'drucken' => function ($url, $model) {
 									return Html::a( $model->printed ? '<span class="fa fa-print" style="color:lightgreen"></span>'
                                                   : '<span class="fa fa-print"></span>'
                                   , Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
@@ -518,6 +535,9 @@ $toolbar = [
 //						'options' => ['id' => 'dgrid-2', 'class' => 'col-xs-12'], // a unique identifier is important
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
+                'headingOptions' => [
+                    'class' => 'card-header text-white my-card',
+                ],
 //							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
 //                'after' => '{pager}',     
 							 	'before'=>'',

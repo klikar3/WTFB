@@ -5,9 +5,10 @@ use yii\helpers\ArrayHelper;
 //use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 //use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 //use kartik\popover\PopoverX;
@@ -29,13 +30,9 @@ use frontend\models\Sifu;
 /* @var $model app\models\Mitglieder */
 
 
-$schulen = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
-$anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-$functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
-$sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
 ?>
 
-<div class="col-md-6" name="va_pn">   
+<div class="col-md-6 bg-light" name="va_pn">   
        <?= DetailView::widget([
     		'id' => 'dv_va_n',
         'model' => $model,
@@ -49,7 +46,7 @@ $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')-
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'Person', //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em'],
+					'headingOptions' => ['style' => 'font-size:1em;background-color: #3c68b1 !important;'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
 				'formOptions' => [
@@ -82,11 +79,12 @@ $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')-
            ],
             [ 'attribute' => 'Schulort',
 	            'format' => 'raw',
+//              'value' => $schulorte[$model->Schulort],
 	            'type' => DetailView::INPUT_SELECT2,
               'valueColOptions'=>['style'=>'width:30%'], 
               'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
 	            'widgetOptions' => [
-									'data' => $schulen,
+									'data' => $schulorte,
 							]
             ],
             [ 'attribute' => 'Anrede',
