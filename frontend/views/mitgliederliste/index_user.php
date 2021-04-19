@@ -81,15 +81,12 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 ?>
 
 <span class="mitglieder-index d-none d-sm-block">
-
-
-
-
     <?php echo DynaGrid::widget([
 //				'storage'=>DynaGrid::TYPE_COOKIE,
 				'storage'=>DynaGrid::TYPE_DB,
 //				'theme'=>'simple-condensed',
 				'options'=>['id'=>'dynagrid-1'], // a unique identifier is important
+        'matchPanelStyle' => false,
 				'gridOptions'=>[
 						'dataProvider'=>$dataProvider,
 						'responsiveWrap' => false,
@@ -98,6 +95,8 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
             'id' => 'dgrid-11',
 						'summary' => '{begin}-{end} '.Yii::t('app', 'of').' {totalCount}',
             'options'=>['id'=>'grid-1'], // a unique identifier is important
+//  					'headerRowOptions' => [ 'style' => 'font-size:0.85em'],
+//  					'rowOptions' => [ 'style' => 'font-size:0.85em'],
 				    'formatter' => [
 				        'class' => 'yii\i18n\Formatter',
 				        'nullDisplay' => '',
@@ -105,14 +104,17 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //						'emptyCell'=>'-',
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
+                'headingOptions' => [
+                    'class' => 'card-header text-white my-card',
+                ],
 							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}'     
 						],
 //        		'tableOptions'=>['class'=>'table table-striped table-condensed'],
         		'responsive' => true,
 						'toolbar' => [
-										 	['content'=>$content_mcf  
+										 	['content'=>$content_mcf . '&nbsp;'  
 											],
-										 	['content'=>$content_mecf  
+										 	['content'=>$content_mecf . '&nbsp;'  
 											],
 										 	['content'=>
 													Html::a('<i class="fa fa-minus"></i>', ['/mitgliederliste/resetpliste'], [
@@ -121,11 +123,11 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 													'data-confirm' => 'Wirklich die Prüfungsmarkierungen zurücksetzen?',
 													'data-toggle'=>'tooltip',
 													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
-													])  
+													]) . '&nbsp;'  
 											],
-										 	['content'=>$content_plf  
+										 	['content'=>$content_plf  . '&nbsp;' 
 											],
-											'{export}',
+											'{export}' . '&nbsp;',
 											'{toggleData}',
 									],
 				],
@@ -154,7 +156,7 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 							'width' => '3em',
 							'contentOptions' =>['class' => 'hidden-xs table_class'],
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 							],															
 						],
 // 						['class'=>'kartik\grid\CheckboxColumn', //'order'=>DynaGrid::ORDER_FIX_RIGHT
@@ -162,10 +164,10 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 						['format' => 'raw',
               'attribute' => 'NameLink',
               'width' => '10em',
-							'label' => 'Name',
-							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'label' => Yii::t('app', 'Name'),
+//							'contentOptions' =>['class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:10em;',
 							],
             ],
@@ -174,102 +176,110 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //						'Name',
 //            'Vorname',
             ['attribute' => 'Schulname',
+              'label' => Yii::t('app', 'Location'),
 //            	'visible' => false,
 //							'format' => 'raw',
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],															
 						],
             ['attribute' => 'LeiterName',
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+              'label' => Yii::t('app', 'Headmaster'),
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'DispName', //'width' => '5em',
 							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:4em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
 						['attribute' => 'Funktion', 
 							'width' => '5em',							
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+              'label' => Yii::t('app', 'Function'),
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						], 
             ['attribute' => 'Vertrag',
             	'width' => '7em',
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+              'label' => Yii::t('app', 'Contract'),
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:7em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'Grad', 'width' => '5em',
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+              'label' => Yii::t('app', 'Level'),
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:5em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						 ],
             ['attribute' => 'LetzteAenderung', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y H:i'], 
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+              'label' => Yii::t('app', 'Last Change'),
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:8em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['attribute' => 'GeburtsDatum', 'width' => '8em', 
 							'format' => ['date', 'php:d.m.Y'],
-							'label' => 'Geb.Datum', 
-							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
+							'label' => Yii::t('app', 'B.Day'), 
+//							'contentOptions' =>['class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1'],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 								'style' => 'width:6em;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1',
 							],								
 						],
             ['class' => '\kartik\grid\ActionColumn',
-            	'template' => '{markieren} &nbsp;&nbsp; {graduieren}',
+            	'template' => '{graduieren} &nbsp;&nbsp; {markieren}',
 							'controller' => 'mitglieder',
 							'mergeHeader' => false,
 //							'label' => 'Aktion',
 							'buttons' => [ 
 								'markieren' => function ($url, $model) {
-									return Html::a('<span class="fa fa-ok"></span>', Url::toRoute(['mitglieder/mark', 'id' => $model->MitgliederId] ), [
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Für Prüfung vormerken'),
+									return Html::a( $model->printed ? '<span class="fa fa-print" style="color:lightgreen"></span>'
+                                                  : '<span class="fa fa-print"></span>'
+                                  , Url::toRoute(['mitgliedergrade/print', 'id' => $model->mgID] ), [
+          					'target'=>'_blank',
+										'title' => Yii::t('app', 'Letzte Prüfungsurkunde nochmals drucken'),
 							        ]);
 							    },
 								'graduieren' => function ($url, $model) {
@@ -300,11 +310,11 @@ $content_mecf = $this->render('mgemailcreate_preform',['mcf' => $mcef]);;
 //							'mergeHeader' => true,
 //							'filterWidgetOptions' => ['pluginOptions'=>['threeState'=>true]],
 							'filterInputOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 								'style' => 'font-size:12px;width:4em !important;text-align:center !important;',
 							],								
 							'headerOptions' => [
-								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
+//								'class' => 'hidden-xs col-1 col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xs-1',
 								'style' => 'text-align:center !important',
 							],																
 						],
@@ -474,6 +484,9 @@ $toolbar = [
 						'options' => ['id' => 'dgrid-2',], // a unique identifier is important
 						'panel' => [
 				        'heading' => '<b>Mitgliederliste</b>',
+                'headingOptions' => [
+                    'class' => 'card-header text-white my-card',
+                ],
 //							 	'before'=>'{dynagridFilter}{dynagridSort}{dynagrid}',
 //                'after' => '{pager}',     
 							 	'before'=>'',

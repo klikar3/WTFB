@@ -123,7 +123,7 @@ use frontend\models\Sifu;
 												, ['class'=>'mt-1']											
 		//									[ 'prompt' => 'Text' ]
 											)										
-									->label(Yii::t('app', 'Select Text'),['class'=>'mr-1']); 
+									->label(Yii::t('app', 'Select Text')); 
 							?>
 						</div>	
 							<div style="text-align: right;">  <br>

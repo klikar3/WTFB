@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 //use yii\widgets\DetailView;
 use yii\helpers\Url;
 use kartik\detail\DetailView;
@@ -44,8 +44,23 @@ use frontend\models\Schulen;
 				'formOptions' => [
 							'action' => ['mitgliedersektionen/viewfrommitglied', 'id' => $model->msekt_id, 'tabnum' => 3 ],
 				],
-				'rowOptions' => [ 'style' => 'font-size:0.85em',
-				],
+       'viewOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'updateOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'resetOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'deleteOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'saveOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+//				'rowOptions' => [ 'style' => 'font-size:0.85em',
+//				],
         'attributes' => [
 /*             [ 'attribute' => 'MitgliedId',
             	'id' => 'dv_vv_a_'.$model->mgID,

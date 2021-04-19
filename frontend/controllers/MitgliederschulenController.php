@@ -25,6 +25,7 @@ use frontend\models\InteressentVorgaben;
 use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederschulenSearch;
 use frontend\models\MitgliederIntensivSearch;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;

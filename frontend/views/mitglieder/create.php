@@ -4,7 +4,6 @@ use yii\helpers\ArrayHelper;
 //use yii\helpers\BaseHtml;
 //use yii\helpers\Html;
 use yii\bootstrap4\Html;
-use yii\bootstrap4\Html;
 use yii\helpers\Url;
 use yii\bootstrap4\Modal;
 /*use yii\grid\GridView; */
@@ -13,7 +12,7 @@ use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 //use kartik\popover\PopoverX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -56,7 +55,7 @@ use frontend\models\Schulen;
 //																				'options'=>['style'=>'width:20em;margin:0px;']												
 																			]); ?>
 				<?php if($mcf->hasErrors()){
-						  echo BaseHtml::errorSummary($mcf);
+						  echo Html::errorSummary($mcf);
 						} ?>																			
 				<?= $form->field($mcf, 'Name',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
 																			 'inputOptions' => ['style'=>'font-size:0.85em;']

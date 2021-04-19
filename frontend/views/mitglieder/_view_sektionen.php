@@ -40,17 +40,20 @@ use frontend\models\SifuSearch;
   $mgs->sektion_id = null;
   $mgs->pruefer_id = null; 
   $mgs->vermittler_id = null; 
-	$header = '<center><h5>'.Yii::t('app', 'New Program for ').$model->Name.', '.$model->Vorname.'</h5></center>';         
+	$header = '<center style="color:black;"><h5>'.Yii::t('app', 'New Program for ').$model->Name.', '.$model->Vorname.'</h5></center>';         
 ?>
-				<div class="panel panel-info" style="font-size:0.9em;height:3em;">
-					<div class="panel-heading panel-xs" style="height:3em;margin-bottom: 0px;">
+				<div class="card panel panel-info" style="font-size:0.9em;">
+					<div class="card card-header my-card text-white bg-info panel-heading panel-xs" style="height:3.5em;margin-bottom: 0px;">
 					<?php // '<h5 style="padding-top:0em;margin-top:0em;">' . $model->Name . ', ' . $model->Vorname . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' 
                 echo '<h5 style="padding-top:0em;margin-top:0em;">'.Yii::t('app', 'Programs').'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
           ?>
-					<?php Modal::begin([ 'id' => 'mgs-modal',
-						'title' => $header,
-						'size'=>'modal-md',					
-						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-primary', 'style'=>"padding-top:0.1em;margin-top:0em;adjust:right;"],
+					<?php PopoverX::begin([ 'id' => 'mgs-modal',
+						'header' => $header,
+            'type' => PopoverX::TYPE_INFO,
+            'placement' => PopoverX::ALIGN_BOTTOM,
+						'size'=>'lg',					
+						'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success', ],
+            'headerOptions' => ['style' => 'color: white;background-color: #E8F0FD !important;'],
 //						'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])
 					]);
 					?>
@@ -67,10 +70,10 @@ use frontend\models\SifuSearch;
 																							'showErrors' => true,
 																						]
 																						]); ?>
-							<div class="row">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="row" style="color:black;">																	
+							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							<div class="col-10">
 							<?=  $form->field($mgs, 'mitglied_id')->hiddenInput()->label(false) ; ?>
     				  <?php  echo $form->field($mgs, 'sektion_id')->dropdownList($sektionen_zur_auswahl,
 														[ 'prompt' => Yii::t('app', 'Program'), 'id' => 'field-gid' ])->label(Yii::t('app', 'Program'));  ?>
@@ -101,10 +104,9 @@ use frontend\models\SifuSearch;
 					</div>
 					</div>									
 					<?php $form = ActiveForm::end(); ?>
-					<?php Modal::end();?>
+					<?php PopoverX::end();?>
 				</div> </h5>
-			</div>		
-
+      <div class="card-body">
 
  	<?= GridView::widget([
 	        'dataProvider' => $sektionen,
@@ -112,10 +114,10 @@ use frontend\models\SifuSearch;
 		  		'condensed'=>true,          
           'options' => ['id' => 'exp_row_sekts',
           ], 
-					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
-					],
-					'rowOptions' => [ 'style' => 'font-size:0.85em',
-					],
+//					'headerRowOptions' => [ 'style' => 'font-size:0.85em',
+//					],
+//					'rowOptions' => [ 'style' => 'font-size:0.85em',
+//					],
 			    'formatter' => [
 			        'class' => 'yii\i18n\Formatter',
 			        'nullDisplay' => '',
@@ -158,6 +160,7 @@ use frontend\models\SifuSearch;
             		},
             		'enableRowClick' => true,
                 'hidden' => true,
+                'detailRowCssClass' => 'wtfb-light',
 							],
 							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz', 'label' => Yii::t('app', 'Program')  ],
 		//					[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],
@@ -177,4 +180,6 @@ use frontend\models\SifuSearch;
 				],
 	    ]); ?>
 
+			</div>		
+	</div>		
 

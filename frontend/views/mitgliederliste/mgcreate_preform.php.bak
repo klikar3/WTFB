@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseHtml;
+use yii\bootstrap4\BaseHtml;
+//use yii\helpers\BaseHtml;
 //use yii\helpers\Html;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
@@ -11,7 +12,7 @@ use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 //use kartik\popover\PopoverX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 
@@ -20,12 +21,13 @@ use frontend\models\Disziplinen;
 use frontend\models\Funktion;
 use frontend\models\Schulen;
 ?>
-							<div class="panel-info" style="color:#337ab7;">																	
+							<div class="panel-info wtfb-light" style="color:#337ab7;">																	
 			<?php Modal::begin([ 'id' => 'mg-cr-mod',
 				'title' => '<center><h5>Neues Mitglied anlegen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success', 
 													'title'=>'Neues Mitglied anlegen'],
 				'size'=>'modal-md',
+        'headerOptions' => ['class' => 'card-header my-card text-white'],
 				'clientOptions' => [ 'style' => 'adjust:center;',
 											'backdrop' => true,
 											'keyboard' => true,
@@ -42,7 +44,7 @@ use frontend\models\Schulen;
 																				'enableAjaxValidation' => false, 
 																				'fieldConfig'=>['showLabels'=>true],
 																				'type' => ActiveForm::TYPE_HORIZONTAL,
-																				'formConfig' => [ 'labelSpan' => 3, 
+																				'formConfig' => [ 'labelSpan' =>4, 
 																													'deviceSize' => ActiveForm::SIZE_MEDIUM,
 																													'showErrors' => true,
 																				],
@@ -53,22 +55,16 @@ use frontend\models\Schulen;
 							} 
 				?>																			
 							<div class="row">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="col-1">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-				<?= $form->field($mcf, 'Name',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])
+							<div class="col-11">
+				<?= $form->field($mcf, 'Name',)
 									 ;
 				?>
-				<?= $form->field($mcf, 'Vorname',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
+				<?= $form->field($mcf, 'Vorname',)//->textInput(['style'=>'width:10em;font-size:0.85em;height:2em']) width:18.75em;
 																			 ;
 				?>
-				<?= $form->field($mcf, 'Geschlecht',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'width:20em;font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ['männlich'=>'männlich','weiblich'=>'weiblich']),
+				<?= $form->field($mcf, 'Geschlecht',)->dropdownList(array_merge(["" => ""], ['männlich'=>'männlich','weiblich'=>'weiblich']),
 																														['style'=>'']); 
 				?>
 			
@@ -79,28 +75,20 @@ use frontend\models\Schulen;
 																									'todayHighlight' => true, 'todayBtn' => true,]
 																								]); */?>
 
-        <?= $form->field($mcf, 'Schulort',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+        <?= $form->field($mcf, 'Schulort',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
 									'Schulname', 'Schulname' )),['style'=>'']);
 				?>
 
 
-        <?= $form->field($mcf, 'Disziplin',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+        <?= $form->field($mcf, 'Disziplin',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
 									'DispName', 'DispName' )),['style'=>'']);
 				?>
 
-				<?= $form->field($mcf, 'Email',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])
+				<?= $form->field($mcf, 'Email',)
 									 ;
 				?>
 
-        <?= $form->field($mcf, 'Funktion',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+        <?= $form->field($mcf, 'Funktion',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
 									'inhalt', 'inhalt' )),['style'=>'']);
 				?>
 				<?= $form->field($mcf, 'MitgliederId',['labelOptions'=>['style'=>'font-size:0em;height:0em;padding-top:0em;'],

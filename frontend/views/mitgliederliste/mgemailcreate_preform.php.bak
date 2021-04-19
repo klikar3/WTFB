@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use yii\helpers\BaseHtml;
+use yii\bootstrap4\BaseHtml;
+//use yii\helpers\BaseHtml;
 //use yii\helpers\Html;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
@@ -20,12 +21,13 @@ use frontend\models\Disziplinen;
 use frontend\models\Funktion;
 use frontend\models\Schulen;
 ?>
-							<div class="panel-info" style="color:#337ab7;">																	
+							<div class="panel-info wtfb-light" style="color:#337ab7;">																	
 			<?php Modal::begin([ 'id' => 'mg-e-cr-mod',
 				'title' => '<center><h5>Neues Mitglied aus Email anlegen</h5></center>',
 				'toggleButton' => ['label' => '<i class="fa fa-plus"></i>&nbsp;<i class="fa fa-envelope"></i>', 'class' => 'btn btn-success', 
 													'title'=>'Neues Mitglied aus Email anlegen'],
 				'size'=>'modal-md',
+        'headerOptions' => ['class' => 'card-header my-card text-white'],
 				'clientOptions' => [ 'style' => 'adjust:center;',
 											'backdrop' => true,
 											'keyboard' => true,
@@ -53,11 +55,11 @@ use frontend\models\Schulen;
 							} 
 				?>																			
 							<div class="row">																	
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<div class="col-1">
 							</div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-				<?= $form->field($mcf, 'emailInhalt',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']])
+							<div class="col-10">
+				<?= $form->field($mcf, 'emailInhalt',['labelOptions'=>['style'=>''],
+																			 'inputOptions' => ['style'=>']])
                   ->textarea(['rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '])->label('EmailInhalt') 
 				?>
 			
@@ -68,22 +70,16 @@ use frontend\models\Schulen;
 																									'todayHighlight' => true, 'todayBtn' => true,]
 																								]); */?>
 
-        <?= $form->field($mcf, 'Schulort',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+        <?= $form->field($mcf, 'Schulort',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( Schulen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
 									'Schulname', 'Schulname' )),['style'=>'']);
 				?>
 
 
-        <?= $form->field($mcf, 'Disziplin',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
+        <?= $form->field($mcf, 'Disziplin',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->all()/*->distinct()->orderBy('SchulId')->all()*/, 
 									'DispName', 'DispName' )),['style'=>'']);
 				?>
 
-        <?= $form->field($mcf, 'KontaktAm',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->widget(datecontrol::classname(), [
+        <?= $form->field($mcf, 'KontaktAm',)->widget(datecontrol::classname(), [
     							'type'=>datecontrol::FORMAT_DATE,
     							'ajaxConversion'=>true,
      							'displayFormat' => 'php:d.m.Y',
@@ -98,9 +94,7 @@ use frontend\models\Schulen;
     						]) 
     		?>
         
-        <?= $form->field($mcf, 'Funktion',['labelOptions'=>['style'=>'font-size:0.85em;height:1em;'],
-																			 'inputOptions' => ['style'=>'font-size:0.85em;']
-																			 ])->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
+        <?= $form->field($mcf, 'Funktion',)->dropdownList(array_merge(["" => ""], ArrayHelper::map( funktion::find()->distinct()->orderBy('FunkId')->all(), 
 									'inhalt', 'inhalt' )),['style'=>'']);
 				?>
 				<?= $form->field($mcf, 'MitgliederId',['labelOptions'=>['style'=>'font-size:0em;height:0em;padding-top:0em;'],

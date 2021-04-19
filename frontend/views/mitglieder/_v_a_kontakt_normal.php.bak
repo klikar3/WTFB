@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 
@@ -32,7 +32,7 @@ use frontend\models\Schulen;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=> Yii::t('app', 'Contact'), //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em'],
+					'headingOptions' => ['style' => 'font-size:1em;background-color: #3c68b1 !important;'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
 				'formOptions' => [
@@ -93,7 +93,7 @@ use frontend\models\Schulen;
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
-								'data' => array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' )),
+								'data' => $disziplinen,
 						 ],             
           ],
           [ 'attribute' => 'EinladungIAzum',

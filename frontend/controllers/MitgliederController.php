@@ -145,7 +145,7 @@ class MitgliederController extends Controller
 
         if (Yii::$app->request->isPost) {
             $selection = Yii::$app->request->post('selection');
-            Yii::warning('-----$selection: '.VarDumper::dumpAsString($selection));
+//            Yii::warning('-----$selection: '.VarDumper::dumpAsString($selection));
             $response['success'] = false;
 
             $transaction = Yii::$app->db->beginTransaction();
@@ -177,9 +177,13 @@ class MitgliederController extends Controller
         $model = $this->findModel($id);
         
         if (empty($tabnum)) $tabnum = 1;
+//				Yii::warning('-----bis hier: ');
 
+        if (Yii::$app->request->isAjax ) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+        }
 				// Graduierungen
-				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('pruefer')->select(['*','pruefer.pName']);
+				$query = Mitgliedergrade::find()->joinWith('grad')->joinWith('pruefer')->select(['mitgliedergrade.*','grade.gKurz','grade.dKurz','pruefer.pName']);
 //        $query = Mitgliedergrade::find();
 				$query->andWhere(['=', 'MitgliedId', $id]);
 				$mgdataProvider = new ActiveDataProvider([
@@ -187,17 +191,20 @@ class MitgliederController extends Controller
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
           'pagination' => false,
 				]);
+//				Yii::warning('-----bis hier2 ');
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
   	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
 
         $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+        $schulorte = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
         $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
         $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
         $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
         $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
-
+				Yii::info('-----$schulen: '.VarDumper::dumpAsString($schulorte));
+        
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
 				$squery->andWhere(['=', 'mitglied_id', $id]);
@@ -233,16 +240,18 @@ class MitgliederController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
+//				Yii::warning('-----bis hier3 ');
 //                Yii::warning('----- reqPost: ' . VarDumper::dumpAsString(Yii::$app->request->post()));
-				        if (!empty($model->KontoNr) and !empty($model->BLZ)) {
-				        	$model->IBAN = IBANGenerator::DE($model->BLZ,$model->KontoNr); 
-//				        Yii::info('----- $KontoNr: '.VarDumper::dumpAsString($model->KontoNr));
-//				        Yii::info('----- $BLZ: '.VarDumper::dumpAsString($model->BLZ));
-//				        Yii::info('-----$generatedIban: '.VarDumper::dumpAsString($model->IBAN));
-								$model->validate();      
-								$errors = $model->errors;
-//		        		Yii::trace($errors);
-								}
+//				        if (!empty($model->KontoNr) and !empty($model->BLZ)) {
+//				        	$model->IBAN = IBANGenerator::DE($model->BLZ,$model->KontoNr); 
+////				        Yii::info('----- $KontoNr: '.VarDumper::dumpAsString($model->KontoNr));
+////				        Yii::info('----- $BLZ: '.VarDumper::dumpAsString($model->BLZ));
+////				        Yii::info('-----$generatedIban: '.VarDumper::dumpAsString($model->IBAN));
+//								$model->validate();      
+//								$errors = $model->errors;
+////		        		Yii::trace($errors);
+//								}
+                
 //                if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
 //                  $mitglied->mandatNr = $model->MitgliedsNr;
 //                }
@@ -255,9 +264,11 @@ class MitgliederController extends Controller
                       } 
                   }
 								if ($model->save() and empty($model->errors)) {
-								  //Yii::info('-----save $model: ');
-            			return $this->redirect(['view', 'id' => $model->MitgliederId, 
-																					'grade' => $mgdataProvider, 
+//								  Yii::warning('-----save $model: ');
+//            			return $this->redirect(['view', 'id' => $model->MitgliederId, 
+                  return $this->render('view', [
+		                                      'model' => $model,
+ 																					'grade' => $mgdataProvider, 
 																					'sektionen' => $msdataProvider, 
 																					'contracts' => $vdataProvider, 
 																					'tabnum' => $tabnum, 
@@ -265,8 +276,9 @@ class MitgliederController extends Controller
 																					'grade_zur_auswahl' => $grade_zur_auswahl,
 																					'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
 																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
-                                          'formedit' => false,
+                                          'formedit' => true,
                                           'schulen' => $schulen,
+                                          'schulorte' => $schulorte,
                                           'anreden' => $anreden,
                                           'functions' => $functions,
                                           'sifus' => $sifus,
@@ -274,7 +286,7 @@ class MitgliederController extends Controller
 																					]);
         				} else {
 								$errors = $model->errors;
-								//Yii::info('-----not save $model: '.VarDumper::dumpAsString($errors));
+//								Yii::warning('-----not save $model: '.VarDumper::dumpAsString($errors));
 		           	return $this->render('view', [
 		                'model' => $model, 'errors' => $errors, 
 										'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
@@ -284,6 +296,7 @@ class MitgliederController extends Controller
 										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
                     'formedit' => true,
                     'schulen' => $schulen,
+                    'schulorte' => $schulorte,
                     'anreden' => $anreden,
                     'functions' => $functions,
                     'sifus' => $sifus,
@@ -291,6 +304,7 @@ class MitgliederController extends Controller
 		            ]);
 		        }
 				} else {
+//				Yii::warning('-----bis hier4 ');
 						$errors = $model->errors;
 //						Yii::info('-----$load model: '.VarDumper::dumpAsString($errors));
             return $this->render('view', [
@@ -302,6 +316,7 @@ class MitgliederController extends Controller
 								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
                 'formedit' => true,
                 'schulen' => $schulen,
+                'schulorte' => $schulorte,
                 'anreden' => $anreden,
                 'functions' => $functions,
                 'sifus' => $sifus,
@@ -346,7 +361,7 @@ class MitgliederController extends Controller
 						$model->Kontoinhaber = $model->Name.', '.$model->Vorname; 
 						$model->validate();      
 						$errors = $model->errors;
-        		Yii::trace($errors);
+        		//Yii::trace($errors);
             if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
               $mitglied->mandatNr = $model->MitgliedsNr;
             }
@@ -362,7 +377,7 @@ class MitgliederController extends Controller
             }
         } //else {
 						$errors = $model->errors;
-        		Yii::trace($errors);
+        		//Yii::trace($errors);
 						$datum = date('Y-m-d');
 		        $model->Geschlecht = 'männlich';
 		        $model->Anrede = 'Lieber';
@@ -414,7 +429,7 @@ class MitgliederController extends Controller
         if ($mcef->load(Yii::$app->request->post()) ) {
 //        		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($mcef));
             $val = array_map('trim', explode("\n", $mcef->emailInhalt));
-        		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($val));
+//        		Yii::warning("----------------mcef: ".Vardumper::dumpAsString($val));
             foreach($val as $v){
               if (strpos($v, 'Anrede: ') !== false ) {$model->Geschlecht = (str_replace('Anrede: ',"",$v)=='Herr') ? 'männlich' : 'weiblich' ;}
               else if (strpos($v, 'Vorname: ') !== false ) {$model->Vorname = str_replace('Vorname: ',"",$v) ;}
@@ -434,12 +449,12 @@ class MitgliederController extends Controller
             $model->KontaktAm = $mcef->KontaktAm; 
 						$model->validate();      
 						$errors = $model->errors;
-        		Yii::trace($errors);
+//        		Yii::trace($errors);
             if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
               $mitglied->mandatNr = $model->MitgliedsNr;
             }
 						$errors = $model->errors;
-        		Yii::trace($errors);
+//        		Yii::trace($errors);
 						$datum = date('Y-m-d');
 		        ;
 		        $model->Anrede = ($model->Geschlecht == 'männlich') ? 'Lieber' : 'Liebe';
@@ -499,7 +514,7 @@ class MitgliederController extends Controller
             return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
 						$errors = $model->errors;
-						VarDumper::dump($errors);
+//						VarDumper::dump($errors);
             return $this->render('update_only', [
                 'model' => $model, 'grade' => $mgdataProvider, 'tabnum' => $tabnum,
             ]);
@@ -604,7 +619,7 @@ JS;
 							$grad = Grade::find()->andWhere(['gradId' => $mgrad->GradId])->one();
 							if (!empty($mgrad)) {
 								$lastGrad = $grad->gKurz . ' ' . $grad->DispName;
-		        		Yii::trace($lastGrad);
+//		        		Yii::trace($lastGrad);
 	        		}
         		}
 //        		VarDumper::dump($model);

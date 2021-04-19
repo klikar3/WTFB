@@ -14,7 +14,7 @@ use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\FileInput;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 
 use frontend\models\Mitgliedergrade;
@@ -50,7 +50,7 @@ use frontend\models\SearchVertrag;
 <?php $anzeigen =  (Yii::$app->user->identity->isAdmin or 
                     (Yii::$app->user->identity->username == 'eva') or 
                     (Yii::$app->user->identity->username == 'evastgt')) ? true : false; ?>
-<div class="row container-fluid">
+<div class="row container-fluid wtfb-light">
 <div class="col-7">
     <?= DetailView::widget([
     		'id' => 'dv_vv_'.$model->msID,
@@ -63,10 +63,14 @@ use frontend\models\SearchVertrag;
 				'mainTemplate' => '{detail}',
 				'buttons1' => '{update}',
 				'panel'=>[
-					'heading'=>'&nbsp;', // Vertrag # ' . $model->msID,
+					'heading'=> Yii::t('app', 'Data'), // Vertrag # ' . $model->msID,
+          'headingOptions' => [
+              'class' => 'card-header text-white my-card',
+          ],
 					'type'=>DetailView::TYPE_INFO,
+          'class' => ' text-white',
 				],
-        'container' => ['id'=>'id_dVOrdenPago_'.$model->msID],
+        'container' => ['id'=>'id_dVOrdenPago_'.$model->msID,'class' => 'wtfb-light'],
 		    'formatter' => [
 		        'class' => 'yii\i18n\Formatter',
 		        'nullDisplay' => '',
@@ -79,8 +83,8 @@ use frontend\models\SearchVertrag;
               'enableAjaxValidation' => true,
               'enableClientValidation' => false,
 				],
-				'rowOptions' => [ 'style' => 'font-size:0.85em',
-				],
+//				'rowOptions' => [ 'style' => 'font-size:0.85em',
+//				],
 				'labelColOptions' => [ 'style' => 'width:200px;'],
         'attributes' => [
             [ 'attribute' => 'SchulId',
@@ -149,10 +153,10 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
-                'rowOptions'=>['class'=>'table-info'],
+                'rowOptions'=>['class'=>'wtfb-light'],
 //                'groupOptions'=>['style'=>'background: lightblue;'],
-                'groupOptions'=>['style'=>'background: #d9edf7;'],
-            ],
+                'groupOptions'=>['class' => 'wtfb-light',],
+            ],                                       
             [ 'attribute' => 'MonatsBeitrag',
             	'id' => 'dv_vv_mb_'.$model->msID,
             ],
@@ -194,8 +198,8 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Zahlung',
-                'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: #d9edf7;']
+                'rowOptions'=>['class'=>'wtfb-light'],
+                'groupOptions'=>['class' => 'wtfb-light',]
             ],
         		  ['attribute' => 'IBAN',              
                'id' => 'dv_vv_ibn_'.$model->msID,
@@ -248,8 +252,8 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=> false, //'Teil 3: Aussetzen',
-                'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: #d9edf7;']
+                'rowOptions'=>['class'=>'wtfb-light'],
+                'groupOptions'=>['class' => 'wtfb-light',]
             ],
             [ 'attribute' => 'BeitragAussetzenVon',
             	'format' => ['date', 'php:d.m.Y'],
@@ -288,8 +292,8 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=> false, //'Teil 3: Beendigung',
-                'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: #d9edf7;']
+                'rowOptions'=>['class'=>'wtfb-light'],
+                'groupOptions'=>['class' => 'wtfb-light',]
             ],
             [ 'attribute' => 'KuendigungAm',
             	'format' => ['date', 'php:d.m.Y'],
@@ -330,8 +334,8 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=> false, //'Teil 4: Bemerkung',
-                'rowOptions'=>['class'=>'table-info'],
-                'groupOptions'=>['style'=>'background: #d9edf7;']
+                'rowOptions'=>['class'=>'wtfb-light'],
+                'groupOptions'=>['class' => 'wtfb-light',]
             ],
             [ 'attribute' => 'Bemerkung',
             	'label' => Yii::t('app', 'Contract Notice'),
@@ -353,14 +357,14 @@ use frontend\models\SearchVertrag;
     ]);  ?>
 </div>
 <div class="col-5" >
-<div clas="card">
-  <div class="card-header text-white border-primary bg-info">
-    Actions
+<div clas="card border-info ">
+  <div class="card-header text-white border-info my-card" style="height:3em;font-size:1.2em;">
+    <?= Yii::t('app', 'Actions')  ?>
   </div>
-  <div class="card-body border-primary bg-light">
+  <div class="card-body border-info bg-light">
 <?php //if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
  <div class="row container-fluid" style="margin-bottom:8px;margin-left:0 auto;">
-  <div class="col-3" id = "sf3.$model->msID"  style="!float:left;padding-right:2em;">  
+  <div class="col-3" id = "sf3<?=$model->msID?>"  style="!float:left;padding-left:0em;padding-right:0em;width:5em">  
 		<?php if ($anzeigen) {//echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form3 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data'], // important
@@ -375,14 +379,14 @@ use frontend\models\SearchVertrag;
 												'disabled' => false, 
 												'style' => 'width:15px;', 
 												'label' => 'Bank',
-												'labelOptions' => ['style' => 'font-size:0.75em;'],
+												'labelOptions' => ['style' => 'font-size:0.75em;width:5em'],
 												'onclick' => 'this.form.submit()', 
 												]);
 												
 			ActiveForm::end();   }
 		?> 
 	 </div>  
-  <div class="col-3" id = "bv3.$model->msID" style="!float:right;padding-right:1em;" >  
+  <div class="col-3" id = "bv3<?=$model->msID?>" style="!float:right;padding-left:0em;width:5em" >  
 		<?php 
 			$form4 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
@@ -397,13 +401,13 @@ use frontend\models\SearchVertrag;
 												'style' => 'width:15px;', 
 												'label' => 'WTFB',
 												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;', 'class' => 'form-control-sm']
+												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
 												]);
 			ActiveForm::end();
 
 		?>
 	 </div>  
-   <div class="col-3" id = "bl3.$model->msID" style="!float:right;padding-left:3em;" >  
+   <div class="col-6" id = "bl3<?=$model->msID?>" style="!float:right;padding-left:0em;width:5em" >  
 		<?php  if ($anzeigen) {//echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
 			$form5 = ActiveForm::begin([
 			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important
@@ -419,7 +423,7 @@ use frontend\models\SearchVertrag;
 												'style' => 'width:15px;', 
 												'label' => Yii::t('app', 'Member Card'),
 												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;']
+												'labelOptions' => ['style' => 'font-size:0.75em;width:10em']
 												]);
 			ActiveForm::end();  }
 
