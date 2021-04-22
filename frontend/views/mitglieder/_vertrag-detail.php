@@ -83,6 +83,21 @@ use frontend\models\SearchVertrag;
               'enableAjaxValidation' => true,
               'enableClientValidation' => false,
 				],
+       'viewOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'updateOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'resetOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'deleteOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'saveOptions' => [
+          'style' => 'color:white!important;', 
+        ],
 //				'rowOptions' => [ 'style' => 'font-size:0.85em',
 //				],
 				'labelColOptions' => [ 'style' => 'width:200px;'],

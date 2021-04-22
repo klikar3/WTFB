@@ -44,7 +44,9 @@ use frontend\models\Sifu;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'Person', //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em;background-color: #3c68b1 !important;'],
+          'headingOptions' => [
+              'class' => 'card-header text-white my-card',
+          ],
 					'type'=>DetailView::TYPE_INFO,					
 				],
 				'formOptions' => [
@@ -56,6 +58,21 @@ use frontend\models\Sifu;
 		    ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
+       'viewOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'updateOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'resetOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'deleteOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'saveOptions' => [
+          'style' => 'color:white!important;', 
+        ],
         'valueColOptions'=>['style'=>'width:30%'], 
         'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
         'attributes' => [
@@ -160,7 +177,6 @@ use frontend\models\Sifu;
           	'type' => DetailView::INPUT_SELECT2,
           	'widgetOptions' => [
 								'data' => $functions, 
-								'inhalt', 'inhalt' )),['style'=>'']),
 						 ]             
           ],
           [ 'attribute' => 'Sifu',

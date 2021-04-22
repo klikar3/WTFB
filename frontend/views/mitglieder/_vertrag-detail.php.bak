@@ -252,7 +252,7 @@ use frontend\models\SearchVertrag;
             [
                 'group'=>true,
                 'label'=> false, //'Teil 3: Aussetzen',
-                'rowOptions'=>['class'=>'table-info'],
+                'rowOptions'=>['class'=>'wtfb-light'],
                 'groupOptions'=>['class' => 'wtfb-light',]
             ],
             [ 'attribute' => 'BeitragAussetzenVon',
