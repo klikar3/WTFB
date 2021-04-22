@@ -45,7 +45,7 @@ use frontend\models\Sifu;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=> 'Kontakt', //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em'],
+					'headingOptions' => ['style' => 'font-size:1em;background-color: #3c68b1 !important;'],
 					'type'=>DetailView::TYPE_INFO,					
 				],
 				'formOptions' => [

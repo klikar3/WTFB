@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-4">
         <div class="card panel panel-default">
-            <div class="card-header bg-info panel-heading">
+            <div class="card-header my-card bg-info panel-heading">
                 <h5 class="panel-title"><?= Html::encode($this->title) ?></h5>
             </div>
             <div class="card-body panel-body">
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'validateOnChange'       => false,
                 ]) ?>
 
-                <?= $form->field($model, 'login', ['inputOptions' => ['autofocus' => 'autofocus', 'class' => 'form-control', 'tabindex' => '1']])->label(Yii::t('app', 'User') ?>
+                <?= $form->field($model, 'login', ['inputOptions' => ['autofocus' => 'autofocus', 'class' => 'form-control', 'tabindex' => '1']])->label(Yii::t('app', 'User')) ?>
 
                 <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->passwordInput()->label(Yii::t('user', 'Password') . ($module->enablePasswordRecovery ? ' (' . Html::a(Yii::t('user', 'Forgot password?'), ['/user/recovery/request'], ['tabindex' => '5']) . ')' : '')) ?>
 

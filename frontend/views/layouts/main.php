@@ -158,11 +158,11 @@ AppAsset::register($this);
                 'id' => 'mainNav',
                 'brandLabel' => $bl,
                 'brandUrl' => Url::to(['/', 'language' => Yii::$app->language]),
-                'innerContainerOptions' => ['class' => 'container-fluid col-10 mt-auto'],
+                'innerContainerOptions' => ['class' => 'container-fluid col-12 col-md-10 mt-auto'],
                 'options' => [
                     //'class' => 'navbar-inverse navbar-fixed-top', 
                     //'class' => 'navbar navbar-expand-lg navbar-light bg-light',
-                    'class' => 'navbar navbar-expand-sm bg-dark navbar-dark',
+                    'class' => 'navbar navbar-expand-md bg-dark navbar-dark',
                 ],
             ]); 
        ?>
@@ -179,7 +179,7 @@ AppAsset::register($this);
        ?>
     </div>
 
-    <div class="container container-fluid flex-fill col-10">
+    <div class="container container-fluid flex-fill col-12 col-md-10">
       <?= Breadcrumbs::widget([
           'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
           'homeLink' =>['url' => Yii::$app->homeUrl.'/'.Yii::$app->language, 'label' => Yii::t('app', 'Home')], 
@@ -191,8 +191,7 @@ AppAsset::register($this);
       <?= $content ?>   
   
     </div>     
-    <footer class="footer col-10 mt-auto container">
-      <div class="container">
+    <footer class="footer col-12 col-md-10 mt-auto container">
         <div class="col-xs-2 float-left">
             <span class="d-none d-xl-block font-italic font-weight-light">(XL)    &copy; WTFB <?= date('Y') ?></span>
             <span class="d-none d-lg-block d-xl-none font-italic font-weight-light">(LG)    &copy; WTFB <?= date('Y') ?></span>
@@ -203,7 +202,6 @@ AppAsset::register($this);
         <div class="col-xs-10 float-right font-italic font-weight-light">
           Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>&nbsp;<?= Yii::getVersion() ?>         
         </div>
-      </div>
     </footer>
   </wrapper>
     <?php $this->endBody() ?>

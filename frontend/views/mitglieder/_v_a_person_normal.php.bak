@@ -32,7 +32,7 @@ use frontend\models\Sifu;
 
 ?>
 
-<div class="col-md-6 bg-light" name="va_pn">   
+<div class="col-md-6" name="va_pn">   
        <?= DetailView::widget([
     		'id' => 'dv_va_n',
         'model' => $model,

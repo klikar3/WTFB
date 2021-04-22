@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-md-4">
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
         <div class="card panel panel-default">
-            <div class="card-header bg-info panel-heading">
+            <div class="card-header my-card bg-info panel-heading">
                 <h5 class="panel-title"><?= Html::encode($this->title) ?></h5>
             </div>
             <div class="card-body panel-body">
