@@ -160,6 +160,7 @@ use frontend\models\SifuSearch;
             		},
             		'enableRowClick' => true,
                 'hidden' => true,
+                'detailRowCssClass' => 'wtfb-light',
 							],
 							[ 'attribute' => 'Sektion', 'value' => 'sektion.kurz', 'label' => Yii::t('app', 'Program')  ],
 		//					[ 'attribute' => 'vdatum', 'value' => 'vdatum', 'format' => ['date', 'php:d.m.Y'] ],

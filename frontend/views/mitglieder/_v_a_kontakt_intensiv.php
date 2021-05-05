@@ -230,9 +230,9 @@ use frontend\models\Sifu;
            [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
-                'rowOptions'=>['class'=>'table-info'],
+                'rowOptions'=>['class'=>'wtfb-light'],
 //                'groupOptions'=>['style'=>'background: lightblue;'],
-                'groupOptions'=>['style'=>'background: #d9edf7;height:2em;'],
+                'groupOptions'=>['class'=>'wtfb-light'],
             ],
             [ 'attribute' => 'bemerkung',
             	'label' => Yii::t('app', 'Notice'),

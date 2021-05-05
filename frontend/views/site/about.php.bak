@@ -1,5 +1,7 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
+use yii\helpers\Url;
+//use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 $this->title = 'Hilfe';
@@ -14,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 Videos: <br> <br>
 
-<?= Html::a('DATA Nr. 1 - Programmübersicht, Menü und Personendaten, was findest du wo', 'DATA Nr. 1 - Programmübersicht, Menu und Personendaten, was findest du wo.mp4', [
+<?= Html::a('DATA Nr. 1 - Programmübersicht, Menü und Personendaten, was findest du wo', 
+              '/DATA Nr. 1 - Programmübersicht, Menu und Personendaten, was findest du wo.mp4', [
 													'class'=>'btn btn-success',
 													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
