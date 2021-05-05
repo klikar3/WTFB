@@ -1,5 +1,6 @@
 <?php
 use yii\bootstrap4\Html;
+use yii\helpers\Url;
 //use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -15,28 +16,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
 Videos: <br> <br>
 
-<?= Html::a('DATA Nr. 1 - Programmübersicht, Menü und Personendaten, was findest du wo', 'DATA Nr. 1 - Programmübersicht, Menu und Personendaten, was findest du wo.mp4', [
+<?= Html::a('DATA Nr. 1 - Programmübersicht, Menü und Personendaten, was findest du wo', 
+              '/DATA Nr. 1 - Programmübersicht, Menu und Personendaten, was findest du wo.mp4', [
 													'class'=>'btn btn-success',
 													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
 //													'data-toggle'=>'tooltip',
 //													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
 													]) ?>    <br>   <br>
-<?= Html::a('DATA Nr. 2 - Interessent anlegen, Info Abend und Interessenten Liste generieren', 'DATA Nr. 2 - Interessent anlegen, Info Abend und Interessenten Liste generieren.mp4', [
+<?= Html::a('DATA Nr. 2 - Interessent anlegen, Info Abend und Interessenten Liste generieren', '/DATA Nr. 2 - Interessent anlegen, Info Abend und Interessenten Liste generieren.mp4', [
 													'class'=>'btn btn-success',
 													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
 //													'data-toggle'=>'tooltip',
 //													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
 													]) ?>  <br>   <br>
-<?= Html::a('DATA Nr. 3 - Neues Mitglied erfassen', 'DATA Nr. 3 - Neues Mitglied erfassen.mp4', [
+<?= Html::a('DATA Nr. 3 - Neues Mitglied erfassen', '/DATA Nr. 3 - Neues Mitglied erfassen.mp4', [
 													'class'=>'btn btn-success',
 													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',
 //													'data-toggle'=>'tooltip',
 //													'title'=>'Setzt alle Markierungen für die Prüfungsliste zurück'
 													]) ?>   <br>   <br>
-<?= Html::a('DATA Nr. 4 - Teilnehmerzahlen vom Training erfassen und auswerten', 'DATA Nr. 4 - Teilnehmerzahlen vom Training erfassen und auswerten.mp4', [
+<?= Html::a('DATA Nr. 4 - Teilnehmerzahlen vom Training erfassen und auswerten', '/DATA Nr. 4 - Teilnehmerzahlen vom Training erfassen und auswerten.mp4', [
 													'class'=>'btn btn-success',
 													'target'=>'_blank',
 //													'data-confirm' => 'Wirklich die Prüfungsmarkierungen und Druckmarkierungen zurücksetzen?',

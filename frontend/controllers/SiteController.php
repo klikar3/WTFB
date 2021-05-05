@@ -1194,8 +1194,10 @@ class SiteController extends Controller
       public function actionGetSwmData(){
         Yii::$app->db->createCommand('TRUNCATE TABLE swmreceiver;')->execute();
         
-        $rows = Yii::$app->dbswm->createCommand('SELECT u_EMail, \'\' as a, u_FirstName, u_LastName, \'\' as b, \'\' as c FROM wtintensivinteressentenshopbesteller_members m join wtintensivinteressentenshopbesteller_maillisttogroups g on g.Member_id = m.id WHERE g.groups_id IN (1,6) ') ->queryAll();;
+        $rows = Yii::$app->dbswm->createCommand('SELECT u_EMail, \'\' as a, u_FirstName, u_LastName, \'\' as b, \'\' as c FROM wtintensivinteressentenshopbesteller_members m join wtintensivinteressentenshopbesteller_maillisttogroups g on g.Member_id = m.id WHERE g.groups_id IN (1) ') ->queryAll();;
         Yii::$app->db->createCommand()->batchInsert('swmreceiver', ['email', 'anrede', 'vorname', 'nachname', 'geburtstag', 'geschlecht'], $rows)->execute();
+
+        Yii::$app->db->createCommand('delete from swmreceiver where email in (select email from swm_blocked_emails)')->execute();
 
         return $this->redirect(['/site/woo-swm-abgleich']);
       }
@@ -1203,19 +1205,23 @@ class SiteController extends Controller
       public function actionGetWooData(){
         Yii::$app->db->createCommand('TRUNCATE TABLE woocustomer;')->execute();
 
-        $rows = Yii::$app->dbwoo->createCommand('SELECT email, \'\' as a, first_name, last_name, \'\' as b, \'\' as c FROM vsal5_wc_customer_lookup') ->queryAll();;
+        $rows = Yii::$app->dbwoo->createCommand('SELECT email, \'\' as a, first_name, last_name, \'\' as b, \'\' as c FROM vsal5_wc_customer_lookup where email is not null') ->queryAll();;
         Yii::$app->db->createCommand()->batchInsert('woocustomer', ['email', 'anrede', 'vorname', 'nachname', 'geburtstag', 'geschlecht'], $rows)->execute();
 
+        Yii::$app->db->createCommand('delete from woocustomer where woocustomer.email in (select email from swm_blocked_emails)')->execute();
+        
         return $this->redirect(['/site/woo-swm-abgleich']);
       }
 
       public function actionGetAkaSwmData(){
         Yii::$app->db->createCommand('TRUNCATE TABLE swmreceiver;')->execute();
         
-        $rows = Yii::$app->dbswm->createCommand('SELECT u_EMail, \'\' as a, u_FirstName, u_LastName, \'\' as b, \'\' as c FROM wtintensivinteressentenshopbesteller_members m join wtintensivinteressentenshopbesteller_maillisttogroups g on g.Member_id = m.id WHERE g.groups_id IN (1,6) ') ->queryAll();;
+        $rows = Yii::$app->dbswm->createCommand('SELECT u_EMail, \'\' as a, u_FirstName, u_LastName, \'\' as b, \'\' as c FROM wtintensivinteressentenshopbesteller_members m join wtintensivinteressentenshopbesteller_maillisttogroups g on g.Member_id = m.id WHERE g.groups_id IN (7) ') ->queryAll();;
         Yii::$app->db->createCommand()->batchInsert('swmreceiver', ['email', 'anrede', 'vorname', 'nachname', 'geburtstag', 'geschlecht'], $rows)->execute();
 
-        return $this->redirect(['/site/woo-swm-abgleich']);
+        Yii::$app->db->createCommand('delete from swmreceiver where email in (select email from swm_blocked_emails)')->execute();
+
+        return $this->redirect(['/site/woo-aka-swm-abgleich']);
       }
 
       public function actionGetAkaWooData(){
@@ -1223,6 +1229,8 @@ class SiteController extends Controller
 
         $rows = Yii::$app->dbakawoo->createCommand('SELECT email, \'\' as a, first_name, last_name, \'\' as b, \'\' as c FROM nfkyx_wc_customer_lookup') ->queryAll();;
         Yii::$app->db->createCommand()->batchInsert('woocustomer', ['email', 'anrede', 'vorname', 'nachname', 'geburtstag', 'geschlecht'], $rows)->execute();
+
+        Yii::$app->db->createCommand('delete from woocustomer where email in (select email from swm_blocked_emails)')->execute();
 
         return $this->redirect(['/site/woo-aka-swm-abgleich']);
       }

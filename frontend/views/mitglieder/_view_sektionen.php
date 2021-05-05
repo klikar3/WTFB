@@ -140,7 +140,7 @@ use frontend\models\SifuSearch;
 												'controller' => 'mitgliedersektionen',
 												'buttons' => [ 
 													'print' => function ($url, $model) {
-        										return Html::a('<span class="glyphicon glyphicon-print"></span>', 
+        										return Html::a('<span class="fa fa-print glyphicon glyphicon-print"></span>', 
 																			Url::toRoute(['mitgliedersektionen/print', 'id' => $model->msekt_id] ), [ 'data-pjax' => 0, 
                     					'target'=>"_blank",
 															'title' => Yii::t('app', 'Print confirmation'),

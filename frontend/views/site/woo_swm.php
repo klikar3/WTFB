@@ -31,12 +31,12 @@ if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
   $zielSwm = ['site/get-aka-swm-data',];
   $zielWoo = ['site/get-aka-woo-data',];  
   $mli = 14;
-  $fi = 4;
+  $fi = 5;
   $bt = 'In Newsletter für Online-Akademie-Besteller eintragen';  
 }  
  ?> 
 <div class="row card bg-info panel panel-info">
-  <div class="card card-header panel-heading"> 
+  <div class="card card-header my-card panel-heading"> 
           <?= Html::encode($this->title) ?>
   </div>     
 <div class="card card-body panel-body"> 
@@ -45,7 +45,7 @@ if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
         Anzahl Datensätze in Swm: <?= $swmRows ?>   
       </div>
       <div class="col-md-5" style="text-align:left;"> 
-        <?= Html::a('SWM Daten holen', Url::toRoute($zielSwm), ['class' => 'btn btn-primary', ]) ?>
+        <?= Html::a('SWM Daten holen', Url::toRoute($zielSwm), ['class' => 'btn btn-success', ]) ?>
         <br><br>
       </div>
     </div>
@@ -54,7 +54,7 @@ if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
         Anzahl Datensätze in Woo: <?= $wooRows ?>   
      </div>
       <div class="col-md-5" style="text-align:left"> 
-        <?= Html::a('Woo Daten holen', Url::toRoute($zielWoo), ['class' => 'btn btn-primary', ]) ?>
+        <?= Html::a('Woo Daten holen', Url::toRoute($zielWoo), ['class' => 'btn btn-success', ]) ?>
         <br><br>
      </div>
     </div>
@@ -86,7 +86,7 @@ if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
       							'mergeHeader' => false,
       //							'label' => 'Aktion',
       							'buttons' => [ 
-      								'eintragen' => function ($url, $model) {
+      								'eintragen' => function ($url, $model) use ($fi, $mli, $bt){
       									return  Html::beginForm('https://nl.wtfb.de/nl.php', 'post', ['enctype' => 'multipart/form-data', 'target' => '_blank', 'id' => 'formswm'.$model['email']]) 
                               . Html::hiddenInput('MailingListId', $mli)
                               . Html::hiddenInput('FormId', $fi)

@@ -166,7 +166,7 @@ use frontend\models\Mitgliederschulen;
             		},
             		'enableRowClick' => true,
                 'hidden' => false,
-                'detailRowCssClass' => 'bg-info',
+                'detailRowCssClass' => 'wtfb-light',
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname', 'label' => Yii::t('app', 'School') ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => Yii::t('app', 'Discipline') ],
