@@ -53,7 +53,7 @@ $this->title = Yii::t('app', 'Seminarliste für ' . Yii::$app->formatter->asDate
 						['format' => 'raw',
              'attribute' => 'NameLink',
              'value'=>function ($data) {
-                        return empty($data->Name) ? "" : $data->Name;
+                        return empty($data->Nachname) ? "" : $data->Vorname." ".$data->Nachname; //$data->Name;
                       },
         		 'contentOptions' => ['style' => 'text-align:left;width: 500px;padding-left:4px;border:1px solid black;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:left;border-right: 1px solid black;border-bottom: 2px solid black;'],
