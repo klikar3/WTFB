@@ -98,6 +98,7 @@ use frontend\models\SearchVertrag;
        'saveOptions' => [
           'style' => 'color:white!important;', 
         ],
+
 //				'rowOptions' => [ 'style' => 'font-size:0.85em',
 //				],
 				'labelColOptions' => [ 'style' => 'width:200px;'],
