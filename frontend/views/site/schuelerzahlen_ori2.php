@@ -32,10 +32,6 @@ $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stu
  $diesesJahr = \DateTime::createFromFormat('d.m.Y', $model->von)->format('Y');
  $dieserMonat = \DateTime::createFromFormat('d.m.Y', $model->von)->format('m');
  $monatsBeginn = $model->von;
- if (!empty($dataProvider)) {
-    $ks = SiteController::getTotalDates($dataProvider->models, 'KuendigungAm') + 1;
- } else { $ks = -1; }
-Yii::warning(VarDumper::dumpAsString($ks),'application');
 ?>
 <div class="row">
  
@@ -53,16 +49,10 @@ Yii::warning(VarDumper::dumpAsString($ks),'application');
 //        'emptyCell'=>'-',
         'columns' => [
 //            ['attribute' => 'msID', 'width' => '60px'],
-//            ['class' => 'kartik\grid\SerialColumn', 
-//             'contentOptions' => ['style' => 'height:2.6em;text-align:right;width: 30px;padding-left:2px;padding-right:4px;border:1px solid black;border: 1px solid black;border-top:0px;border-left: 0px;'],
-//             'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
-//            ],
             ['attribute' => 'Name',
              'format' => 'raw', 
              'width' => '200px',
               'label' => Yii::t('app', 'Name'),
-              'pageSummary' => function ($summary, $data, $widget) { return $summary; },
-              'pageSummaryFunc' => GridView::F_COUNT,
               'value' => function ($data) {
 //                  Yii::warning(VarDumper::dumpAsString($data),'application');
           		    $url = Url::to(['/mitglieder/view', 'id'=>$data->MitgliederId, 'tabnum' => 1]); // your url code to retrieve the profile view
@@ -94,7 +84,7 @@ Yii::warning(VarDumper::dumpAsString($ks),'application');
             ['attribute' => 'VDatum',
               'label' => Yii::t('app', 'Contract'),
              'value' => function ($data) {
-                  return empty($data->VDatum) ? '' : \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
+                  return \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Von',
@@ -105,7 +95,6 @@ Yii::warning(VarDumper::dumpAsString($ks),'application');
             ], 
             ['attribute' => 'KuendigungAm',
               'label' => Yii::t('app', 'Termination'),
-              'pageSummary' => function ($summary, $data, $widget) use ($ks) { return $ks; },
              'value' => function ($data) {
                   return (($data->KuendigungAm == '0000-00-00') or empty($data->KuendigungAm)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->KuendigungAm)->format('d.m.Y');
                   }

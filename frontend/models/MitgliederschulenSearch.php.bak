@@ -23,15 +23,15 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public $DVDgesendetAm;
     public $letzteDvd;
     public $von;
-//    public $RecDeleted;
+    public $RecDeleted;
 
     public function rules()
     {
         return [
-            [['msID', 'MitgliederId', 'VertragId','mitglieder.RecDeleted'], 'integer'],
+            [['msID', 'MitgliederId', 'VertragId','RecDeleted'], 'integer'],
             [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink',
               'Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 
-              'BeitragAussetzenVon', 'BeitragAussetzenBis','mitglieder.RecDeleted'], 'safe'],
+              'BeitragAussetzenVon', 'BeitragAussetzenBis','RecDeleted'], 'safe'],
         ];
     }
 
@@ -54,7 +54,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public function search($params)
     {
         $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+//                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad,mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -78,7 +79,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
 		                'default' => SORT_ASC,
 		            ],
                 'DVDgesendetAm',
-                'letzteDvd',
+//                'letzteDvd',
                 'Woher',		            
                 'NameLink' => [
 		                'asc' => ['mitgliederliste.Name' => SORT_ASC],

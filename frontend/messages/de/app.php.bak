@@ -65,7 +65,7 @@ return [
     'SWM blocked Emails' => 'SWM blocked Emails', 
     'Texts' => 'Texte', 
     'Trainings' => 'Trainings',
-    'User' => 'User', 
+    'User' => 'Benutzer', 
     'Woo-SWM Adjustment' => 'Woo-SWM Abgleich',
     'Really delete Members' => 'Mitglieder wirklich löschen',
     'Delete marked records' => 'Markierte Datensätz wirklich löschen',

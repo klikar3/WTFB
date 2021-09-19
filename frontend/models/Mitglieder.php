@@ -82,6 +82,7 @@ use frontend\models\Schulen;
  * @property string $KontaktArt
  * @property string $Bemerkung1
  * @property string $EinladungIAzum
+ * @property string $IABest
  * @property string $warZumIAda
  * @property string $zumIAnichtDa
  * @property string $ProbetrainingAm
@@ -173,6 +174,8 @@ use frontend\models\Schulen;
  * @property string $EndeEsckrima
  * @property integer $PruefungZum
  *
+ * @property strng $kontaktNachricht1
+ * 
  * @property Mitgliederdisziplinen[] $mitgliederdisziplinens
  * @property Mitgliedergrade[] $mitgliedergrades
  * @property Mitgliederschulen[] $mitgliederschulens 
@@ -342,7 +345,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['DM2Schule'], 'string', 'max' => 5],
 //            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 //		        [['MitgliedsNr'], 'unique']
-            [['kontaktNachricht1'], 'string']
+            [['kontaktNachricht1'], 'string', 'max' => 9999]
 		        ];
     }
 
@@ -508,6 +511,7 @@ class Mitglieder extends \yii\db\ActiveRecord
             'EndeEsckrima' => Yii::t('app', 'Ende Esckrima'),
             'PruefungZum' => Yii::t('app', 'Test To'),
             'BIC' => Yii::t('app', 'BIC'),
+            'kontaktNachricht1' => Yii::t('app', 'Kontakt-Nachricht'),
         ];
     }
     

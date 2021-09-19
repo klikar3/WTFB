@@ -44,6 +44,7 @@ return [
     'IntensivMembers' => 'IntensivMitglieder', 
     'Interessent-Defaults' => 'Interessent-Vorgaben', 
     'Interessent.-List' => 'Interessenten-Liste',
+    'TestTraining-List' => 'Probetraining-Liste',
     'Login' => 'Login', 
     'Logout' => 'Logout', 
     'Members' => 'Mitglieder', 

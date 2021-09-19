@@ -33,7 +33,7 @@ class MitgliederSearch extends Mitglieder
               'AufnahmegebuehrBezahlt', 'EWTONr', 'EWTOAustritt', 'BeitragOffenAb', 'BeitragOffenEuro', 
               'BeitragOffenBis', 'Mahngebuehren', 'GesamtOffen', 'Mahnung1Am', 'Mahnung2Am', 'Mahnung3Am', 
               'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'Bemerkungen', 'Betreff', 'Text', 'KontaktAm', 
-              'KontaktArt', 'Bemerkung1', 'EinladungIAzum', 'WarZumIAda', 'zumIAnichtDa', 'ProbetrainingAm', 
+              'KontaktArt', 'Bemerkung1', 'EinladungIAzum', 'IABest', 'WarZumIAda', 'zumIAnichtDa', 'ProbetrainingAm', 
               'PTwarDa', 'zumPTnichtDa', 'VertragAbgeschlossen', 'Abschlussgespraech', 'Bemerkung2', 
               'WTPruefungZum', 'WTPruefungAm', 'KPruefungZum', 'KPruefungAm', 'EPruefungZum', 'EPruefungAm', 
               'GutscheinVon', 'Name2Schule', 'DM2Schule', 'NeuerBeitrag', 'Vereinbarung', 'RechnungsNr', 
@@ -44,7 +44,7 @@ class MitgliederSearch extends Mitglieder
               'datumWtPraktikum', 'datumWtAusbilder1', 'datumWtAusbilder2', 'datumWtAusbilder3', 
               'datumWtSchulleiter', 'AufnGebuehrBetrag', 'DVDgesendetAm', 'datume11tg', 'datume12tg', 
               'datume21tg', 'datume22tg', 'datume31tg', 'datume32tg', 'datume41tg', 'datume42tg', 
-              'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum', 'RecDeleted','einstufung'], 'safe'],
+              'EsckrimaGraduierung', 'BeginnEsckrima', 'EndeEsckrima', 'PruefungZum', 'RecDeleted','einstufung','kontaktNachricht1','wiederVorlageAm'], 'safe'],
         ];
     }
 

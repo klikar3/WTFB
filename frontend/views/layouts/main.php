@@ -37,7 +37,8 @@ AppAsset::register($this);
       $auswertungen[] = ['label' => Yii::t('app', 'Interessent.-List'), 'url' => ['/site/interessentenauswahl'],];
       $auswertungen[] = ['label' => Yii::t('app', 'EvalEvening-List'), 'url' => ['/site/infoabendauswahl'],
         //  							  	 'linkOptions' => ['target' => '_blank']
-                            ];
+        ];
+      $auswertungen[] = ['label' => Yii::t('app', 'TestTraining-List'), 'url' => ['/site/probetrainingauswahl'],];
       $auswertungen[] = ['label' => Yii::t('app', 'StudentNumbers'), 'url' => ['/site/schuelerzahlenauswahl'],];
       $auswertungen[] = ['label' => Yii::t('app', 'MemberNumbers'), 'url' => ['/site/mitgliederzahlen'],
           							  	 'linkOptions' => ['target' => '_blank']];

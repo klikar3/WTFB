@@ -866,7 +866,7 @@ class SiteController extends Controller
     }
 
 
-		public function actionInteressentenauswahl() {
+		public function actionProbetrainingauswahl() {
  				$model = new AuswertungenForm();
         if ($model->load(Yii::$app->request->post() )) {
             return $this->render('auswahl', [
@@ -877,9 +877,130 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+
     }
 
 
+		public function actionInteressentenauswahl() {
+ 			$model = new AuswertungenForm();
+            if ($model->load(Yii::$app->request->post() )) {
+                return $this->render('auswahl', [
+                    'model' => $model,
+                ]);
+            } else {
+                return $this->render('auswahl', [
+                    'model' => $model,
+                ]);
+            }
+        }
+    
+
+		public function actionProbeTrainingliste() {
+ 
+ 			$model = new AuswertungenForm();
+            if ($model->load(Yii::$app->request->post() )) {
+                $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
+                $schulnamen = ArrayHelper::getColumn($schulen,'Schulname');
+                $schule = implode(', ', $schulnamen);
+            } else {
+    //            Yii::warning('else','application');
+                return $this->render('auswahl', [
+                    'model' => $model,
+                ]);
+            }
+    //        Yii::warning(VarDumper::dumpAsString($schulnamen),'application');
+            
+            $searchModel = new MitgliederSearch();
+            $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId=ms.MitgliederId')
+                     ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
+                     ->andWhere(['is not', 'ProbetrainingAm', new \yii\db\Expression('null')])
+                     ->andWhere('(mitglieder.PTwarDa = 0 OR mitglieder.PTwarDa IS NULL) AND mitglieder.RecDeleted <> 1')
+    //                 ->andWhere('EinladungIAzum >= CURRENT_DATE')
+                     ->andWhere(['Schulort' => $schulnamen]);
+    //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
+    //        Yii::warning(VarDumper::dumpAsString($query),'application');
+    //        $sql = $query->createCommand()->getRawSql($query);
+    //        Yii::warning(VarDumper::dumpAsString($sql),'application');
+            
+            if (!empty($model->woher)) {
+              $woherString = (is_array($model->woher)) ? implode(', ', $model->woher) : $model->woher;
+              $query->andWhere(['in','mitglieder.Woher',$model->woher]); 
+            }
+            $d = new ActiveDataProvider([
+    				     'query' => $query,
+    				]);
+			$zz = 18;
+			$r = $zz-($d->count % $zz);
+    				
+            $query2 = (new \yii\db\Query())
+    //        ->select('MitgliederId, MitgliedsNr, Vorname, Nachname, Funktion, PruefungZum, Name, Schulname, LeiterName, DispName, Vertrag, Grad, LetzteAenderung, Email')
+            ->select('m.*')
+        		->from('mitglieder m')
+        		->join('RIGHT JOIN', 'tally','m.MitgliederId = null')
+        		->limit($r);
+    				
+    				$query->union($query2, true);//false is UNION, true is UNION ALL
+    
+    				$dataProvider = new ActiveDataProvider([
+    				     'query' => $query,
+    				     'sort'=> ['defaultOrder' => ['ProbetrainingAm'=>SORT_DESC]]
+    				]); 
+            $dataProvider->pagination->pageSize = 200;
+            
+            $content = $this->renderPartial('ptliste', [
+    		            'searchModel' => $searchModel,
+    		            'dataProvider' => $dataProvider,
+    		            'schule' => $schule,
+    		        ]); 
+    
+    				$pdf = new Pdf([
+    						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+    						// set to use core fonts only
+    						'mode' => Pdf::MODE_BLANK,
+    						// A4 paper format
+    						'format' => Pdf::FORMAT_A4,
+    						// portrait orientation
+    						'orientation' => Pdf::ORIENT_LANDSCAPE,
+    						// stream to browser inline
+    						'destination' => Pdf::DEST_BROWSER,
+    						// format content from your own css file if needed or use the
+    						// enhanced bootstrap css built by Krajee for mPDF formatting
+    //						'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.css',
+    //						'cssFile' => 'css/kv-mpdf-bootstrap.css',
+    						// any css to be embedded if required
+    						'cssInline' => '.kv-heading-1{font-size:18px}'.
+    													'.kv-wrap{padding:20px;}' .
+    													'.kv-align-center{text-align:center;}' .
+    													'.kv-align-left{text-align:left;}' .
+    													'.kv-align-right{text-align:right;}' .
+    													'.kv-align-top{vertical-align:top!important;}' .
+    													'.kv-align-bottom{vertical-align:bottom!important;}' .
+    													'.kv-align-middle{vertical-align:middle!important;}' .
+    													'.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
+    													'.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
+    													'.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' .
+                              ' table{width: 100%;line-height: inherit;text-align: left; } table, td, th {border: 1px solid black;border-collapse: collapse;}'
+                              ,
+                'marginTop' => 10,
+                'marginLeft' => 0,
+                'marginRight' => 5,
+    						'content' => $content,
+    						'options' => [
+    								'title' => 'InfoAbend-Liste',
+    								'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy',
+    						],
+    						'methods' => [
+    							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
+    							'SetFooter' => ['|Seite {PAGENO}| '.Yii::$app->formatter->asDate(date('d.m.Y'), 'dd.MM.YYYY')],
+    						]
+    			]);
+    			return $pdf->render();
+    /*			return $this->renderPartial('pruefungsliste', [
+    		            'searchModel' => $searchModel,
+    		            'dataProvider' => $dataProvider,
+    		            'plf' => $plf]);
+*/		}
+		
 		public function actionInfoAbendliste() {
  
  				$model = new AuswertungenForm();
@@ -986,6 +1107,7 @@ class SiteController extends Controller
 		            'plf' => $plf]);
 */		}
 		
+
 		public function actionInteressentenliste() {
  
  				$model = new AuswertungenForm();
@@ -1434,11 +1556,28 @@ class SiteController extends Controller
    
    public static function datesOverlap($start_one,$end_one,$start_two,$end_two) {
 
-   if($start_one <= $end_two && $end_one >= $start_two) { //If the dates overlap
-        return min($end_one,$end_two)->diff(max($start_two,$start_one))->days; //return how many days overlap
-   }
-
-   return 0; //Return 0 if there is no overlap
-}   
+       if($start_one <= $end_two && $end_one >= $start_two) { //If the dates overlap
+            return min($end_one,$end_two)->diff(max($start_two,$start_one))->days; //return how many days overlap
+       }
+    
+       return 0; //Return 0 if there is no overlap
+    }   
+    
+    public static function getTotalDates($provider, $fieldName)
+    {
+        $total = 0;
+//        Yii::warning(VarDumper::dumpAsString($provider),'application');
+        Yii::warning(VarDumper::dumpAsString($fieldName),'application');
+    
+        foreach ($provider as $item) {
+            if  (($item[$fieldName] == '0000-00-00') or empty($item[$fieldName])) {$s = 0;} else {$s = 1;}
+            $total += $s; //(($item[$fieldName] == '0000-00-00') or empty($item[$fieldName])) ? 0 : 1;
+        }
+    
+        // add number_format() before return
+       // $total = number_format( $total, 2 );
+    
+        return $total;
+    }
 }
 

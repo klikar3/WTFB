@@ -54,38 +54,39 @@ class MitgliederschulenSearch extends Mitgliederschulen
     public function search($params)
     {
         $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
-                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+//                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad,mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
         
         $dataProvider->setSort([
-		    		'defaultOrder' => ['Name'=>SORT_ASC],
+		    	'defaultOrder' => ['Name'=>SORT_ASC],
 		        'attributes' => [
 		            'Von',
 		            'Bis',
 		            'mitgliederschulen.SchulId',
-                'VDatum',
-                'Vertrag',
-                'Grad',
+                    'VDatum',
+                    'Vertrag',
+                    'Grad',
 		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',
-                'BeitragAussetzenVon', 'BeitragAussetzenBis',
-                'Name'=> [
-		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
-		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
-		                'label' => 'Name',
-		                'default' => SORT_ASC,
-		            ],
-                'DVDgesendetAm',
-                'letzteDvd',
-                'Woher',		            
-                'NameLink' => [
-		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
-		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
-		                'label' => 'Name',
-		                'default' => SORT_ASC,
-		            ],  
+                    'BeitragAussetzenVon', 'BeitragAussetzenBis',
+                    'Name'=> [
+    		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+    		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+    		                'label' => 'Name',
+    		                'default' => SORT_ASC,
+    		            ],
+                    'DVDgesendetAm',
+    //                'letzteDvd',
+                    'Woher',		            
+                    'NameLink' => [
+    		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+    		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+    		                'label' => 'Name',
+    		                'default' => SORT_ASC,
+    		        ],  
 		        ]
 		    ]);
 
@@ -94,8 +95,8 @@ class MitgliederschulenSearch extends Mitgliederschulen
             return $dataProvider;
         }
 */
-        Yii::warning(VarDumper::dumpAsString($params),'application');
-        Yii::warning(VarDumper::dumpAsString($this),'application');
+//        Yii::warning(VarDumper::dumpAsString($params),'application');
+//        Yii::warning(VarDumper::dumpAsString($this),'application');
 
         $query->andFilterWhere([
             'msID' => $this->msID,
