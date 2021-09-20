@@ -1,0 +1,177 @@
+<?php
+
+namespace frontend\models;
+
+use Yii;
+use yii\helpers\VarDumper;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use frontend\models\Mitgliederschulen;
+
+/**
+ * MitgliederschulenSearch represents the model behind the search form about `frontend\models\Mitgliederschulen`.
+ */
+class MitgliederschulenSearch extends Mitgliederschulen
+{
+    /**
+     * @inheritdoc
+     */
+		public $NameLink;
+		public $Name;
+    public $groesserVon;
+    public $kleinerBis;
+    public $DVDgesendetAm;
+    public $letzteDvd;
+    public $von;
+    public $RecDeleted;
+
+    public function rules()
+    {
+        return [
+            [['msID', 'MitgliederId', 'VertragId','RecDeleted'], 'integer'],
+            [['VDatum', 'Von', 'Bis', 'SchulId', 'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise', 'NameLink',
+              'Vertrag', 'Grad', 'mitgliederschulen.SchulId', 'Name', 'groesserVon', 'kleinerBis', 'DVDgesendetAm', 'letzteDvd', 
+              'BeitragAussetzenVon', 'BeitragAussetzenBis','RecDeleted'], 'safe'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params)
+    {
+        $query = Mitgliederschulen::find()->with('schul')->with('schul.disziplinen')->innerJoinWith('mgl', true)->innerJoinWith('mitglieder', true)
+//                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad, mitglieder.letzteDvd, mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+                  ->select('*, mitgliederliste.Name,mitgliederliste.Vertrag, mitgliederliste.Grad,mitglieder.DVDgesendetAm,mitglieder.Woher,mitglieder.RecDeleted');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        
+        $dataProvider->setSort([
+		    	'defaultOrder' => ['Name'=>SORT_ASC],
+		        'attributes' => [
+		            'Von',
+		            'Bis',
+		            'mitgliederschulen.SchulId',
+                    'VDatum',
+                    'Vertrag',
+                    'Grad',
+		            'KuendigungAm','MonatsBeitrag', 'ZahlungsArt', 'Zahlungsweise',
+                    'BeitragAussetzenVon', 'BeitragAussetzenBis',
+                    'Name'=> [
+    		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+    		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+    		                'label' => 'Name',
+    		                'default' => SORT_ASC,
+    		            ],
+                    'DVDgesendetAm',
+    //                'letzteDvd',
+                    'Woher',		            
+                    'NameLink' => [
+    		                'asc' => ['mitgliederliste.Name' => SORT_ASC],
+    		                'desc' => ['mitgliederliste.Name' => SORT_DESC],
+    		                'label' => 'Name',
+    		                'default' => SORT_ASC,
+    		        ],  
+		        ]
+		    ]);
+
+        $this->load($params);
+/*        if (!$this->validate()) {
+            return $dataProvider;
+        }
+*/
+//        Yii::warning(VarDumper::dumpAsString($params),'application');
+//        Yii::warning(VarDumper::dumpAsString($this),'application');
+
+        $query->andFilterWhere([
+            'msID' => $this->msID,
+            'MitgliederId' => $this->MitgliederId,
+//            'mitgliederschulen.SchulId' => $this->SchulId,
+            'VDatum' => $this->VDatum,
+            'Von' => $this->Von,
+            'Bis' => $this->Bis,
+            'VertragId' => $this->VertragId,
+            'MonatsBeitrag' => $this->MonatsBeitrag, 
+            'ZahlungsArt' => $this->ZahlungsArt, 
+            'Zahlungsweise' => $this->Zahlungsweise,
+            'BeitragAussetzenVon' => $this->BeitragAussetzenVon,
+            'BeitragAussetzenBis' => $this->BeitragAussetzenBis,
+            'Grad' => $this->Grad,
+//            'Name' => $this->Name,
+//            'DVDgesendetAm' => $this->DVDgesendetAm,
+            'letzteDvd' => $this->letzteDvd,
+            'mitglieder.RecDeleted' => $this->RecDeleted
+        ]);
+        if (!empty($this->SchulId)) {
+    		    $query->andWhere('mitgliederschulen.SchulId IN (' . $this->SchulId . ') '  );
+        }
+        if (!empty($this->groesserVon)) {
+            $gv = \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-d');
+            $query->andWhere(['OR', ['AND', ['<=', 'Von', $gv],
+                                            ['OR', ['>=', 'Bis', $gv],
+                                                  ['is','Bis', new \yii\db\Expression('null')],
+                                                  ['=','Bis', '0000-00-00'],
+                                            ],
+                                    ],
+                                    ['AND', ['>=', 'VDatum', $gv],                                      
+                                            ['<=', 'VDatum', \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-t')],
+//                                             ]       
+                                      ],      
+                              ]);  
+        }
+    		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
+    		if (!empty($this->woher)) $query->andWhere('mitglieder.Woher in (' . $this->woher . ') '  );
+    		if (!empty($this->Name)) $query->andWhere('mitgliederliste.Name LIKE "%' . $this->Name . '%" '  );
+    		if (!empty($this->Grad)) $query->andWhere('mitgliederliste.Grad LIKE "%' . $this->Grad . '%" '  );
+//					Yii::warning("-----schulen: ". Vardumper::dumpAsString($this->SchulId));
+//        $query->andFilterCompare('von', $this->Von,'='  );
+
+/*        foreach (Mitgliederschulen::getSearchColumns() as $columnname){
+            $operator = $this->getOperator($this->$columnname);
+            $operand = str_replace($operator,'',$this->$columnname);
+            $query->andFilterWhere([$operator, $columnname, $operand]);
+        }
+*/        
+        return $dataProvider;
+    }
+
+
+    private function getOperator($qryString){
+        switch ($qryString){
+            case strpos($qryString,'>=') === 0:
+                $operator = '>='; 
+            break;
+            case strpos($qryString,'>') === 0:
+                $operator = '>';
+                break;
+            case strpos($qryString,'<=') === 0:
+                $operator = '<=';
+                break;
+            case strpos($qryString,'<') === 0:
+                $operator = '<';
+                break;
+            case strpos($qryString,'|') === 0:
+                $operator = 'or';
+                break;
+            default:
+                $operator =  'like';
+                break;
+        }
+        return $operator;
+    }
+}
