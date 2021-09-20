@@ -44,7 +44,10 @@ return [
     'IntensivMembers' => 'IntensivMitglieder', 
     'Interessent-Defaults' => 'Interessent-Vorgaben', 
     'Interessent.-List' => 'Interessenten-Liste',
+<<<<<<< HEAD
     'TestTraining-List' => 'Probetraining-Liste',
+=======
+>>>>>>> 7c8202d5fd2455a330df3d1930fdbb9088e5ccdd
     'Login' => 'Login', 
     'Logout' => 'Logout', 
     'Members' => 'Mitglieder', 
