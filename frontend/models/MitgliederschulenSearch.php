@@ -122,7 +122,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
         }
         if (!empty($this->groesserVon)) {
             $gv = \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-d');
-            $query->andWhere(['OR', ['AND', ['<=', 'Von', $gv],
+            $query->andWhere(['OR', ['AND', ['<=', 'Von', \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-t') /*$gv*/],
                                             ['OR', ['>=', 'Bis', $gv],
                                                   ['is','Bis', new \yii\db\Expression('null')],
                                                   ['=','Bis', '0000-00-00'],
@@ -130,8 +130,7 @@ class MitgliederschulenSearch extends Mitgliederschulen
                                     ],
                                     ['AND', ['>=', 'VDatum', $gv],                                      
                                             ['<=', 'VDatum', \DateTime::createFromFormat('d.m.Y', $this->groesserVon)->format('Y-m-t')],
-//                                             ]       
-                                      ],      
+                                    ],      
                               ]);  
         }
     		if (!empty($this->DVDgesendetAm)) $query->andWhere('mitglieder.DVDgesendetAm > \'' . $this->DVDgesendetAm . '\' '  );
@@ -146,7 +145,9 @@ class MitgliederschulenSearch extends Mitgliederschulen
             $operand = str_replace($operator,'',$this->$columnname);
             $query->andFilterWhere([$operator, $columnname, $operand]);
         }
-*/        
+*/      
+
+//        Yii::warning($query->prepare(Yii::$app->db->queryBuilder)->createCommand()->rawSql,'application');  
         return $dataProvider;
     }
 

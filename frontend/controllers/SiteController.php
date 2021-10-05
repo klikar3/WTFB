@@ -215,7 +215,7 @@ class SiteController extends Controller
             Yii::$app->session['customerparams'] = $params;
             //Yii::warning('----params load: '.VarDumper::dumpAsString($params),'application');
         }
-//        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
+        Yii::warning('----params: '.VarDumper::dumpAsString($params),'application');
         
         $searchModel = new MitgliederschulenSearch();
         $dataProvider = $searchModel->search($params);
@@ -1396,12 +1396,14 @@ class SiteController extends Controller
     }
 
     public static function computeAnteil($data, $monatsbeginn, $diesesJahr, $dieserMonat) {
+        // Berechnen des Anteiligen Beitrags 
         //Yii::warning(VarDumper::dumpAsString($data),'application');
         //von und bis nicht in diesem Jahr
+        Yii::warning('$monatsbeginn '.Vardumper::dumpAsString($monatsbeginn));
         $anfangFenster = \DateTime::createFromFormat('!d.m.Y', $monatsbeginn);
-        //Yii::warning($monatsbeginn);
+        Yii::warning('$anfangFenster '.Vardumper::dumpAsString($anfangFenster));
         $endeFenster = \DateTime::createFromFormat('!Y-m-d', \DateTime::createFromFormat('!d.m.Y', $monatsbeginn)->format('Y-m-t'));
-        //Yii::warning($endeFenster);
+        Yii::warning('$endeFenster '.Vardumper::dumpAsString($endeFenster));
         $von = \DateTime::createFromFormat('!Y-m-d', empty($data->Von) ? '1900-01-01' : $data->Von);
         $bis = \DateTime::createFromFormat('!Y-m-d', empty($data->Bis) ? '2999-01-01' : $data->Bis);
         
@@ -1507,6 +1509,7 @@ class SiteController extends Controller
    }
    
     public static function computeA($data, $monatsbeginn, $diesesJahr, $dieserMonat) {
+        // Berechnen ob der Beitrag Anteilig oder Vollständig zu berechnen ist
         //Yii::warning(VarDumper::dumpAsString($data),'application');
         //von und bis nicht in diesem Jahr
         $anfangFenster = \DateTime::createFromFormat('!d.m.Y', $monatsbeginn);

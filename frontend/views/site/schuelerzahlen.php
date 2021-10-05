@@ -94,7 +94,7 @@ Yii::warning(VarDumper::dumpAsString($ks),'application');
             ['attribute' => 'VDatum',
               'label' => Yii::t('app', 'Contract'),
              'value' => function ($data) {
-                  return empty($data->VDatum) ? '' : \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
+                  return (($data->VDatum=='0000-00-00') or empty($data->VDatum)) ? '' : \DateTime::createFromFormat('Y-m-d', $data->VDatum)->format('d.m.Y');
                   }
             ], 
             ['attribute' => 'Von',
