@@ -39,8 +39,10 @@ use frontend\models\Schulen;
 							'action' => ['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => 1/*, 'style' => 'font-size:1em',*/],
 				],
 		    'formatter' => [
-	        'class' => 'yii\i18n\Formatter',
-	        'nullDisplay' => '',
+	               'class' => 'yii\i18n\Formatter',
+	               'nullDisplay' => '',
+                   'timeZone' => 'Europe/Berlin',
+                   'defaultTimeZone' => 'Europe/Berlin',
 		    ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
@@ -141,7 +143,7 @@ use frontend\models\Schulen;
 									],
 						],
 					],
-          [ 'attribute' => 'ProbetrainingAm',
+/*          [ 'attribute' => 'ProbetrainingAm',
           	'format' => ['date', 'php:d.m.Y'],
             'valueColOptions'=>['style'=>'width:30%'], 
             'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
@@ -157,6 +159,27 @@ use frontend\models\Schulen;
 										'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,],
 								],
 						],
+          ],*/
+          [ 'attribute' => 'ProbetrainingAm',
+          	'format' => ['datetime', 'php:d.m.Y H:i'],
+            'valueColOptions'=>['style'=>'width:30%'], 
+            'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
+          	'type' => DetailView::INPUT_WIDGET,
+          	'ajaxConversion' => true,
+   			'label' => Yii::t('app', 'Trial training on'),
+         	'widgetOptions' => [
+          			'class' => datecontrol::classname(),
+					'type' => datecontrol::FORMAT_DATETIME,
+          	        'ajaxConversion' => true,
+					'displayFormat' => 'php:d.m.Y H:i',
+					'saveFormat' => 'php:Y-m-d H:i:s',
+                    'displayTimezone' => 'Europe/Berlin',
+                    'saveTimezone' => 'Europe/Berlin',
+                'options' => [
+    							'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'todayBtn' => true,
+                                ],
+  							],
+			],
           ],
            ['attribute'=>'PTwarDa','type'=>DetailView::INPUT_CHECKBOX_X, //'format' => 'boolean',    
 						'value' => $model->showTriState($model->PTwarDa),
@@ -244,9 +267,9 @@ use frontend\models\Schulen;
             [
                 'group'=>true,
                 'label'=>false, //'Teil 2: Aussetzen',
-                'rowOptions'=>['class'=>'table-info'],
+                'rowOptions'=>['class'=>'wtfb-light'],
 //                'groupOptions'=>['style'=>'background: lightblue;'],
-                'groupOptions'=>['style'=>'background: #d9edf7;height:2em;'],
+                'groupOptions'=>['class'=>'wtfb-light'],
             ],
             [ 'attribute' => 'Bemerkung1',
             	'label' => Yii::t('app', 'Notice'),
@@ -256,6 +279,8 @@ use frontend\models\Schulen;
 
         ],
     ]) ?>
+    <div class="row">
+    <div class="col">
     <?php 
       if (!empty($model->Disziplin)||($model->Schulort == 'WT-Intensiv')) {
         ($model->Schulort == 'WT-Intensiv') ? $disp = 'Wing Tzun' :   
@@ -278,7 +303,30 @@ use frontend\models\Schulen;
             echo Html::submitButton(Yii::t('app', 'Enter into Newsletter for Interested Persons'), ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
         } 
-      }      
+     }      
     ?>
-
+    </div>
+    <div class="offset-1">
+        <?php
+        if ((!empty($model->ProbetrainingAm)) && ($schul->swmInteressentenListe != 0 ) && ($schul->swmInteressentenForm != 0 )) {
+        $von = str_replace(['-',' ',':'],['','T',''],$model->ProbetrainingAm);
+        $bis = date_add(date_create_from_format('Y-m-d H:i:s', $model->ProbetrainingAm, ), new DateInterval('P0Y0M0DT1H30M0S'))->format('Ymd\THis');
+		echo Html::a('<span class="fa fa-calendar"></span>&nbsp;'.Yii::t('app', 'Appointment to Google'), 
+															/*Url::to(['/texte/print', 'datamodel' => 'vertrag',  
+						//							 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Ausweis'), 'txtid' => 0 
+                                                                     ] )*/
+                                                             'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Probetraining%20für%20'.$model->Vorname.'%20'.$model->Name.'&dates='.
+                                                             $von.'/'.$bis /*->format('YmdTHisZ')20201231T193000Z/20201231T223000Z*/ 
+                                                             . 'Z&details='.str_replace(' ','%20',$model->Disziplin).'&location=Wunnensteinstr.%2041,%2070186%20Stuttgart'        
+                                                                     , [
+                              'data-pjax' => 0,     
+                    					'target'=>'_blank',
+															'title' => Yii::t('app', 'Add appointment to Google calender'),
+															'class'=>'btn btn-sm btn-default',
+															'style' => 'width: 15em; text-align: left;',
+												        ]);
+        } 
+         ?>
+    </div>
+   </div> 
 </div>

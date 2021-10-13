@@ -54,8 +54,10 @@ use frontend\models\Sifu;
 							'action' => ['mitglieder/view', 'id' => $intensiv->mitgliederId, 'tabnum' => 1, 'iId' => $intensiv->id/*, 'style' => 'font-size:1em',*/],
 				],
 		    'formatter' => [
-	        'class' => 'yii\i18n\Formatter',
-	        'nullDisplay' => '',
+        	        'class' => 'yii\i18n\Formatter',
+        	        'nullDisplay' => '',
+                   'timeZone' => 'Europe/Berlin',
+                   'defaultTimeZone' => 'Europe/Berlin',
 		    ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],

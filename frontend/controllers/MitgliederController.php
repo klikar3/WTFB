@@ -683,14 +683,16 @@ JS;
         }
         
         $max = Mitglieder::find()->count();
-        $i = $percent = 0;
+        $i = $ii = $percent = 0;
         
         $this->send_message(0, 'start 0 of ' . $max , 10);
         
         $errors[] = 'Gefundene Fehler: ';
         foreach (Mitglieder::find()->each(10) as $model) {
             $i += 1;
-            if (($i < 50) && !$model->validate()) {
+            if ($i % 40 == 0) $errors[] = 'Zeile: '.strval($i);
+            if (($ii < 50) && !$model->validate()) {
+              $ii +=1;
               //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
               $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.json_encode($model->errors).'<br>';
             }

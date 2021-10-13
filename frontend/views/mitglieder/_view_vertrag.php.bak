@@ -41,7 +41,7 @@ use frontend\models\Mitgliederschulen;
               ?>
 
 <div class="card border-info panel panel-info" style="font-size:0.9em;">
-	<div class="card-header border-info my-card bg-info panel-heading" style="margin-bottom: 0px;height:3.0em;">
+	<div class="card-header border-info my-card bg-info panel-heading" style="margin-bottom: 0px;height:3.1em;">
     <div class="row"> 
       <div style="margin-bottom: 0px;">
 					<h5 style="color: white;">&nbsp;&nbsp;<?=Yii::t('app', 'Contracts')?>&nbsp;&nbsp;&nbsp;</h5>
@@ -55,7 +55,7 @@ use frontend\models\Mitgliederschulen;
 						'size'=>'lg',					
             'headerOptions' => ['style' => 'background-color: #E8F0FD !important;'],
                 //									'headerOptions' => ['style' => 'height:1.5em'],
-                					'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success btn-sm',],
+                					'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success btn-sm navbar-btn',],
                 //	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
                 				]);
 					?> 

@@ -28,7 +28,6 @@ $config = [
     'controllerNamespace' => 'frontend\controllers',
     'sourceLanguage' => 'en',
     'language' => 'de',
-    'timeZone' => 'Europe/Berlin',
     'components' => [
         'user' => [
             'identityClass' => 'dektrium\user\models\User',

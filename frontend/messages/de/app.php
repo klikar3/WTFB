@@ -78,7 +78,8 @@ return [
     'Salutations' => 'Anreden',
     'Precence' =>'Anwesenheit',
     'Create Precence' =>'Anwesenheit anlegen',
-
+    'Appointment to Google' => 'In Google-Cal. eintragen',
+    'Add appointment to Google calender' => 'Termin in Google-Kalender eintragen',
     
     // Schulen
     'Schools' => 'Schulen',
