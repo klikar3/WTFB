@@ -41,12 +41,12 @@ use frontend\models\Mitgliederschulen;
               ?>
 
 <div class="card border-info panel panel-info" style="font-size:0.9em;">
-	<div class="card-header border-info my-card bg-info panel-heading" style="margin-bottom: 0px;height:3.5em;">
-    <div class="row" style="color:black;"> 
-      <div class="col-2">
-					<h5 style="color: white;">Verträge </h5>
+	<div class="card-header border-info my-card bg-info panel-heading" style="margin-bottom: 0px;height:3.0em;">
+    <div class="row"> 
+      <div style="margin-bottom: 0px;">
+					<h5 style="color: white;">&nbsp;&nbsp;<?=Yii::t('app', 'Contracts')?>&nbsp;&nbsp;&nbsp;</h5>
       </div> 
-      <div class="col-2">
+      <div>
 				 <?php 
             PopoverX::begin([ 'id' => 'mg-cr-vgv',
                 					'header' => $header,
@@ -55,7 +55,7 @@ use frontend\models\Mitgliederschulen;
 						'size'=>'lg',					
             'headerOptions' => ['style' => 'background-color: #E8F0FD !important;'],
                 //									'headerOptions' => ['style' => 'height:1.5em'],
-                					'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success',],
+                					'toggleButton' => ['label' => '<i class="fa fa-plus"></i>', 'class' => 'btn btn-success btn-sm',],
                 //	 								'footer'=> Html::resetButton('Zurücksetzen', ['class'=>'btn btn-sm btn-default']) . Html::submitButton('Speichern', ['class'=>'btn btn-sm btn-primary'])."</a>",
                 				]);
 					?> 
@@ -166,7 +166,7 @@ use frontend\models\Mitgliederschulen;
             		},
             		'enableRowClick' => true,
                 'hidden' => false,
-                'detailRowCssClass' => 'bg-info',
+                'detailRowCssClass' => 'wtfb-light',
 							],
 							[ 'attribute' => 'Schule', 'value' => 'schul.Schulname', 'label' => Yii::t('app', 'School') ],
 							[ 'attribute' => 'Disziplin', 'value' => 'schul.disziplinen.DispKurz', 'label' => Yii::t('app', 'Discipline') ],

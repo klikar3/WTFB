@@ -1186,8 +1186,8 @@ class SiteController extends Controller
                             ]);
         }
         if ($model->pt)  {
-//            $query->andWhere(['is', 'mitglieder.ProbetrainingAm', new \yii\db\Expression('null')]);
-            $query->andWhere(['is', 'mitglieder.WarZumIAda', new \yii\db\Expression('true')]);
+            $query->andWhere(['is not', 'mitglieder.ProbetrainingAm', new \yii\db\Expression('null')]);
+//            $query->andWhere(['is', 'mitglieder.WarZumIAda', new \yii\db\Expression('true')]);
 /*            $query->andWhere(['or',
                                   ['is not', 'mitglieder.EinladungIAzum', new \yii\db\Expression('null')],
                                   ['EinladungIAzum <= CURRENT_DATE']
@@ -1214,12 +1214,12 @@ class SiteController extends Controller
         ->andWhere(['is', 'm.MitgliederId', new \yii\db\Expression('null')])
     		->limit($r);
 
-				$query->union($query2, true);//false is UNION, true is UNION ALL
+		$query->union($query2, true);//false is UNION, true is UNION ALL
 
-				$dataProvider = new ActiveDataProvider([
-				     'query' => $query,
-				     'sort'=> ['defaultOrder' => ['Name'=>SORT_ASC]]
-				]); 
+		$dataProvider = new ActiveDataProvider([
+		     'query' => $query,
+		     'sort'=> ['defaultOrder' => ['Name'=>SORT_ASC]]
+		]); 
         $dataProvider->pagination->pageSize = 200;
         
 /*			return $this->renderPartial('ialiste', [

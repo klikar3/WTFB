@@ -320,10 +320,10 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['Name', 'Betreff', 'mandatNr', 'Schulort'], 'string', 'max' => 30],
             [['Anrede', 'Wohnort', 'Strasse', 'Email', 'Beruf', 'Nationalitaet', 'Sifu', 'ErzBerechtigter'], 'string', 'max' => 50],
             [['Email'], 'email'],
-		        [['KontaktArt', 'RechnungsNr', 'letzteDvd'], 'string', 'max' => 50],            
+		    [['KontaktArt', 'RechnungsNr', 'letzteDvd'], 'string', 'max' => 50],            
             [['PLZ', 'VDauer', 'BeitragOffenBis'], 'string', 'max' => 13],
             [['Mahngebuehren', 'Vereinbarung', 'VErgaenzungAb', 'AufnGebuehrBetrag', 'EsckrimaGraduierung'], 'string', 'max' => 9],
-						[['Bank'], 'string', 'max' => 100],
+			[['Bank'], 'string', 'max' => 100],
             [['AktivPassiv', 'EWTONr', 'EWTOAustritt', 
 							'BeitragOffenEuro', 'GesamtOffen', 'Mahnung3Am', 'EinladungIAzum', 'Abschlussgespraech', 
 							'Bemerkung2', 'GutscheinVon', 'NeuerBeitrag', 'Land', 'AussetzenDauer', 'Betrag', 'ZahlungsweiseBetrag'], 'string', 'max' => 10],
@@ -332,21 +332,21 @@ class Mitglieder extends \yii\db\ActiveRecord
             [['Bemerkung1'], 'string', 'max' => 512],
             [['Geburtsort','IBAN'], 'string', 'max' => 26],
             [['GruppenArt', 'BeitragOffenAb', 'EPruefungAm', 'BeginnEsckrima', 'EndeEsckrima'], 'string', 'max' => 18], 
-	          [['KPruefungZum', 'EPruefungZum'], 'string', 'max' => 12],
-	          [['BIC'], 'string', 'max' => 11],            
+	        [['KPruefungZum', 'EPruefungZum'], 'string', 'max' => 12],
+	        [['BIC'], 'string', 'max' => 11],            
 //						[['Zahlungsweise'], 'string', 'max' => 16], 
-		        [['EinzugZum'], 'string', 'max' => 15],
+		    [['EinzugZum'], 'string', 'max' => 15],
 //            [['BeitragAussetzenGrund'], 'string', 'max' => 37],
             [['AufnahmegebuehrBezahlt', 'WTPruefungZum'], 'string', 'max' => 14], 
-		        [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'WTPruefungAm', 'KPruefungAm', 
+		    [['Mahnung1Am', 'Mahnung2Am', 'BarZahlungAm', 'InkassoAm', 'Zahlungsfrist', 'WTPruefungAm', 'KPruefungAm', 
 							'Name2Schule', 'BezahltAm', 'AufnahmegebuehrBezahltAm'], 'string', 'max' => 19],            
-						[['Bemerkungen'], 'string', 'max' => 294],
+			[['Bemerkungen'], 'string', 'max' => 294],
             [['Text'], 'string', 'max' => 426],
             [['DM2Schule'], 'string', 'max' => 5],
 //            [['zumIAnichtDa', 'zumPTnichtDa'], 'string', 'max' => 6],
 //		        [['MitgliedsNr'], 'unique']
             [['kontaktNachricht1'], 'string', 'max' => 9999]
-		        ];
+		];
     }
 
     /**

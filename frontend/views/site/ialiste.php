@@ -76,7 +76,7 @@ $this->title = (Yii::$app->controller->action->id == 'info-abendliste') ? Yii::t
              'attribute' => 'Disziplin',
              'label' => 'Disz',
              'value' => function ($data) { 
-                        return ((empty($data->Disziplin) ? "" : ($data->Disziplin == "WT-Kinder") ? "K" : "W")) ;
+                        return ((empty($data->Disziplin) ? "" : (($data->Disziplin == "WT-Kinder") ? "K" : "W"))) ;
                       },
              'enableSorting' => false,
         		 'contentOptions' => ['style' => 'width: 15px;text-align:center;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],

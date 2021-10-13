@@ -122,7 +122,7 @@ if ($model->hasErrors()) {
 		        //]) 
 						?>				
 
-<div style="font-size:12pt !important;">
+<div class="col-12" style="font-size:12pt !important;">
 				<?php  // <div class="d-none d-sm-block" style="font-size:12pt !important;">
                   // Ajax Tabs top
 				    echo TabsX::widget([
