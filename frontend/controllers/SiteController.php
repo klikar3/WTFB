@@ -899,33 +899,49 @@ class SiteController extends Controller
  
  			$model = new AuswertungenForm();
             if ($model->load(Yii::$app->request->post() )) {
-                $schulen = Schulen::find()->where(['SchulId' => $model->schule])->all();
-                $schulnamen = ArrayHelper::getColumn($schulen,'Schulname');
-                $schule = implode(', ', $schulnamen);
+                $schulen = Schulen::find()->innerJoinWith('disziplin',true)->where(['SchulId' => $model->schule])->all();
+//                Yii::warning(VarDumper::dumpAsString($schulen),'application');
+
+                $wre = $schule = '';    
+                foreach( $schulen as $s )
+                {                		
+                    $wre = $wre."(Schulort ='".$s['Schulname']."' AND Disziplin = '".$s['disziplin']->DispName."') OR ";
+                    $schule = $schule . $s['Schulname'] . " " . $s['disziplin']->DispKurz . ", ";    
+                }
+                $wre = substr($wre, 0, -3);
+                $schule = substr($schule, 0, -2);
+
             } else {
     //            Yii::warning('else','application');
                 return $this->render('auswahl', [
                     'model' => $model,
                 ]);
             }
-    //        Yii::warning(VarDumper::dumpAsString($schulnamen),'application');
             
             $searchModel = new MitgliederSearch();
             $query = Mitglieder::find()->leftJoin('mitgliederschulen ms','mitglieder.MitgliederId=ms.MitgliederId')
                      ->andWhere(['is', 'ms.msID', new \yii\db\Expression('null')])
                      ->andWhere(['is not', 'ProbetrainingAm', new \yii\db\Expression('null')])
                      ->andWhere('(mitglieder.PTwarDa = 0 OR mitglieder.PTwarDa IS NULL) AND mitglieder.RecDeleted <> 1')
+//                     ->andWhere(['Schulort' => $schulnamen, 'Disziplin' => $disziplin]);
+                     ->andWhere(['or',
+                                      ['is', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('null')],
+                                      ['<=', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('CURRENT_DATE()')],
+                                ]);
     //                 ->andWhere('EinladungIAzum >= CURRENT_DATE')
-                     ->andWhere(['Schulort' => $schulnamen]);
     //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
     //        Yii::warning(VarDumper::dumpAsString($query),'application');
-    //        $sql = $query->createCommand()->getRawSql($query);
-    //        Yii::warning(VarDumper::dumpAsString($sql),'application');
             
+            $query->andWhere($wre);    
             if (!empty($model->woher)) {
               $woherString = (is_array($model->woher)) ? implode(', ', $model->woher) : $model->woher;
               $query->andWhere(['in','mitglieder.Woher',$model->woher]); 
             }
+            
+            $query->orderBy('KontaktAm desc');
+            $sql = $query->createCommand()->getRawSql($query);
+            Yii::warning(VarDumper::dumpAsString($sql),'application');
+            
             $d = new ActiveDataProvider([
     				     'query' => $query,
     				]);
@@ -1133,7 +1149,7 @@ class SiteController extends Controller
                  ->andWhere(['or',
                                   ['is', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('null')],
                                   ['<=', 'mitglieder.wiederVorlageAm', new \yii\db\Expression('CURRENT_DATE')],
-            ]);
+                            ]);
         $wre = '';    
         foreach( $schulnamen as $s )
         {                		
@@ -1179,9 +1195,10 @@ class SiteController extends Controller
 */        }
 //        $query->andFilterWhere(['>', 'PruefungZum', 0]);
 //        Yii::warning(VarDumper::dumpAsString($query),'application');
-        $query->orderBy('Schulort,Disziplin');
+//        $query->orderBy('Schulort,Disziplin');
+        $query->orderBy('KontaktAm desc');
         $sql = $query->createCommand()->getRawSql($query);
-        Yii::warning(VarDumper::dumpAsString($sql),'application');
+//        Yii::warning(VarDumper::dumpAsString($sql),'application');
         
         $d = new ActiveDataProvider([
 				     'query' => $query,

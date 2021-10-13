@@ -122,8 +122,9 @@ if ($model->hasErrors()) {
 		        //]) 
 						?>				
 
-<div class="d-none d-sm-block container" style="font-size:12pt !important;">
-				<?php    // Ajax Tabs top
+<div class="d-none " style="font-size:12pt !important;">
+				<?php  // <div class="d-none d-sm-block" style="font-size:12pt !important;">
+                  // Ajax Tabs top
 				    echo TabsX::widget([
 				    		'id' => 'main-tab',
 						    'enableStickyTabs' => true,
@@ -135,17 +136,19 @@ if ($model->hasErrors()) {
 				    ]);
 				?>
 </div>
-<div class="d-block d-sm-none">
-				<?php    // Ajax Tabs Left
-				    echo TabsX::widget([
-				    		'id' => 'main-tab',
+<div class="d-block d-sm-block">
+				<?php //<div class="d-block d-sm-none">
+                   // Ajax Tabs Left
+/*				    echo TabsX::widget([
+				    		'id' => 'main-tab-2',
 						    'enableStickyTabs' => true,
 						    'items'=>$items,
-						    'position'=>TabsX::POS_LEFT,
+//						    'position'=>TabsX::POS_LEFT,
+						    'position'=>TabsX::POS_ABOVE,
 //						    'sideways'=>true,
 			 					'bordered'=>true,
 						    'encodeLabels'=>false,
 				    ]);
-				?>
+*/				?>
 </div>
 <?php //Pjax::end(); ?>
