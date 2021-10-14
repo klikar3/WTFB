@@ -78,7 +78,7 @@ return [
     'Salutations' => 'Anreden',
     'Precence' =>'Anwesenheit',
     'Create Precence' =>'Anwesenheit anlegen',
-    'Appointment to Google' => 'In Google-Cal. eintr.',
+    'Appointment to Google' => 'In Google-Cal. eintragen',
     'Add appointment to Google calender' => 'Termin in Google-Kalender eintragen',
     
     // Schulen
@@ -211,6 +211,10 @@ return [
     'Training Partner' => 'Trainingspartner',
     'First Appointment On' => 'Ersttermin am',
     'Experience in other styles' => 'Erfahrung and. Stile',
+    'Call-Appointment to Google' => 'Tel. in Google-Kal. eintr.',
+    'Add appointment for call to Google calender' => 'Telefonat in Google-Kalender eintragen',
+    'First Appointment to Google' => 'PT in Google-Kal. eintr.',
+    'Add first appointment to Google calender' => 'Erst-Termin in Google-Kalender eintragen',
     
     // Mitgliederschulen -> Verträge
     'Notice' => 'Bemerkung',
@@ -276,7 +280,7 @@ return [
     'Upload' => 'Hochladen',
     'Select Pdf' => 'Pdf auswählen',
     'View Contract' => 'Vertr. ansehen',
-    'Enter into Newsletter for Interested Persons' => 'In NL-Interessent eintragen',
+    '<span class="fa fa-list"></span>&nbsp;Enter into Newsletter for Interested Persons' => '<span class="fa fa-list"></span>&nbsp;In NL-Interessent eintragen',
     'Enter into NL' => 'In NL eintr.',
     'Enter into Newsletter for Members' => 'In den Newsletter für Mitglieder eintragen', 
     'Calculate / Verify IBAN' => 'IBAN berechnen / prüfen',

@@ -300,7 +300,7 @@ use frontend\models\Schulen;
             echo Html::hiddenInput('u_LastName', $model->Name,['id' => "u_LastName"]);
             echo Html::hiddenInput('u_Salutation', (strpos($model->Anrede, 'Herr') !== false ) ? 'Hallo Herr' : ((strpos($model->Anrede, 'Frau') !== false ) ? 'Hallo Frau' : 'Hallo Familie' ),['id' => "u_Salutation"]);
             echo Html::hiddenInput('Action', 'subscribe');
-            echo Html::submitButton(Yii::t('app', 'Enter into Newsletter for Interested Persons'), ['class' => 'btn btn-sm btn-default']);
+            echo Html::submitButton(Yii::t('app', '<span class="fa fa-list"></span>&nbsp;Enter into Newsletter for Interested Persons'), ['class' => 'btn btn-sm btn-default']);
             echo Html::endForm(); 
         } 
      }      
@@ -308,14 +308,14 @@ use frontend\models\Schulen;
     </div>
     <div class="col">
         <?php
-        if ((!empty($model->ProbetrainingAm)) && ($schul->swmInteressentenListe != 0 ) && ($schul->swmInteressentenForm != 0 )) {
+        if ((!empty($model->ProbetrainingAm)) ) {
         $von = str_replace(['-',' ',':'],['','T',''],$model->ProbetrainingAm);
         $bis = date_add(date_create_from_format('Y-m-d H:i:s', $model->ProbetrainingAm, ), new DateInterval('P0Y0M0DT1H30M0S'))->format('Ymd\THis');
 		echo Html::a('<span class="fa fa-calendar"></span>&nbsp;'.Yii::t('app', 'Appointment to Google'), 
 															/*Url::to(['/texte/print', 'datamodel' => 'vertrag',  
 						//							 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => Yii::t('app', 'Ausweis'), 'txtid' => 0 
                                                                      ] )*/
-                                                             'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Probetraining%20für%20'.$model->Vorname.'%20'.$model->Name.'&dates='.
+                                                             'https://calendar.google.com/calendar/render?action=TEMPLATE&text=PT%20'.$model->Vorname.'%20'.$model->Name.'&dates='.
                                                              $von.'/'.$bis /*->format('YmdTHisZ')20201231T193000Z/20201231T223000Z*/ 
                                                              . 'Z&details='.str_replace(' ','%20',$model->Disziplin).'&location=Wunnensteinstr.%2041,%2070186%20Stuttgart'        
                                                                      , [
@@ -323,7 +323,7 @@ use frontend\models\Schulen;
                     					'target'=>'_blank',
 															'title' => Yii::t('app', 'Add appointment to Google calender'),
 															'class'=>'btn btn-sm btn-default',
-															'style' => 'width: 15em; text-align: left;',
+															'style' => 'width: 14em; text-align: left;',
 												        ]);
         } 
          ?>

@@ -58,6 +58,21 @@ use frontend\models\Sifu;
 		    ],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',
 				],
+       'viewOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'updateOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'resetOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'deleteOptions' => [
+          'style' => 'color:white!important;', 
+        ],
+       'saveOptions' => [
+          'style' => 'color:white!important;', 
+        ],
         'valueColOptions'=>['style'=>'width:30%'], 
         'labelColOptions'=>['style'=>'width:19%;text-align:right;'], 
         'attributes' => [
