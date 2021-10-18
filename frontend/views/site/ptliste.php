@@ -135,7 +135,8 @@ $this->title = Yii::t('app', 'Probetraining - Liste ');
              'enableSorting' => false,
              'format' => 'raw',
              'value' => function ($data) {
-                        return empty($data->ProbetrainingAm) ? '' : \DateTime::createFromFormat('Y-m-d', $data->ProbetrainingAm)->format('d.m.Y');
+                        Yii::warning($data);
+                        return (empty($data->ProbetrainingAm) or ($data->ProbetrainingAm == '0000-00-00')) ? '' : ((\DateTime::createFromFormat('Y-m-d H:i:s', $data->ProbetrainingAm)!==false)?\DateTime::createFromFormat('Y-m-d H:i:s', $data->ProbetrainingAm)->format('d.m.Y  H:i'): '');
                       },
         		 'contentOptions' => ['style' => 'width: 85px;text-align:center;padding:2px;border: 1px solid black;border-top:0px;border-left: 0px;'],
              'headerOptions' => ['style'=>'text-align:center;border-right: 1px solid black;border-bottom: 2px solid black;'],
