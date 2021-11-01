@@ -309,7 +309,7 @@ class TexteController extends Controller
 												->one();
 				}else { 
 						$textmodel = Texte::find()
-												->where(['code' => $txtcode, 'SchulId' => $SchulId])
+												->where(['code' => $txtcode, 'SchulId' => $SchulId, 'fuer' => $datamodel])
 												->one();
 				}
 				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 10em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';
@@ -377,6 +377,10 @@ class TexteController extends Controller
 					$link = Yii::t('app', "Susp.-Email");
 				else if ($txtcode == 'EmailKuendigung') 
 					$link = Yii::t('app', "Term.-Email");
+				else if ($txtcode == 'EmailWTOnline') 
+					$link = Yii::t('app', "WTO-Email");
+				else if ($txtcode == 'EmailStandard') 
+					$link = Yii::t('app', "Email");
 				else $link = Yii::t('app', "by Email");						
 				
 				// Linefeed für Outlook ersetzen

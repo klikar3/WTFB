@@ -462,10 +462,11 @@ use frontend\models\SearchVertrag;
 	</div>	
 
   <div class="col-5 float-right" id = "sf3.$model->msID"  style="!float:right;width:40em;">  
- 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default" style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'Standard Email').'</div>', Url::to($model->mitglieder->Email) .
+ 		<?php	/*echo Html::mailto('<div class="btn btn-sm btn-default" style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'Standard Email').'</div>', Url::to($model->mitglieder->Email) .
 									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
 											'title' => Yii::t('app', 'Send Standard Email to Member'),
-							  	]);
+							  	]); */
+               	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailStandard", $model->SchulId, 0);                 
 		?>
 		</div>
  </div>
@@ -521,8 +522,28 @@ use frontend\models\SearchVertrag;
 											 
 		?>
 	 </div>  
+ </div>	
+ <?php if (Yii::$app->user->identity->isAdmin) { ?>											        
+ <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
+   <div class="col-5" id = "bl3.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
+		<?php /*	echo Html::a('<span class="fa fa-print"></span>&nbsp;'.Yii::t('app', 'Termination'),  
+															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
+													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
+                              'data-pjax' => 0,     
+                    					'target'=>'_blank',
+															'class'=>'btn btn-sm btn-default',
+															'title' => Yii::t('app', 'Print Termination'),
+															'style' => 'width: 10em; text-align: left;',
+												        ]); */
+             ?>
+		</div>										        
+   <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
+		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
+											 
+		?>
+	 </div>  
  </div>												        
-
+ <?php } ?>
  <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
    <div class="col-5" id = "v1.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
 		<?php	
