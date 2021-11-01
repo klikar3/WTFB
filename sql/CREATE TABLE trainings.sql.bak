@@ -48,4 +48,8 @@ UPDATE `trainings` SET `schulId`='33' WHERE `id`='2';
 UPDATE `trainings` SET `schulId`='33' WHERE `id`='3';
 UPDATE `trainings` SET `schulId`='33' WHERE `id`='4';
 UPDATE `trainings` SET `schulId`='33' WHERE `id`='5';
+  
+  
+-- ALTER TABLE `user` CHANGE `registration_ip` `registration_ip` VARCHAR(45) NULL DEFAULT NULL; 
+
     

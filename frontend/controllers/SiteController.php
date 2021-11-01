@@ -494,7 +494,7 @@ class SiteController extends Controller
         
 //        VarDumper::dump($model);
         $query = (new \yii\db\Query())
-            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung')
+            ->select('concat_ws(".",`monat`,`jahr`) as l,jahr, monat, Eintritt, Austritt, Kuendigung, Anzahl')
             ->from('mitgliederzahl1 mz')
 //            ->join('tbl_profile p', 'u.id=p.user_id')
             ->where('SchulId=:schule and (jahr>=:vonjahr and jahr<=:bisjahr) and not ((jahr=:vonjahr and monat <:vonmonat) or (jahr=:bisjahr and monat >:bismonat) )', 

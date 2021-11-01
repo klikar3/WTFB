@@ -52,4 +52,66 @@ UPDATE `trainings` SET `schulId`='33' WHERE `id`='5';
   
 -- ALTER TABLE `user` CHANGE `registration_ip` `registration_ip` VARCHAR(45) NULL DEFAULT NULL; 
 
-    
+ USE `wt-data`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `mitgliederzahl1` AS
+    SELECT 
+        `t`.`jahr` AS `jahr`,
+        `t`.`monat` AS `monat`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `mitgliederschulen` `m1`
+            WHERE
+                ((YEAR(`m1`.`Von`) = `t`.`jahr`)
+                    AND (MONTH(`m1`.`Von`) = `t`.`monat`)
+                    AND (`m1`.`SchulId` = `m2`.`SchulId`))) AS `Eintritt`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `mitgliederschulen` `m1`
+            WHERE
+                ((YEAR(`m1`.`Bis`) = `t`.`jahr`)
+                    AND (MONTH(`m1`.`Bis`) = `t`.`monat`)
+                    AND (`m1`.`SchulId` = `m2`.`SchulId`))) AS `Austritt`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `mitgliederschulen` `m1`
+            WHERE
+                ((YEAR(`m1`.`KuendigungAm`) = `t`.`jahr`)
+                    AND (MONTH(`m1`.`KuendigungAm`) = `t`.`monat`)
+                    AND (`m1`.`SchulId` = `m2`.`SchulId`))) AS `Kuendigung`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `mitgliederschulen` `m1`
+            WHERE
+            (
+                (
+					(	(YEAR(`m1`.`Von`) = `t`.`jahr`)
+						AND (MONTH(`m1`.`Von`) <= `t`.`monat`)
+					)
+					 OR (YEAR(`m1`.`Von`) < `t`.`jahr`)
+				)
+                AND 
+                (
+					(	(YEAR(`m1`.`Bis`) = `t`.`jahr`)
+						AND (MONTH(`m1`.`Von`) >= `t`.`monat`)
+					)
+					 OR (YEAR(`m1`.`Bis`) > `t`.`jahr`)
+                     OR (YEAR(`m1`.`Bis`) IS NULL)
+                )
+				AND (`m1`.`SchulId` = `m2`.`SchulId`)
+            )        
+		) AS `Anzahl`,
+        `m2`.`SchulId` AS `SchulId`
+    FROM
+        (`tally` `t`
+        JOIN `schulen` `m2`)
+    GROUP BY `t`.`jahr` , `t`.`monat` , `m2`.`SchulId`
+    ORDER BY `t`.`jahr` , `t`.`monat`;
+   
