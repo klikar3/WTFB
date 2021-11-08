@@ -44,9 +44,6 @@ use frontend\models\Schulen;
        'viewOptions' => [
           'style' => 'color:white!important;', 
         ],
-       'editOptions' => [
-          'style' => 'color:white!important;', 
-        ],
        'updateOptions' => [
           'style' => 'color:white!important;', 
         ],

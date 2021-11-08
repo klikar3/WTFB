@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+
+		-
+			'#Call to an undefined static method yii\\filters\\AccessControl::className\(\)#'
+		-
+			'#Call to an undefined static method yii\\filters\\VerbFilter::className\(\)#'
+		-
+			'#Call to an undefined static method yii\\web\\ViewAction::className\(\)#'
+		-
+			'#Call to an undefined static method [a-zA-Z0-9\\_]+::className\(\)#'
+			
+		-
+			'#Variable \$[a-zA-Z0-9\\_]+ might not be defined#'
+			
+	level: 1
+

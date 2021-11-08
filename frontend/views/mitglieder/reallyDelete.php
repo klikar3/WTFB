@@ -42,7 +42,7 @@ $(document).on("click","#delete",function(e){
         alert("select some items to delete");
     }
 });
-', \yii\web\view::POS_READY);
+', \yii\web\View::POS_READY);
 
 $this->registerJs(
     "$(document).ready(function(){

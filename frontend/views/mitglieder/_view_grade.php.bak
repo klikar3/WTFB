@@ -147,6 +147,7 @@ use frontend\models\Pruefer;
             		},
             		'enableRowClick' => true,
                 'hidden' => true,
+                'detailRowCssClass' => 'wtfb-light',
 							],
 							[ 'attribute' => 'Grad', 'value' => 'grad.gKurz', 'label' => Yii::t('app', 'Level') ],
 							[ 'attribute' => 'Disziplin', 'value' => 'grad.dKurz', 'label' => Yii::t('app', 'Discipline') ],

@@ -6,7 +6,7 @@ use yii\helpers\VarDumper;
 
 use kartik\widgets\ActiveForm;
 use kartik\select2\Select2;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\checkbox\CheckboxX;
 

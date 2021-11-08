@@ -35,7 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'kurz',
             'name',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',                 
+             'options' => [
+                    'style' => 'width:6em;',
+                ],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

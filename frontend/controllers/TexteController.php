@@ -283,7 +283,7 @@ class TexteController extends Controller
 
 		protected function textReplace($datamodel, $dataid, $txtid)
     {
-        if (($model = Texte::findOne($id)) !== null) {
+        if (($model = Texte::findOne($txtid)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

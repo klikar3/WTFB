@@ -30,6 +30,11 @@ if ((Yii::$app->controller->action->id == 'infoabendauswahl') or (Yii::$app->con
   $ziel = ['/site/info-abendliste',];
   $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
 }                                   
+if ((Yii::$app->controller->action->id == 'probetrainingauswahl') or (Yii::$app->controller->action->id == 'probe-trainingliste')){
+  $this->title = 'Probetraining-Liste';
+  $ziel = ['/site/probe-trainingliste',];
+  $schulauswahl = (Yii::$app->user->identity->username == 'evastgt') ? [18 => "Stuttgart K"] + $schulen : $schulen;
+}                                   
 if (Yii::$app->controller->action->id == 'interessentenauswahl') {
   $this->title = 'Interessenten-Liste';
   $ziel = ['/site/interessentenliste',];

@@ -149,7 +149,7 @@ class MitgliedersektionenController extends Controller
 				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		
-        		$modelm = Mitglieder::find($mId)->one();
+        		$modelm = Mitglieder::findModel($mId)->one();
         		if ($modelm) {
 //  				Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
 		        		$modelm->PruefungZum = 0;
@@ -353,7 +353,8 @@ class MitgliedersektionenController extends Controller
 						],
 						'methods' => [
 							'SetHeader' => [''], //['Erstellt am: ' . date("r")],
-							'SetFooter' => ['|Seite {PAGENO}|'],
+//							'SetFooter' => ['|Seite {PAGENO}|'],
+							'SetFooter' => [''],
 						]
 			]);
 			return $pdf->render();

@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Vertrag;
+use frontend\models\Vertrag;
 
 /**
  * SearchVertrag represents the model behind the search form about `app\models\Vertrag`.

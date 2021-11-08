@@ -25,6 +25,7 @@ use frontend\models\InteressentVorgaben;
 use frontend\models\Intensiv;
 use frontend\models\Mitglieder;
 use frontend\models\Mitgliederschulen;
+use frontend\models\MitgliederschulenSearch;
 use frontend\models\MitgliederIntensivSearch;
 use frontend\models\MitgliederSearch;
 use frontend\models\Mitgliedergrade;
@@ -489,7 +490,7 @@ class MitgliederschulenController extends Controller
 */
 				$response = Yii::$app->getResponse();
 //				$response = yii\web\Response::make($image, 200);
-				$response->format = yii\web\Response::FORMAT_RAW;
+				$response->format = Yii\web\Response::FORMAT_RAW;
 				$response->headers->set('Content-Type', $typ);
 				return $image;
     }

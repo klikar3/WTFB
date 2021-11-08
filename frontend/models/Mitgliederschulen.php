@@ -38,6 +38,7 @@ use Iban\Validation\Iban;
  * @property string $kFristMonate
  * @property integer $WtfbOk
  * @property string $Bemerkung
+ * @property string $VDatum
  *
  * @property Mitglieder $mitglieder 
  * @property Schulen $schul

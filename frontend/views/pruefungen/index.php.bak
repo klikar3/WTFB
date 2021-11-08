@@ -53,7 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
 								'style' => 'font-size:12px;width:4em !important;text-align:center !important;',
 							],								
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',                 
+             'options' => [
+                    'style' => 'width:6em;',
+                ],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

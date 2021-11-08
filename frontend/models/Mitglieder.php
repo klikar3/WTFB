@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\VarDumper;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
+use yii\web\NotFoundHttpException;
 //use jschaedl\iban\library\IBAN\Validation\IBANValidator;
 /*use IBAN\Validation\IBANValidator;
 use IBAN\Generation\IBANGenerator;
@@ -174,8 +175,10 @@ use frontend\models\Schulen;
  * @property string $EndeEsckrima
  * @property integer $PruefungZum
  *
- * @property strng $kontaktNachricht1
- * 
+ * @property string $kontaktNachricht1
+ * @property string $LetztAendSifu
+ * @property string $RecDeleted
+* 
  * @property Mitgliederdisziplinen[] $mitgliederdisziplinens
  * @property Mitgliedergrade[] $mitgliedergrades
  * @property Mitgliederschulen[] $mitgliederschulens 
@@ -227,6 +230,15 @@ class Mitglieder extends \yii\db\ActiveRecord
 		  return parent::find();
     }
 
+    public static function findModel($id)
+    {
+        if (($model = Mitglieder::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    
 /*
 		public function checkIBAN($iban) {
 		
@@ -538,12 +550,12 @@ class Mitglieder extends \yii\db\ActiveRecord
 	   public function getMitgliederschulens() 
 	   { 
 	       return $this->hasMany(Mitgliederschulen::className(), ['MitgliederId' => 'MitgliederId']); 
-			}
+		}
 			
 	   public function getMitgliederIntensiv() 
 	   { 
 	       return $this->hasOne(Intensiv::className(), ['mitgliederId' => 'MitgliederId']); 
-			}
+		}
 			
 		public function showTriState($data) {
 														if ($data == null) return ''; //'Unbekannt';
@@ -558,7 +570,8 @@ class Mitglieder extends \yii\db\ActiveRecord
 
     /* Getter for intensiv einstufung */
     public function getEinstufung() {
-        return $this->mitgliederIntensiv->einstufung;
+        $mitglied = $this->getMitgliederIntensiv();
+        return $mitglied->einstufung;
     }
 
 		public function beforeValidate() {

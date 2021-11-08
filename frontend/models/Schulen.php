@@ -120,7 +120,8 @@ class Schulen extends \yii\db\ActiveRecord
     }
     
     public function getSchulDisp() {
-		    return $this->Schulname . ' ' . $this->disziplinen->DispKurz; // assuming you have a relation called profile
+            $disp = $this->getDisziplinen();
+		    return $this->Schulname . ' ' . $disp->DispKurz; // assuming you have a relation called profile
 		}
 
 		public function getDisziplin() 

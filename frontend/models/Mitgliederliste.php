@@ -23,7 +23,13 @@ use frontend\models\User;
  * @property string $Schulname
  * @property string $LeiterName
  * @property string $DispName
- */
+ * @property string $LetztAendSifu
+ * @property string $LetzteAenderung
+ * @property string $Vertrag
+ * @property string $Grad
+ * @property string $Funktion
+ * @property string $PruefungZum
+*/
 class Mitgliederliste extends \yii\db\ActiveRecord
 {
     /**
@@ -62,7 +68,7 @@ class Mitgliederliste extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['MitgliederId', 'PruefungZum', 'MitgliedsNr', 'printed', mgID], 'integer'],
+            [['MitgliederId', 'PruefungZum', 'MitgliedsNr', 'printed', 'mgID'], 'integer'],
             [['MitgliederId', 'MitgliedsNr', 'Schulname', 'LeiterName', 'DispName'], 'required'],
             [['Vorname'], 'string', 'max' => 18],
             [['Nachname'], 'string', 'max' => 29],

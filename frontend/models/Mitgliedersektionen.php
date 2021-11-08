@@ -12,7 +12,10 @@ use Yii;
  * @property int $sektion_id
  * @property string $datum
  * @property string $pruefer_id
- *
+ * @property string $vdatum
+ * @property string $vermittler_id
+ * @property string $pdatum
+ * 
  * @property Sektionen $sektion
  * @property Mitglieder $mitglied
  * @property Pruefer $pruefer

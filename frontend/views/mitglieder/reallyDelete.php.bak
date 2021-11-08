@@ -64,7 +64,7 @@ $this->registerJs(
     <p>
     <?=  ($backAchtung == 1) ?
     Html::button(Yii::t('app', 'Delete marked records'), ['class' => 'btn btn-danger', 'id' => 'delete', 'disabled' => 'disabled'])
-    : Html::button(Yii::t('app', 'Delete marked records'), ['class' => 'btn btn-danger', 'id' => 'delete', 'disabled' => 'disabled'])?>
+    : Html::button(Yii::t('app', 'Delete marked records'), ['class' => 'btn btn-danger', 'id' => 'delete'])?>
         
     </p>
   </div>

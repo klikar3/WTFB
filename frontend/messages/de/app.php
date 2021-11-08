@@ -5,7 +5,6 @@ return [
     'Language' => 'Sprache',
     'Save' => 'Speichern',
     'Action' => 'Aktion',
-    'Actions' => 'Aktion',
     'Delete' => 'Löschen',
     'Reset' => 'Zurücksetzen',
     'Select' => 'Auswählen',
@@ -75,7 +74,6 @@ return [
     'Woo-OnlAka-Shop - SWM Adjustment' => 'Woo-OnlAka-Shop - SWM Abgleich', 
 
     // zeug
-    'Salutations' => 'Anreden',
     'Precence' =>'Anwesenheit',
     'Create Precence' =>'Anwesenheit anlegen',
     'Appointment to Google' => 'In Google-Kal. eintragen',
@@ -113,11 +111,9 @@ return [
     'Birthday' => 'Geburtsdatum',
     'printed' => 'Gedruckt',
     'mgID' => 'mgID',
-    'Member List' => 'Mitgliederliste',
     'Location' => 'Schulort',
     'of' => 'von',
     'Delete this Member' => 'Dieses Mitglied löschen',
-    'Texts' => 'Texte',
     'Person' => 'Person',
     
     // Mitglieder
@@ -125,8 +121,7 @@ return [
     'MemberNo' => 'Mitglieds-Nr',
     'Sex' => 'Geschlecht',
     'Salutation' => 'Anrede',
-    'Birthday' => 'Geburtsdatum',
-    'B.Day' => 'Geburtstag',
+   'B.Day' => 'Geburtstag',
     'Postcode' => 'Plz',
     'Place of Residence' => 'Wohnort',
     'Street' => 'Strasse',
@@ -142,7 +137,6 @@ return [
     'State' => 'Status',
     'Passive' => 'Passiv',
     'School Location' => 'Schulort',
-    'Function' => 'Funktion',
     'Sifu' => 'Sifu' ,
     'Legal Guardian' => 'ErzBerechtigter',
     'From' => 'Woher',
@@ -217,7 +211,6 @@ return [
     'Add first appointment to Google calender' => 'Erst-Termin in Google-Kalender eintragen',
     
     // Mitgliederschulen -> Verträge
-    'Notice' => 'Bemerkung',
     'Contract Notice' => 'Vertragsbemerkung',
     'Contract Date' => 'Vertragsdatum',
     'C-Date' => 'V-Datum',    
@@ -253,7 +246,6 @@ return [
     'Exit Date' => 'Austrittsdatum',
     'Termination Reason' => 'Künd.-Grund',
     'Admission Date' => 'Von',
-    'Exit' => 'Bis',
     'Contract (.pdf)' => 'Vertrag (.pdf)',
     'Contract Conclusion Date' => 'Vertrags-Abschlussdatum',
     'Direct Debit'=>'Bankeinzug',
@@ -301,9 +293,7 @@ return [
     
     // Mitgliedergrade
     'New Level for ' =>'Neue Graduierung für ',
-    'Exams' => 'Prüfungen',
     'Print certificate' => 'Urkunde drucken',
-    'Examiner' => 'Prüfer',
     'Really delete this Level?' => 'Soll der Grad wirklich gelöscht werden?',
     'The combination of Mitglied ID and Grad ID has already been taken.' => 'Diese Kombination aus MitgliederID und Grad ID gibt es bereits.',
     'Print' => 'Ausdruck',

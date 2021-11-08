@@ -11,7 +11,7 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 //use kartik\widgets\DatePicker;
 
 //use frontend\models\Mitgliedergrade;
@@ -139,6 +139,9 @@ use frontend\models\Mitgliederschulen;
 				  'condensed'=>true,
           'pjax'=>true,
           'options' => ['id' => 'exp_grid_vertrag',
+                        'htmlOptions' => [
+                              				'style' => 'overflow-y:scroll;height:800px;text-size:0.85em;',
+                          				],
           ], 
 			    'formatter' => [
 			        'class' => 'yii\i18n\Formatter',
@@ -176,7 +179,7 @@ use frontend\models\Mitgliederschulen;
             	[ 'class' => 'yii\grid\ActionColumn',
     						'template' => '{delete}',
 								'controller' => 'mitgliederschulen',
-								'header' => '<center>Aktion</center>',
+//								'header' => '<center>Aktion</center>',
                 'header' => Yii::t('app', 'Actions'),
 								'buttons' => [ 
 									'delete' => function ($url, $model) {
@@ -191,10 +194,6 @@ use frontend\models\Mitgliederschulen;
 							],
 
 				],
-    			'options' => ['htmlOptions' => [
-      											'style' => 'overflow-y:scroll;height:800px;text-size:0.85em;',
-  											],
-					],				
 	    ]); ?>
 		</div>
  </div>

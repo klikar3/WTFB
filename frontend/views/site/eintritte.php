@@ -82,7 +82,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'schul.SchulDisp',
              'label' => 'Schule',
              'width' => '100px',
-             'label' => 'Schule',
             ],
             ['attribute' => 'VDatum',
              'value' => function ($data) {

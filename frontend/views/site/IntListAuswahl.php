@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			?>
 			<?= $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' )//,
 //							['style'=>'width:200px']
-                'multiple'=>'multiple'
+//                'multiple'=>'multiple'
 							)										
 									->label(false); 
 			?>

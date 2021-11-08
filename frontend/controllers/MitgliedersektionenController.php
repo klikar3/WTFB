@@ -149,7 +149,7 @@ class MitgliedersektionenController extends Controller
 				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		
-        		$modelm = Mitglieder::find($mId)->one();
+        		$modelm = Mitglieder::findModel($mId)->one();
         		if ($modelm) {
 //  				Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
 		        		$modelm->PruefungZum = 0;
@@ -312,7 +312,7 @@ class MitgliedersektionenController extends Controller
 				]);  
 
 				$pdf = new Pdf([
-						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
 						'mode' => Pdf::MODE_BLANK,
 						// A4 paper format

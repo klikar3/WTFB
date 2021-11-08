@@ -92,6 +92,7 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+//            'class' => 'yii\log\Logger',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

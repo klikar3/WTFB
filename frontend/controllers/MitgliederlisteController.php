@@ -102,7 +102,7 @@ class MitgliederlisteController extends Controller
 				VarDumper::dump($errors);
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'grade' => $mgdataProvider,
+//            'grade' => $this->$mgdataProvider,
         ]);
     }
 
@@ -222,7 +222,7 @@ class MitgliederlisteController extends Controller
 				]);  
 
 				$pdf = new Pdf([
-						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
 						'mode' => Pdf::MODE_BLANK,
 						// A4 paper format

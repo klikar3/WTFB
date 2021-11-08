@@ -490,7 +490,7 @@ class MitgliederschulenController extends Controller
 */
 				$response = Yii::$app->getResponse();
 //				$response = yii\web\Response::make($image, 200);
-				$response->format = yii\web\Response::FORMAT_RAW;
+				$response->format = Response::FORMAT_RAW;
 				$response->headers->set('Content-Type', $typ);
 				return $image;
     }

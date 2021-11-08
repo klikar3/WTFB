@@ -7,6 +7,7 @@ use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Cookie;
+use yii\web\ViewAction;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -836,7 +837,7 @@ class SiteController extends Controller
     {
         try {
             $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
+        } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -970,7 +971,7 @@ class SiteController extends Controller
     		        ]); 
     
     				$pdf = new Pdf([
-    						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//    						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
     						// set to use core fonts only
     						'mode' => Pdf::MODE_BLANK,
     						// A4 paper format
@@ -1076,7 +1077,7 @@ class SiteController extends Controller
 		        ]); 
 
 				$pdf = new Pdf([
-						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
 						'mode' => Pdf::MODE_BLANK,
 						// A4 paper format
@@ -1234,7 +1235,7 @@ class SiteController extends Controller
 		        ]); 
 
 				$pdf = new Pdf([
-						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+//						'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
 						// set to use core fonts only
 						'mode' => Pdf::MODE_BLANK,
 						// A4 paper format
@@ -1392,24 +1393,32 @@ class SiteController extends Controller
      * 
      * @return view 'site/index'
      */
-    function actionLanguage()
+    public function actionLanguage()
     {
 //        Yii::warning(VarDumper::dumpAsString($lang),'application');
         $oldLang = Yii::$app->language;
         $language = Yii::$app->request->post('language');
         Yii::$app->language = $language;
         Yii::$app->homeUrl = Url::to(['/', 'language' => $language]);
+        // get the cookie collection (yii\web\CookieCollection) from the "response" component
+        $cookies = Yii::$app->response->cookies;
  
-        $languageCookie = new Cookie([
+        $languageCookie = new \yii\web\Cookie([
             'name' => 'language',
             'value' => $language,
             'expire' => time() + 60 * 60 * 24 * 30, // 30 days
         ]);
-        Yii::$app->response->cookies->add($languageCookie);
- 
+        // get the cookie collection (yii\web\CookieCollection) from the "response" component
+        $cookies = Yii::$app->response->cookies;
+        if ($cookies->has('language')) {
+            $cookies->remove('language');
+        }
+        $cookies->add($languageCookie);       
+         
         // return $this->render('index');  // go home always
         //$this->redirect(Yii::$app->homeUrl);   // go last page or home
         $this->redirect(str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->request->referrer) ?: str_replace('/'.$oldLang.'/', '/'.$language.'/', Yii::$app->homeUrl));   // go last page or home
+        return $this->render('index');
     }
 
     public static function computeAnteil($data, $monatsbeginn, $diesesJahr, $dieserMonat) {

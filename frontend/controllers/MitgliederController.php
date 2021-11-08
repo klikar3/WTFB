@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
@@ -362,8 +363,8 @@ class MitgliederController extends Controller
 						$model->validate();      
 						$errors = $model->errors;
         		//Yii::trace($errors);
-            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
-              $mitglied->mandatNr = $model->MitgliedsNr;
+            if (empty($model->mandatNr) and !empty($model->MitgliedsNr)) {
+              $model->mandatNr = $model->MitgliedsNr;
             }
         		if ($model->save()){
 //            		Yii::info("----------------model saved: ".Vardumper::dumpAsString($model));
@@ -450,8 +451,8 @@ class MitgliederController extends Controller
 						$model->validate();      
 						$errors = $model->errors;
 //        		Yii::trace($errors);
-            if (empty($mitglied->mandatNr) and !empty($model->MitgliedsNr)) {
-              $mitglied->mandatNr = $model->MitgliedsNr;
+            if (empty($model->mandatNr) and !empty($model->MitgliedsNr)) {
+              $model->mandatNr = $model->MitgliedsNr;
             }
 						$errors = $model->errors;
 //        		Yii::trace($errors);
@@ -485,11 +486,11 @@ class MitgliederController extends Controller
         if (empty($tabnum)) $tabnum = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->Schulort == 'WT-Intensiv') $intensiv = getIntensiv($model->MitgliederId);       
+            if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);       
             return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
 						$errors = $model->errors;
-						VarDumper::dump($errors);
+//						VarDumper::dump($errors);
             return $this->render('update', [
                 'model' => $model, 'grade' => $mgdataProvider, 'tabnum' => $tabnum,
             ]);
@@ -510,7 +511,7 @@ class MitgliederController extends Controller
         if (empty($tabnum)) $tabnum = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->Schulort == 'WT-Intensiv') $intensiv = getIntensiv($model->MitgliederId);       
+            if ($model->Schulort == 'WT-Intensiv') $intensiv = $this->getIntensiv($model->MitgliederId);       
             return $this->redirect(['view', 'id' => $model->MitgliederId, 'tabnum' => $tabnum]);
         } else {
 						$errors = $model->errors;
@@ -744,13 +745,14 @@ JS;
           
 //        ob_flush();
 //        flush();
-        return $this->renderPartial('progbar',['percent' => $progress], false, true);
+        return $this->renderPartial('progbar',['percent' => $progress]); //, false, true);
 //        Yii::$app->end();
     }
     
     public function actionPercentage($id) {
-    if (Yii::app()->request->isAjaxRequest) {
-           $item = Mitglieder::model()->findByPk($id); //obtain instance of object containing your function
+    if (Yii::$app->request->isAjaxRequest) {
+//           $item = Mitglieder::model()->findByPk($id); //obtain instance of object containing your function
+           $item = $this->findModel($id); //obtain instance of object containing your function
            echo $item->getBuildPercentage(); //to return value in ajax, simply echo it   
         }
     }

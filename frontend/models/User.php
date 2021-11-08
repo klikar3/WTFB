@@ -12,11 +12,6 @@ namespace frontend\models;
 
 //namespace dektrium\user\models;
 
-use dektrium\user\Finder;
-use dektrium\user\helpers\Password;
-use dektrium\user\Mailer;
-use dektrium\user\Module;
-use dektrium\user\traits\ModuleTrait;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -25,6 +20,13 @@ use yii\db\Query;
 use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;
 use yii\helpers\ArrayHelper;
+
+use dektrium\user\Finder;
+use dektrium\user\helpers\Password;
+use dektrium\user\Mailer;
+use dektrium\user\Module;
+use dektrium\user\traits\ModuleTrait;
+use dektrium\user\Token;
 
 /**
  * User ActiveRecord model.

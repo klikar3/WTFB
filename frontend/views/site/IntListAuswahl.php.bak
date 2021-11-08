@@ -1,5 +1,6 @@
 <?php
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
+//use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 																			'type' => ActiveForm::TYPE_HORIZONTAL,																																
 																		 ]	); 
 			?>
-			<?= $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' )//,
+			<?= $form->field($model, 'schule')->dropDownList( ArrayHelper::map( Schulen::find()->all(), 'SchulId', 'SchulDisp', 'disziplinen.DispName' ),
 //							['style'=>'width:200px']
                 'multiple'=>'multiple'
 							)										

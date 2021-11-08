@@ -7,7 +7,7 @@ use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 //use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\detail\DetailView;
 use kartik\popover\PopoverX;

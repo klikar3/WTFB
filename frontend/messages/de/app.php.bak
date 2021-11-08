@@ -5,7 +5,6 @@ return [
     'Language' => 'Sprache',
     'Save' => 'Speichern',
     'Action' => 'Aktion',
-    'Actions' => 'Aktion',
     'Delete' => 'Löschen',
     'Reset' => 'Zurücksetzen',
     'Select' => 'Auswählen',
@@ -75,10 +74,9 @@ return [
     'Woo-OnlAka-Shop - SWM Adjustment' => 'Woo-OnlAka-Shop - SWM Abgleich', 
 
     // zeug
-    'Salutations' => 'Anreden',
     'Precence' =>'Anwesenheit',
     'Create Precence' =>'Anwesenheit anlegen',
-    'Appointment to Google' => 'In Google-Cal. eintragen',
+    'Appointment to Google' => 'In Google-Kal. eintragen',
     'Add appointment to Google calender' => 'Termin in Google-Kalender eintragen',
     
     // Schulen
@@ -113,11 +111,9 @@ return [
     'Birthday' => 'Geburtsdatum',
     'printed' => 'Gedruckt',
     'mgID' => 'mgID',
-    'Member List' => 'Mitgliederliste',
     'Location' => 'Schulort',
     'of' => 'von',
     'Delete this Member' => 'Dieses Mitglied löschen',
-    'Texts' => 'Texte',
     'Person' => 'Person',
     
     // Mitglieder
@@ -301,9 +297,7 @@ return [
     
     // Mitgliedergrade
     'New Level for ' =>'Neue Graduierung für ',
-    'Exams' => 'Prüfungen',
     'Print certificate' => 'Urkunde drucken',
-    'Examiner' => 'Prüfer',
     'Really delete this Level?' => 'Soll der Grad wirklich gelöscht werden?',
     'The combination of Mitglied ID and Grad ID has already been taken.' => 'Diese Kombination aus MitgliederID und Grad ID gibt es bereits.',
     'Print' => 'Ausdruck',

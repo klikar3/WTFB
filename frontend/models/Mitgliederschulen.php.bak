@@ -146,7 +146,8 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 				$ibanValidator = new Validator(); //IBANValidator();
         if (!$ibanValidator->validate($this->$attribute)) {
             foreach ($ibanValidator->getViolations() as $violation) {
-                echo $violation;
+			           Yii::warning('----- $violation: '.VarDumper::dumpAsString($violation));
+                // echo $violation;
                 $this->addError($attribute, $violation);
             }
         }

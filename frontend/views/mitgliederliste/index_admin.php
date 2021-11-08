@@ -13,7 +13,7 @@ use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 use kartik\popover\PopoverX;
 use kartik\checkbox\CheckboxX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 //use kartik\icons\FontAwesomeAsset;
@@ -595,7 +595,7 @@ $toolbar = [
  <?php // echo function_exists('proc_open') ? "Yep, that will work" : "Sorry, that won't work";
  ?>
 </span>
-<?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}   ?>
+<?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}?>
 
 
   
