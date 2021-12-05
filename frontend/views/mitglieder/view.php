@@ -27,6 +27,7 @@ use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Numbers;
 use frontend\models\Pruefer;
+use frontend\models\Schulen;
 use frontend\models\Texte;
 ?>
 <?php //Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>

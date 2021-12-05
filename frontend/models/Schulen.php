@@ -73,7 +73,7 @@ class Schulen extends \yii\db\ActiveRecord
             [['Schulname', 'sort', 'Disziplin'], 'required'],
             [['sort', 'Disziplin', 'swmInteressentenListe', 'swmInteressentenForm', 'swmMitgliederListe', 'swmMitgliederForm'], 'integer'],
             [['Schulname'], 'string', 'max' => 50],
-            [['Disziplin'], 'string', 'max' => 30],
+//            [['Disziplin'], 'string', 'max' => 30],
             [['Schulname', 'Disziplin'], 'unique', 'targetAttribute' => ['Schulname', 'Disziplin'], 'message' => 'The combination of Schulname and Disziplin has already been taken.'],
             [['Disziplin'], 'exist', 'skipOnError' => true, 'targetClass' => Disziplinen::className(), 'targetAttribute' => ['Disziplin' => 'DispId']],
         ];

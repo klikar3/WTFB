@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            'msID',
             ['attribute' => 'NameLink',
              'format' => 'raw', 
 //             'value' => function ($data) { return Html::a($data->msID, Url::to(['/mitglieder/view', 'id'=>$data->msID, 'tabnum' => 1]), []);},

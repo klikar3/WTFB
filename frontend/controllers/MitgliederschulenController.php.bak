@@ -122,26 +122,27 @@ class MitgliederschulenController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
            if (!$model->validate()) {
               return ActiveForm::validate($model); 
-           } else {
-        $model->save();   
-				// Graduierungen
-				$query = Mitgliedergrade::find();
-				$query->andWhere(['=', 'MitgliedId', $mgId]);
-				$mgdataProvider = new ActiveDataProvider([
-			    'query' => $query,
+        } else {
+          $model->save();   
+     		// Graduierungen
+    		$query = Mitgliedergrade::find();
+    		$query->andWhere(['=', 'MitgliedId', $mgId]);
+    		$mgdataProvider = new ActiveDataProvider([
+    	       'query' => $query,
      			'sort'=> ['defaultOrder' => ['Datum' => SORT_ASC],],
-          'pagination' => false,
-				]);
-				
-				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
-				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
-  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
-        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
-        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
-        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
-  	
+                'pagination' => false,
+    		]);
+    				
+    		$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gKurz', 'DispName' ));
+    		$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
+        	$pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+          $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+          $schulorte = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
+          $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+          $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+          $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+          $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
+    	
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
 				$squery->andWhere(['=', 'mitglied_id', $mgId]);
@@ -490,7 +491,7 @@ class MitgliederschulenController extends Controller
 */
 				$response = Yii::$app->getResponse();
 //				$response = yii\web\Response::make($image, 200);
-				$response->format = Yii\web\Response::FORMAT_RAW;
+				$response->format = Response::FORMAT_RAW;
 				$response->headers->set('Content-Type', $typ);
 				return $image;
     }

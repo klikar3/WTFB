@@ -196,14 +196,14 @@ class MitgliederController extends Controller
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
-  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-
-        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
-        $schulorte = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
-        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
-        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
-        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
+        	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+      
+              $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+              $schulorte = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
+              $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+              $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+              $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+              $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
 				Yii::info('-----$schulen: '.VarDumper::dumpAsString($schulorte));
         
 				// Sektionen
@@ -268,33 +268,32 @@ class MitgliederController extends Controller
 //								  Yii::warning('-----save $model: ');
 //            			return $this->redirect(['view', 'id' => $model->MitgliederId, 
                   return $this->render('view', [
-		                                      'model' => $model,
- 																					'grade' => $mgdataProvider, 
-																					'sektionen' => $msdataProvider, 
-																					'contracts' => $vdataProvider, 
-																					'tabnum' => $tabnum, 
-																					'openv' => $openv,
-																					'grade_zur_auswahl' => $grade_zur_auswahl,
-																					'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-																					'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+                                          'model' => $model,
+										'grade' => $mgdataProvider, 
+										'sektionen' => $msdataProvider, 
+										'contracts' => $vdataProvider, 
+										'tabnum' => $tabnum, 
+										'openv' => $openv,
+										'grade_zur_auswahl' => $grade_zur_auswahl,
+										'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
                                           'formedit' => true,
                                           'schulen' => $schulen,
                                           'schulorte' => $schulorte,
                                           'anreden' => $anreden,
                                           'functions' => $functions,
                                           'sifus' => $sifus,
-                                          'disziplinen' => $disziplinen,
-																					]);
+                                ]);
         				} else {
 								$errors = $model->errors;
 //								Yii::warning('-----not save $model: '.VarDumper::dumpAsString($errors));
 		           	return $this->render('view', [
 		                'model' => $model, 'errors' => $errors, 
-										'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
-										'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
-										'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
-										'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-										'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+						'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+						'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
+						'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
+						'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+						'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
                     'formedit' => true,
                     'schulen' => $schulen,
                     'schulorte' => $schulorte,
@@ -310,11 +309,11 @@ class MitgliederController extends Controller
 //						Yii::info('-----$load model: '.VarDumper::dumpAsString($errors));
             return $this->render('view', [
                 'model' => $model, 'errors' => $errors, 
-								'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
-								'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
-								'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
-								'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
-								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+				'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
+				'contracts' => $vdataProvider, 'tabnum' => $tabnum, 
+				'openv' => $openv, 'grade_zur_auswahl' => $grade_zur_auswahl,
+				'pruefer_zur_auswahl' => $pruefer_zur_auswahl,
+				'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
                 'formedit' => true,
                 'schulen' => $schulen,
                 'schulorte' => $schulorte,
@@ -666,6 +665,7 @@ JS;
     
     public function actionRuncheck()
     {
+//Yii::warning("----- Validation Errors:".Vardumper::dumpAsString(Yii::$classMap));
         set_time_limit(300);
         $session = Yii::$app->session;
         $session->set('checkPercent', 0);
@@ -678,32 +678,115 @@ JS;
         //or $connection->getSchema();
         $tables = $dbSchema->tableNames;//returns array of tbl schema's
 //        ob_start();
+        $errors[] = 'Gefundene Fehler: <BR>';
         foreach($tables as $tbl)
         {
 //            echo $tbl, ':<br/>';
-        }
-        
-        $max = Mitglieder::find()->count();
-        $i = $ii = $percent = 0;
-        
-        $this->send_message(0, 'start 0 of ' . $max , 10);
-        
-        $errors[] = 'Gefundene Fehler: ';
-        foreach (Mitglieder::find()->each(10) as $model) {
-            $i += 1;
-            if ($i % 40 == 0) $errors[] = 'Zeile: '.strval($i);
-            if (($ii < 50) && !$model->validate()) {
-              $ii +=1;
-              //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
-              $errors[] = 'Mitglied '.$model->MitgliederId.', '.$model->Name.', '.$model->Vorname.' validiert nicht!'.json_encode($model->errors).'<br>';
+//            $AR = yii\db\ActiveRecord::model($tbl);
+//        Yii::warning("----- Tabelle:".$tbl);
+
+            switch($tbl) {
+                case "anrede":
+                    $AR = new Anrede();
+                    break;
+                case "anwesenheit":
+                    $AR = new \frontend\models\Anwesenheit();
+                    break;
+                case "disziplinen":
+                    $AR = new Disziplinen();
+                    break;
+                case "funktion":
+                    $AR = new Funktion();
+                    break;
+                case "grade":
+                    $AR = new Grade();
+                    break;
+                case "intensiv":
+                    $AR = new Intensiv();
+                    break;
+                case "interessent_vorgaben":
+                    $AR = new \frontend\models\InteressentVorgaben();
+                    break;
+                case "mitglieder":
+                    $AR = new \frontend\models\Mitglieder();
+                    break;
+                case "mitgliederdisziplinen":
+                    $AR = new \frontend\models\Mitgliederdisziplinen();
+                    break;
+                case "mitgliedergrade":
+                    $AR = new Mitgliedergrade();
+                    break;
+                case "mitgliederliste":
+                    $AR = new \frontend\models\Mitgliederliste();
+                    break;
+                case "mitgliederschulen":
+                    $AR = new \frontend\models\Mitgliederschulen();
+                    break;
+                case "mitgliedersektionen":
+                    $AR = new \frontend\models\Mitgliedersektionen();
+                    break;
+                case "pruefer":
+                    $AR = new \frontend\models\Pruefer();
+                    break;
+                case "pruefungen":
+                    $AR = new \frontend\models\Pruefungen();
+                    break;
+                case "schulen":
+                    $AR = new \frontend\models\Schulen();
+                    break;
+                case "schulleiter":
+                    $AR = new \frontend\models\Schulleiter();
+                    break;
+                case "schulleiterschulen":
+                    $AR = new \frontend\models\Schulleiterschulen();
+                    break;
+                 case "sektionen":
+                    $AR = new \frontend\models\Sektionen();
+                    break;
+                case "sifu":
+                    $AR = new \frontend\models\Sifu();
+                    break;
+                case "swm_blocked_emails":
+                    $AR = new \frontend\models\SwmBlockedEmails();
+                    break;
+                case "texte":
+                    $AR = new \frontend\models\Texte();
+                    break;
+                case "trainings":
+                    $AR = new \frontend\models\Trainings();
+                    break;
+                case "vertrag":
+                    $AR = new \frontend\models\Vertrag();
+                    break;
             }
-            $percent = ($i * 100) / $max;
-            $session->set('checkPercent', $percent);
-//            if ($i %10 == 0) $this->send_message($i, 'on iteration ' . $i . ' of ' . $max , $percent);
-//            if ($i %10 == 0) $this->renderAjax('progBar', ['percent' => $percent,]);
+
+    //       $AR = new Mitglieder();
+    //        $AR = new Mitgliederschulen();
+            
+            if (!empty($AR)) {
+                $max = $AR::find()->count();
+                $i = $ii = $percent = 0;
+//                $this->send_message(0, 'start 0 of ' . $max , 10);
+                $errors[] = $tbl.': start 0 of '.$max.'<br>';
+                
+                foreach ($AR::find()->each(10) as $model) {
+                    $i += 1;
+                    if ($i % 100 == 0) $errors[] = 'Zeile: '.strval($i).'<BR>';
+                    if (($ii < 50) && !$model->validate()) {
+                      $ii +=1;
+                      //Yii::$app->session->setFlash('success', "Mitglied {$model->MitgliederId}, {$model->Name}, {$model->Vorname}");
+                      $errors[] = $tbl.' '.$model->getPrimaryKey().' validiert nicht!'.json_encode($model->errors).'<br>';
+                    }
+                    $percent = ($i * 100) / $max;
+                    $session->set('checkPercent', $percent);
+        //            if ($i %10 == 0) $this->send_message($i, 'on iteration ' . $i . ' of ' . $max , $percent);
+        //            if ($i %10 == 0) $this->renderAjax('progBar', ['percent' => $percent,]);
+                }
+                unset($AR);
+            }
         }
-//         VarDumper::dump($errors);
-        Yii::warning("----- Validation Errors:".Vardumper::dumpAsString($errors));
+        
+//        Yii::warning("----- Validation Errors:".Vardumper::dumpAsString($errors));
 //        $this->send_message($i, 'on iteration ' . $i . ' of ' . $max ,100);
         //return //ob_get_clean();
           return $this->render('check', [
