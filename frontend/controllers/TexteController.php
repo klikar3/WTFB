@@ -176,7 +176,7 @@ class TexteController extends Controller
 //					$datamodel->addError("Zugehörigen Text nicht gefunden!");
 					return "Zugehörigen Text nicht gefunden!" ;
 				}	
-				  Yii::error("-----PRINT: ".Vardumper::dumpAsString($textmodel));
+//		Yii::error("-----PRINT: ".Vardumper::dumpAsString($textmodel));
         if ($datamodel == 'mitglieder') {
 					$modelm = Mitglieder::findOne($dataid);
 					$textmodel->txt = str_replace ( '#vorname#' , $modelm->Vorname , $textmodel->txt ); 
@@ -281,118 +281,145 @@ class TexteController extends Controller
 			return $pdf->render();
     }
 
-		protected function textReplace($datamodel, $dataid, $txtid)
+	protected static function textReplace($datamodel, $dataid, $txtcode, $SchulId, $txtid)
     {
-        if (($model = Texte::findOne($txtid)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+//			Yii::Warning("-----textReplace datamodel: ".Vardumper::dumpAsString($datamodel));
+//			Yii::Warning("-----textReplace dataid: ".Vardumper::dumpAsString($dataid));
+//			Yii::Warning("-----textReplace txtcode: ".Vardumper::dumpAsString($txtcode));
+//			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
+//			Yii::Warning("-----textReplace txtid: ".Vardumper::dumpAsString($txtid));
+  		
+  		if ($txtcode == '') {
+  			$numbers = new Numbers();
+  			$numbers = Yii::$app->request->post('Numbers');
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers));
+//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
+
+				$textmodel = Texte::findOne($numbers['id']);
+			} else if ($txtid != 0) {
+					$textmodel = Texte::findOne($txtid);
+			} else if ($SchulId == 0) {
+					$textmodel = Texte::find()
+											->where(['code' => $txtcode, 'fuer' => $datamodel])
+											->one();
+			} else { 
+					$textmodel = Texte::find()
+											->where(['code' => $txtcode, 'SchulId' => $SchulId, 'fuer' => $datamodel])
+											->one();
+			}
+        if (empty($textmodel)) {
+            return['betreff' => '', 'text' => '', 'link' => '', 'email' => ''];
         }
+/*									, Url::to('') .
+								"?subject=&body=",[
+										'class' => 'btn btn-sm btn-default',
+										'style' => 'width: 120px; text-align: left;',
+										'title' => Yii::t('app', 'Email an Mitglied senden'),
+										'disabled' => true,
+						  	]);//''; //"Zugehörigen Text nicht gefunden!" ;
+*/				
+        $txt = $textmodel->txt;
+//		Yii::Warning("-----textReplace txt: ".Vardumper::dumpAsString($txt));
+          if ($datamodel == 'mitglieder') {
+    		$model = Mitglieder::findOne($dataid);
+    		$txt = str_replace ( '#vorname#' , $model->Vorname , $txt ); 
+    		$txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $txt );
+    		$txt = str_replace ( '#nachname#' , $model->Name , $txt );
+    		$txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $txt );
+    		$txt = str_replace ( '#schulort#' , $model->Schulort , $txt );
+    		$txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $model->Sifu) , $txt );	
+    		$txt = str_replace ( '#anrede#' , $model->Anrede , $txt );	
+    		$txt = str_replace ( '#strasse#' , $model->Strasse , $txt );	
+    		$txt = str_replace ( '#wohnort#' , $model->Wohnort , $txt );	
+    		$txt = str_replace ( '#plz#' , $model->PLZ , $txt );	
+    		$txt = str_replace ( '#heute#' , date("d.m.Y") , $txt );
+            $email = $model->Email;
+		}
+				
+				
+        if ($datamodel == 'vertrag') {
+			$modelv = Mitgliederschulen::findOne($dataid); 
+			$txt = str_replace ( '#vorname#' , $modelv->mitglieder->Vorname , $txt ); 
+			$txt = str_replace ( '#mitgliedernummer#' , $modelv->mitglieder->MitgliedsNr , $txt );
+			$txt = str_replace ( '#nachname#' , $modelv->mitglieder->Name , $txt );
+			$txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($modelv->mitglieder->GeburtsDatum, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#kuendigungsdatum#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#austrittsdatum#', Yii::$app->formatter->asDatetime($modelv->Bis, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#aussetzenvon#', Yii::$app->formatter->asDatetime($modelv->BeitragAussetzenVon, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#aussetzenbis#', Yii::$app->formatter->asDatetime($modelv->BeitragAussetzenBis, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#schulort#' , $modelv->mitglieder->Schulort , $txt );
+			$txt = str_replace ( '#sifu#' , $modelv->mitglieder->Sifu , $txt );	
+			$txt = str_replace ( '#anrede#' , $modelv->mitglieder->Anrede , $txt );	
+			$txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $txt );	
+			$txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $txt );	
+			$txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $txt );	
+			$txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $txt );
+			$txt = str_replace ( '#heute#' , date("d.m.Y") , $txt );
+            $email = $modelv->mitglieder->Email;
+		}
+        if ($datamodel == 'grad') {
+			$model = Mitgliedergrade::findOne($dataid);
+			$txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $txt ); 
+			$txt = str_replace ( '#nachname#' , $model->mitglied->Name , $txt );
+			$txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $txt );
+			$txt = str_replace ( '#grad#' , $model->grad->gKurz , $txt );
+			$txt = str_replace ( '#print#' , $model->grad->print , $txt );
+			$txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $txt );	
+			$txt = str_replace ( '#heute#' , date("d.m.Y") , $txt );
+            $email = $model->mitglied->Email;
+		}
+
+        if ($txtcode == 'EmailBegruessung') 
+			$link = Yii::t('app', "Greet.-Email");
+		else if ($txtcode == 'EmailAussetzen') 
+			$link = Yii::t('app', "Susp.-Email");
+		else if ($txtcode == 'EmailKuendigung') 
+			$link = Yii::t('app', "Term.-Email");
+		else if ($txtcode == 'EmailWTOnline') 
+			$link = Yii::t('app', "WTO-Email");
+		else if ($txtcode == 'EmailStandard') 
+			$link = Yii::t('app', "Email");
+		else $link = Yii::t('app', "by Email");						
+		
+		// Linefeed für Outlook ersetzen
+		$txt = str_replace ( '<br>' , "%0D%0A" , $txt );
+		
+		//$txt = str_replace ( 'ü' , "&uuml;" , $txt );
+        $t = ['betreff' => $textmodel->betreff, 'text' => $txt, 'link' => $link, 'email' => $email];
+        return $t;
     }
 
     public static function createoutlooklink($datamodel, $dataid, $txtcode, $SchulId, $txtid)
     {
-//  				Yii::error("-----PRINT: ".Vardumper::dumpAsString($txtid));
-    		
-    		if ($txtcode == '') {
-    			$numbers = new Numbers();
-    			$numbers = Yii::$app->request->post('Numbers');
-//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers));
-//    			Yii::error("-----PRINT: ".Vardumper::dumpAsString($numbers['id']));
+        $text = TexteController::textReplace($datamodel, $dataid, $txtcode, $SchulId, $txtid);
+        
+        if (empty($text->text)) {
+            return '<div class="btn btn-sm" style="width: 10em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';  
 
- 					$textmodel = Texte::findOne($numbers['id']);
-				} else if ($txtid != 0) {
- 						$textmodel = Texte::findOne($txtid);
-				} else if ($SchulId == 0) {
-						$textmodel = Texte::find()
-												->where(['code' => $txtcode])
-												->one();
-				}else { 
-						$textmodel = Texte::find()
-												->where(['code' => $txtcode, 'SchulId' => $SchulId, 'fuer' => $datamodel])
-												->one();
-				}
-				if (empty($textmodel)) return '<div class="btn btn-sm" style="width: 10em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';
-/*									, Url::to('') .
-									"?subject=&body=",[
-											'class' => 'btn btn-sm btn-default',
-											'style' => 'width: 120px; text-align: left;',
-											'title' => Yii::t('app', 'Email an Mitglied senden'),
-											'disabled' => true,
-							  	]);//''; //"Zugehörigen Text nicht gefunden!" ;
-*/				
-        if ($datamodel == 'mitglieder') {
-					$model = Mitglieder::findOne($dataid);
-					$textmodel->txt = str_replace ( '#vorname#' , $model->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $model->MitgliedsNr , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#nachname#' , $model->Name , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($model->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $model->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , str_replace ( 'Sifu ' , '', $model->Sifu) , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#anrede#' , $model->Anrede , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#strasse#' , $model->Strasse , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#wohnort#' , $model->Wohnort , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#plz#' , $model->PLZ , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-          $email = $model->Email;
-				}
-				
-				
-        if ($datamodel == 'vertrag') {
-					$modelv = Mitgliederschulen::findOne($dataid); 
-					$textmodel->txt = str_replace ( '#vorname#' , $modelv->mitglieder->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#mitgliedernummer#' , $modelv->mitglieder->MitgliedsNr , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#nachname#' , $modelv->mitglieder->Name , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#geburtstag#' , Yii::$app->formatter->asDatetime($modelv->mitglieder->GeburtsDatum, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#kuendigungam#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#kuendigungsdatum#', Yii::$app->formatter->asDatetime($modelv->KuendigungAm, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#austrittsdatum#', Yii::$app->formatter->asDatetime($modelv->Bis, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#aussetzenvon#', Yii::$app->formatter->asDatetime($modelv->BeitragAussetzenVon, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#aussetzenbis#', Yii::$app->formatter->asDatetime($modelv->BeitragAussetzenBis, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $modelv->mitglieder->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , $modelv->mitglieder->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#anrede#' , $modelv->mitglieder->Anrede , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#strasse#' , $modelv->mitglieder->Strasse , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#wohnort#' , $modelv->mitglieder->Wohnort , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#plz#' , $modelv->mitglieder->PLZ , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#eintritt#' , Yii::$app->formatter->asDatetime($modelv->Von, "php:d.m.Y") , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-          $email = $modelv->mitglieder->Email;
-				}
-        if ($datamodel == 'grad') {
-					$model = Mitgliedergrade::findOne($dataid);
-					$textmodel->txt = str_replace ( '#vorname#' , $model->mitglied->Vorname , $textmodel->txt ); 
-					$textmodel->txt = str_replace ( '#nachname#' , $model->mitglied->Name , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#schulort#' , $model->mitglied->Schulort , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#grad#' , $model->grad->gKurz , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#print#' , $model->grad->print , $textmodel->txt );
-					$textmodel->txt = str_replace ( '#sifu#' , $model->mitglied->Sifu , $textmodel->txt );	
-					$textmodel->txt = str_replace ( '#heute#' , date("d.m.Y") , $textmodel->txt );
-          $email = $model->mitglied->Email;
-				}
+        } else {
+    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span> &nbsp'.$text->link.'</div>', Url::to($text->email) .
+    							"?subject=".$text->betreff."&from="."verwaltung@wingtzun.de"."&body=".$text->text,[
+    									'title' => Yii::t('app', 'Send Email to Member'),
+    					  	]);							
+    	   return $pdf;
+       }
+    }
 
-				if ($txtcode == 'EmailBegruessung') 
-					$link = Yii::t('app', "Greet.-Email");
-				else if ($txtcode == 'EmailAussetzen') 
-					$link = Yii::t('app', "Susp.-Email");
-				else if ($txtcode == 'EmailKuendigung') 
-					$link = Yii::t('app', "Term.-Email");
-				else if ($txtcode == 'EmailWTOnline') 
-					$link = Yii::t('app', "WTO-Email");
-				else if ($txtcode == 'EmailStandard') 
-					$link = Yii::t('app', "Email");
-				else $link = Yii::t('app', "by Email");						
-				
-				// Linefeed für Outlook ersetzen
-				$textmodel->txt = str_replace ( '<br>' , "%0D%0A" , $textmodel->txt );
-				
-				//$textmodel->txt = str_replace ( 'ü' , "&uuml;" , $textmodel->txt );
+    public static function createoutlooklinkshort($datamodel, $dataid, $txtcode, $SchulId, $txtid)
+    {
+        $text = TexteController::textReplace($datamodel, $dataid, $txtcode, $SchulId, $txtid);
+        
+        if ((empty($text['text'])) or empty($text)){
+            return '<span class="far fa-envelope"></span>';  
 
-				$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span> &nbsp'.$link.'</div>', Url::to($email) .
-									"?subject=".$textmodel->betreff."&from="."verwaltung@wingtzun.de"."&body=".$textmodel->txt,[
-											'title' => Yii::t('app', 'Send Email to Member'),
-							  	]);							
-			return $pdf;
+        } else {
+    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 2.3em; text-align: left;"><span class="fa fa-envelope"></span></div>', Url::to($text['email']) .
+    							"?subject=".$text['betreff']."&from="."verwaltung@wingtzun.de"."&body=".$text['text'],[
+    									'title' => Yii::t('app', 'Send Email to Member'),
+    					  	]);							
+    	   return $pdf;
+       }
     }
 
 

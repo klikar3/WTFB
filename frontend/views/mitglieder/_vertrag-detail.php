@@ -697,4 +697,4 @@ use frontend\models\SearchVertrag;
 </div>
 </div>
 </div>		        	
-<?php // Pjax::end(); ?>    
+<?php // Pjax::end(); ?>

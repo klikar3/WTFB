@@ -88,4 +88,4 @@ use frontend\models\Disziplinen;
  <?php Html::a(Yii::t('app', 'Zurück'), Yii::$app->request->getReferrer(), [
 		            'onclick'=>"js:history.go(-1);return false;",'class'=>'btn btn-sm btn-default',
 		        ]) . "  &nbsp;" 
- ?>						 
+ ?>

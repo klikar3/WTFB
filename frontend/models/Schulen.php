@@ -12,12 +12,13 @@ use yii\helpers\VarDumper;
  * @property string $Schulname
  * @property int $sort
  * @property int $Disziplin
+ * @property int $disziplinen
  * @property int $swmInteressentenListe
  * @property int $swmInteressentenForm
  * @property int $swmMitgliederListe
  * @property int $swmMitgliederForm
  *
- * @property Disziplinen $disziplin 
+ * @property disziplinen $disziplin 
  * @property Mitgliederschulen[] $mitgliederschulens
  * @property Schulleiterschulen[] $schulleiterschulens
  * @property Texte[] $textes 
@@ -120,19 +121,20 @@ class Schulen extends \yii\db\ActiveRecord
     }
     
     public function getSchulDisp() {
-            $disp = $this->getDisziplinen();
+//            $disp = $this->getDisziplinen();
+            $disp = $this->disziplinen;
 		    return $this->Schulname . ' ' . $disp->DispKurz; // assuming you have a relation called profile
 		}
 
-		public function getDisziplin() 
-		   { 
-		       return $this->hasOne(Disziplinen::className(), ['DispId' => 'Disziplin']); 
-		   } 
-		 
-		public function getTextes()
-		   {
-      		 return $this->hasMany(Texte::className(), ['SchulId' => 'SchulId']);
-		   }
+	public function getDisziplin() 
+	   { 
+	       return $this->hasOne(Disziplinen::className(), ['DispId' => 'Disziplin']); 
+	   } 
+	 
+	public function getTextes()
+	   {
+    		 return $this->hasMany(Texte::className(), ['SchulId' => 'SchulId']);
+	   }
        
     public function getTrainings()
 		  {

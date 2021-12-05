@@ -12,7 +12,7 @@ use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use kartik\widgets\ActiveForm;
 //use kartik\popover\PopoverX;
-use kartik\datecontrol\datecontrol;
+use kartik\datecontrol\DateControl;
 use kartik\widgets\DatePicker;
 use kartik\money\MaskMoney;
 

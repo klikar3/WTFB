@@ -39,7 +39,7 @@ use frontend\models\Sifu;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=> 'Texte...', //$model->Name . ', ' . $model->Vorname,
-					'headingOptions' => ['style' => 'font-size:1em'],
+					'headingOptions' => ['style' => 'font-size:1em','class' => 'card-header text-white my-card'],
 					'type'=>DetailView::TYPE_INFO,
 				],
 				'rowOptions' => [ 'style' => 'font-size:0.85em',

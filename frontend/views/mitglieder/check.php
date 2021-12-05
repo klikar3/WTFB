@@ -265,4 +265,4 @@ function addLog(message) {
 JS;
 $this->registerJs($js,View::POS_END);
 
-?>    
+?>

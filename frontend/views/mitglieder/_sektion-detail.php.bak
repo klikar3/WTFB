@@ -35,6 +35,9 @@ use frontend\models\Schulen;
 				'buttons1' => '{update}',
 				'panel'=>[
 					'heading'=>'&nbsp;', // Grad # ' . $model->mgID,
+          'headingOptions' => [
+              'class' => 'card-header my-card text-white',
+          ],
 					'type'=>DetailView::TYPE_INFO,
 				],
 		    'formatter' => [

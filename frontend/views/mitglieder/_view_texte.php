@@ -133,4 +133,3 @@ use frontend\models\Sifu;
 							</div>
 					<?php $form = ActiveForm::end();
 			}  ?>
-

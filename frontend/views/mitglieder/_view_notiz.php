@@ -107,7 +107,3 @@ use common\components\MyHelpers;
             ],
       ],
     ]) ?>
-
-
-
-

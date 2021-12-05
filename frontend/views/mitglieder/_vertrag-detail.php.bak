@@ -462,10 +462,11 @@ use frontend\models\SearchVertrag;
 	</div>	
 
   <div class="col-5 float-right" id = "sf3.$model->msID"  style="!float:right;width:40em;">  
- 		<?php	echo Html::mailto('<div class="btn btn-sm btn-default" style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'Standard Email').'</div>', Url::to($model->mitglieder->Email) .
+ 		<?php	/*echo Html::mailto('<div class="btn btn-sm btn-default" style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'Standard Email').'</div>', Url::to($model->mitglieder->Email) .
 									"?body=".$model->mitglieder->Anrede." ".$model->mitglieder->Vorname.",",[
 											'title' => Yii::t('app', 'Send Standard Email to Member'),
-							  	]);
+							  	]); */
+               	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailStandard", $model->SchulId, 0);                 
 		?>
 		</div>
  </div>

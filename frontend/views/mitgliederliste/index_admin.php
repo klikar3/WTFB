@@ -152,13 +152,13 @@ $this->registerJs(
 								'email' => function ($url, $model) {
 //									return Html::a('<span class="glyphicon glyphicon-envelope"></span>', Url::toRoute(['/texte/print', 'datamodel' => 'mitglieder', 'dataid' => $model->MitgliederId, 
 //													 				'txtid' => 5 ] ), [
-									return frontend\controllers\TexteController::createoutlooklink('mitglieder', $model->MitgliederId, "EmailStandard", $model->SchulId, 0);
+									return frontend\controllers\TexteController::createoutlooklinkshort('mitglieder', $model->MitgliederId, 'EmailStandard', 0, 0);
                                     
-                                    Html::mailto('<span class="fa fa-envelope"></span>', Url::to($model->Email) .
-									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
-//          					'target'=>'_blank',
-										'title' => Yii::t('app', 'Email an Mitglied senden'),
-							        ]);
+//                                    Html::mailto('<span class="fa fa-envelope"></span>', Url::to($model->Email) .
+//									"?subject=WingTzun&body=".$model->mitglieder->Anrede." ".$model->Vorname.", %0D%0A %0D%0AViele Grüße %0D%0ASifu Niko und Team",[
+////          					'target'=>'_blank',
+//										'title' => Yii::t('app', 'Email an Mitglied senden'),
+//							        ]);
 							    },
 							],
 							'width' => '3em',
@@ -596,6 +596,3 @@ $toolbar = [
  ?>
 </span>
 <?php // ul.yiiPager .first, ul.yiiPager .last {display: inline;}?>
-
-
-  

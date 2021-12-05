@@ -66,19 +66,19 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
     public static function find()
     { 
 //	  	Yii::info('-----action: '.VarDumper::dumpAsString(Yii::$app->controller->action->id),'application');
-			if (!Yii::$app->user->identity->isAdmin /*role == 10*/)  {
+		if (!Yii::$app->user->identity->isAdmin /*role == 10*/)  {
 //		    	$schulleiter = Schulleiter::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->one();
 		    	
 					// VarDumper::dump($schulleiter);
 					$schulleiterschulen = Schulleiterschulen::find()->where(['LeiterId' => Yii::$app->user->identity->LeiterId])->all();
 					// Yii::info('-----$schulleiterschulen: '.VarDumper::dumpAsString($schulleiterschulen),'application');
 					$si = array_map(function ($v) { return $v->SchulId; }, $schulleiterschulen );
-          if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
-            if (!in_array(18, $si)) $si = array_merge([18], $si);
-            if (!in_array(33, $si)) $si = [33] + $si;
-          }
-					 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
-					
+            if ((Yii::$app->user->identity->username == 'evastgt') and ((Yii::$app->controller->action->id == 'schuelerzahlen') or (Yii::$app->controller->action->id == 'sektionsliste'))) {
+              if (!in_array(18, $si)) $si = array_merge([18], $si);
+              if (!in_array(33, $si)) $si = [33] + $si;
+            }
+			 Yii::info('-----$s: '.VarDumper::dumpAsString($si));
+			
 //					if (empty($schulleiterschulen)) return [];
 //					$schulen = Schulen::findAll(['SchulId' => $si]);
 //					Yii::info('-----$schulen: '.VarDumper::dump($schulen));
@@ -86,12 +86,12 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 //					$disziplin = Disziplinen::find()->where(['DispId' => $schule->Disziplin])->one();
 //		    	return parent::find()->where( ['Schulort' => $schule->Schulname,'Disziplin' => $disziplin->DispName ]);
 //					return parent::find()->where( ['SchulId' => $si]);
-					$r = parent::find()->andWhere( ['or', ['mitgliederschulen.SchulId' => $si]]);
-					// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
+			$r = parent::find()->andWhere( ['or', ['mitgliederschulen.SchulId' => $si]]);
+			// Yii::info('-----$r: '.VarDumper::dumpAsString($r));
 					
-		    	return (!empty($r)) ? $r : [] ;
-		  }
-		  return parent::find();
+		    return $r; //(!empty($r)) ? $r : [] ;
+		}
+		return parent::find();
     }
 
 

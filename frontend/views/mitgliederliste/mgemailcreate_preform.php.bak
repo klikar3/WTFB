@@ -59,7 +59,7 @@ use frontend\models\Schulen;
 							</div>
 							<div class="col-10">
 				<?= $form->field($mcf, 'emailInhalt',['labelOptions'=>['style'=>''],
-																			 'inputOptions' => ['style'=>']])
+																			 'inputOptions' => ['style'=>'']])
                   ->textarea(['rows' => '6', 'placeholder' => 'Hier die Felder der Email rein kopieren... '])->label('EmailInhalt') 
 				?>
 			

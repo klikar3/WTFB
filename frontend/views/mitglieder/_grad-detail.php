@@ -122,5 +122,3 @@ use frontend\models\Schulen;
             ],
        ],
     ]);  ?>
-
-
