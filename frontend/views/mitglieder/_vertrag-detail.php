@@ -379,73 +379,6 @@ use frontend\models\SearchVertrag;
   </div>
   <div class="card-body border-info bg-light">
 <?php //if (Yii::$app->user->identity->isAdmin or (Yii::$app->user->identity->username == 'eva')) { ?>
- <div class="row container-fluid" style="margin-bottom:8px;margin-left:0 auto;">
-  <div class="col-3" id = "sf3<?=$model->msID?>"  style="!float:left;padding-left:0em;padding-right:0em;width:5em">  
-		<?php if ($anzeigen) {//echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
-			$form3 = ActiveForm::begin([
-			    'options'=>['enctype'=>'multipart/form-data'], // important
-			    'id' => 'formsf'.$model->msID,
-			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
-
-			]);
-			echo $form3->field($model, 'SF')->checkbox([
-												'id' => 'sf'.$model->msID,
-												'class' => 'left-checkbox', 
-//												'value' => $model->SF, 
-												'disabled' => false, 
-												'style' => 'width:15px;', 
-												'label' => 'Bank',
-												'labelOptions' => ['style' => 'font-size:0.75em;width:5em'],
-												'onclick' => 'this.form.submit()', 
-												]);
-												
-			ActiveForm::end();   }
-		?> 
-	 </div>  
-  <div class="col-3" id = "bv3<?=$model->msID?>" style="!float:right;padding-left:0em;width:5em" >  
-		<?php 
-			$form4 = ActiveForm::begin([
-			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
-			    'id' => 'formbl'.$model->msID,
-			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
-
-			]);
-					echo $form4->field($model, 'WtfbOk')->checkbox([
-												'id' => 'bv'.$model->msID,
-												'class' => 'left-checkbox', 
-												'disabled' => false, 
-												'style' => 'width:15px;', 
-												'label' => 'WTFB',
-												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
-												]);
-			ActiveForm::end();
-
-		?>
-	 </div>  
-   <div class="col-6" id = "bl3<?=$model->msID?>" style="!float:right;padding-left:0em;width:5em" >  
-		<?php  if ($anzeigen) {//echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
-			$form5 = ActiveForm::begin([
-			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important
-			    'id' => 'formok'.$model->msID,
-			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
-
-			]);
-							echo $form5->field($model, 'OK')->checkbox([
-												'id' => 'ok'.$model->msID,
-												'class' => 'left-checkbox', 
-//												'value' => $model->OK, 
-												'disabled' => false, 
-												'style' => 'width:15px;', 
-												'label' => Yii::t('app', 'Member Card'),
-												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;width:10em']
-												]);
-			ActiveForm::end();  }
-
-		?>
-	 </div>  
- </div>
  <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
    <div class="col-5 float-left" id = "wm1.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
    <?php  if ($anzeigen) { 
@@ -523,27 +456,6 @@ use frontend\models\SearchVertrag;
 		?>
 	 </div>  
  </div>	
- <?php if (Yii::$app->user->identity->isAdmin) { ?>											        
- <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
-   <div class="col-5" id = "bl3.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
-		<?php /*	echo Html::a('<span class="fa fa-print"></span>&nbsp;'.Yii::t('app', 'Termination'),  
-															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
-                              'data-pjax' => 0,     
-                    					'target'=>'_blank',
-															'class'=>'btn btn-sm btn-default',
-															'title' => Yii::t('app', 'Print Termination'),
-															'style' => 'width: 10em; text-align: left;',
-												        ]); */
-             ?>
-		</div>										        
-   <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
-											 
-		?>
-	 </div>  
- </div>												        
- <?php } ?>
  <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
    <div class="col-5" id = "v1.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
 		<?php	
@@ -635,7 +547,6 @@ use frontend\models\SearchVertrag;
  ?>
 	 </div>  
 </div>
-	
  <div class="row" style="margin-bottom:8px;margin-left:width:0px auto;">
    <div class="col-5" id = "v1.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
     <?php  if ($anzeigen) { 
@@ -657,11 +568,11 @@ use frontend\models\SearchVertrag;
 		 } ?>                 
 	 </div>
 	
-   <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'IBAN-Calculator').'</div>', Url::to('https://www.iban-rechner.de'),[
-											'title' => Yii::t('app', 'Calculate / Verify IBAN'),
-											'target' => '_blank'
-							  	]);   ?>
+   <div class="col-sm-2 col-md-2 col-2" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
+		<?php if (Yii::$app->user->identity->isAdmin) { 
+                echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
+			  }								 
+		?>
    </div>						  	
 	</div>
 
@@ -687,12 +598,87 @@ use frontend\models\SearchVertrag;
 	 </div>
 	
    <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-   	<?php	/*echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
-											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'IBAN-Calculator').'</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'Calculate / Verify IBAN'),
 											'target' => '_blank'
-							  	]);*/   ?>  &nbsp;
+							  	]);   ?>
    </div>						  	
 	</div>
+ <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
+   <div class="col-sm-6 col-md-6 col-6" id = "bl3.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
+<br>
+<table class="table table-condensed">
+ <tr>  
+		<?php if ($anzeigen) {//echo Html::checkbox('sf'.$model->msID, $model->SF, ['class' => 'left-checkbox', 'value' => $model->SF, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'SF', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+			$form3 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data'], // important
+			    'id' => 'formsf'.$model->msID,
+			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+			echo $form3->field($model, 'SF')->checkbox([
+												'id' => 'sf'.$model->msID,
+												'class' => 'left-checkbox', 
+//												'value' => $model->SF, 
+												'disabled' => false, 
+												'style' => 'width:15px;', 
+												'label' => 'Bank',
+												'labelOptions' => ['style' => 'font-size:0.75em;width:5em'],
+												'onclick' => 'this.form.submit()', 
+												]);
+												
+			ActiveForm::end();   }
+		?> 
+  
+ </tr>
+ <tr>		<?php 
+			$form4 = ActiveForm::begin([
+        			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
+        			    'id' => 'formbl'.$model->msID,
+        			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+        
+        			]);
+					echo $form4->field($model, 'WtfbOk')->checkbox([
+												'id' => 'bv'.$model->msID,
+												'class' => 'left-checkbox', 
+												'disabled' => false, 
+												'style' => 'width:15px;', 
+												'label' => 'WTFB',
+												'onclick' => 'this.form.submit()', 
+												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
+												]);
+			ActiveForm::end();
+
+		?>
+  
+ </tr>
+
+ <tr>  
+		<?php  if ($anzeigen) {//echo Html::checkbox('ok'.$model->msID, $model->OK, ['value' => $model->OK, 'disabled' => false, 'style' => 'width:15px;', 'label' => 'OK', 'labelOptions' => ['style' => 'font-size:0.85em;']]);
+			$form5 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formok'.$model->msID], // important
+			    'id' => 'formok'.$model->msID,
+			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+					echo $form5->field($model, 'OK')->checkbox([
+										'id' => 'ok'.$model->msID,
+										'class' => 'left-checkbox', 
+//												'value' => $model->OK, 
+										'disabled' => false, 
+										'style' => 'width:15px;', 
+										'label' => Yii::t('app', 'Member Card'),
+										'onclick' => 'this.form.submit()', 
+										'labelOptions' => ['style' => 'font-size:0.75em;width:10em']
+										]);
+			ActiveForm::end();  }
+
+		?>
+  
+ </tr>
+</table>
+    </div>
+  </div>
 </div>
 </div>
 </div>

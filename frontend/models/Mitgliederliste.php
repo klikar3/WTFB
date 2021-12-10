@@ -69,17 +69,18 @@ class Mitgliederliste extends \yii\db\ActiveRecord
     {
         return [
             [['MitgliederId', 'PruefungZum', 'MitgliedsNr', 'printed', 'mgID'], 'integer'],
-            [['MitgliederId', 'MitgliedsNr', 'Schulname', 'LeiterName', 'DispName'], 'required'],
+//            [['MitgliederId', 'MitgliedsNr', 'Schulname', 'LeiterName', 'DispName'], 'required'],
+            [['MitgliederId', 'MitgliedsNr', 'Schulname'], 'required'],
             [['Vorname'], 'string', 'max' => 18],
             [['Nachname'], 'string', 'max' => 29],
             [['Name'], 'string', 'max' => 49],
-            [['NameLink'], 'string', 'max' => 49],
+            [['NameLink'], 'string', 'max' => 100],
             [['NameLink'], 'safe'],
             [['Schulname'], 'string', 'max' => 50],
             [['LeiterName'], 'string', 'max' => 80],
             [['DispName'], 'string', 'max' => 30],
             [['Vertrag'], 'string', 'max' => 50],
-            [['LetzteAenderung', 'LetztAendSifu'], 'date', 'format' => 'php:Y-m-d'],
+            [['LetzteAenderung', 'LetztAendSifu'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [['LetzteAenderung', 'LetztAendSifu'], 'safe'],
             [['GeburtsDatum', 'GeburtsDatum'], 'safe'],
         ];

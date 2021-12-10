@@ -286,7 +286,7 @@ class TexteController extends Controller
 //			Yii::Warning("-----textReplace datamodel: ".Vardumper::dumpAsString($datamodel));
 //			Yii::Warning("-----textReplace dataid: ".Vardumper::dumpAsString($dataid));
 //			Yii::Warning("-----textReplace txtcode: ".Vardumper::dumpAsString($txtcode));
-//			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
+			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
 //			Yii::Warning("-----textReplace txtid: ".Vardumper::dumpAsString($txtid));
   		
   		if ($txtcode == '') {
@@ -414,7 +414,7 @@ class TexteController extends Controller
             return '<span class="far fa-envelope"></span>';  
 
         } else {
-    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 2.4em; text-align: left;"><span class="fa fa-envelope"></span></div>', Url::to($text['email']) .
+    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 2.3em; text-align: left;"><span class="fa fa-envelope"></span></div>', Url::to($text['email']) .
     							"?subject=".$text['betreff']."&from="."verwaltung@wingtzun.de"."&body=".$text['text'],[
     									'title' => Yii::t('app', 'Send Email to Member'),
     					  	]);							

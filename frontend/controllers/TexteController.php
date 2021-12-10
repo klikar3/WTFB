@@ -286,7 +286,7 @@ class TexteController extends Controller
 //			Yii::Warning("-----textReplace datamodel: ".Vardumper::dumpAsString($datamodel));
 //			Yii::Warning("-----textReplace dataid: ".Vardumper::dumpAsString($dataid));
 //			Yii::Warning("-----textReplace txtcode: ".Vardumper::dumpAsString($txtcode));
-//			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
+			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
 //			Yii::Warning("-----textReplace txtid: ".Vardumper::dumpAsString($txtid));
   		
   		if ($txtcode == '') {
@@ -394,12 +394,12 @@ class TexteController extends Controller
     {
         $text = TexteController::textReplace($datamodel, $dataid, $txtcode, $SchulId, $txtid);
         
-        if (empty($text->text)) {
+        if (empty($text['text'])) {
             return '<div class="btn btn-sm" style="width: 10em; text-align: left;background-color:lightgrey;color:grey;"><span class="fa fa-envelope"></span> per Email</div>';  
 
         } else {
-    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span> &nbsp'.$text->link.'</div>', Url::to($text->email) .
-    							"?subject=".$text->betreff."&from="."verwaltung@wingtzun.de"."&body=".$text->text,[
+    		$pdf = Html::mailto('<div class="btn btn-sm btn-default"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span> &nbsp'.$text['link'].'</div>', Url::to($text['email']) .
+    							"?subject=".$text['betreff']."&from="."verwaltung@wingtzun.de"."&body=".$text['text'],[
     									'title' => Yii::t('app', 'Send Email to Member'),
     					  	]);							
     	   return $pdf;
