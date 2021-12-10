@@ -27,7 +27,7 @@ if (Yii::$app->controller->action->id == 'woo-swm-abgleich') {
   $bt = 'In Newsletter für Dvd-Besteller eintragen';  
 }  
 if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
-  $this->title = 'WooCommerce-OnlineAkdemie-Shop - Superwebmailer Abgleich';
+  $this->title = 'WooCommerce-WTO-Shop - Superwebmailer Abgleich';
   $zielSwm = ['site/get-aka-swm-data',];
   $zielWoo = ['site/get-aka-woo-data',];  
   $mli = 14;
@@ -35,7 +35,8 @@ if (Yii::$app->controller->action->id == 'woo-aka-swm-abgleich') {
   $bt = 'In Newsletter für Online-Akademie-Besteller eintragen';  
 }  
  ?> 
-<div class="row card bg-info panel panel-info">
+ 
+<div class="card bg-info panel panel-info">
   <div class="card card-header my-card panel-heading"> 
           <?= Html::encode($this->title) ?>
   </div>     

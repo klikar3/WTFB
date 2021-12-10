@@ -88,7 +88,7 @@ AppAsset::register($this);
               $aktionen[] =  ['label' => Yii::t('app', 'Really delete Members'), 'url' => ['/mitglieder/mark-really-delete']];                                                             
               $aktionen[] =  '<div class="dropdown-divider"></div>';
               $aktionen[] =  ['label' => Yii::t('app', 'Woo-WT-Shop - SWM Adjustment'), 'url' => ['/site/woo-swm-abgleich']];
-              $aktionen[] =  ['label' => Yii::t('app', 'Woo-OnlAka-Shop - SWM Adjustment'), 'url' => ['/site/woo-aka-swm-abgleich']];
+              $aktionen[] =  ['label' => Yii::t('app', 'Woo-WTO-Shop - SWM Adjustment'), 'url' => ['/site/woo-aka-swm-abgleich']];
               $aktionen[] =  ['label' => Yii::t('app', 'SWM blocked Emails'), 'url' => ['/swm-blocked-emails/index']];
       //        $stammdaten[] =  '<li role="presentation" class="divider"></li>';
               $aktionen[] =  '<div class="dropdown-divider"></div>';
