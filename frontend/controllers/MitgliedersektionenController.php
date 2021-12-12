@@ -146,15 +146,17 @@ class MitgliedersektionenController extends Controller
 		        $mitglied = $model->mitglied;
 		        date_default_timezone_set('Europe/Berlin');
 		        $mitglied->LetzteAenderung = date('Y-m-d H:i:s');
-				  	if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
+				if (Yii::$app->user->identity->isAdmin) { $mitglied->LetztAendSifu = $mitglied->LetzteAenderung; }
 		        $mitglied->save();
         		
-        		$modelm = Mitglieder::findModel($mId)->one();
-        		if ($modelm) {
+		        $mitglied->PruefungZum = 0;
+		        $mitglied->save();
+//        		$modelm = Mitglieder::findModel($mId)->one();
+//        		if ($modelm) {
 //  				Yii::info("-----modelm: ".Vardumper::dumpAsString($modelm));
-		        		$modelm->PruefungZum = 0;
-		        		$modelm->save();
-        		}
+//		        		$modelm->PruefungZum = 0;
+//		        		$modelm->save();
+//        		}
             return $this->redirect(['mitglieder/view', 'id' => $model->mitglied_id, 'tabnum' => 5, ]);
         } else {
             return $this->render('create', [
