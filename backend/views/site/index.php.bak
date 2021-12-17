@@ -96,12 +96,12 @@ $this->title = 'Anwesenheitsliste';
         <?php
 echo Sortable::widget([
     'connected'=>true,
-    'items'=> $mitglieder //[
-//        ['content'=>'From Item 1', 'mid' => 'test1'],
-//        ['content'=>'From Item 2', 'mid' => 'test2'],
-//        ['content'=>'From Item 3', 'mid' => 'test3'],
-//        ['content'=>'From Item 4', 'mid' => 'test4'],
-//    ]
+    'items'=>[
+        ['content'=>'From Item 1', 'mid' => 'test1'],
+        ['content'=>'From Item 2', 'mid' => 'test2'],
+        ['content'=>'From Item 3', 'mid' => 'test3'],
+        ['content'=>'From Item 4', 'mid' => 'test4'],
+    ]
 ]);
 ?>
             </div>

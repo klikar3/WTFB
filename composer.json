@@ -40,7 +40,8 @@
 		"moonlandsoft/yii2-tinymce": "*",
     	"sepa-xml-creator/sepa-xml-creator" : "0.2.*@beta",
         "eddmash/yii2-clipboard": "@dev",
-        "codemix/yii2-localeurls": "*"
+        "codemix/yii2-localeurls": "*",
+        "kartik-v/yii2-sortable": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

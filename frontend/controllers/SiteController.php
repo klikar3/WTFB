@@ -175,7 +175,7 @@ class SiteController extends Controller
 
     public function actionSchuelerzahlen()
     {
-				$model = new AuswertungenForm();
+		$model = new AuswertungenForm();
 
         $params = Yii::$app->request->queryParams;
         //Yii::warning('----params beginn: '.VarDumper::dumpAsString($params),'application');

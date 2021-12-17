@@ -71,7 +71,7 @@ class SiteController extends Controller
     {
         $model = new Anwesenheitsliste();
 
-        $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens')->select('concat_ws(".",`Name`,`Vorname`) as content, mitglieder.MitgliederId')->where('mitgliederschulen.Von <= :jetzt and mitgliederschulen.Bis >= :jetzt',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))->format('Y-m-d')])->asArray()->all();
+        $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens')->select('concat_ws(".",`Name`,`Vorname`) as content, nitglieder.MitgliederId')->where('mitgliederschulen.Von <= :jetzt and mitgliederschulen.Bis >= :jetzt',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))->format('Y-m-d')])->asArray()->all();
         Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
 
         return $this->render('index', [
