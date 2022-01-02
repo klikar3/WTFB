@@ -27,6 +27,7 @@ use frontend\models\Mitgliedersektionen;
 use frontend\models\MitgliedersektionenSearch;
 use frontend\models\Numbers;
 use frontend\models\Pruefer;
+use frontend\models\Schulen;
 use frontend\models\Texte;
 ?>
 <?php //Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
@@ -94,6 +95,14 @@ use frontend\models\Texte;
     			      ]),                                                      
     						'active' => $tabnum == 9?true:false, 
 		    ],  
+			  [
+				    'label'=>'<img src="data:image/jpeg;base64,'.base64_encode($model['foto'] ).'" height="100" width="80" alt="Foto"/>',
+						'content'=> $this->render('_view_foto', array(
+		                                'model'=>$model, 'tabnum' => 9, 
+		                        ) ),                                                      
+    						'active' => false, 
+		    ],
+          
 /*			  [
 				    'label'=>'<div class="btn btn-sm btn-success" onclick="js:history.go(-1);return false;"><i class="glyphicon glyphicon-remove"></i> Zurück</div>',
 						'content'=> '',                                                      

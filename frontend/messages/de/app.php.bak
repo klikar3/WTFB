@@ -121,8 +121,7 @@ return [
     'MemberNo' => 'Mitglieds-Nr',
     'Sex' => 'Geschlecht',
     'Salutation' => 'Anrede',
-    'Birthday' => 'Geburtsdatum',
-    'B.Day' => 'Geburtstag',
+   'B.Day' => 'Geburtstag',
     'Postcode' => 'Plz',
     'Place of Residence' => 'Wohnort',
     'Street' => 'Strasse',
@@ -138,7 +137,6 @@ return [
     'State' => 'Status',
     'Passive' => 'Passiv',
     'School Location' => 'Schulort',
-    'Function' => 'Funktion',
     'Sifu' => 'Sifu' ,
     'Legal Guardian' => 'ErzBerechtigter',
     'From' => 'Woher',
@@ -213,7 +211,6 @@ return [
     'Add first appointment to Google calender' => 'Erst-Termin in Google-Kalender eintragen',
     
     // Mitgliederschulen -> Verträge
-    'Notice' => 'Bemerkung',
     'Contract Notice' => 'Vertragsbemerkung',
     'Contract Date' => 'Vertragsdatum',
     'C-Date' => 'V-Datum',    
@@ -249,7 +246,6 @@ return [
     'Exit Date' => 'Austrittsdatum',
     'Termination Reason' => 'Künd.-Grund',
     'Admission Date' => 'Von',
-    'Exit' => 'Bis',
     'Contract (.pdf)' => 'Vertrag (.pdf)',
     'Contract Conclusion Date' => 'Vertrags-Abschlussdatum',
     'Direct Debit'=>'Bankeinzug',

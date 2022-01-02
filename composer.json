@@ -18,6 +18,7 @@
         "yiisoft/yii2": ">=2.0.38",
         "yiisoft/yii2-bootstrap4": "*",
         "yiisoft/yii2-swiftmailer": "*",
+        "yiisoft/yii2-imagine": "*",
         "kartik-v/yii2-bootstrap4-dropdown": "dev-master", 
     	"kartik-v/yii2-context-menu": "*",
 		"kartik-v/yii2-grid": "3.2.7",
@@ -34,7 +35,9 @@
 		"dektrium/yii2-user": "dev-master",
         "jschaedl/iban-validation": "dev-master",
 		"2amigos/yii2-ckeditor-widget": "*",
+        "2amigos/qrcode-library" : "^2.0",
         "2amigos/yii2-tinymce-widget" : "~1.1",
+        "johnson/yii2-webcam": "*",
 		"klikar3/rgraph" : "@dev",
 		"klikar3/yii2-backup": "@dev",
 		"moonlandsoft/yii2-tinymce": "*",
@@ -47,7 +50,7 @@
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "c006/yii2-migration-utility": "dev-master",
-        "phpstan/phpstan": "1.0.x-dev"
+        "phpstan/phpstan": "1.3.x-dev"
     },
     "config": {
         "process-timeout": 1800,

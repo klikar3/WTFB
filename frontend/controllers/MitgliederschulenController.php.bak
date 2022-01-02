@@ -166,10 +166,11 @@ class MitgliederschulenController extends Controller
             return $this->render('/mitglieder/view', [
                 'model' => $mgModel, 'tabnum' => 3, 'openv' => $openv,
                 'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
-								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
-								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => true,
-                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
+				'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
+				'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+				'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => true,
+                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 
+                'disziplinen' => $disziplinen, 'schulorte' => $schulorte,
             ]);
            }               
  //       }
@@ -206,12 +207,13 @@ class MitgliederschulenController extends Controller
 				
 				$grade_zur_auswahl = array_merge(["0" => ""], ArrayHelper::map( Grade::find()->all(), 'gradId', 'gkdk', 'DispName' ));
 				$sektionen_zur_auswahl = ArrayHelper::map( Sektionen::find()->orderBy('sekt_id')->all(), 'sekt_id', 'name' );
-  	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
-        $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
-        $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
-        $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
-        $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
-        $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
+      	    $pruefer_zur_auswahl = ArrayHelper::map( Pruefer::find()->all(), 'prueferId', 'pName' );
+            $schulen = ArrayHelper::map( Schulen::find()->with('disziplinen')->all(), 'SchulId', 'SchulDisp' ); //array_merge(["" => ""], ArrayHelper::map( Schulen::find()->distinct()->orderBy('SchulId')->all(), 'Schulname', 'SchulDisp' ));
+            $schulorte = array_merge(["" => ""], ArrayHelper::map( Schulen::find()->orderBy('SchulId')->all(), 'Schulname', 'Schulname' ));
+            $anreden = array_merge(["" => ""], ArrayHelper::map( Anrede::find()->orderBy('anrId')->all(), 'inhalt', 'inhalt' ));
+            $functions = array_merge(array_merge(["" => ""], ArrayHelper::map( Funktion::find()->distinct()->orderBy('FunkId')->all(), 'inhalt', 'inhalt' )),['style'=>'']);
+            $sifus = array_merge(["" => ""], ArrayHelper::map( Sifu::find()->orderBy('sId')->all(), 'SifuName', 'SifuName' ));
+            $disziplinen = array_merge(["" => ""], ArrayHelper::map( Disziplinen::find()->orderBy('sort')->all(), 'DispName', 'DispName' ));
   	
 				// Sektionen
 				$squery = Mitgliedersektionen::find();
@@ -236,10 +238,11 @@ class MitgliederschulenController extends Controller
             return $this->render('/mitglieder/view', [
                 'model' => $mgModel, 'tabnum' => 3, 'openv' => $openv,
                 'grade' => $mgdataProvider, 'sektionen' => $msdataProvider, 
-								'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
-								'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
-								'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => false,
-                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 'disziplinen' => $disziplinen,
+				'contracts' => $vdataProvider, 'grade_zur_auswahl' => $grade_zur_auswahl,
+				'sektionen_zur_auswahl' => $sektionen_zur_auswahl,
+				'pruefer_zur_auswahl' => $pruefer_zur_auswahl, 'errors' => $model->errors, 'formedit' => false,
+                'schulen' => $schulen, 'anreden' => $anreden, 'functions' => $functions, 'sifus' => $sifus, 
+                'disziplinen' => $disziplinen, 'schulorte' => $schulorte,
             ]);
          }
       }

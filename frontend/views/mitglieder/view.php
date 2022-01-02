@@ -95,6 +95,14 @@ use frontend\models\Texte;
     			      ]),                                                      
     						'active' => $tabnum == 9?true:false, 
 		    ],  
+			  [
+				    'label'=>'<img src="data:image/jpeg;base64,'.base64_encode($model['foto'] ).'" alt="Foto"/>', //'" height="100" width="80" alt="Foto"/>',
+						'content'=> $this->render('_view_foto', array(
+		                                'model'=>$model, 'tabnum' => 9, 
+		                        ) ),                                                      
+    						'active' => false, 
+		    ],
+          
 /*			  [
 				    'label'=>'<div class="btn btn-sm btn-success" onclick="js:history.go(-1);return false;"><i class="glyphicon glyphicon-remove"></i> Zurück</div>',
 						'content'=> '',                                                      

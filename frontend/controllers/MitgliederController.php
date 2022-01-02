@@ -10,6 +10,8 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
@@ -55,7 +57,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index','createfromemail'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index','createfromemail', 'upload'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -861,4 +863,79 @@ JS;
         }
    
     }
+    
+    public function actionUpload($id = 0, $tabnum = 0)
+    {
+//        Yii::warning("-----actionUpload_POST".VarDumper::dumpAsString($_POST));
+//        Yii::warning("-----actionUpload_FILES".VarDumper::dumpAsString($_FILES));
+        $id = $_POST['id'];
+        $tabnum = $_POST['tabnum'];
+        $model = $this->findModel($_POST['modelId']);
+//        Yii::warning("-----model: ".VarDumper::dumpAsString($model));
+        if (empty($_FILES[$id])) {
+            $output = json_encode(['error'=>'No files found for upload.']); 
+            return $output; // terminate
+        }				
+        
+        $fileData = $_FILES[$id];
+        Yii::warning("-----Name: ".$fileData['tmp_name']);
+		//$d = sys_get_temp_dir();
+        //Yii::warning("-----dir: ".$d);
+				//move_uploaded_file($fileData['tmp_name'], 'd:\wamp\tmp\test.pdf');
+        		
+				//$image = UploadedFile::getInstanceByName($fileData['tmp_name']);
+		$file_blob = file_get_contents($fileData['tmp_name']);
+        if (!$file_blob) {
+            $output = json_encode(['error'=>'Datei nicht gefunden.']); 
+            return $output; // terminate
+        }
+		if (!empty($file_blob)) {
+                $image = Image::getImagine()->open($fileData['tmp_name']);
+                $size = $image->getSize();
+                $divider = 100/$size->getWidth();
+                $calcWidth = $size->getWidth() * $divider;
+                $calcHeight = $size->getHeight() * $divider;
+/*                if ($height < $width) {
+                   $divider = $size->getWidth() / $width;
+                   $calcHeight = $size->getHeight() / $divider;
+                   $calcWidth = $width;
+                } else {
+                   $divider = $size->getHeight() / $height;
+                   $calcWidth = $size->getWidth() / $divider;
+                   $calcHeight = $height;
+                }
+*/                $image->resize(new Box($calcWidth, $calcHeight));
+                  if ($size->getWidth() > $size->getHeight()) $image->rotate(90);
+				  $model->foto = $image; //$file_blob;
+          if (!$model->validate()) {
+            $output = json_encode(['error'=>'Mitglied nicht validiert.']); 
+            return $output; // terminate
+          }	else {
+                Yii::warning("-----Mitglied validiert");
+                $output = json_encode(['success' => 'Mitglied validiert']);
+//                return $output;
+            }                   
+					
+            if (!$model->save()) {
+                Yii::warning("-----model nicht gesichert");
+                $output = json_encode(['error'=>'Konnte Mitglied nicht speichern.']); 
+                // or you can throw an exception 
+                return $output; // terminate
+            } else {
+                Yii::warning("-----model gesichert");
+                $output = json_encode(['success' => 'Mitglied gesichert']);
+                return $output;
+            }                   
+					}	else {
+            Yii::warning("-----Foto nicht gesichert");
+            $model->addError('Foto konnte nicht gesichert werden!');
+            $output = json_encode(['error' => 'Foto konnte nicht gesichert werden!']);
+            return $output;
+          }
+        $output = json_encode(['success' => 'Datei hochgeladen']);
+				return $output;
+//				return $this->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$model]);
+ //        if (isset($_POST['expandRowKey'])) {
+    }
+    
 }
