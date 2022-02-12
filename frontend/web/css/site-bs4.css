@@ -206,3 +206,18 @@ body, wrapper {
     color: auto ;   
 }
 
+.halfsize {
+/*    -moz-transform:scale(0.5);
+    -webkit-transform:scale(0.5);
+    transform:scale(0.5); */
+    height: 50%;
+    width: 50%
+}
+
+.thirdsize {
+/*    -moz-transform:scale(0.5);
+    -webkit-transform:scale(0.5);
+    transform:scale(0.5); */
+    height: 30%;
+    width: 30%
+}

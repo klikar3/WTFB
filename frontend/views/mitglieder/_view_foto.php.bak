@@ -23,7 +23,25 @@ echo '<img src="data:image/jpeg;base64,'.base64_encode($model['foto'] ).'" alt="
           ]           
 			]);
 		?>
-<p>Fuer Android hilft die App "Camera Folder" (FDroid) - dann kann direkt ein Foto aufgenommen werden.</p>        
+<?php 
+if (!empty($model['foto'])) {
+  echo Html::a(Yii::t('app', 'Delete'),  
+  	Url::to(['mitglieder/clear-foto', 'id' => $model->MitgliederId, 
+			'tabnum' => 3 ] ), [
+	           'title' => Yii::t('app', 'Delete foto'),
+               'class'=>'btn btn-sm btn-danger'
+	          'data' => [
+	              'confirm' => Yii::t('app', 'Do you really want to delete this foto?'),
+	              'method' => 'post',
+			          ],
+ 	        ]);
+}    
+
+// echo '<br><p>Fuer Android hilft die App "Camera Folder" (FDroid) - dann kann direkt ein Foto aufgenommen werden.</p>';        
+?> 
+  
+        
+        
 </div>        
 <div class="col-9">	
 		<?php	

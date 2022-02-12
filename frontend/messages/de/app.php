@@ -71,7 +71,7 @@ return [
     'Delete marked records' => 'Markierte Datensätz wirklich löschen',
     'No Backup - no Pity!' => 'Kein Backup - kein Mitleid!',
     'Woo-WT-Shop - SWM Adjustment' => 'Woo-WT-Shop - SWM Abgleich',
-    'Woo-OnlAka-Shop - SWM Adjustment' => 'Woo-OnlAka-Shop - SWM Abgleich', 
+    'Woo-WTO-Shop - SWM Adjustment' => 'Woo-WTO-Shop - SWM Abgleich', 
 
     // zeug
     'Precence' =>'Anwesenheit',
@@ -209,6 +209,8 @@ return [
     'Add appointment for call to Google calender' => 'Telefonat in Google-Kalender eintragen',
     'First Appointment to Google' => 'PT in Google-Kal. eintr.',
     'Add first appointment to Google calender' => 'Erst-Termin in Google-Kalender eintragen',
+    'Delete foto' => 'Foto löschen',
+    'Do you really want to delete this foto?' => 'Wollen Sie dieses Foto wirklich löschen?',
     
     // Mitgliederschulen -> Verträge
     'Contract Notice' => 'Vertragsbemerkung',

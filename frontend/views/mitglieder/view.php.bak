@@ -8,6 +8,8 @@ use yii\bootstrap4\BaseHtml;
 use yii\bootstrap4\Modal;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 use kartik\grid\GridView;
 use kartik\widgets\ActiveForm;
@@ -29,6 +31,16 @@ use frontend\models\Numbers;
 use frontend\models\Pruefer;
 use frontend\models\Schulen;
 use frontend\models\Texte;
+
+if (!empty($model['foto'])) {
+    $thumb = Image::getImagine()->load($model['foto']);
+    $size = $thumb->getSize();
+    $divider = 100/$size->getWidth();
+    $calcWidth = $size->getWidth() * $divider;
+    $calcHeight = $size->getHeight() * $divider;
+    $thumb->resize(new Box($calcWidth, $calcHeight));
+} else $thumb = null;
+    
 ?>
 <?php //Pjax::begin(['id'=>'pjaxGridView_'.$model->MitgliederId, 'linkSelector' => 'a:not(.linksWithTarget)']); ?>
 <?php
@@ -96,11 +108,11 @@ use frontend\models\Texte;
     						'active' => $tabnum == 9?true:false, 
 		    ],  
 			  [
-				    'label'=>'<img src="data:image/jpeg;base64,'.base64_encode($model['foto'] ).'" height="100" width="80" alt="Foto"/>',
+				    'label'=>'<img src="data:image/jpeg;base64,'.base64_encode($thumb ).'" alt="Foto" />', //'" height="100" width="80" alt="Foto"/>',
 						'content'=> $this->render('_view_foto', array(
-		                                'model'=>$model, 'tabnum' => 9, 
+		                                'model'=>$model, 'tabnum' => 10, 
 		                        ) ),                                                      
-    						'active' => false, 
+    						'active' => $tabnum == 10?true:false,, 
 		    ],
           
 /*			  [

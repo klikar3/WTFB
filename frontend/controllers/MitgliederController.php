@@ -57,7 +57,7 @@ class MitgliederController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index','createfromemail', 'upload'],
+                        'actions' => ['index','view','create','update','delete','mark','check','runcheck', 'swm','intensiv-index','createfromemail','upload','clear-foto'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -266,10 +266,10 @@ class MitgliederController extends Controller
 //                                    Yii::warning('-----save $intensiv: '.VarDumper::dumpAsString($Intensiv->errors));
                       } 
                   }
-								if ($model->save() and empty($model->errors)) {
+				  if ($model->save() and empty($model->errors)) {
 //								  Yii::warning('-----save $model: ');
 //            			return $this->redirect(['view', 'id' => $model->MitgliederId, 
-                  return $this->render('view', [
+                        return $this->render('view', [
                                           'model' => $model,
 										'grade' => $mgdataProvider, 
 										'sektionen' => $msdataProvider, 
@@ -892,7 +892,7 @@ JS;
 		if (!empty($file_blob)) {
                 $image = Image::getImagine()->open($fileData['tmp_name']);
                 $size = $image->getSize();
-                $divider = 100/$size->getWidth();
+                $divider = 300/$size->getWidth();
                 $calcWidth = $size->getWidth() * $divider;
                 $calcHeight = $size->getHeight() * $divider;
 /*                if ($height < $width) {
@@ -924,7 +924,8 @@ JS;
             } else {
                 Yii::warning("-----model gesichert");
                 $output = json_encode(['success' => 'Mitglied gesichert']);
-                return $output;
+//                return $output;
+                return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => '10']);
             }                   
 					}	else {
             Yii::warning("-----Foto nicht gesichert");
@@ -934,8 +935,23 @@ JS;
           }
         $output = json_encode(['success' => 'Datei hochgeladen']);
 				return $output;
+
 //				return $this->renderPartial('/mitglieder/_vertrag-detail', ['model'=>$model]);
  //        if (isset($_POST['expandRowKey'])) {
+    }
+
+    public function actionClearFoto($id = 0, $tabnum = 0)
+    {
+        $model = $this->findModel($id);
+        $model->foto = null;
+        if ($model->save()) {
+          Yii::info("----- RecDeleted 1 gespeichert");
+        } else {
+          $errors = $model->errors;
+          Yii::warning("----- RecDeleted 1 konnte nicht gespeichert werden!".Vardumper::dumpAsString($errors));
+        }  
+
+        return $this->redirect(['mitglieder/view', 'id' => $model->MitgliederId, 'tabnum' => '10']);
     }
     
 }
