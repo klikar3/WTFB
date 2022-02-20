@@ -19,9 +19,10 @@ use backend\models\mitglieder;
 
 $this->title = 'Anwesenheitsliste';
 ?>
-<div class="site-index">
+<div class="card site-index">
 
-   <div class="body-content">
+
+  <div class="card-header">
 
         <div class="row">
             <div class="col-lg-4">
@@ -112,6 +113,42 @@ $this->title = 'Anwesenheitsliste';
 		?> 
             </div>
         </div>
+    </div>
+    <div class="card-body">
+        <?php	$form2 = ActiveForm::begin([
+			    'options'=>['enctype'=>'multipart/form-data'], // important
+			    'id' => 'formds',
+			    'action'=>['index'], // 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+
+			]);
+			?>
+            <?= $form2->field($model, 'mitglied')->widget(Select2::classname(), [
+                'data' => $mitglieder,
+                'language' => 'de',
+                'options' => ['id' => 'MitgliederId', 'multiple' => false, 'placeholder' => 'Mitglied auswaehlen ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+//                    'style' => 'width:200px;',
+                ],
+            ])
+//            ->dropDownList(ArrayHelper::map( Schulen::find()->with('disziplin')->all(), 'SchulId', 'SchulDisp'), ['id' => 'schule-id', 'multiple' => true])
+//            ->widget(DepDrop::classname(), [
+//                'type' => DepDrop::TYPE_SELECT2,
+//                'data' => ArrayHelper::map( Schulen::find()->with('disziplin')->all(), 'SchulId', 'SchulDisp' ),
+//                'options' => ['id' => 'schule-id', 'multiple' => true, 'placeholder' => 'Schule auswaehlen ...'],
+//                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+//                'pluginOptions' => [
+//                    'depends' => ['cat1-id'],
+//                    'url' => Url::to(['/site/subcat1']),
+//                    'params' => ['input-type-1', 'input-type-2']
+//                ]
+//            ])
+            ->label(false);
+			?>
+        <?php    
+			ActiveForm::end();   
+		?> 
+    </div>
         <div class="row">
             <div class="col-lg-5">
         <?php

@@ -71,12 +71,13 @@ class SiteController extends Controller
     {
         Yii::warning(Yii::$app->request->post());
 //        Yii::warning($_GET);
-        $model = new Anwesenheitsliste();
-        $schulen = ArrayHelper::map( Schulen::find()->joinWith('disziplin',['eagerLoading' => false])->select('SchulId,concat_ws(" ",`Schulname`,`DispKurz`) as Schule')->all(), 'SchulId', 'Schule' );
 
+        $model = new Anwesenheitsliste();
+        $schulen = ArrayHelper::map( Schulen::find()->joinWith('disziplin',['eagerLoading' => false])->select('SchulId,concat_ws(" ",`Schulname`,`DispKurz`) as Schule')->asArray()->all(), 'SchulId', 'Schule' );
+        Yii::warning($schulen);
         if ($model->load(Yii::$app->request->post() )) {
             $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
-                                            ->where('mitgliederschulen.Von <= :jetzt and mitgliederschulen.Bis >= :jetzt',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
+                                            ->where('mitgliederschulen.Von <= :jetzt and (mitgliederschulen.Bis >= :jetzt OR mitgliederschulen.Bis IS NULL)',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
                                             ->format('Y-m-d') ])
                                             ->andWhere(['mitgliederschulen.SchulId' => $model->schule])
                                             ->asArray()->all();
