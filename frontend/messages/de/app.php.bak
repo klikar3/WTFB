@@ -71,7 +71,7 @@ return [
     'Delete marked records' => 'Markierte Datensätz wirklich löschen',
     'No Backup - no Pity!' => 'Kein Backup - kein Mitleid!',
     'Woo-WT-Shop - SWM Adjustment' => 'Woo-WT-Shop - SWM Abgleich',
-    'Woo-OnlAka-Shop - SWM Adjustment' => 'Woo-OnlAka-Shop - SWM Abgleich', 
+    'Woo-WTO-Shop - SWM Adjustment' => 'Woo-WTO-Shop - SWM Abgleich', 
 
     // zeug
     'Precence' =>'Anwesenheit',
@@ -253,6 +253,7 @@ return [
     'Direct Debit'=>'Bankeinzug',
     'Cash'=>'Bar', 
     'Transfer' => 'Überweisung',
+    'once' => 'einmalig'
     'monthly'=>'monatlich',
     'quarterly'=>'vierteljährlich',
     'half-yearly'=>'halbjährlich',

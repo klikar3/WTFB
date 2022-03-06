@@ -253,6 +253,8 @@ return [
     'Direct Debit'=>'Bankeinzug',
     'Cash'=>'Bar', 
     'Transfer' => 'Überweisung',
+    'EC-Card' => 'EC-Karte',
+    'once' => 'einmalig',
     'monthly'=>'monatlich',
     'quarterly'=>'vierteljährlich',
     'half-yearly'=>'halbjährlich',

@@ -547,28 +547,6 @@ use frontend\models\SearchVertrag;
  ?>
 	 </div>  
 </div>
- <?php if (Yii::$app->user->identity->isAdmin) { ?>											        
- <div class="row" style="margin-bottom:8px;margin-left:0 auto;">
-   <div class="col-5" id = "bl3.$model->msID" style="!float:left;width:30em;margin-left:0px;margin-right:8px;">  
-		<?php /*	echo Html::a('<span class="fa fa-print"></span>&nbsp;'.Yii::t('app', 'Termination'),  
-															Url::toRoute(['/texte/print', 'datamodel' => 'vertrag', 'dataid' => $model->MitgliederId, 
-													 				'SchulId' => $model->SchulId, 'vertragId' => $model->msID, 'txtcode' => "Kuendigung", 'txtid' => 0 ] ), [
-                              'data-pjax' => 0,     
-                    					'target'=>'_blank',
-															'class'=>'btn btn-sm btn-default',
-															'title' => Yii::t('app', 'Print Termination'),
-															'style' => 'width: 10em; text-align: left;',
-												        ]); */
-             ?>
-		</div>										        
-   <div class="col-sm-5 col-md-5 col-5" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-		<?php	echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
-											 
-		?>
-	 </div>  
- </div>												        
- <?php } ?>
-	
  <div class="row" style="margin-bottom:8px;margin-left:width:0px auto;">
    <div class="col-5" id = "v1.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
     <?php  if ($anzeigen) { 
@@ -590,11 +568,11 @@ use frontend\models\SearchVertrag;
 		 } ?>                 
 	 </div>
 	
-   <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'IBAN-Calculator').'</div>', Url::to('https://www.iban-rechner.de'),[
-											'title' => Yii::t('app', 'Calculate / Verify IBAN'),
-											'target' => '_blank'
-							  	]);   ?>
+   <div class="col-sm-2 col-md-2 col-2" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
+		<?php if (Yii::$app->user->identity->isAdmin) { 
+                echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
+			  }								 
+		?>
    </div>						  	
 	</div>
 
@@ -620,10 +598,10 @@ use frontend\models\SearchVertrag;
 	 </div>
 	
    <div class="col-sm-2 col-md-2 col-2" id = "bl2.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-   	<?php	/*echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 120px; text-align: left;"><span class="glyphicon glyphicon-envelope"></span>&nbsp;IBAN-Rechner</div>', Url::to('https://www.iban-rechner.de'),[
-											'title' => Yii::t('app', 'IBAN berechnen / prüfen'),
+   	<?php	echo Html::a('<div class="btn btn-sm btn-primary"	style="width: 10em; text-align: left;"><span class="fa fa-envelope"></span>&nbsp;'.Yii::t('app', 'IBAN-Calculator').'</div>', Url::to('https://www.iban-rechner.de'),[
+											'title' => Yii::t('app', 'Calculate / Verify IBAN'),
 											'target' => '_blank'
-							  	]);*/   ?>  &nbsp;
+							  	]);   ?>
    </div>						  	
 	</div>
  <div class="row" style="margin-bottom:8px;margin-left:0 auto;">

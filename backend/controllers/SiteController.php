@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -69,25 +70,31 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        Yii::warning(Yii::$app->request->post());
+//        Yii::warning(Yii::$app->request->post());
 //        Yii::warning($_GET);
 
         $model = new Anwesenheitsliste();
         $schulen = ArrayHelper::map( Schulen::find()->joinWith('disziplin',['eagerLoading' => false])->select('SchulId,concat_ws(" ",`Schulname`,`DispKurz`) as Schule')->asArray()->all(), 'SchulId', 'Schule' );
-        Yii::warning($schulen);
+//        Yii::warning($schulen);
         if ($model->load(Yii::$app->request->post() )) {
             $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
                                             ->where('mitgliederschulen.Von <= :jetzt and (mitgliederschulen.Bis >= :jetzt OR mitgliederschulen.Bis IS NULL)',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
                                             ->format('Y-m-d') ])
                                             ->andWhere(['mitgliederschulen.SchulId' => $model->schule])
                                             ->asArray()->all();
-            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
+//            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
             $trainings = ArrayHelper::map( Trainings::find()->select('id, description as name')->where(['schulId' => $model->schule])->asArray()->all(), 'id', 'name' );
             $anwesende = Anwesenheitsliste::find()->joinWith('mitglied0',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
                             ->where(['datum' => $model->datum, 'schule' => $model->schule[1], 'training' => $model->training])->asArray()->all();
-    
+            
+            $dataProvider = new ActiveDataProvider([
+				     'query' => Anwesenheitsliste::find()->joinWith('mitglied0',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
+                            ->where(['datum' => $model->datum, 'schule' => $model->schule[1], 'training' => $model->training]),
+				]);
+
             return $this->render('index', [
                     'model' => $model,
+                    'dataProvider' => $dataProvider,
                     'schulen' => $schulen,
                     'mitglieder' => $mitglieder,
                     'trainings' => $trainings,
@@ -97,7 +104,7 @@ class SiteController extends Controller
             $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
                                             ->where('mitgliederschulen.Von <= :jetzt and mitgliederschulen.Bis >= :jetzt',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
                                             ->format('Y-m-d')])->asArray()->all();
-            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
+//            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
             $trainings = ['id' => 1, 'name' => ''];
             $anwesende = [];
     
@@ -111,7 +118,57 @@ class SiteController extends Controller
         }
     }
 
-    public function actionLogin()
+    public function actionCreate()
+    {
+//        Yii::warning(Yii::$app->request->post());
+//        Yii::warning($_GET);
+
+        $model = new Anwesenheitsliste();
+        $schulen = ArrayHelper::map( Schulen::find()->joinWith('disziplin',['eagerLoading' => false])->select('SchulId,concat_ws(" ",`Schulname`,`DispKurz`) as Schule')->asArray()->all(), 'SchulId', 'Schule' );
+//        Yii::warning($schulen);
+        if ($model->load(Yii::$app->request->post() )) {
+            $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
+                                            ->where('mitgliederschulen.Von <= :jetzt and (mitgliederschulen.Bis >= :jetzt OR mitgliederschulen.Bis IS NULL)',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
+                                            ->format('Y-m-d') ])
+                                            ->andWhere(['mitgliederschulen.SchulId' => $model->schule])
+                                            ->asArray()->all();
+            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
+            $trainings = ArrayHelper::map( Trainings::find()->select('id, description as name')->where(['schulId' => $model->schule])->asArray()->all(), 'id', 'name' );
+            $anwesende = Anwesenheitsliste::find()->joinWith('mitglied0',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
+                            ->where(['datum' => $model->datum, 'schule' => $model->schule[1], 'training' => $model->training])->asArray()->all();
+            
+            $dataProvider = new ActiveDataProvider([
+				     'query' => Anwesenheitsliste::find()->joinWith('mitglied0',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
+                            ->where(['datum' => $model->datum, 'schule' => $model->schule[1], 'training' => $model->training]),
+				]);
+
+            return $this->render('index', [
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'schulen' => $schulen,
+                    'mitglieder' => $mitglieder,
+                    'trainings' => $trainings,
+                    'anwesende' => $anwesende,
+                ]);
+        } else {
+            $mitglieder = Mitglieder::find()->joinWith('mitgliederschulens',['eagerLoading' => false])->select('concat_ws(" ",`Name`,`Vorname`) as content, mitglieder.MitgliederId')
+                                            ->where('mitgliederschulen.Von <= :jetzt and mitgliederschulen.Bis >= :jetzt',['jetzt' => \DateTime::createFromFormat('d.m.Y', date('d.m.Y'))
+                                            ->format('Y-m-d')])->asArray()->all();
+//            Yii::warning(VarDumper::dumpAsString($mitglieder),'application');
+            $trainings = ['id' => 1, 'name' => ''];
+            $anwesende = [];
+    
+            return $this->render('index', [
+                    'model' => $model,
+                    'schulen' => $schulen,
+                    'mitglieder' => $mitglieder,
+                    'trainings' => $trainings,
+                    'anwesende' => $anwesende,
+                ]);
+        }
+    }
+
+     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();

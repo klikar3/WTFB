@@ -19,6 +19,7 @@ return [
  		      'modelMap' => [
 				        'User' => 'backend\models\User',
 				    ],
+	          'admins' => ['test','sifu'],
         ],
     ],
     'components' => [

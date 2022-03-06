@@ -186,7 +186,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_za_w_'.$model->msID,											
-									'data' => ['Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')],
+									'data' => ['EC-Karte'=> Yii::t('app', 'EC-Card'), 'Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')],
 							    'options' => [
 				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -202,7 +202,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_zw_w_'.$model->msID,											
-									'data' => ['monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')],
+									'data' => ['einmalig'=> Yii::t('app', 'once'), 'monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')],
 							    'options' => [
 				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
 									    'pluginOptions' => [
