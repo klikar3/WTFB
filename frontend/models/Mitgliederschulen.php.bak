@@ -138,16 +138,16 @@ class Mitgliederschulen extends \yii\db\ActiveRecord
 		public function validateIban($attribute, $params) 
 		{
 				if (empty($attribute)) {
-          Yii::warning('----- $attribute is empty!!!');
+//          Yii::warning('----- $attribute is empty!!!');
           return;
         }
-				Yii::warning('----- $attribute: '.VarDumper::dumpAsString($attribute));
-			  Yii::warning('----- $model->$attribute: '.VarDumper::dumpAsString($this->$attribute));
+//				Yii::warning('----- $attribute: '.VarDumper::dumpAsString($attribute));
+//			  Yii::warning('----- $model->$attribute: '.VarDumper::dumpAsString($this->$attribute));
 				// validation 
 				$ibanValidator = new Validator(); //IBANValidator();
         if (!$ibanValidator->validate($this->$attribute)) {
             foreach ($ibanValidator->getViolations() as $violation) {
-			           Yii::warning('----- $violation: '.VarDumper::dumpAsString($violation));
+//			           Yii::warning('----- $violation: '.VarDumper::dumpAsString($violation));
                 // echo $violation;
                 $this->addError($attribute, $violation);
             }

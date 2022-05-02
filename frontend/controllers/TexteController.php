@@ -286,7 +286,7 @@ class TexteController extends Controller
 //			Yii::Warning("-----textReplace datamodel: ".Vardumper::dumpAsString($datamodel));
 //			Yii::Warning("-----textReplace dataid: ".Vardumper::dumpAsString($dataid));
 //			Yii::Warning("-----textReplace txtcode: ".Vardumper::dumpAsString($txtcode));
-			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
+//			Yii::Warning("-----textReplace SchulId: ".Vardumper::dumpAsString($SchulId));
 //			Yii::Warning("-----textReplace txtid: ".Vardumper::dumpAsString($txtid));
   		
   		if ($txtcode == '') {

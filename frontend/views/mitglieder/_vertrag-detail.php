@@ -569,7 +569,7 @@ use frontend\models\SearchVertrag;
 	 </div>
 	
    <div class="col-sm-2 col-md-2 col-2" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-		<?php if (Yii::$app->user->identity->isAdmin) { 
+		<?php if ($anzeigen /*Yii::$app->user->identity->isAdmin*/) { 
                 echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
 			  }								 
 		?>
@@ -631,7 +631,49 @@ use frontend\models\SearchVertrag;
 		?> 
   
  </tr>
+  <tr>		<?php 
+			$form4 = ActiveForm::begin([
+        			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
+        			    'id' => 'formwe'.$model->msID,
+        			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+        
+        			]);
+					echo $form4->field($model, 'WtoEmail')->checkbox([
+												'id' => 'bvwe'.$model->msID,
+												'class' => 'left-checkbox', 
+												'disabled' => false, 
+												'style' => 'width:15px;', 
+												'label' => 'WTO-Email',
+												'onclick' => 'this.form.submit()', 
+												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
+												]);
+			ActiveForm::end();
+
+		?>
+  
+ </tr>
  <tr>		<?php 
+			$form4 = ActiveForm::begin([
+        			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
+        			    'id' => 'formblwf'.$model->msID,
+        			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
+        
+        			]);
+					echo $form4->field($model, 'WtoFreis')->checkbox([
+												'id' => 'bvwf'.$model->msID,
+												'class' => 'left-checkbox', 
+												'disabled' => false, 
+												'style' => 'width:15px;', 
+												'label' => 'WTO-Freis',
+												'onclick' => 'this.form.submit()', 
+												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
+												]);
+			ActiveForm::end();
+
+		?>
+  
+ </tr>
+<tr>		<?php 
 			$form4 = ActiveForm::begin([
         			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
         			    'id' => 'formbl'.$model->msID,

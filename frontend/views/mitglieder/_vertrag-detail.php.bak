@@ -186,7 +186,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_za_w_'.$model->msID,											
-									'data' => ['Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')],
+									'data' => ['EC-Karte'=> Yii::t('app', 'EC-Card'), 'Bankeinzug'=> Yii::t('app', 'Direct Debit'), 'Bar'=>Yii::t('app', 'Cash'), 'Überweisung' => Yii::t('app', 'Transfer')],
 							    'options' => [
 				            	'id' => 'dv_vv_za_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -202,7 +202,7 @@ use frontend\models\SearchVertrag;
             	'type' => DetailView::INPUT_SELECT2,
             	'widgetOptions' => [
 				          'id' => 'dv_vv_zw_w_'.$model->msID,											
-									'data' => ['monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')],
+									'data' => ['einmalig'=> Yii::t('app', 'once'), 'monatlich'=> Yii::t('app', 'monthly'), 'vierteljährlich' => Yii::t('app', 'quarterly'), 'halbjährlich' => Yii::t('app', 'half-yearly'), 'jährlich' => Yii::t('app', 'yearly')],
 							    'options' => [
 				            	'id' => 'dv_vv_zw_w_p_'.$model->msID,											
 									    'pluginOptions' => [
@@ -569,7 +569,7 @@ use frontend\models\SearchVertrag;
 	 </div>
 	
    <div class="col-sm-2 col-md-2 col-2" id = "bl4.$model->msID" style="!float:left;width:40em;margin-left:0px;margin-right:8px;">  
-		<?php if (Yii::$app->user->identity->isAdmin) { 
+		<?php if ($anzeigen /*Yii::$app->user->identity->isAdmin*/) { 
                 echo frontend\controllers\TexteController::createoutlooklink('vertrag', $model->msID, "EmailWTOnline", $model->SchulId, 0);
 			  }								 
 		?>
