@@ -451,3 +451,7 @@ and GradId = mn.GradId) and GradId <> 17;
 
 -- ALTER TABLE `mitglieder` 
 CHANGE COLUMN `ProbetrainingAm` `ProbetrainingAm` DATETIME NULL DEFAULT NULL COMMENT '' ;
+
+ALTER TABLE `wt-data`.`mitgliederschulen` 
+ADD COLUMN `WtoEmail` INT(1) NULL DEFAULT '0' COMMENT '' AFTER `Bemerkung`,
+ADD COLUMN `Wto-Freis` INT(1) NULL DEFAULT '0' COMMENT '' AFTER `WtoEmail`;

@@ -448,3 +448,6 @@ INSERT mitgliedergrade (MitgliedId,GradId,Datum,PrueferId)
 SELECT MitgliedId,GradId,Datum,PrueferId FROM mitgliedergrade_neu mn
 where not exists (select 1 from mitgliedergrade where MitgliedId = mn.MitgliedId
 and GradId = mn.GradId) and GradId <> 17;
+
+-- ALTER TABLE `mitglieder` 
+CHANGE COLUMN `ProbetrainingAm` `ProbetrainingAm` DATETIME NULL DEFAULT NULL COMMENT '' ;

@@ -664,28 +664,7 @@ use frontend\models\SearchVertrag;
 												'class' => 'left-checkbox', 
 												'disabled' => false, 
 												'style' => 'width:15px;', 
-												'label' => 'WTO-Freis',
-												'onclick' => 'this.form.submit()', 
-												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
-												]);
-			ActiveForm::end();
-
-		?>
-  
- </tr>
-<tr>		<?php 
-			$form4 = ActiveForm::begin([
-        			    'options'=>['enctype'=>'multipart/form-data', 'name' => 'formbl'.$model->msID], // important
-        			    'id' => 'formbl'.$model->msID,
-        			    'action'=>['mitgliederschulen/viewfrommitglied', 'id' => $model->msID, 'tabnum' => 3, 'openv' => $model->msID ],
-        
-        			]);
-					echo $form4->field($model, 'WtfbOk')->checkbox([
-												'id' => 'bv'.$model->msID,
-												'class' => 'left-checkbox', 
-												'disabled' => false, 
-												'style' => 'width:15px;', 
-												'label' => 'WTFB',
+												'label' => 'WTO-Freisch.',
 												'onclick' => 'this.form.submit()', 
 												'labelOptions' => ['style' => 'font-size:0.75em;width:3em', 'class' => 'form-control-sm']
 												]);

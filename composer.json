@@ -50,7 +50,7 @@
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "c006/yii2-migration-utility": "dev-master",
-        "phpstan/phpstan": "1.3.x-dev"
+        "phpstan/phpstan": "dev-master"
     },
     "config": {
         "process-timeout": 1800,
