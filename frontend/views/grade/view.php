@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'DispName',
             'sort',
             'gKurz',
+            'dKurz',
             'Gebuehr',
             'textcode',
             'print',

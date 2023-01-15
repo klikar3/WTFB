@@ -33,7 +33,7 @@
 		"kartik-v/yii2-tabs-x": "*",
 		"kartik-v/yii2-money": "*",
 		"dektrium/yii2-user": "dev-master",
-        "jschaedl/iban-validation": "dev-master",
+        "jschaedl/iban-validation": "*",
 		"2amigos/yii2-ckeditor-widget": "*",
         "2amigos/qrcode-library" : "^2.0",
         "2amigos/yii2-tinymce-widget" : "~1.1",
@@ -50,7 +50,7 @@
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "c006/yii2-migration-utility": "dev-master",
-        "phpstan/phpstan": "dev-master"
+        "phpstan/phpstan": "*"
     },
     "config": {
         "process-timeout": 1800,

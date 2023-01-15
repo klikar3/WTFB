@@ -28,6 +28,8 @@ use frontend\models\Disziplinen;
 
     <?= $form->field($model, 'gKurz')->textInput(['maxlength' => 10]) ?>
 
+    <?= $form->field($model, 'dKurz')->textInput(['maxlength' => 10]) ?>
+
     <?= $form->field($model, 'Gebuehr')->textInput(['maxlength' => 10]) ?>
 
     <?= $form->field($model, 'textcode')->textInput(['maxlength' => 50]) ?>
