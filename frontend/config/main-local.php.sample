@@ -1,0 +1,48 @@
+<?php
+
+// Set LinkPager defaults
+\Yii::$container->set('yii\widgets\LinkPager', [
+        'options' => ['class' => 'pagination'],
+        'firstPageCssClass' => 'prev',
+        'lastPageCssClass' => 'next',
+        'prevPageCssClass' => 'prev',
+        'nextPageCssClass' => 'next',
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+        'firstPageLabel' => '««',
+        'lastPageLabel' => '»»'
+]);    
+
+$config = [
+    'components' => [
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => '14GHcs0t5mCVi3sbp7D57YXYy9zR2zqsw9MLwf',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+		        'viewPath' => '@backend/mail',
+		        'useFileTransport' => true,//set this property to false to send mails to real email addresses
+		        //comment the following array to send mail using php's mail function
+		        'transport' => [
+		            'class' => 'Swift_SmtpTransport',
+		            'host' => 'mailhost',
+		            'username' => 'user',
+		            'password' => 'pass',
+		            'port' => '587',
+		            'encryption' => 'ssl',
+		        ],
+    		], 
+    ],
+];
+
+if (!YII_ENV_TEST) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = 'yii\debug\Module';
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = 'yii\gii\Module';
+}
+
+return $config;

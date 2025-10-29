@@ -11,8 +11,6 @@ $params = array_merge(
     require(__DIR__ . '/params-local.php')
 );
 
-//require_once( dirname(__FILE__) . '/../../vendor/robregonm/rgraph/RGraphWidget.php');
-//require_once( dirname(__FILE__) . '/../../vendor/robregonm/rgraph/RGraphBar.php');
 
 $config = [
     'id' => 'app-frontend',
@@ -21,9 +19,6 @@ $config = [
     'bootstrap' => [
         'log',
         'debug',
-//        [   'class' => 'app\widgets\LanguageSelector',
-//            'supportedLanguages' => ['en_US', 'de_DE', 'el_EL', 'el', 'en', 'de'],
-//        ],    
      ],
     'controllerNamespace' => 'frontend\controllers',
     'sourceLanguage' => 'en',
@@ -38,17 +33,17 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-				'view' => [
-						'theme' => [
-								'pathMap' => [
-										'@app/views' => '@app/themes/basic',
-										'@app/modules' => '@app/themes/basic/modules', // <-- !!!
-										'@app/widgets' => '@app/themes/basic/widgets',
-                		'@dektrium/user/views' => '@app/views/user'
-								],
-								'baseUrl' => '@web/themes/basic',
-						],
-				],
+	'view' => [
+            'theme' => [
+		'pathMap' => [
+		    '@app/views' => '@app/themes/basic',
+		    '@app/modules' => '@app/themes/basic/modules', // <-- !!!
+		    '@app/widgets' => '@app/themes/basic/widgets',
+                    '@dektrium/user/views' => '@app/views/user'
+		],
+		'baseUrl' => '@web/themes/basic',
+	    ],
+	],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => true,
@@ -79,7 +74,7 @@ $config = [
                 ],
             ],
         ],
-				/*       'mitglieder' => [
+	/*       'mitglieder' => [
             'identityClass' => 'app\models\Mitglieder',
             'enableAutoLogin' => true,
         ],*/
@@ -116,7 +111,7 @@ $config = [
         },
     ],
     'modules' => [
-    		'debug' => [
+		'debug' => [
 						'class' => 'yii\debug\Module',
 						'allowedIPs' => ['127.0.0.1','172.16.55.24' ]
 				],
@@ -150,7 +145,7 @@ $config = [
 
 						// other module settings
 				],
-		   'datecontrol' =>  [
+	   'datecontrol' =>  [
 		        'class' => '\kartik\datecontrol\Module',
  
 						// format settings for displaying each date attribute (ICU format example)
@@ -210,7 +205,7 @@ $config = [
 /*              'controllerMap' => [
                   'admin' => 'frontend\controllers\AdminController'
               ],
-*/ 		      'modelMap' => [
+*/		      'modelMap' => [
 				        'User' => 'frontend\models\User',
 				    ],
 	          'enableUnconfirmedLogin' => true,
@@ -248,7 +243,7 @@ $config = [
 				    'datetimeFormat' => 'php:Y-m-d H:i:s',
 				    'timeFormat' => 'php:H:i:s',
 				    'timeZone' => 'Europe/Berlin',
-        		'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
+				    'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
 				],
 		],  // -- modules
 		'aliases' => [
