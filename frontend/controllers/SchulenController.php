@@ -79,6 +79,8 @@ class SchulenController extends Controller
     public function actionCreate()
     {
         $model = new Schulen();
+        
+        // set defaults
 		$model->swmInteressentenListe = 0;
 		$model->swmInteressentenForm = 0;
  		$model->swmMitgliederListe = 0;
