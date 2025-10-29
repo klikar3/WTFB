@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=db552017113.db.1and1.com;dbname=db552017113',
-            'username' => 'dbo552017113',
-            'password' => 'Data4WT!',
+            'dsn' => 'mysql:host=<host>;dbname=<db>',
+            'username' => 'user',
+            'password' => 'pass',
             'charset' => 'utf8',
         ],
         'mailer' => [

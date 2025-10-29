@@ -79,7 +79,11 @@ class SchulenController extends Controller
     public function actionCreate()
     {
         $model = new Schulen();
-
+		$model->swmInteressentenListe = 0;
+		$model->swmInteressentenForm = 0;
+ 		$model->swmMitgliederListe = 0;
+ 		$model->swmMitgliederForm = 0;
+			
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->SchulId]);
         } 
