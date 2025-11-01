@@ -38,17 +38,17 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-				'view' => [
-						'theme' => [
-								'pathMap' => [
-										'@app/views' => '@app/themes/basic',
-										'@app/modules' => '@app/themes/basic/modules', // <-- !!!
-										'@app/widgets' => '@app/themes/basic/widgets',
-                		'@dektrium/user/views' => '@app/views/user'
-								],
-								'baseUrl' => '@web/themes/basic',
-						],
-				],
+                'view' => [
+                        'theme' => [
+                                'pathMap' => [
+                                        '@app/views' => '@app/themes/basic',
+                                        '@app/modules' => '@app/themes/basic/modules', // <-- !!!
+                                        '@app/widgets' => '@app/themes/basic/widgets',
+                        '@dektrium/user/views' => '@app/views/user'
+                                ],
+                                'baseUrl' => '@web/themes/basic',
+                        ],
+                ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => true,
@@ -79,7 +79,7 @@ $config = [
                 ],
             ],
         ],
-				/*       'mitglieder' => [
+                /*       'mitglieder' => [
             'identityClass' => 'app\models\Mitglieder',
             'enableAutoLogin' => true,
         ],*/
@@ -116,24 +116,24 @@ $config = [
         },
     ],
     'modules' => [
-    		'debug' => [
-						'class' => 'yii\debug\Module',
-						'allowedIPs' => ['127.0.0.1','172.16.55.24' ]
-				],
-				'backup'=> [
-						'class'=>'\klikar3\modules\backup\Module',
-						// other module settings
-				],
-				'gridview' => [
-						'class' => '\kartik\grid\Module'
-						// enter optional module parameters below - only if you need to
-						// use your own export download action or custom translation
-						// message source
-						// 'downloadAction' => 'gridview/export/download',
-						// 'i18n' => []
-				],
-				'dynagrid'=> [
-						'class'=>'\kartik\dynagrid\Module',
+            'debug' => [
+                        'class' => 'yii\debug\Module',
+                        'allowedIPs' => ['127.0.0.1','172.16.55.24' ]
+                ],
+                'backup'=> [
+                        'class'=>'\klikar3\modules\backup\Module',
+                        // other module settings
+                ],
+                'gridview' => [
+                        'class' => '\kartik\grid\Module'
+                        // enter optional module parameters below - only if you need to
+                        // use your own export download action or custom translation
+                        // message source
+                        // 'downloadAction' => 'gridview/export/download',
+                        // 'i18n' => []
+                ],
+                'dynagrid'=> [
+                        'class'=>'\kartik\dynagrid\Module',
             'themeConfig' => [
                 'simple-default'=>['panel'=>false,'bordered'=>false,'striped'=>false,'hover'=>true,'layout'=>"<hr>{dynagrid}<hr> {summary} {items} {pager}"],
                 'simple-bordered'=>['panel'=>false,'striped'=>false,'hover'=>true,'layout'=>"<hr>{dynagrid}<hr> {summary} {items} {pager}"],
@@ -148,77 +148,77 @@ $config = [
                 'my-condensed'=>['panel'=>['type'=>\kartik\grid\GridView::TYPE_INFO,'before'=>"{dynagrid}"],'striped'=>true,'condensed'=>true,'hover'=>true,'layout'=>"<hr>{dynagrid}<hr> {summary} {items} {pager}"],
         ],
 
-						// other module settings
-				],
-		   'datecontrol' =>  [
-		        'class' => '\kartik\datecontrol\Module',
+                        // other module settings
+                ],
+           'datecontrol' =>  [
+                'class' => '\kartik\datecontrol\Module',
  
-						// format settings for displaying each date attribute (ICU format example)
-						'displaySettings' => [
-								Module::FORMAT_DATE => 'php:d.m.Y',
-								Module::FORMAT_TIME => 'php:H:i:s',
-								Module::FORMAT_DATETIME => 'php:d.m.Y H:i:s',
-						],
-						// format settings for saving each date attribute (PHP format example)
-						'saveSettings' => [
-								Module::FORMAT_DATE => 'php:Y-m-d', // saves as unix timestamp
-								Module::FORMAT_TIME => 'php:H:i:s',
-								Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
-						],
+                        // format settings for displaying each date attribute (ICU format example)
+                        'displaySettings' => [
+                                Module::FORMAT_DATE => 'php:d.m.Y',
+                                Module::FORMAT_TIME => 'php:H:i:s',
+                                Module::FORMAT_DATETIME => 'php:d.m.Y H:i:s',
+                        ],
+                        // format settings for saving each date attribute (PHP format example)
+                        'saveSettings' => [
+                                Module::FORMAT_DATE => 'php:Y-m-d', // saves as unix timestamp
+                                Module::FORMAT_TIME => 'php:H:i:s',
+                                Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+                        ],
  
-						 // set your display timezone
-						'displayTimezone' => 'Europe/Berlin',
-						 
-						// set your timezone for date saved to db
-						'saveTimezone' => 'Europe/Berlin',
-						
-		         // automatically use kartik\widgets for each of the above formats
-						'autoWidget' => true,
-						'ajaxConversion' => true,
-						 
-						// default settings for each widget from kartik\widgets used when autoWidget is true
-						'autoWidgetSettings' => [
-								Module::FORMAT_DATE => ['type'=>2, 
-									'pluginOptions'=>[
-											'autoclose'=>true,  
-											'todayHighlight' => true,
-											'todayBtn' => true,
-//											'format' => 'php:d-m-Y',
-											'language' => 'de'
-									]
-								], // example
-								Module::FORMAT_DATETIME => [
-										'pluginOptions'=>[
-												'autoclose'=>true,  
-												'todayHighlight' => true,
-												'todayBtn' => true
-										]
-								], // setup if needed
-								Module::FORMAT_TIME => [
-										'pluginOptions'=>[
-												'autoclose'=>true,  
-												'todayHighlight' => true,
-												'todayBtn' => true
-										]
-								], // setup if needed
-						],
+                         // set your display timezone
+                        'displayTimezone' => 'Europe/Berlin',
+                         
+                        // set your timezone for date saved to db
+                        'saveTimezone' => 'Europe/Berlin',
+                        
+                 // automatically use kartik\widgets for each of the above formats
+                        'autoWidget' => true,
+                        'ajaxConversion' => true,
+                         
+                        // default settings for each widget from kartik\widgets used when autoWidget is true
+                        'autoWidgetSettings' => [
+                                Module::FORMAT_DATE => ['type'=>2, 
+                                    'pluginOptions'=>[
+                                            'autoclose'=>true,  
+                                            'todayHighlight' => true,
+                                            'todayBtn' => true,
+//                                          'format' => 'php:d-m-Y',
+                                            'language' => 'de'
+                                    ]
+                                ], // example
+                                Module::FORMAT_DATETIME => [
+                                        'pluginOptions'=>[
+                                                'autoclose'=>true,  
+                                                'todayHighlight' => true,
+                                                'todayBtn' => true
+                                        ]
+                                ], // setup if needed
+                                Module::FORMAT_TIME => [
+                                        'pluginOptions'=>[
+                                                'autoclose'=>true,  
+                                                'todayHighlight' => true,
+                                                'todayBtn' => true
+                                        ]
+                                ], // setup if needed
+                        ],
 
 
-		    ],		    
-	      'user' => [
-	          'class' => 'dektrium\user\Module',
+            ],          
+          'user' => [
+              'class' => 'dektrium\user\Module',
 /*              'controllerMap' => [
                   'admin' => 'frontend\controllers\AdminController'
               ],
-*/ 		      'modelMap' => [
-				        'User' => 'frontend\models\User',
-				    ],
-	          'enableUnconfirmedLogin' => true,
-	          'confirmWithin' => 21600,  
-	          'cost' => 12,
-	          'admins' => ['test','sifu'],
-/*	          'components' => [
-	                'manager' => [
+*/            'modelMap' => [
+                        'User' => 'frontend\models\User',
+                    ],
+              'enableUnconfirmedLogin' => true,
+              'confirmWithin' => 21600,  
+              'cost' => 12,
+              'admins' => ['test','sifu'],
+/*            'components' => [
+                    'manager' => [
                     // Active record classes
                     'userClass'    => 'dektrium\user\models\User',
                     'tokenClass'   => 'dektrium\user\models\Token',
@@ -236,37 +236,37 @@ $config = [
                     'passwordRecoveryFormClass' => 'dektrium\user\models\RecoveryForm',
                     // Model that is used on requesting password recovery
                     'passwordRecoveryRequestFormClass' => 'dektrium\user\models\RecoveryRequestForm',
-//	                    // Active record classes
-//	                    'userClass'    => 'frontend\models\User',
-//	                    'Class'    => 'frontend\models\User',
-	                ],
-	          ]
-*/	      ], // -- user
-	      'formatter' => [
-				    'class' => 'yii\i18n\Formatter',
-				    'dateFormat' => 'php:Y-m-d',
-				    'datetimeFormat' => 'php:Y-m-d H:i:s',
-				    'timeFormat' => 'php:H:i:s',
-				    'timeZone' => 'Europe/Berlin',
-        		'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
-				],
-		],  // -- modules
-		'aliases' => [
+//                      // Active record classes
+//                      'userClass'    => 'frontend\models\User',
+//                      'Class'    => 'frontend\models\User',
+                    ],
+              ]
+*/        ], // -- user
+          'formatter' => [
+                    'class' => 'yii\i18n\Formatter',
+                    'dateFormat' => 'php:Y-m-d',
+                    'datetimeFormat' => 'php:Y-m-d H:i:s',
+                    'timeFormat' => 'php:H:i:s',
+                    'timeZone' => 'Europe/Berlin',
+                'nullDisplay' => '<span class="glyphicon glyphicon-question-sign"></span>',
+                ],
+        ],  // -- modules
+        'aliases' => [
 //        '@rgraph' => '@vendor/robregonm/rgraph',
-        '@bower' => '@vendor/bower-asset',
+        '@bower' => '@vendor/yidas/yii2-bower-asset/bower',
         '@npm'   => '@vendor/npm-asset',
     ],
 ];
 
 if (YII_ENV_DEV) {
-		//configuration adjustments for the development environment
+        //configuration adjustments for the development environment
     $config['modules']['debug'] = [
-						'class' => 'yii\debug\Module',
-						'allowedIPs' => ['127.0.0.1','172.16.55.24' ]
-		];
-		$config['modules']['utility'] = [
-						'class' => '\c006\utility\migration/Module',
-		];
+                        'class' => 'yii\debug\Module',
+                        'allowedIPs' => ['127.0.0.1','172.16.55.24' ]
+        ];
+        $config['modules']['utility'] = [
+                        'class' => '\c006\utility\migration/Module',
+        ];
 }
 
 return $config;
